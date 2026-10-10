@@ -34,6 +34,13 @@ def official(url):
     except ValueError:
         return False
 
+def dataset_url(url):
+    """Accept only a concrete court dataset, not the portal's JSON registry index."""
+    if not official(url):
+        return False
+    path = urllib.parse.urlparse(url).path.rstrip("/").lower()
+    return path != "/api/opendata/json"
+
 def names(value):
     if isinstance(value, str):
         return value
@@ -134,8 +141,8 @@ def main():
     args=parser.parse_args()
     if not 1<=args.limit<=1000:
         parser.error("--limit must be between 1 and 1000")
-    if args.download_url and not official(args.download_url):
-        parser.error("Only an official HTTPS court data URL is permitted")
+    if args.download_url and not dataset_url(args.download_url):
+        parser.error("Use a direct official case-dataset JSON URL, not /api/opendata/json (the registry export)")
     origin=args.download_url or args.source_label
     if not origin:
         parser.error("Official source label or URL is required")
@@ -161,6 +168,8 @@ def main():
         if len(pending)>=args.limit:
             break
     stats["candidates"]=len(pending)
+    if stats["scanned"] and not stats["matches"]:
+        raise RuntimeError("No DGI court acts matched: verify this is a case dataset (not the open-data registry) and validate source schema")
     if args.upload:
         for start in range(0,len(pending),25):
             batch=pending[start:start+25]
