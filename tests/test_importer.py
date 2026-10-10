@@ -1,11 +1,15 @@
 import unittest
-from importer import normalize, official
+from importer import normalize, official, dataset_url
 
 class ImporterTest(unittest.TestCase):
     def test_source_domains(self):
         self.assertTrue(official("https://data.mos-gorsud.ru/opendata/example.json"))
         self.assertFalse(official("https://data.mos-gorsud.ru.attacker.example/file"))
         self.assertFalse(official("http://mos-gorsud.ru/data.json"))
+    def test_registry_export_rejected(self):
+        self.assertFalse(dataset_url("https://data.mos-gorsud.ru/api/opendata/json"))
+        self.assertTrue(dataset_url("https://data.mos-gorsud.ru/api/opendata/example-case-dataset.json"))
+
     def test_dgi_and_draft(self):
         case = {
             "Номер дела":"02-1234/2025",
