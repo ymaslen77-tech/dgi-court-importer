@@ -39,6 +39,46 @@ class ImporterTest(unittest.TestCase):
         self.assertEqual(result["status-verifikacii"], "pending_review_of_resolutive_part")
         self.assertNotIn("rezultat-rassmotreniya", result)
 
+    def test_actual_english_schema_with_case_page_only(self):
+        case = {
+            "courtName": "Лефортовский районный суд",
+            "number": "02-4049/2018",
+            "uid": "77RS0014-01-2018-007614-36",
+            "participants": [
+                {"displayName": "Департамент городского имущества г. Москвы", "categoryName": "Истец"},
+                {"displayName": "Ответчик А.", "categoryName": "Ответчик"}
+            ],
+            "publishingState": "Удовлетворено, 26.10.2018",
+            "category": "127 - Иные жилищные споры",
+            "url": "https://mos-gorsud.ru/rs/lefortovskij/services/cases/civil/details/example"
+        }
+        case_record = normalize(case, "https://data.mos-gorsud.ru/opendata")
+        self.assertIsNotNone(case_record)
+        self.assertEqual(case_record["status-verifikacii"], "pending_case_no_act")
+        self.assertEqual(case_record["nomer-dela"], "02-4049/2018")
+        self.assertNotIn("publikaciya-sudebnogo-akta", case_record)
+        self.assertNotIn("rezultat-rassmotreniya", case_record)
+        self.assertTrue(case_record["oficialnyy-istochnik"].startswith("https://mos-gorsud.ru/"))
+
+    def test_actual_english_schema_with_attachment(self):
+        case = {
+            "courtName": "Пресненский районный суд",
+            "number": "02-9999/2025",
+            "participants": [{"displayName": "Департамент городского имущества города Москвы", "categoryName": "Ответчик"}],
+            "url": "https://mos-gorsud.ru/rs/presnenskij/services/cases/civil/details/example",
+            "attachments": [{"displayName": "Решение суда", "date": "2025-09-01",
+                             "link": "https://mos-gorsud.ru/rs/example/attachment/download"}]
+        }
+        case_record = normalize(case, "official data")
+        self.assertEqual(case_record["status-verifikacii"], "pending_review_of_resolutive_part")
+        self.assertEqual(case_record["publikaciya-sudebnogo-akta"], case["attachments"][0]["link"])
+
+    def test_non_dgi_english_case_rejected(self):
+        case = {"courtName": "Суд", "number": "02-1/2025",
+                "participants": [{"displayName": "ООО Частный дом", "categoryName": "Истец"}],
+                "url": "https://mos-gorsud.ru/rs/example/details/1"}
+        self.assertIsNone(normalize(case, "official data"))
+
     def test_missing_link_rejected(self):
         case={"Номер дела":"2/2025","Суд":"Суд","Стороны":"Департамент городского имущества города Москвы","Акты":[]}
         self.assertIsNone(normalize(case,"official source"))
