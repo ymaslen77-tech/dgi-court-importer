@@ -21,7 +21,7 @@ KEYS = {
     "uid": ("УИД", "Уникальный идентификатор дела", "uid", "caseUid"),
     "parties": ("Стороны", "Участники", "participants", "parties"),
     "acts": ("Судебные акты", "Акты", "acts", "courtActs"),
-    "topic": ("Категория дела", "category", "Категория судебного дела"),
+    "topic": ("Категория дела", "category", "Категория судебного дела", "Категория судебного дела, материала, жалобы или производства"),
 }
 def pick(obj, kind):
     return next((obj[k] for k in KEYS[kind] if k in obj and obj[k] not in (None, "", [])), None)
