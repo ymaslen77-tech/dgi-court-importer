@@ -20,7 +20,7 @@ KEYS = {
     "court": ("Наименование суда", "Суд", "court", "courtName"),
     "uid": ("УИД", "Уникальный идентификатор дела", "uid", "caseUid"),
     "parties": ("Стороны", "Участники", "participants", "parties"),
-    "acts": ("Судебные акты", "Акты", "acts", "courtActs"),
+    "acts": ("Судебные акты", "Акты", "acts", "courtActs", "attachments"),
     "topic": ("Категория дела", "category", "Категория судебного дела", "Категория судебного дела, материала, жалобы или производства"),
 }
 def pick(obj, kind):
@@ -63,35 +63,54 @@ def acts(value):
                 yield from acts(v)
 
 def normalize(row, provenance):
+    """Stage a DGI-linked case for review; never infer its judicial outcome."""
     if not isinstance(row, dict) or not DGI.search(names(pick(row, "parties"))):
         return None
     number, court = pick(row, "case"), pick(row, "court")
-    if not isinstance(number,str) or not number.strip() or not isinstance(court,str) or not court.strip():
+    if not isinstance(number, str) or not number.strip() or not isinstance(court, str) or not court.strip():
         return None
-    candidate = next(acts(pick(row,"acts")), None)
-    if candidate is None:
+    number, court = number.strip(), court.strip()
+    case_url = row.get("url", "")
+    if not isinstance(case_url, str) or not official(case_url):
+        case_url = ""
+
+    act_url, label, act_date = "", "", ""
+    for act, raw_url in acts(pick(row, "acts")):
+        candidate_url = urllib.parse.urljoin(case_url, raw_url) if case_url else raw_url
+        if official(candidate_url):
+            act_url = candidate_url
+            label = str(act.get("displayName") or act.get("Наименование") or "Судебный документ")
+            act_date = str(act.get("date") or act.get("Дата") or "")
+            break
+    # Some official civil-case data rows contain only the case page URL and a
+    # publishingState, but no downloadable judicial act. Those are CANDIDATES,
+    # NOT verified decisions. Keep them drafts, link the case page only.
+    if not case_url and not act_url:
         return None
-    act, url = candidate
-    date = next((v for k,v in act.items() if re.search("дат|date",k,re.I) and isinstance(v,str)), "")
-    kind = next((v for k,v in act.items() if re.search("наименован|тип|name|type",k,re.I) and isinstance(v,str)), "Судебный акт")
     uid = str(pick(row, "uid") or "")
     topic = str(pick(row, "topic") or "Не определена")
-    fingerprint = hashlib.sha256("|".join((uid or court,number,kind,date,url)).encode()).hexdigest()
-    return {
-        "name": (kind+" — "+number)[:250],
-        "slug": "dgi-"+fingerprint[:24],
+    date = str(row.get("dateFinal") or act_date or "")
+    stable_id = uid or (court.lower() + "|" + number)
+    fingerprint = hashlib.sha256((stable_id + "|" + number + "|" + (act_date or date) + "|" + (act_url or case_url)).encode()).hexdigest()
+    status = "pending_review_of_resolutive_part" if act_url else "pending_case_no_act"
+    result = {
+        "name": ((label or "Карточка гражданского дела") + " — " + number)[:250],
+        "slug": "dgi-" + fingerprint[:24],
         "nomer-dela": number[:200],
         "sud": court[:250],
         "unikalnyy-identifikator": uid[:200],
         "kategoriya-spora": topic[:250],
-        "publikaciya-sudebnogo-akta": url,
-        "status-verifikacii": "pending_review_of_resolutive_part",
+        "oficialnyy-istochnik": case_url or act_url,
+        "status-verifikacii": status,
         "status-peresmotra": "Не проверено",
-        "kratkoe-soderzhanie": "ДГИ участвует в деле. Суть и итог требуют проверки по судебному акту.",
+        "kratkoe-soderzhanie": "ДГИ участвует в деле; результат и содержание акта не подтверждены.",
         "poiskovye-temy": topic[:250],
         "klyuch-deduplikacii": fingerprint,
         "istochnik-nabora-dannyh": provenance[:250],
     }
+    if act_url:
+        result["publikaciya-sudebnogo-akta"] = act_url
+    return result
 
 def stream_rows(path):
     import ijson
@@ -123,7 +142,7 @@ def existing(token):
         arr=obj.get("items",[])
         for item in arr:
             data=item.get("fieldData",{})
-            for key in ("klyuch-deduplikacii","publikaciya-sudebnogo-akta"):
+            for key in ("klyuch-deduplikacii","publikaciya-sudebnogo-akta","oficialnyy-istochnik"):
                 if data.get(key):
                     seen.add(data[key])
         offset += len(arr)
@@ -160,10 +179,10 @@ def main():
         if d is None:
             continue
         stats["matches"]+=1
-        if d["klyuch-deduplikacii"] in known or d["publikaciya-sudebnogo-akta"] in known:
+        if d["klyuch-deduplikacii"] in known or d.get("publikaciya-sudebnogo-akta") in known or d["oficialnyy-istochnik"] in known:
             stats["duplicates"]+=1
             continue
-        known.update((d["klyuch-deduplikacii"],d["publikaciya-sudebnogo-akta"]))
+        known.update(x for x in (d["klyuch-deduplikacii"],d.get("publikaciya-sudebnogo-akta"),d["oficialnyy-istochnik"]) if x)
         pending.append({"isDraft":True,"fieldData":d})
         if len(pending)>=args.limit:
             break
