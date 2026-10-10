@@ -8,6 +8,11 @@ on:
         description: 'Max records to stage as drafts (1-1000)'
         default: '50'
         required: false
+      upload:
+        description: 'Write draft records to CMS after validation (false for first test)'
+        type: boolean
+        default: false
+        required: false
 permissions:
   contents: read
 jobs:
@@ -18,6 +23,7 @@ jobs:
       WEBFLOW_TOKEN: ${{ secrets.WEBFLOW_TOKEN }}
       COURT_DATASET_URL: ${{ vars.COURT_DATASET_URL }}
       BATCH_SIZE: ${{ github.event.inputs.batch_size || '50' }}
+      UPLOAD_ENABLED: ${{ github.event_name == 'schedule' || inputs.upload == true }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -47,5 +53,11 @@ jobs:
                   out.write(chunk)
           print('Official JSON export downloaded; schema validation is next')
           PY
-      - name: Import only draft candidates
-        run: python importer.py --input court-data.json --download-url "$COURT_DATASET_URL" --limit "$BATCH_SIZE" --upload
+      - name: Analyze candidates; optionally stage as drafts
+        shell: bash
+        run: |
+          args=(--input court-data.json --download-url "$COURT_DATASET_URL" --limit "$BATCH_SIZE")
+          if [ "$UPLOAD_ENABLED" = "true" ]; then
+            args+=(--upload)
+          fi
+          python importer.py "${args[@]}"
