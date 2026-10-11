@@ -91,7 +91,7 @@ def run(limit,upload):
     if limit<1 or limit>50: raise ValueError("limit must be 1..50")
     if upload and not os.getenv("WEBFLOW_TOKEN"):
         raise ValueError("WEBFLOW_TOKEN required for upload")
-    req=urllib.request.Request(FEED,headers={"User-Agent":"Housing-Law-Editorial-RSS/1.0 (+https://rpn-585571.webflow.io/)"})
+    req=urllib.request.Request(FEED,headers={"User-Agent":"Housing-Law-Editorial-RSS/1.0 (+https://dgimos.webflow.io/)"})
     with urllib.request.urlopen(req,timeout=35) as response:
         raw=response.read(3_000_001)
     if len(raw)>3_000_000: raise ValueError("RSS feed too large")
