@@ -79,6 +79,35 @@ class ImporterTest(unittest.TestCase):
                 "url": "https://mos-gorsud.ru/rs/example/details/1"}
         self.assertIsNone(normalize(case, "official data"))
 
+    def test_link_instances_only_when_same_uid(self):
+        base = {
+            "courtName": "Пресненский районный суд",
+            "number": "02-3333/2025",
+            "uid": "77RS0000-01-2025-000001-01",
+            "participants": [{"displayName": "Департамент городского имущества города Москвы"}],
+            "url": "https://mos-gorsud.ru/rs/court/services/cases/civil/details/first"
+        }
+        first = normalize(base, "https://data.mos-gorsud.ru/api/opendata/1577116594824-casesgroupfirstcivilhxvgb/latest/data/json/")
+        appeal = normalize(dict(base, number="33-1111/2026",
+                                courtName="Московский городской суд",
+                                url="https://mos-gorsud.ru/mgs/cases/appeal"), "Moscow appeal dataset")
+        self.assertEqual(first["identifikator-sudebnogo-spora"], appeal["identifikator-sudebnogo-spora"])
+        self.assertEqual(first["sudebnaya-instanciya"], "Первая инстанция")
+        self.assertEqual(appeal["sudebnaya-instanciya"], "Не определена")
+        self.assertFalse(first["sudebnyy-akt-proveren"])
+        self.assertNotIn("rezultat-rassmotreniya", appeal)
+
+    def test_distinct_cases_without_uid_are_not_merged(self):
+        row = {
+            "courtName": "Один суд",
+            "number": "02-3333/2025",
+            "participants": [{"displayName": "Департамент городского имущества города Москвы"}],
+            "url": "https://mos-gorsud.ru/rs/court/services/cases/civil/details/1"
+        }
+        first = normalize(row, "official first instance")
+        other = normalize(dict(row, url="https://mos-gorsud.ru/rs/court/services/cases/civil/details/2"), "official first instance")
+        self.assertNotEqual(first["identifikator-sudebnogo-spora"], other["identifikator-sudebnogo-spora"])
+
     def test_missing_link_rejected(self):
         case={"Номер дела":"2/2025","Суд":"Суд","Стороны":"Департамент городского имущества города Москвы","Акты":[]}
         self.assertIsNone(normalize(case,"official source"))
