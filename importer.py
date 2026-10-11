@@ -92,6 +92,13 @@ def normalize(row, provenance):
     date = str(row.get("dateFinal") or act_date or "")
     stable_id = uid or (court.lower() + "|" + number)
     fingerprint = hashlib.sha256((stable_id + "|" + number + "|" + (act_date or date) + "|" + (act_url or case_url)).encode()).hexdigest()
+    # Join judicial instances by a case UID only when one is actually present.
+    # Without a UID, keep the record isolated until editorial reconciliation.
+    group_id = ("uid:" + uid.strip().lower()) if uid.strip() else ("candidate:" + fingerprint[:24])
+    instance = "Первая инстанция" if "casesgroupfirstcivil" in provenance.lower() else "Не определена"
+    # The upstream case record may not carry a judicial act at all. Neither
+    # publishingState nor a file label is evidence for a verified outcome.
+
     status = "pending_review_of_resolutive_part" if act_url else "pending_case_no_act"
     result = {
         "name": ((label or "Карточка гражданского дела") + " — " + number)[:250],
@@ -99,6 +106,10 @@ def normalize(row, provenance):
         "nomer-dela": number[:200],
         "sud": court[:250],
         "unikalnyy-identifikator": uid[:200],
+        "identifikator-sudebnogo-spora": group_id[:250],
+        "sudebnaya-instanciya": instance,
+        "sudebnyy-akt-proveren": False,
+
         "kategoriya-spora": topic[:250],
         "oficialnyy-istochnik": case_url or act_url,
         "status-verifikacii": status,
