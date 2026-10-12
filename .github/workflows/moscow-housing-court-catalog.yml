@@ -1,0 +1,91 @@
+name: Moscow housing court catalog — official open data
+on:
+  schedule:
+    # Mondays at 07:30 Moscow time (04:30 UTC).
+    - cron: '30 4 * * 1'
+  workflow_dispatch:
+    inputs:
+      max_new:
+        description: 'Maximum new court metadata candidates this run (1-20000)'
+        required: true
+        default: '2500'
+      write_catalog:
+        description: 'Commit anonymized candidate catalog to main; OFF for initial test'
+        type: boolean
+        default: false
+permissions:
+  contents: write
+jobs:
+  build-court-index:
+    runs-on: ubuntu-latest
+    timeout-minutes: 105
+    env:
+      COURT_DATASET_URL: ${{ vars.COURT_DATASET_URL }}
+      MAX_NEW: ${{ github.event.inputs.max_new || '2500' }}
+      WRITE_INDEX: ${{ github.event_name == 'schedule' || inputs.write_catalog == true }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install parser and validate tests
+        run: |
+          python -m pip install -r requirements.txt
+          python -m unittest discover -s tests -v
+      - name: Verify the official source URL
+        shell: bash
+        run: |
+          test -n "$COURT_DATASET_URL" || { echo 'COURT_DATASET_URL missing'; exit 1; }
+          python - <<'PY'
+          import os
+          from importer import dataset_url
+          url=os.environ["COURT_DATASET_URL"]
+          if not dataset_url(url) or "/opendata/" not in url:
+              raise SystemExit("Expected a specific official Moscow court dataset JSON URL")
+          print("Validated official dataset hostname/path")
+          PY
+      - name: Download Moscow court open dataset safely
+        shell: bash
+        run: |
+          python - <<'PY'
+          import os, urllib.request
+          url=os.environ["COURT_DATASET_URL"]
+          req=urllib.request.Request(url,headers={"User-Agent":"MoscowHousingLegalCatalog/1.0 (+https://dgimos.webflow.io/)"})
+          total=0
+          with urllib.request.urlopen(req,timeout=180) as response, open("/tmp/moscow-court-export.json","wb") as dst:
+              while True:
+                  chunk=response.read(1<<20)
+                  if not chunk: break
+                  total+=len(chunk)
+                  if total>1_100_000_000: raise SystemExit("Export exceeds safety size cap")
+                  dst.write(chunk)
+          print(f"Official dataset bytes: {total}")
+          PY
+      - name: Extract only topical case metadata; never outcomes or identities
+        shell: bash
+        run: |
+          set -euo pipefail
+          args=(--input /tmp/moscow-court-export.json --source-url "$COURT_DATASET_URL" --output data/court-catalog.jsonl --max-new "$MAX_NEW")
+          if [ "$WRITE_INDEX" = "true" ]; then args+=(--write); fi
+          python court_catalog.py "${args[@]}" | tee court-index-report.json
+      - name: Retain human-readable run report
+        uses: actions/upload-artifact@v4
+        with:
+          name: court-index-report
+          path: court-index-report.json
+          retention-days: 30
+      - name: Commit only normalized source-linked metadata
+        if: env.WRITE_INDEX == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/court-catalog.jsonl
+          if git diff --cached --quiet; then
+            echo 'No new records from this scan'
+            exit 0
+          fi
+          git commit -m "data: append anonymized Moscow housing case candidates"
+          git pull --rebase origin "$GITHUB_REF_NAME"
+          git push origin "HEAD:$GITHUB_REF_NAME"
