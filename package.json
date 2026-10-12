@@ -1,0 +1,16 @@
+{
+  "name": "dgi-housing-platform",
+  "private": true,
+  "workspaces": [
+    "apps/web"
+  ],
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "web:dev": "npm run dev -w @housing/web",
+    "web:build": "npm run build -w @housing/web",
+    "web:check": "npm run typecheck -w @housing/web",
+    "web:test": "npm run test -w @housing/web"
+  }
+}
