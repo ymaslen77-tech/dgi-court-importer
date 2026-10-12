@@ -1,4 +1,253 @@
 {
-  "source": "Webflow site 6aca6bde03aad0f2e3c19259",
-  "pages": []
+  "source": "Webflow site 6aca6bde03aad0f2e3c19259, extracted 2026-10-13",
+  "pages": [
+    {
+      "slug": "rukovodstvo-dgi-moskvy",
+      "sourcePageId": "6acd4bb237b876bf1d2dfddb",
+      "title": "Руководитель ДГИ Москвы и руководство департамента",
+      "description": "Кто руководит Департаментом городского имущества Москвы, где проверять назначения, график приёма руководства и как направить обращение.",
+      "status": "ready",
+      "sourceUrl": "https://dgimos.webflow.io/rukovodstvo-dgi-moskvy"
+    },
+    {
+      "slug": "rasporyazheniya-prikazy-dgi-moskvy",
+      "sourcePageId": "6acd4bb037b876bf1d2dfd35",
+      "title": "Распоряжения ДГИ Москвы: поиск по номеру и дате, приказы",
+      "description": "Где найти распоряжения и приказы Департамента городского имущества Москвы, проверить номер, дату, приложения, публикацию и актуальность документа.",
+      "status": "ready",
+      "sourceUrl": "https://dgimos.webflow.io/rasporyazheniya-prikazy-dgi-moskvy"
+    },
+    {
+      "slug": "zapis-na-priem-dgi-moskvy",
+      "sourcePageId": "6acd4badee9fd4e5cd4e85d6",
+      "title": "Запись на приём в ДГИ Москвы: одно окно, адреса и онлайн",
+      "description": "Как записаться на приём в Департамент городского имущества Москвы, где находится служба одного окна, часы работы, документы и официальный сервис записи.",
+      "status": "ready",
+      "sourceUrl": "https://dgimos.webflow.io/zapis-na-priem-dgi-moskvy"
+    },
+    {
+      "slug": "torgi-dgi-moskvy",
+      "sourcePageId": "6acd3c1157fa2208124fe6b2",
+      "title": "Торги ДГИ Москвы: купить квартиру, землю и городское имущество",
+      "description": "Как участвовать в торгах по продаже и аренде городского имущества Москвы: выбор лота, извещение, задаток, электронная подпись, договор и проверка рисков.",
+      "status": "ready",
+      "sourceUrl": "https://dgimos.webflow.io/torgi-dgi-moskvy"
+    },
+    {
+      "slug": "arenda-zemli-dgi-moskvy",
+      "sourcePageId": "6acd3c1157fa2208124fe667",
+      "title": "Аренда земли у ДГИ Москвы: участок, торги и документы",
+      "description": "Аренда земельного участка у города Москвы: когда нужны торги, как проверить участок, какие документы запросить и как разобраться с отказом или условиями договора.",
+      "status": "ready",
+      "sourceUrl": "https://dgimos.webflow.io/arenda-zemli-dgi-moskvy"
+    },
+    {
+      "slug": "zhaloba-na-dgi-moskvy",
+      "sourcePageId": "6acd3c0f4a365a05424aaad7",
+      "title": "Жалоба на ДГИ Москвы: отказ, сроки и порядок обжалования",
+      "description": "Как обжаловать отказ и действия ДГИ Москвы: жалоба на госуслугу, обычное обращение и судебный порядок. Документы, сроки, требования и образец структуры.",
+      "status": "ready",
+      "sourceUrl": "https://dgimos.webflow.io/zhaloba-na-dgi-moskvy"
+    },
+    {
+      "slug": "zayavlenie-v-dgi-moskvy",
+      "sourcePageId": "6acd3c0d23fe01b9e1182619",
+      "title": "Заявление в ДГИ Москвы: как написать и подать через mos.ru",
+      "description": "Как составить заявление в ДГИ Москвы, куда направить обращение, какие документы приложить и как проверить регистрацию. Образец структуры и порядок ответа.",
+      "status": "ready",
+      "sourceUrl": "https://dgimos.webflow.io/zayavlenie-v-dgi-moskvy"
+    },
+    {
+      "slug": "zashchita-prav-sobstvennika-mkd",
+      "sourcePageId": "6acd01f6d6963c1d161a7ad4",
+      "title": "Защита прав собственников МКД в Москве — протоколы, УК и собрания",
+      "description": "Как проверить решение общего собрания, запросить протокол, сверить голоса, обратиться по нарушениям УК и оценить срок судебного оспаривания по статье 46 ЖК РФ.",
+      "status": "ready",
+      "sourceUrl": "https://dgimos.webflow.io/zashchita-prav-sobstvennika-mkd"
+    },
+    {
+      "slug": "pereplanirovka-kvartiry-moskva",
+      "sourcePageId": "6acd01f5548abdbb599614a1",
+      "title": "Перепланировка квартиры в Москве — согласование, документы, Мосжилинспекция",
+      "description": "Как согласовать перепланировку через mos.ru, отличить проект от технического заключения, оформить завершённые работы и избежать нарушений. Постановление Москвы № 508-ПП.",
+      "status": "ready",
+      "sourceUrl": "https://dgimos.webflow.io/pereplanirovka-kvartiry-moskva"
+    },
+    {
+      "slug": "avariynoe-zhile-moskva",
+      "sourcePageId": "6acd01f47deaae0adb0325fb",
+      "title": "Аварийный дом в Москве: признание, комиссия и права жильцов",
+      "description": "Когда дом признают аварийным, как инициировать обследование, какие документы собрать, как получить заключение комиссии и оспорить решение. Постановление № 47.",
+      "status": "ready",
+      "sourceUrl": "https://dgimos.webflow.io/avariynoe-zhile-moskva"
+    },
+    {
+      "slug": "pereraschet-zhku-moskva",
+      "sourcePageId": "6acd01f46267420b9566cc9b",
+      "title": "Перерасчёт ЖКУ в Москве — ошибки в квитанции и некачественные услуги",
+      "description": "Как проверить начисления за ЖКУ, зафиксировать перебои с водой и отоплением, получить акт и подать требование о перерасчёте. Правила № 354 и пошаговые действия.",
+      "status": "ready",
+      "sourceUrl": "https://dgimos.webflow.io/pereraschet-zhku-moskva"
+    },
+    {
+      "slug": "vymorochnoe-imushchestvo-moskva",
+      "sourcePageId": "6accb8496d42c986b92cb8b6",
+      "title": "Выморочная квартира в Москве — права наследника, документы и действия",
+      "description": "Что делать, если ДГИ считает квартиру выморочной: основания по ст. 1151 ГК РФ, способы принятия наследства, сроки, документы и проверка судебного спора.",
+      "status": "ready",
+      "sourceUrl": "https://dgimos.webflow.io/vymorochnoe-imushchestvo-moskva"
+    },
+    {
+      "slug": "vymorochnoe-imushchestvo-kvartira-moskva",
+      "sourcePageId": "6acc7854fa2f0c028d2fb1b9",
+      "title": "Выморочная квартира в Москве: права наследников и спор с ДГИ",
+      "description": "Город считает квартиру выморочным имуществом? Как проверить наследников, сроки принятия наследства, фактическое принятие, документы и судебную позицию.",
+      "status": "ready",
+      "sourceUrl": "https://dgimos.webflow.io/vymorochnoe-imushchestvo-kvartira-moskva"
+    },
+    {
+      "slug": "isk-o-vyselenii-socialnyy-naem",
+      "sourcePageId": "6acc76747f4d64b4c7f5a9ea",
+      "title": "Иск о выселении из квартиры по соцнайму: что проверить",
+      "description": "Выселение по социальному найму: виды требований, долги ЖКУ, сроки и документы, позиции Верховного Суда, права нанимателя и членов семьи.",
+      "status": "ready",
+      "sourceUrl": "https://dgimos.webflow.io/isk-o-vyselenii-socialnyy-naem"
+    },
+    {
+      "slug": "snyatie-s-zhilishchnogo-ucheta-moskva",
+      "sourcePageId": "6acc76739ee7a36eef418488",
+      "title": "Снятие с жилищного учёта в Москве: причины и как оспорить",
+      "description": "Как проверить решение о снятии с жилищного учёта в Москве: основания по статье 56 ЖК РФ, документы учётного дела, сроки направления решения и порядок обжалования.",
+      "status": "ready",
+      "sourceUrl": "https://dgimos.webflow.io/snyatie-s-zhilishchnogo-ucheta-moskva"
+    },
+    {
+      "slug": "otkaz-v-privatizacii-kvartiry",
+      "sourcePageId": "6acc76731b145e2529668df7",
+      "title": "Отказ в приватизации квартиры в Москве: причины и обжалование",
+      "description": "ДГИ отказал в приватизации квартиры? Проверьте основание отказа, право пользования жильём, согласие участников, документы, способы обжалования и нормативные акты.",
+      "status": "ready",
+      "sourceUrl": "https://dgimos.webflow.io/otkaz-v-privatizacii-kvartiry"
+    },
+    {
+      "slug": "novosti-zhilishchnogo-prava",
+      "sourcePageId": "6acbbea080dd38e7e754c6f8",
+      "title": "Новости жилищного права Москвы — законы, ЖКХ и судебная практика",
+      "description": "Актуальные изменения жилищного законодательства, разъяснения по собственности, реновации, ЖКХ и судебной практике. Авторские обзоры с указанием первоисточников.",
+      "status": "ready",
+      "sourceUrl": "https://dgimos.webflow.io/novosti-zhilishchnogo-prava"
+    },
+    {
+      "slug": "dokumenty-na-kvartiru",
+      "sourcePageId": "6aca82211f9971c405c32cf8",
+      "title": "Документы о правах на квартиру: архив и регистрация",
+      "description": "Получение архивных сведений о правах на квартиры, документов и подтверждений ранее возникших прав.",
+      "status": "ready",
+      "sourceUrl": "https://dgimos.webflow.io/dokumenty-na-kvartiru"
+    },
+    {
+      "slug": "zhilishchnaya-ochered",
+      "sourcePageId": "6aca8220c07a0416be2832e2",
+      "title": "Жилищная очередь в Москве: учёт, проверка, перерегистрация",
+      "description": "Сведения об очереди на жильё, изменение учётного дела и юридическая помощь при спорных решениях.",
+      "status": "ready",
+      "sourceUrl": "https://dgimos.webflow.io/zhilishchnaya-ochered"
+    },
+    {
+      "slug": "zhilishchnye-subsidii",
+      "sourcePageId": "6aca821fe127caa5206baaaa",
+      "title": "Жилищные субсидии и программы Москвы: условия и документы",
+      "description": "Обзор городских жилищных программ, субсидий, требований к участникам и способов защиты.",
+      "status": "ready",
+      "sourceUrl": "https://dgimos.webflow.io/zhilishchnye-subsidii"
+    },
+    {
+      "slug": "spory-s-dgi",
+      "sourcePageId": "6aca821f93907b6f3573a305",
+      "title": "Споры с ДГИ Москвы: отказ, иск и судебная защита",
+      "description": "Суд с ДГИ Москвы: как проверить отказ, собрать документы, определить способ защиты и найти судебную практику по приватизации, соцнайму и переселению.",
+      "status": "ready",
+      "sourceUrl": "https://dgimos.webflow.io/spory-s-dgi"
+    },
+    {
+      "slug": "kontakty-dgi",
+      "sourcePageId": "6aca7500bbf3c53aad946e11",
+      "title": "Контакты ДГИ Москвы: адрес, телефон, ИНН и ОГРН",
+      "description": "Телефон ДГИ Москвы, адрес, почта, ИНН, ОГРН и способы обращения. Отдельные инструкции для записи на приём и подачи заявления.",
+      "status": "ready",
+      "sourceUrl": "https://dgimos.webflow.io/kontakty-dgi"
+    },
+    {
+      "slug": "kadastrovaya-stoimost",
+      "sourcePageId": "6aca74ff1aa737cbf1d3196f",
+      "title": "Кадастровая стоимость недвижимости Москвы и оценка",
+      "description": "Результаты кадастровой оценки, исправление ошибок и правовые вопросы определения стоимости.",
+      "status": "ready",
+      "sourceUrl": "https://dgimos.webflow.io/kadastrovaya-stoimost"
+    },
+    {
+      "slug": "gosuslugi-dgi",
+      "sourcePageId": "6aca73f7aa60c19a09bf2abe",
+      "title": "Госуслуги ДГИ Москвы: документы, заявления и порядок подачи",
+      "description": "Какие услуги оказывает ДГИ Москвы, как выбрать регламент, собрать документы, подать заявление и проверить результат: приватизация, жильё и имущество.",
+      "status": "ready",
+      "sourceUrl": "https://dgimos.webflow.io/gosuslugi-dgi"
+    },
+    {
+      "slug": "normativnye-akty",
+      "sourcePageId": "6aca73f741672ef3da1e7291",
+      "title": "Нормативные акты ДГИ Москвы: положение и регламенты",
+      "description": "Положение о ДГИ Москвы, постановления Правительства Москвы и административные регламенты. Где проверять редакцию и найти отдельное распоряжение или приказ.",
+      "status": "ready",
+      "sourceUrl": "https://dgimos.webflow.io/normativnye-akty"
+    },
+    {
+      "slug": "gorodskoe-imushchestvo-i-zemlya",
+      "sourcePageId": "6aca73f62d52abb1a7fe8bfe",
+      "title": "Городское имущество ДГИ Москвы: недвижимость и земельные вопросы",
+      "description": "Земельные отношения и городская недвижимость Москвы: полномочия ДГИ, договоры, аренда земли, права заявителей, торги и документы.",
+      "status": "ready",
+      "sourceUrl": "https://dgimos.webflow.io/gorodskoe-imushchestvo-i-zemlya"
+    },
+    {
+      "slug": "renovaciya-pereselenie",
+      "sourcePageId": "6aca73f62d52abb1a7fe8bca",
+      "title": "Реновация с ДГИ Москвы: переселение, права и документы",
+      "description": "Как проверить документы на новое жильё по реновации Москвы, предложение квартиры, гарантии переселения и порядок действий при споре с ДГИ.",
+      "status": "ready",
+      "sourceUrl": "https://dgimos.webflow.io/renovaciya-pereselenie"
+    },
+    {
+      "slug": "socialnyj-naem",
+      "sourcePageId": "6aca73f6ef7125f938c475d8",
+      "title": "Социальный наём в Москве — договор и права нанимателей",
+      "description": "Оформление договора социального найма, пользование городским жильём, права членов семьи и споры.",
+      "status": "ready",
+      "sourceUrl": "https://dgimos.webflow.io/socialnyj-naem"
+    },
+    {
+      "slug": "privatizaciya-zhilya",
+      "sourcePageId": "6aca73f5a76f3138ae5de73a",
+      "title": "Приватизация квартиры через ДГИ Москвы: документы и отказы",
+      "description": "Как оформить приватизацию квартиры в Москве: кто участвует, какие документы понадобятся, как проверить решение ДГИ и обжаловать отказ.",
+      "status": "ready",
+      "sourceUrl": "https://dgimos.webflow.io/privatizaciya-zhilya"
+    },
+    {
+      "slug": "zhilishchnyj-uchet",
+      "sourcePageId": "6aca73f5600614351c8d5a79",
+      "title": "Жилищный учёт в Москве — юридическая помощь гражданам",
+      "description": "Постановка на жилищный учёт, отказ, снятие с учёта, документы и способы правовой защиты в Москве.",
+      "status": "ready",
+      "sourceUrl": "https://dgimos.webflow.io/zhilishchnyj-uchet"
+    },
+    {
+      "slug": "funkcii-dgi",
+      "sourcePageId": "6aca73f479f69f45313bbc7c",
+      "title": "ДГИ Москвы: функции и полномочия департамента",
+      "description": "Чем занимается Департамент городского имущества Москвы: жилищный фонд, земля, недвижимость, приватизация и порядок обращения по компетенции.",
+      "status": "ready",
+      "sourceUrl": "https://dgimos.webflow.io/funkcii-dgi"
+    }
+  ]
 }
