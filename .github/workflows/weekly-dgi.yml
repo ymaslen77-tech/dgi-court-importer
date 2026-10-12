@@ -1,7 +1,5 @@
-name: DGI court data — staged import
+name: DGI court data — manual legacy CMS importer
 on:
-  schedule:
-    - cron: '0 6 * * 1'
   workflow_dispatch:
     inputs:
       batch_size:
@@ -9,7 +7,7 @@ on:
         default: '50'
         required: false
       upload:
-        description: 'Write draft records to CMS after validation (false for first test)'
+        description: 'Write drafts only AFTER CMS capacity upgrade; current site is full'
         type: boolean
         default: false
         required: false
@@ -23,7 +21,7 @@ jobs:
       WEBFLOW_TOKEN: ${{ secrets.WEBFLOW_TOKEN }}
       COURT_DATASET_URL: ${{ vars.COURT_DATASET_URL }}
       BATCH_SIZE: ${{ github.event.inputs.batch_size || '50' }}
-      UPLOAD_ENABLED: ${{ github.event_name == 'schedule' || inputs.upload == true }}
+      UPLOAD_ENABLED: ${{ inputs.upload == true }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
