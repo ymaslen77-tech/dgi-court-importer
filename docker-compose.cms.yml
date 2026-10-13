@@ -1,0 +1,20 @@
+# Isolated CMS database: does not alter the importer/web development stack.
+services:
+  cms_database:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: housing_cms
+      POSTGRES_USER: housing_cms
+      POSTGRES_PASSWORD: ${CMS_POSTGRES_PASSWORD:?Set CMS_POSTGRES_PASSWORD in .env}
+    ports:
+      - "127.0.0.1:${CMS_POSTGRES_PORT:-5435}:5432"
+    volumes:
+      - housing_cms_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U housing_cms -d housing_cms"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+volumes:
+  housing_cms_pgdata:

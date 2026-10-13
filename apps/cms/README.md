@@ -9,7 +9,11 @@ Roles: `admin` manages accounts and content; `editor` saves drafts only;
 drafts. Public REST access to editorial entries, court references and media is
 denied by design. Approval is revoked whenever substantive content is edited.
 
-Run only after creating a **separate empty CMS PostgreSQL database**:
+Run only after creating a **separate empty CMS PostgreSQL database**.
+Use `docker compose -f docker-compose.cms.yml up -d` from the repository root
+with `CMS_POSTGRES_PASSWORD` set in `.env`; the original `docker-compose.yml`
+remains unchanged:
+
 ```
 cp apps/cms/.env.example apps/cms/.env
 # Set CMS_DATABASE_URL and PAYLOAD_SECRET in the process environment.
