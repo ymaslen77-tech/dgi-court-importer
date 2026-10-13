@@ -5,3 +5,13 @@ __pycache__/
 .env
 court-data.json
 *.jsonl
+
+# Web application artifacts and sensitive source exports
+node_modules/
+.next/
+apps/web/.next/
+*.tsbuildinfo
+.private/
+.env.*
+!.env.example
+.DS_Store
