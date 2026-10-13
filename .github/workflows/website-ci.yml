@@ -208,6 +208,8 @@ jobs:
         run: pnpm --filter @dgi/cms generate:importmap
       - name: Validate safe Webflow draft inventory
         run: pnpm --filter @dgi/cms import:webflow:dry-run
+      - name: Test guarded CMS promotion
+        run: pnpm --filter @dgi/cms test
       - name: CMS typecheck
         run: pnpm --filter @dgi/cms typecheck
       - name: CMS production build
