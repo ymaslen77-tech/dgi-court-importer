@@ -13,7 +13,8 @@
     "test": "node --import tsx --test tests/*.test.ts",
     "payload": "payload",
     "generate:types": "payload generate:types",
-    "import:pages": "tsx scripts/import-page-metadata.ts"
+    "import:pages": "tsx scripts/import-page-metadata.ts",
+    "generate:importmap": "payload generate:importmap"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.90.2",
