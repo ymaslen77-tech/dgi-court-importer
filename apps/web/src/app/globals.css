@@ -1,0 +1,50 @@
+@import "tailwindcss";
+:root{--black:#121212;--red:#c71927;--ink:#161616;--muted:#5b5b5b;--light:#f5f5f5}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#fff;color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+a{color:inherit}
+.container{max-width:1190px;padding:0 24px;margin:0 auto}
+.topline{background:#101010;color:#ddd;letter-spacing:1.3px;font-size:10px;padding:12px max(24px,calc((100vw - 1142px)/2))}
+.site-header{min-height:86px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:22px;padding-top:17px;padding-bottom:17px}
+.brand{text-decoration:none;display:flex;align-items:center;gap:14px;font-size:14px;line-height:1.3;font-weight:900;max-width:355px}
+.brand-mark{background:var(--red);color:#fff;font-size:24px;font-weight:900;min-width:46px;height:46px;display:grid;place-items:center}
+.header-links{display:flex;gap:18px;flex-wrap:wrap}
+.header-links a{text-decoration:none;font-size:12px;font-weight:800}
+.header-links a:hover,.card-link:hover{color:var(--red)}
+.hero{background:linear-gradient(110deg,#070707,#181818 75%,#420c16);color:#fff}
+.hero-inner{padding-top:92px;padding-bottom:96px}
+.eyebrow{font-size:11px;letter-spacing:1.5px;font-weight:900;color:#f04c5a}
+.eyebrow.red{color:var(--red)}
+.hero h1{font-weight:900;font-size:clamp(41px,5.6vw,72px);line-height:1.08;letter-spacing:-1.5px;max-width:950px;margin:22px 0}
+.hero h1 span{color:#f33c50}
+.hero-lead{color:#d2d2d2;font-size:17px;line-height:1.85;max-width:850px}
+.outline-button{display:inline-block;margin-top:27px;padding:16px 20px;border:1px solid #777;text-decoration:none;font-size:12px;letter-spacing:.7px;font-weight:900}
+.section{padding:79px 0 90px}
+.light-section{background:var(--light)}
+.section h2{font-size:clamp(29px,3.5vw,44px);line-height:1.19;letter-spacing:-1px;margin:16px 0 26px;max-width:970px;font-weight:900}
+.section-lead,.article-paragraph{font-size:16px;color:#555;line-height:1.9;max-width:900px}
+.topic-grid,.article-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:29px}
+.topic-card,.article-card{border:1px solid #dedede;padding:27px;display:flex;flex-direction:column;background:#fff;text-decoration:none;min-height:230px}
+.topic-card h3,.article-card h3{font-size:22px;line-height:1.3;margin:16px 0 12px;font-weight:850}
+.topic-card p,.article-card p{color:#575757;line-height:1.8;font-size:14px;flex:1}
+.number{font-size:28px;color:var(--red);font-weight:900}
+.card-link{color:#b62234;font-size:11px;font-weight:900;letter-spacing:.7px;text-decoration:none;border-top:1px solid #dedede;margin-top:22px;padding-top:17px}
+.dark-panel{background:#111;color:#fff;padding:32px;margin-top:26px;border-top:4px solid var(--red)}
+.dark-panel h2{color:#fff;font-size:23px}
+.dark-panel p{color:#ddd;font-size:15px;line-height:1.9}
+.source-links{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0}
+.source-links a{color:#a82333;border:1px solid #ddd;padding:14px;text-decoration:underline;font-size:13px}
+.primary-button{display:inline-block;background:var(--red);padding:17px 20px;color:#fff;font-size:12px;font-weight:900;text-decoration:none;margin-top:20px}
+.fineprint{font-size:13px;line-height:1.7;color:#777}
+.split-info{display:grid;grid-template-columns:1fr 1fr;gap:25px}
+.split-info p{font-size:15px;line-height:1.86;color:#555}
+.site-footer{background:#111;color:#fff;padding:43px 0}
+.foot-container{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}
+.site-footer p{color:#aaa;max-width:520px;font-size:13px;line-height:1.7}
+.site-footer a{color:#fff;text-decoration:none;font-size:12px}
+.pending{min-height:55vh}
+.pending h1{font-size:clamp(32px,5vw,58px);letter-spacing:-1px;max-width:930px}
+.pending p{max-width:750px;color:#555;line-height:1.8}
+:focus-visible{outline:3px solid #e13c4f;outline-offset:3px}
+@media(max-width:760px){.hero-inner{padding-top:70px;padding-bottom:74px}.section{padding:55px 0 65px}.split-info{grid-template-columns:1fr}.header-links{gap:14px}.header-links a{font-size:11px}.topic-grid,.article-grid{grid-template-columns:1fr}}
