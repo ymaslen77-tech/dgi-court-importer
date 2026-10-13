@@ -95,6 +95,7 @@ jobs:
           await db.connect();
           await db.query(readFileSync("db/migrations/0001_initial.sql", "utf8"));
           await db.query(readFileSync("db/migrations/0002_webflow_cms_staging.sql", "utf8"));
+          await db.query(readFileSync("db/migrations/0003_editorial_publication.sql", "utf8"));
           await db.end();
           JS
       - name: Test idempotent staging migration
@@ -127,4 +128,44 @@ jobs:
               sources!==expected.officialCandidates || badCases || badPages || cms!==50 || invalidCms)
             throw new Error(JSON.stringify({pages,cases,instances,sources,badCases,badPages,cms,invalidCms,expected}));
           console.log({pages,cases,instances,sources,cms,publications:0});
+          JS
+
+      - name: Verify editorial publishing is fail-closed
+        run: |
+          node --input-type=module <<'JS'
+          import pg from "pg";
+          const db = new pg.Client({ connectionString: process.env.DATABASE_URL });
+          await db.connect();
+          try {
+            await db.query("BEGIN");
+            await db.query("SAVEPOINT invalid_publish");
+            let blocked = false;
+            try {
+              await db.query(`INSERT INTO editorial_pages
+                (slug,kind,title,seo_title,body,editorial_status)
+                VALUES ('ci-approval-check','guide','Sample','Sample','[{"kind":"p","text":"Sample"}]'::jsonb,'published')`);
+            } catch (error) {
+              if (error.code !== "23514") throw error;
+              blocked = true;
+            }
+            if (!blocked) throw new Error("Unreviewed content was publishable");
+            await db.query("ROLLBACK TO SAVEPOINT invalid_publish");
+            const created = await db.query(`INSERT INTO editorial_pages
+              (slug,kind,title,seo_title,body,editorial_status)
+              VALUES ('ci-approval-check','guide','Sample','Sample','[{"kind":"p","text":"Sample"}]'::jsonb,'review')
+              RETURNING id`);
+            const id = created.rows[0].id;
+            const approved = await db.query(`UPDATE editorial_pages
+              SET checked_at=now(),reviewed_by='ci-reviewer',published_at=now(),
+                  editorial_status='published' WHERE id=$1
+              RETURNING editorial_status`, [id]);
+            if (approved.rows[0].editorial_status !== "published") throw new Error("Approved content not publishable");
+            const invalidated = await db.query(`UPDATE editorial_pages SET title='Changed title'
+              WHERE id=$1 RETURNING editorial_status,checked_at,reviewed_by,published_at`, [id]);
+            const row = invalidated.rows[0];
+            if (row.editorial_status !== "review" || row.checked_at || row.reviewed_by || row.published_at)
+              throw new Error("Content changes did not invalidate approval");
+            await db.query("ROLLBACK");
+            console.log("Unreviewed blocked; reviewed published; edits revoked approval");
+          } finally { await db.end(); }
           JS
