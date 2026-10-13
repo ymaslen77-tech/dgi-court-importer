@@ -4,6 +4,7 @@ import type { CourtListing } from "./CourtExplorer";
 type CourtPage={items:CourtListing[];nextCursor:string|null};
 export function CourtDatabaseExplorer() {
   const [query,setQuery]=useState("");
+  const [activeQuery,setActiveQuery]=useState("");
   const [items,setItems]=useState<CourtListing[]>([]);
   const [nextCursor,setNextCursor]=useState<string|null>(null);
   const [busy,setBusy]=useState(false);
@@ -38,6 +39,7 @@ export function CourtDatabaseExplorer() {
   return <div className="container court-browser">
     <form className="filter-row" onSubmit={event=>{
       event.preventDefault();
+      setActiveQuery(query.trim());
       void request(query.trim(),null,false);
     }}>
       <label htmlFor="db-case-search">Номер дела, суд или категория
@@ -63,7 +65,7 @@ export function CourtDatabaseExplorer() {
     </div>
     {!busy&&!error&&items.length===0&&<p>Карточки не найдены.</p>}
     {nextCursor&&<button className="court-more" type="button" disabled={busy}
-      onClick={()=>void request(query.trim(),nextCursor,true)}>
+      onClick={()=>void request(activeQuery,nextCursor,true)}>
       {busy?"Загрузка…":"Показать ещё 24 карточки"}
     </button>}
     {busy&&<p aria-live="polite">Загрузка результатов…</p>}
