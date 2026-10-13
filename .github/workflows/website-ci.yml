@@ -47,6 +47,8 @@ jobs:
         run: pnpm test
       - name: Validate staging preview
         run: pnpm migration:dry-run
+      - name: Validate sanitized Webflow CMS archive
+        run: pnpm migration:cms:dry-run
       - name: TypeScript typecheck
         run: pnpm typecheck
       - name: Compile Next.js
@@ -92,12 +94,17 @@ jobs:
           const db = new pg.Client({ connectionString: process.env.DATABASE_URL });
           await db.connect();
           await db.query(readFileSync("db/migrations/0001_initial.sql", "utf8"));
+          await db.query(readFileSync("db/migrations/0002_webflow_cms_staging.sql", "utf8"));
           await db.end();
           JS
       - name: Test idempotent staging migration
         run: |
           pnpm migration:apply
           pnpm migration:apply
+      - name: Test idempotent non-publishable CMS migration
+        run: |
+          pnpm migration:cms:apply
+          pnpm migration:cms:apply
       - name: Verify staging database integrity
         run: |
           node --input-type=module <<'JS'
@@ -113,9 +120,11 @@ jobs:
           const sources=await count("SELECT count(*) FROM court_sources");
           const badCases=await count("SELECT count(*) FROM court_cases WHERE act_verified=true OR editorial_status='published'");
           const badPages=await count("SELECT count(*) FROM editorial_pages WHERE editorial_status='published'");
+          const cms=await count("SELECT count(*) FROM webflow_cms_staging");
+          const invalidCms=await count("SELECT count(*) FROM webflow_cms_staging WHERE verified=true OR publication_allowed=true OR editorial_status <> 'review'");
           await db.end();
           if(pages!==expected.pages || cases!==expected.candidateRows || instances!==expected.candidateRows ||
-              sources!==expected.officialCandidates || badCases || badPages)
-            throw new Error(JSON.stringify({pages,cases,instances,sources,badCases,badPages,expected}));
-          console.log({pages,cases,instances,sources,publications:0});
+              sources!==expected.officialCandidates || badCases || badPages || cms!==50 || invalidCms)
+            throw new Error(JSON.stringify({pages,cases,instances,sources,badCases,badPages,cms,invalidCms,expected}));
+          console.log({pages,cases,instances,sources,cms,publications:0});
           JS
