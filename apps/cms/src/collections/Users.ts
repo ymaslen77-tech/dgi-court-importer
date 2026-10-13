@@ -1,5 +1,5 @@
 import type { CollectionConfig } from "payload";
-import { adminOnly, getRole, signedIn } from "../access";
+import { adminOnly, getRole } from "../access";
 
 export const Users: CollectionConfig = {
   slug: "staff-users",
@@ -10,7 +10,7 @@ export const Users: CollectionConfig = {
     read: ({ req }) => getRole(req.user) === "admin" ? true : req.user ? { id: { equals: req.user.id } } : false,
     update: adminOnly,
     delete: adminOnly,
-    admin: signedIn,
+    admin: ({req}) => Boolean(getRole(req.user)),
   },
   fields: [
     { name: "role", type: "select", required: true, defaultValue: "editor",
