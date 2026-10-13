@@ -12,7 +12,7 @@
 - Three genuinely migrated legal/editorial pages: `/privatizaciya-zhilya`, `/zhaloba-na-dgi-moskvy`, `/kontakty-dgi`. Their text was transcribed from the source Webflow elements, but **must still undergo an editorial and legal-source acceptance check**.
 - Homepage is a first responsive code implementation using content from the existing hero/navigation, not a pixel-perfect copy.
 - `/sudebnaya-praktika-dgi`: provisional server-side **metadata-only catalog**; the contents of `data/court-catalog.jsonl` are NOT verified judicial decisions. It is always noindex.
-- The other 29? slugs are **NOT migrated**: staging displays a noindex migration notice and links to the real source on Webflow. Never turn these into indexable thin SEO pages.
+- The other 28 slugs are **NOT migrated**: staging displays a noindex migration notice and links to the real source on Webflow. Never turn these into indexable thin SEO pages.
 - robots.txt disallows all unless `SITE_INDEXABLE=true` explicitly. Only approved pilot pages can join sitemap; noindex on all incomplete legal routes.
 - PostgreSQL migration `db/migrations/0001_initial.sql` establishes editorial, news and court schemas for later Payload integration. **This is not yet a functioning CMS admin**.
 - `apps/web/scripts/export-webflow.mjs` exports Webflow page/collection metadata; full CMS items require explicit `--include-items`; exports are **not** Designer HTML/text and are kept in `.private/` outside Git.

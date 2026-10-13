@@ -13,6 +13,19 @@ export type CaseCandidate = {
   act_reviewed: boolean;
 };
 
+const OFFICIAL_DOMAINS = ['mos-gorsud.ru', 'sudrf.ru', 'vsrf.ru', 'kad.arbitr.ru'];
+
+function isCourtUrl(raw: string): boolean {
+  try {
+    const url = new URL(raw);
+    const host = url.hostname.toLowerCase();
+    return url.protocol === 'https:' && !url.username && !url.password &&
+      OFFICIAL_DOMAINS.some((domain) => host === domain || host.endsWith('.' + domain));
+  } catch {
+    return false;
+  }
+}
+
 export async function loadCandidates(): Promise<CaseCandidate[]> {
   // apps/web runs from this directory; Docker deployment must mount/copy data/.
   const filename = path.resolve(process.cwd(), '../../data/court-catalog.jsonl');
@@ -21,7 +34,7 @@ export async function loadCandidates(): Promise<CaseCandidate[]> {
     return raw.split(/\r?\n/).filter(Boolean).flatMap((line) => {
       const item = JSON.parse(line) as CaseCandidate;
       if (!item.id || !item.number || !item.court ||
-          !item.official_case_url?.startsWith('https://') ||
+          !isCourtUrl(item.official_case_url) ||
           item.act_reviewed || item.verification !== 'case_metadata_only') return [];
       return [item];
     });
