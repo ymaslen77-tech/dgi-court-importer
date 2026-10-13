@@ -107,3 +107,11 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .court-form-action button:disabled, .court-more:disabled { opacity: .6; cursor: progress; }
 .court-more { margin: 25px 0; }
 .court-error { color: #a21125; font-weight: 700; }
+
+/* Unverified legacy CMS case detail pages are intentionally noindex. */
+.legacy-case-detail { max-width: 850px; }
+.legacy-case-detail dl { border-top: 1px solid var(--line); margin: 25px 0; }
+.legacy-case-detail dl > div { display: grid; grid-template-columns: minmax(180px, .7fr) 1.3fr; gap: 20px; padding: 15px 0; border-bottom: 1px solid var(--line); }
+.legacy-case-detail dt { font-size: 13px; font-weight: 800; }
+.legacy-case-detail dd { margin: 0; font-size: 14px; line-height: 1.6; color: var(--copy); overflow-wrap: anywhere; }
+@media (max-width: 640px) { .legacy-case-detail dl > div { grid-template-columns: 1fr; gap: 4px; } }

@@ -21,6 +21,7 @@ export default async function CourtPracticePage() {
   const snapshots: CourtListing[] = [
     ...legacyCases.map((c) => ({
       id: `legacy:${c.id}`,
+      detailHref: `/dgi-court-cases/${c.slug}`,
       number: c.caseNumber,
       court: c.court,
       category: c.category,

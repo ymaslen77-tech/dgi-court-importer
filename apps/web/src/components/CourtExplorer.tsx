@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 
 export type CourtListing = {
   id: string;
@@ -8,6 +9,7 @@ export type CourtListing = {
   court: string;
   category: string;
   url?: string;
+  detailHref?: string;
   source: "published-legacy" | "official-candidate";
 };
 
@@ -46,6 +48,7 @@ export function CourtExplorer({ cases }: { cases: CourtListing[] }) {
             <h2>Дело № {item.number || "номер уточняется"}</h2>
             <p>{item.court || "Суд уточняется"}</p>
             <p className="case-category">{item.category || "Категория требует проверки"}</p>
+            {item.detailHref && <p><Link href={item.detailHref}>Открыть архивную карточку →</Link></p>}
             {item.url && <a href={item.url} target="_blank" rel="noopener noreferrer">Открыть источник ↗</a>}
           </article>
         ))}

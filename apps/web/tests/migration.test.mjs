@@ -62,3 +62,13 @@ test("content routes render reviewed CMS pages, including new slugs", () => {
   assert.match(route, /const page = \(await getPublishedEditorialPage\(slug\)\) \?\? getMigratedPage\(slug\)/);
   assert.ok(!route.includes("const page = getMigratedPage(slug);"));
 });
+
+test("published Webflow court-case slugs have protected archival routes", () => {
+  const cases=JSON.parse(readFileSync(new URL("../src/data/legacy-cases.json",import.meta.url),"utf8")).cases;
+  assert.equal(cases.length,22);
+  const route=readFileSync(new URL("../src/app/dgi-court-cases/[slug]/page.tsx",import.meta.url),"utf8");
+  assert.match(route,/legacyCases\.find/);
+  assert.match(route,/index:false,follow:false/);
+  assert.ok(!route.includes("entry.title"));
+  assert.ok(cases.every(c=>c.verifiedAct===false && /^[a-z0-9-]+$/.test(c.slug)));
+});
