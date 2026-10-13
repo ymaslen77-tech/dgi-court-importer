@@ -9,7 +9,9 @@
     "test": "pnpm --filter @dgi/web test && pnpm test:migration",
     "test:migration": "node --test scripts/tests/*.test.mjs",
     "migration:dry-run": "node scripts/import-snapshots-to-db.mjs --dry-run",
-    "migration:apply": "node scripts/import-snapshots-to-db.mjs --apply"
+    "migration:apply": "node scripts/import-snapshots-to-db.mjs --apply",
+    "migration:cms:dry-run": "node scripts/import-cms-inventory.mjs --dry-run",
+    "migration:cms:apply": "node scripts/import-cms-inventory.mjs --apply"
   },
   "engines": {
     "node": ">=22"
