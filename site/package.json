@@ -1,0 +1,44 @@
+{
+  "name": "moscow-housing-portal",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "predev": "payload generate:importmap",
+    "dev": "next dev",
+    "prebuild": "payload generate:importmap",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test tests/*.test.ts",
+    "payload": "payload",
+    "generate:types": "payload generate:types",
+    "import:pages": "tsx scripts/import-page-metadata.ts"
+  },
+  "dependencies": {
+    "@payloadcms/db-postgres": "3.90.2",
+    "@payloadcms/next": "3.90.2",
+    "@payloadcms/richtext-lexical": "3.90.2",
+    "@payloadcms/ui": "3.90.2",
+    "payload": "3.90.2",
+    "next": "16.3.3",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "graphql": "^16.11.0"
+  },
+  "devDependencies": {
+    "typescript": "6.0.3",
+    "@types/node": "^24.12.3",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "tsx": "^4.23.15",
+    "tailwindcss": "3.4.17",
+    "postcss": "8.5.6",
+    "autoprefixer": "10.4.21"
+  },
+  "engines": {
+    "node": ">=24.15.0",
+    "pnpm": ">=10"
+  },
+  "packageManager": "pnpm@10.27.0"
+}
