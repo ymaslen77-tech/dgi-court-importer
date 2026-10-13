@@ -223,6 +223,8 @@ jobs:
         run: pnpm --filter @dgi/cms import:webflow:dry-run
       - name: Test guarded CMS promotion
         run: pnpm --filter @dgi/cms test
+      - name: Validate Webflow CMS metadata importer
+        run: pnpm --filter @dgi/cms import:cms-metadata:dry-run
       - name: CMS typecheck
         run: pnpm --filter @dgi/cms typecheck
       - name: Bootstrap administrator in disposable CMS DB
@@ -240,6 +242,14 @@ jobs:
         run: |
           pnpm --filter @dgi/cms import:webflow:apply
           pnpm --filter @dgi/cms import:webflow:apply
+      - name: Import 50 sanitized CMS source records twice
+        env:
+          NODE_ENV: development
+          CMS_PRIVATE_IMPORT: "yes"
+          CMS_IMPORT_CONFIRM: "yes"
+        run: |
+          pnpm --filter @dgi/cms import:cms-metadata:apply
+          pnpm --filter @dgi/cms import:cms-metadata:apply
       - name: Verify CMS staging state
         env:
           NODE_ENV: development

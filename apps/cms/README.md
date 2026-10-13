@@ -52,3 +52,7 @@ The importer is idempotent and does not overwrite previously edited
 records. It creates **zero approvals and zero publications**. It does
 not import unpublished CMS content, legal interpretations or case outcomes.
 The home page is staged under slug `home`; map it to `/` only after review.
+
+The four Webflow CMS source collections also have an isolated **metadata-only**
+importer (see `docs/WEBFLOW_CMS_QUEUE.md`). None of these 50 source records
+are directly publishable, and repeated imports do not overwrite staff work.

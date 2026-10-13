@@ -18,5 +18,14 @@ for (const doc of entries.docs) {
       doc.reviewedAt || doc.reviewedBy)
     throw new Error(`Invalid imported publication state: ${doc.slug}`);
 }
-console.log(JSON.stringify({admin:1,drafts:33,approvals:0,publications:0}));
+
+const sourceArchive=await payload.find({
+  collection:"webflow-cms-review",overrideAccess:true,limit:100,depth:0,
+});
+if(sourceArchive.totalDocs!==50)throw new Error(`Expected 50 private CMS source records, got ${sourceArchive.totalDocs}`);
+for(const doc of sourceArchive.docs) {
+  if(doc.reconciliationStatus!=="pending" || doc.sourceKey.length<25)
+    throw new Error("Source archive must remain unapproved");
+}
+console.log(JSON.stringify({admin:1,drafts:33,cmsSourceRecords:50,approvals:0,publications:0}));
 process.exit(0);
