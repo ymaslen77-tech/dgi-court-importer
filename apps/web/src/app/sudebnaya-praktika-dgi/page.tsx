@@ -3,8 +3,11 @@ import { PageShell } from "@/components/PageShell";
 import { CourtExplorer, type CourtListing } from "@/components/CourtExplorer";
 import { legacyCases, listOfficialCandidates } from "@/data/courts";
 import { canonicalUrl, getMigratedPage, siteIsLive } from "@/data/pages";
+import { listCourtListingsFromDb } from "@/data/court-database";
 
 const page = getMigratedPage("sudebnaya-praktika-dgi");
+// When enabled, this is a dynamic database-backed view.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: { absolute: page?.seoTitle || "Судебная практика Москвы" },
@@ -13,9 +16,9 @@ export const metadata: Metadata = {
   robots: siteIsLive ? { index: true, follow: true } : { index: false, follow: false },
 };
 
-export default function CourtPracticePage() {
+export default async function CourtPracticePage() {
   const catalog = listOfficialCandidates();
-  const entries: CourtListing[] = [
+  const snapshots: CourtListing[] = [
     ...legacyCases.map((c) => ({
       id: `legacy:${c.id}`,
       number: c.caseNumber,
@@ -33,6 +36,7 @@ export default function CourtPracticePage() {
       source: "official-candidate" as const,
     })),
   ];
+  const entries = await listCourtListingsFromDb() ?? snapshots;
   return (
     <PageShell>
       <section className="hero">
