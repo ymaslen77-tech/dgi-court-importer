@@ -51,7 +51,14 @@ for(const row of rows){
     where:{sourceKey:{equals:row.sourceKey}},overrideAccess:true,depth:0,limit:1});
   if(present.totalDocs){skipped++;continue;}
   await payload.create({collection:"webflow-cms-review",overrideAccess:true,
-    data:{...row,reconciliationStatus:"pending"}});
+    data:{
+      ...row,
+      sourceCollection:row.sourceCollection as
+        "dgi-court-cases" | "dgi-legal-documents" | "dgi-legal-situations" | "housing-law-news",
+      legacyStatus:row.legacyStatus as "draft" | "legacy_public_unverified",
+      sourceMetadata:JSON.parse(JSON.stringify(row.sourceMetadata)),
+      reconciliationStatus:"pending",
+    }});
   created++;
 }
 console.log(JSON.stringify({mode:"private-metadata-only",total:rows.length,created,skipped,publications:0}));
