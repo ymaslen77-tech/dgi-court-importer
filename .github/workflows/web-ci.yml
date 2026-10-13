@@ -1,0 +1,46 @@
+name: Next.js website — migration CI
+on:
+  pull_request:
+    paths:
+      - 'apps/web/**'
+      - 'migration/**'
+      - 'scripts/**'
+      - 'database/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/web-ci.yml'
+  push:
+    branches:
+      - feat/webflow-nextjs-migration
+    paths:
+      - 'apps/web/**'
+      - 'migration/**'
+      - 'scripts/**'
+      - 'database/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/web-ci.yml'
+permissions:
+  contents: read
+jobs:
+  verify-web-app:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate Webflow source snapshots
+        run: node scripts/verify-webflow-export.mjs
+      - name: Test staging importer (no database access)
+        run: node scripts/seed-webflow-staging.mjs
+      - name: Install website dependencies
+        run: npm install --no-audit --no-fund
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Production build
+        env:
+          ENABLE_INDEXING: 'false'
+          NEXT_PUBLIC_SITE_ORIGIN: https://dgimos.webflow.io
+        run: npm run build
