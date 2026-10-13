@@ -3,7 +3,7 @@ import { canEdit, getRole, signedIn } from "../access";
 // Local media is staging-only; use S3-compatible storage before any production deployment.
 export const Media: CollectionConfig = {
   slug: "media",
-  upload: { staticDir: "media", mimeTypes: ["image/jpeg","image/png","image/webp","image/avif","image/svg+xml"] },
+  upload: { staticDir: "media", mimeTypes: ["image/jpeg","image/png","image/webp","image/avif"] },
   admin: { useAsTitle: "alt" },
   access: {
     create: canEdit, update: canEdit, read: signedIn,

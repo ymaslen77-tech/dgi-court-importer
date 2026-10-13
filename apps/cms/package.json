@@ -9,7 +9,8 @@
     "start": "next start -p 3001",
     "typecheck": "tsc --noEmit",
     "generate:importmap": "payload generate:importmap",
-    "generate:types": "payload generate:types"
+    "generate:types": "payload generate:types",
+    "bootstrap:admin": "tsx src/scripts/bootstrap-admin.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.0.0",
@@ -25,7 +26,8 @@
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "typescript": "^5.9.0"
+    "typescript": "^5.9.0",
+    "tsx": "^4.20.0"
   },
   "engines": {
     "node": ">=22"

@@ -21,9 +21,13 @@ Run on port 3001, admin at `/admin`. The CMS database schema is owned by
 Payload migrations. Do **not** run housing migrations 0001–0003 against this
 database or point the CMS at an existing production database.
 
-Before staff use: provision the first admin using a trusted **offline**
-Payload local-API script, never public user registration, and keep the CMS
-behind network access controls. Change production credentials and secret.
+Before staff use: provision the first admin once through the **offline**
+script while the service is not publicly exposed. Set
+`CMS_BOOTSTRAP_CONFIRM=yes`, `CMS_BOOTSTRAP_EMAIL`, and a
+`CMS_BOOTSTRAP_PASSWORD` of at least 16 characters, then run
+`pnpm --filter @dgi/cms bootstrap:admin`. Remove those environment variables
+after successful provisioning. A second bootstrap is refused.
+User creation through the HTTP API is admin-only. Keep CMS behind network access controls. Change production credentials and secret.
 Media are only stored locally in this staging implementation; use durable
 S3-compatible storage and explicit copyright verification before deploying
 media publicly. Never import unpublished Webflow text or private CMS exports

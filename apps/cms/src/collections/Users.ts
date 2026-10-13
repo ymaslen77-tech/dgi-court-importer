@@ -3,7 +3,7 @@ import { adminOnly, getRole, signedIn } from "../access";
 
 export const Users: CollectionConfig = {
   slug: "staff-users",
-  auth: { verify: true, maxLoginAttempts: 5, lockTime: 15 * 60 * 1000 },
+  auth: { maxLoginAttempts: 5, lockTime: 15 * 60 * 1000 },
   admin: { useAsTitle: "email" },
   access: {
     create: adminOnly, // No public self-registration or unauthenticated first-user signup.

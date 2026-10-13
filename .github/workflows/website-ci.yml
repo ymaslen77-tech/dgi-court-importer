@@ -6,6 +6,7 @@ on:
       - feature/nextjs-webflow-migration
     paths:
       - "apps/web/**"
+      - "apps/cms/**"
       - "db/**"
       - "scripts/**"
       - "docker-compose.yml"
@@ -17,6 +18,7 @@ on:
   pull_request:
     paths:
       - "apps/web/**"
+      - "apps/cms/**"
       - "db/**"
       - "scripts/**"
       - "docker-compose.yml"
@@ -169,3 +171,42 @@ jobs:
             console.log("Unreviewed blocked; reviewed published; edits revoked approval");
           } finally { await db.end(); }
           JS
+
+  cms-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: housing_cms_ci
+          POSTGRES_USER: housing_cms_ci
+          POSTGRES_PASSWORD: test-cms-password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U housing_cms_ci -d housing_cms_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    env:
+      CMS_DATABASE_URL: postgresql://housing_cms_ci:test-cms-password@127.0.0.1:5432/housing_cms_ci
+      PAYLOAD_SECRET: 4f2e916c-example-ci-only-change-for-production
+      NEXT_PUBLIC_CMS_URL: http://localhost:3001
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+      - name: Generate Payload import map
+        run: pnpm --filter @dgi/cms generate:importmap
+      - name: CMS typecheck
+        run: pnpm --filter @dgi/cms typecheck
+      - name: CMS production build
+        run: pnpm --filter @dgi/cms build
