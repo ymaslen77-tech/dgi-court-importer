@@ -16,6 +16,7 @@ export type CourtCandidate = {
 
 export type LegacyCase = {
   id: string;
+  slug: string;
   caseNumber: string;
   court: string;
   category: string;
