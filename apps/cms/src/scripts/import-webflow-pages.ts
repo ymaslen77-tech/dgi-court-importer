@@ -1,9 +1,10 @@
 // Idempotent import of previously public Webflow page snapshots as UNAPPROVED drafts.
 import { readFileSync } from "node:fs";
 
+type BlockKind = "h1" | "h2" | "h3" | "h4" | "p" | "link";
 type SourcePage = {
   slug: string; title: string; seoTitle: string; description: string;
-  source: string; blocks: Array<{ kind: string; text: string; href?: string }>;
+  source: string; blocks: Array<{ kind: BlockKind; text: string; href?: string }>;
 };
 const validKinds = new Set(["h1","h2","h3","h4","p","link"]);
 const pages: SourcePage[] = [];
