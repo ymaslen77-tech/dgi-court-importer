@@ -56,3 +56,8 @@ The home page is staged under slug `home`; map it to `/` only after review.
 The four Webflow CMS source collections also have an isolated **metadata-only**
 importer (see `docs/WEBFLOW_CMS_QUEUE.md`). None of these 50 source records
 are directly publishable, and repeated imports do not overwrite staff work.
+
+## Private full-text snapshots
+
+See `docs/WEBFLOW_PRIVATE_CONTENT_IMPORT.md` for the optional local-only
+full CMS source importer. It never approves or publishes source records.

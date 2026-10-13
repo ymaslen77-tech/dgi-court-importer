@@ -8,11 +8,12 @@ import { EditorialEntries } from "./collections/EditorialEntries";
 import { CourtReferences } from "./collections/CourtReferences";
 import { Media } from "./collections/Media";
 import { WebflowCmsReview } from "./collections/WebflowCmsReview";
+import { WebflowPrivateSources } from "./collections/WebflowPrivateSources";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 export default buildConfig({
   admin: { user: Users.slug, importMap: { baseDir: here } },
-  collections: [Users, EditorialEntries, CourtReferences, Media, WebflowCmsReview],
+  collections: [Users, EditorialEntries, CourtReferences, Media, WebflowCmsReview, WebflowPrivateSources],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
   db: postgresAdapter({pool:{connectionString:process.env.CMS_DATABASE_URL || ""}}),
