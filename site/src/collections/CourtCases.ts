@@ -2,7 +2,7 @@ import type { CollectionConfig } from 'payload'
 import { isOfficialCourtLink } from '../lib/official-link'
 export const CourtCases: CollectionConfig = {
   slug: 'court-cases', versions: { drafts: true }, admin: { useAsTitle: 'caseNumber' },
-  access: { read: ({ req }) => req.user ? true : { and: [{ _status: { equals: 'published' } }, { verifiedAct: { equals: true } }] },
+  access: { read: ({ req }) => req.user ? true : { _status: { equals: 'published' }, verifiedAct: { equals: true } },
     create: ({ req }) => Boolean(req.user), update: ({ req }) => Boolean(req.user), delete: ({ req }) => Boolean(req.user) },
   hooks: { beforeChange: [({ data, originalDoc }) => {
     if (data.verifiedAct ?? originalDoc?.verifiedAct) {

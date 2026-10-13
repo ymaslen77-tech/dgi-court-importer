@@ -2,7 +2,7 @@ import type { CollectionConfig } from 'payload'
 export const Pages: CollectionConfig = {
   slug: 'pages', admin: { useAsTitle: 'title' }, versions: { drafts: true },
   access: {
-    read: ({ req }) => req.user ? true : { and: [{ _status: { equals: 'published' } }, { migrationStatus: { equals: 'editorial_verified' } }] },
+    read: ({ req }) => req.user ? true : { _status: { equals: 'published' }, migrationStatus: { equals: 'editorial_verified' } },
     create: ({ req }) => Boolean(req.user), update: ({ req }) => Boolean(req.user), delete: ({ req }) => Boolean(req.user),
   },
   fields: [
