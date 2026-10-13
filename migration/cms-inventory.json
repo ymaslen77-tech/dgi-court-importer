@@ -130,7 +130,7 @@
             "court": "Нагатинский районный суд Москвы",
             "uid": null,
             "category": "Реновация",
-            "officialCaseUrl": null
+            "officialCaseUrl": "https://www.mos-gorsud.ru/mgs/services/cases/appeal-civil?caseNumber=33-&page=14"
           }
         },
         {
@@ -424,7 +424,7 @@
             "court": "Второй кассационный суд общей юрисдикции",
             "uid": "77RS0032-02-2024-008322-11",
             "category": "Бесхозяйные объекты недвижимости",
-            "officialCaseUrl": null
+            "officialCaseUrl": "https://2kas.sudrf.ru/modules.php?case_id=18112633&case_uid=33f150cf-a0d4-409b-b603-c2be007615da&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1"
           }
         },
         {
@@ -438,7 +438,7 @@
             "court": "Второй кассационный суд общей юрисдикции",
             "uid": "77RS0035-02-2022-000512-67",
             "category": "Собственность по приобретательной давности",
-            "officialCaseUrl": null
+            "officialCaseUrl": "https://2kas.sudrf.ru/modules.php?case_id=17983681&case_uid=301df5dc-24f6-4fd3-bd0e-53fe3b464061&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1"
           }
         },
         {
@@ -452,7 +452,7 @@
             "court": "Второй кассационный суд общей юрисдикции",
             "uid": "77RS0001-02-2024-012112-81",
             "category": "Компенсация при изъятии недвижимости",
-            "officialCaseUrl": null
+            "officialCaseUrl": "https://2kas.sudrf.ru/modules.php?case_id=18231736&case_uid=6e13d75c-0c64-41df-a31a-de1ddc2dfd31&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1"
           }
         },
         {
@@ -466,7 +466,7 @@
             "court": "Второй кассационный суд общей юрисдикции",
             "uid": "77RS0019-02-2025-000750-55",
             "category": "Изъятие имущества и компенсация",
-            "officialCaseUrl": null
+            "officialCaseUrl": "https://2kas.sudrf.ru/modules.php?case_id=18372552&case_uid=fb0cc7d0-1a95-4734-99f2-84cbcf562e7f&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1"
           }
         },
         {
@@ -480,7 +480,7 @@
             "court": "Второй кассационный суд общей юрисдикции",
             "uid": "77RS0013-02-2025-011552-74",
             "category": "Выселение с предоставлением другого жилья",
-            "officialCaseUrl": null
+            "officialCaseUrl": "https://2kas.sudrf.ru/modules.php?case_id=18910390&case_uid=207aa87d-e20e-49ea-bd58-14f1bc1f49b7&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1"
           }
         },
         {
@@ -494,7 +494,7 @@
             "court": "Второй кассационный суд общей юрисдикции",
             "uid": null,
             "category": "Договор аренды земельного участка",
-            "officialCaseUrl": null
+            "officialCaseUrl": "https://2kas.sudrf.ru/modules.php?case_id=17178494&case_uid=dc226637-f874-4209-9766-6cc784ddb970&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1"
           }
         },
         {
@@ -508,7 +508,7 @@
             "court": "Второй кассационный суд общей юрисдикции",
             "uid": "77RS0034-02-2024-025485-20",
             "category": "Признание права собственности",
-            "officialCaseUrl": null
+            "officialCaseUrl": "https://2kas.sudrf.ru/modules.php?case_id=17338162&case_uid=d920690b-6625-46d1-a56c-af4b81c5393c&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1"
           }
         },
         {
@@ -522,7 +522,7 @@
             "court": "Второй кассационный суд общей юрисдикции",
             "uid": "77RS0005-02-2022-002119-37",
             "category": "Право собственности и выселение",
-            "officialCaseUrl": null
+            "officialCaseUrl": "https://2kas.sudrf.ru/modules.php?case_id=16814499&case_uid=ac88b1a2-d389-48f4-a7b2-2438745b8596&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1"
           }
         }
       ]
@@ -540,7 +540,7 @@
           "metadata": {
             "actRef": "199-ПП от 15.05.2012",
             "topic": "Имущественно-земельные услуги",
-            "officialUrl": null
+            "officialUrl": "https://www.mos.ru/upload/documents/files/2650/4InformacionniimaterialnaPK_199-PP.pdf"
           }
         },
         {
@@ -552,7 +552,7 @@
           "metadata": {
             "actRef": "521-ПП от 10.09.2014",
             "topic": "Приватизация и жилищные государственные услуги",
-            "officialUrl": null
+            "officialUrl": "https://www.mos.ru/upload/documents/oiv/10092014-_-521_pp%281%29.pdf"
           }
         },
         {
@@ -564,7 +564,7 @@
           "metadata": {
             "actRef": "546-ПП от 15.11.2011",
             "topic": "Обжалование государственных услуг Москвы",
-            "officialUrl": null
+            "officialUrl": "https://www.mos.ru/upload/documents/oiv/pp_m_546_15_11_2011_r15.pdf"
           }
         },
         {
@@ -576,7 +576,7 @@
           "metadata": {
             "actRef": "99-ПП от 20.02.2013",
             "topic": "Полномочия ДГИ",
-            "officialUrl": null
+            "officialUrl": "https://www.mos.ru/upload/content/files/1_PolojenieoDGI.pdf"
           }
         }
       ]
@@ -593,7 +593,7 @@
           "title": "Иск ДГИ о выселении",
           "metadata": {
             "category": "Пользование жильём",
-            "siteSection": null
+            "siteSection": "https://dgimos.webflow.io/socialnyj-naem#guide-social-rent"
           }
         },
         {
@@ -604,7 +604,7 @@
           "title": "Отказ ДГИ в аренде или выкупе земли",
           "metadata": {
             "category": "Земля и аренда",
-            "siteSection": null
+            "siteSection": "https://dgimos.webflow.io/gorodskoe-imushchestvo-i-zemlya"
           }
         },
         {
@@ -615,7 +615,7 @@
           "title": "Отказ ДГИ в приватизации жилья",
           "metadata": {
             "category": "Жилищные права",
-            "siteSection": null
+            "siteSection": "https://dgimos.webflow.io/privatizaciya-zhilya#guide-privatization"
           }
         },
         {
@@ -626,7 +626,7 @@
           "title": "Снятие с жилищного учёта",
           "metadata": {
             "category": "Жилищный учёт",
-            "siteSection": null
+            "siteSection": "https://dgimos.webflow.io/zhilishchnyj-uchet#guide-housing-records"
           }
         },
         {
@@ -637,7 +637,7 @@
           "title": "Спор при переселении и реновации",
           "metadata": {
             "category": "Реновация и переселение",
-            "siteSection": null
+            "siteSection": "https://dgimos.webflow.io/renovaciya-pereselenie#guide-renovation-check"
           }
         },
         {
@@ -648,7 +648,7 @@
           "title": "Спор о выморочном наследственном имуществе",
           "metadata": {
             "category": "Наследство и городская собственность",
-            "siteSection": null
+            "siteSection": "https://dgimos.webflow.io/vymorochnoe-imushchestvo-moskva"
           }
         }
       ]
@@ -666,7 +666,7 @@
           "metadata": {
             "category": "ЖКХ / бюджет",
             "source": "ГАРАНТ.РУ",
-            "sourceUrl": null,
+            "sourceUrl": "https://www.garant.ru/news/2264077/",
             "sourceDate": "2026-10-05T11:10:00.000Z"
           }
         },
@@ -679,7 +679,7 @@
           "metadata": {
             "category": "Документы / регистрация",
             "source": "ГАРАНТ.РУ",
-            "sourceUrl": null,
+            "sourceUrl": "https://www.garant.ru/news/2262611/",
             "sourceDate": "2026-10-02T14:37:00.000Z"
           }
         },
@@ -692,7 +692,7 @@
           "metadata": {
             "category": "Недвижимость / законопроект",
             "source": "ГАРАНТ.РУ",
-            "sourceUrl": null,
+            "sourceUrl": "https://www.garant.ru/news/2263304/",
             "sourceDate": "2026-10-06T14:15:00.000Z"
           }
         }
