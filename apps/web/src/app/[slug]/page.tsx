@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params, page = getPage(slug);
   if (!page) return {};
   return {
-    title: page.seo.title || page.title,
+    title: { absolute: page.seo.title || page.title },
     description: page.seo.description || undefined,
     alternates: { canonical: canonicalUrl('/' + slug) },
     openGraph: {

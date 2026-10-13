@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params, record = publicCourtBySlug(slug);
   if (!record) return {};
   return {
-    title: record.title,
+    title: { absolute: record.title },
     description: 'Сведения о судебном деле ' + (record.number || record.title) +
       '. Первичный акт и история пересмотра требуют отдельной проверки.',
     alternates: { canonical: canonicalUrl('/dgi-court-cases/' + slug) },

@@ -6,7 +6,7 @@ import { canonicalUrl } from '@/lib/site';
 
 const page = getPage('');
 export const metadata: Metadata = {
-  title: page?.seo.title || 'Жилищные вопросы Москвы',
+  title: { absolute: page?.seo.title || 'Жилищные вопросы Москвы' },
   description: page?.seo.description || 'Пошаговые инструкции по жилищным вопросам Москвы.',
   alternates: { canonical: canonicalUrl('/') },
 };
@@ -71,7 +71,7 @@ export default function Home() {
       <div className="container">
         <div className="section-heading"><p className="eyebrow">ИСХОДНЫЕ МАТЕРИАЛЫ WEBFLOW</p>
           <h2>Дополнительная справочная информация</h2></div>
-        <SourceContent page={page} />
+        <SourceContent page={{ ...page, blocks: page.blocks.slice(0, 32) }} />
       </div>
     </section>
   </>;

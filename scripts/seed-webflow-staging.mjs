@@ -36,7 +36,8 @@ try {
        ON CONFLICT (webflow_id) DO UPDATE SET
        slug=EXCLUDED.slug,title=EXCLUDED.title,seo_title=EXCLUDED.seo_title,
        seo_description=EXCLUDED.seo_description,content_blocks=EXCLUDED.content_blocks,
-       source_links=EXCLUDED.source_links,imported_at=now()`,
+       source_links=EXCLUDED.source_links,imported_at=now()
+       WHERE webflow_source_pages.migration_state = 'staged'`,
       [p.webflowId,p.slug,p.title,p.seo.title,p.seo.description,JSON.stringify(p.blocks),JSON.stringify(p.links)]
     );
   }
