@@ -1,0 +1,13 @@
+{
+  "name": "moscow-housing-platform",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": ["apps/web"],
+  "scripts": {
+    "dev": "npm run dev --workspace @housing/web",
+    "build": "npm run build --workspace @housing/web",
+    "typecheck": "npm run typecheck --workspace @housing/web",
+    "start": "npm run start --workspace @housing/web"
+  },
+  "engines": {"node": ">=22.0.0"}
+}
