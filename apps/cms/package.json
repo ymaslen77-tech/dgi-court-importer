@@ -15,7 +15,8 @@
     "import:webflow:apply": "tsx src/scripts/import-webflow-pages.ts --apply",
     "promote:web:dry-run": "tsx src/scripts/promote-to-web.ts --dry-run",
     "promote:web:apply": "tsx src/scripts/promote-to-web.ts --apply",
-    "test": "tsx --test tests/*.test.ts"
+    "test": "tsx --test tests/*.test.ts",
+    "verify:staging": "tsx src/scripts/verify-staging.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.0.0",

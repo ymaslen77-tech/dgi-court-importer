@@ -212,5 +212,24 @@ jobs:
         run: pnpm --filter @dgi/cms test
       - name: CMS typecheck
         run: pnpm --filter @dgi/cms typecheck
+      - name: Bootstrap administrator in disposable CMS DB
+        env:
+          NODE_ENV: development
+          CMS_BOOTSTRAP_CONFIRM: "yes"
+          CMS_BOOTSTRAP_EMAIL: ci-admin@example.com
+          CMS_BOOTSTRAP_PASSWORD: ci-only-never-reused-strong-password
+        run: pnpm --filter @dgi/cms bootstrap:admin
+      - name: Import 33 public Webflow snapshots as drafts twice
+        env:
+          NODE_ENV: development
+          CMS_PRIVATE_IMPORT: "yes"
+          CMS_IMPORT_CONFIRM: "yes"
+        run: |
+          pnpm --filter @dgi/cms import:webflow:apply
+          pnpm --filter @dgi/cms import:webflow:apply
+      - name: Verify CMS staging state
+        env:
+          NODE_ENV: development
+        run: pnpm --filter @dgi/cms verify:staging
       - name: CMS production build
         run: pnpm --filter @dgi/cms build
