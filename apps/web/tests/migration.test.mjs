@@ -35,3 +35,24 @@ test("legacy court data has no asserted judgment outcome", () => {
     assert.ok(!Object.hasOwn(c, "parties"));
   }
 });
+
+test("all preserved deep links resolve to migrated heading anchors", () => {
+  const anchors = JSON.parse(readFileSync(new URL("../src/data/legacy-anchors.json", import.meta.url), "utf8"));
+  const ids = new Set();
+  for (const anchor of anchors) {
+    const page = pages.find((p) => p.slug === anchor.slug);
+    assert.ok(page, `Unknown destination page: ${anchor.slug}`);
+    assert.ok(page.blocks.some((b) => /^h[1-4]$/.test(b.kind) && b.text === anchor.heading),
+      `Destination heading missing: ${anchor.slug}#${anchor.id}`);
+    const unique = `${anchor.slug}#${anchor.id}`;
+    assert.ok(!ids.has(unique), `Duplicate anchor: ${unique}`);
+    ids.add(unique);
+  }
+  for (const page of pages) for (const block of page.blocks) {
+    if (block.kind !== "link" || !block.href?.startsWith("/") || !block.href.includes("#")) continue;
+    const [path, fragment] = block.href.split("#");
+    const targetSlug = path.replace(/^\\/|\\/$/g, "");
+    assert.ok(ids.has(`${targetSlug}#${fragment}`),
+      `Broken deep link from ${page.slug}: ${block.href}`);
+  }
+});

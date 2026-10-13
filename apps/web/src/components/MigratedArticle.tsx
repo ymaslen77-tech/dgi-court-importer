@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { MigratedBlock, MigratedPage } from "@/data/pages";
+import legacyAnchors from "@/data/legacy-anchors.json";
 
 const sanitizeHref = (href?: string) => {
   if (!href) return undefined;
@@ -8,10 +9,14 @@ const sanitizeHref = (href?: string) => {
   return undefined;
 };
 
-function ContentBlock({ block }: { block: MigratedBlock }) {
-  if (block.kind === "h1" || block.kind === "h2") return <h2 className="article-h2">{block.text}</h2>;
-  if (block.kind === "h3") return <h3 className="article-h3">{block.text}</h3>;
-  if (block.kind === "h4") return <h4 className="article-h4">{block.text}</h4>;
+function ContentBlock({ block, pageSlug }: { block: MigratedBlock; pageSlug: string }) {
+  // Preserve deep links from the original Webflow landing pages.
+  const anchor = legacyAnchors.find((item) =>
+    item.slug === pageSlug && item.heading === block.text
+  )?.id;
+  if (block.kind === "h1" || block.kind === "h2") return <h2 id={anchor} className="article-h2">{block.text}</h2>;
+  if (block.kind === "h3") return <h3 id={anchor} className="article-h3">{block.text}</h3>;
+  if (block.kind === "h4") return <h4 id={anchor} className="article-h4">{block.text}</h4>;
   if (block.kind === "link") {
     const href = sanitizeHref(block.href);
     if (!href) return null;
@@ -44,7 +49,7 @@ export function MigratedArticle({ page, home = false }: { page: MigratedPage; ho
       <section className="article-section" id="material">
         <div className="container content-layout">
           <article className="article">
-            {body.map((block, i) => <ContentBlock key={`${i}-${block.kind}`} block={block} />)}
+            {body.map((block, i) => <ContentBlock key={`${i}-${block.kind}`} block={block} pageSlug={page.slug} />)}
           </article>
           <aside className="article-aside">
             <div className="aside-panel">
