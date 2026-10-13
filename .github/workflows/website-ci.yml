@@ -206,6 +206,8 @@ jobs:
         run: pnpm install --no-frozen-lockfile
       - name: Generate Payload import map
         run: pnpm --filter @dgi/cms generate:importmap
+      - name: Validate safe Webflow draft inventory
+        run: pnpm --filter @dgi/cms import:webflow:dry-run
       - name: CMS typecheck
         run: pnpm --filter @dgi/cms typecheck
       - name: CMS production build

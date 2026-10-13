@@ -40,3 +40,15 @@ into Git. Do not mark an unverified court outcome as a verified judgment.
 This is the CMS foundation. Publishing from Payload into `editorial_pages`
 is **not yet wired**. That bridge needs explicit audited promotion, source
 verification, a separate approval identity and end-to-end tests.
+
+## Reproducible public page import
+
+The 33 previously public Webflow page snapshots can be imported **as drafts**.
+First run `pnpm --filter @dgi/cms import:webflow:dry-run` (no DB).
+For a one-time local import set `CMS_PRIVATE_IMPORT=yes`,
+`CMS_IMPORT_CONFIRM=yes`, the private CMS database URL and a strong
+Payload secret, then run `pnpm --filter @dgi/cms import:webflow:apply`.
+The importer is idempotent and does not overwrite previously edited
+records. It creates **zero approvals and zero publications**. It does
+not import unpublished CMS content, legal interpretations or case outcomes.
+The home page is staged under slug `home`; map it to `/` only after review.

@@ -10,7 +10,9 @@
     "typecheck": "tsc --noEmit",
     "generate:importmap": "payload generate:importmap",
     "generate:types": "payload generate:types",
-    "bootstrap:admin": "tsx src/scripts/bootstrap-admin.ts"
+    "bootstrap:admin": "tsx src/scripts/bootstrap-admin.ts",
+    "import:webflow:dry-run": "tsx src/scripts/import-webflow-pages.ts --dry-run",
+    "import:webflow:apply": "tsx src/scripts/import-webflow-pages.ts --apply"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.0.0",

@@ -19,8 +19,19 @@ export const EditorialEntries: CollectionConfig = {
   hooks: {
     beforeChange: [({ data, originalDoc, req }) => {
       const role = getRole(req.user);
-      if (!role) throw new Error("Authenticated CMS staff account required");
+      const privateImport = process.env.CMS_PRIVATE_IMPORT === "yes" &&
+        req.context?.migrationSource === "webflow-public-pages";
+      if (!role && !privateImport) throw new Error("Authenticated CMS staff account required");
       const record = data as Record<string, unknown>;
+      if (privateImport) {
+        // Only an explicitly enabled local import may bypass staff auth.
+        // It can never create a published or approved document.
+        record._status = "draft";
+        record.reviewState = "needs-review";
+        record.reviewedBy = null;
+        record.reviewedAt = null;
+        return record;
+      }
       const previous = (originalDoc ?? {}) as Record<string, unknown>;
       const edited = changed(record, previous);
       if (role === "editor") {
