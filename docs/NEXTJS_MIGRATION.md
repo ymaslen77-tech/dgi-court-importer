@@ -63,3 +63,26 @@ court_catalog.py + importer.py + news_importer.py (existing Python jobs)
 **Этап 4:** хранение судебных источников, индекс/поиск по реальной базе, задания импорта, связи инстанций, аналитика качества.
 
 **Этап 5:** полное SEO-сравнение, производительность, миграция домена с сохранением URL, наблюдение за индексированием и ошибками.
+
+## Этап 2: PostgreSQL, тестовый импорт данных
+
+Добавлены scripts/lib/prepare-migration-data.mjs и scripts/import-snapshots-to-db.mjs.
+Импортируются 33 публичные страницы Webflow в статусе review, 22 старые
+непроверенные карточки и кандидаты из data/court-catalog.jsonl.
+Все судебные карточки остаются act_verified=false и без опубликованных исходов.
+Заголовки ранее опубликованных карточек с неподтверждёнными выводами не копируются.
+Повторный импорт через upsert не должен перезаписывать материалы со статусом
+verified или published. Связь инстанций по УИД — будущая отдельная процедура.
+
+Локально: установите Node.js 22, pnpm, Docker Compose и клиент psql.
+Скопируйте .env.example в .env, замените пароль и загрузите переменные
+POSTGRES_PASSWORD, POSTGRES_PORT, DATABASE_URL в окружение.
+Выполните docker compose up -d database; pnpm install --no-frozen-lockfile;
+pnpm migration:dry-run; psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/0001_initial.sql.
+Только на тестовой БД выполните pnpm migration:apply.
+
+CI db-checks запускает отдельный PostgreSQL 17, накатывает схему, импортирует
+данные дважды и проверяет отсутствие дублей и ложной публикации.
+Приложение Next.js пока отображает локальные снимки, а не БД; Payload CMS,
+авторизация редакторов и поиск по PostgreSQL ещё не подключены.
+Webflow/DNS остаются без изменений.

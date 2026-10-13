@@ -7,6 +7,9 @@ on:
     paths:
       - "apps/web/**"
       - "db/**"
+      - "scripts/**"
+      - "docker-compose.yml"
+      - ".env.example"
       - "scripts/export-webflow.mjs"
       - "package.json"
       - "pnpm-workspace.yaml"
@@ -15,6 +18,9 @@ on:
     paths:
       - "apps/web/**"
       - "db/**"
+      - "scripts/**"
+      - "docker-compose.yml"
+      - ".env.example"
       - "scripts/export-webflow.mjs"
       - "package.json"
       - "pnpm-workspace.yaml"
@@ -39,6 +45,8 @@ jobs:
         run: pnpm install --no-frozen-lockfile
       - name: Validate migration inventory
         run: pnpm test
+      - name: Validate staging preview
+        run: pnpm migration:dry-run
       - name: TypeScript typecheck
         run: pnpm typecheck
       - name: Compile Next.js
@@ -46,3 +54,68 @@ jobs:
           SITE_CUTOVER: "false"
           NEXT_TELEMETRY_DISABLED: "1"
         run: pnpm build
+
+  db-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: housing_ci
+          POSTGRES_USER: housing_ci
+          POSTGRES_PASSWORD: ci-only-password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U housing_ci -d housing_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    env:
+      DATABASE_URL: postgresql://housing_ci:ci-only-password@127.0.0.1:5432/housing_ci
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+      - name: Apply schema to disposable test DB
+        run: |
+          node --input-type=module <<'JS'
+          import pg from "pg";
+          import { readFileSync } from "node:fs";
+          const db = new pg.Client({ connectionString: process.env.DATABASE_URL });
+          await db.connect();
+          await db.query(readFileSync("db/migrations/0001_initial.sql", "utf8"));
+          await db.end();
+          JS
+      - name: Test idempotent staging migration
+        run: |
+          pnpm migration:apply
+          pnpm migration:apply
+      - name: Verify staging database integrity
+        run: |
+          node --input-type=module <<'JS'
+          import pg from "pg";
+          import { prepareMigrationData } from "./scripts/lib/prepare-migration-data.mjs";
+          const expected=prepareMigrationData().counts;
+          const db=new pg.Client({connectionString:process.env.DATABASE_URL});
+          await db.connect();
+          const count=async(sql)=>Number((await db.query(sql)).rows[0].count);
+          const pages=await count("SELECT count(*) FROM editorial_pages");
+          const cases=await count("SELECT count(*) FROM court_cases");
+          const instances=await count("SELECT count(*) FROM court_instances");
+          const sources=await count("SELECT count(*) FROM court_sources");
+          const badCases=await count("SELECT count(*) FROM court_cases WHERE act_verified=true OR editorial_status='published'");
+          const badPages=await count("SELECT count(*) FROM editorial_pages WHERE editorial_status='published'");
+          await db.end();
+          if(pages!==expected.pages || cases!==expected.candidateRows || instances!==expected.candidateRows ||
+              sources!==expected.officialCandidates || badCases || badPages)
+            throw new Error(JSON.stringify({pages,cases,instances,sources,badCases,badPages,expected}));
+          console.log({pages,cases,instances,sources,publications:0});
+          JS
