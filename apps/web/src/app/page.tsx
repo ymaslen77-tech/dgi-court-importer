@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { PageShell } from "@/components/PageShell";
 import { MigratedArticle } from "@/components/MigratedArticle";
-import { getMigratedPage } from "@/data/pages";
+import { canonicalUrl, getMigratedPage, siteIsLive } from "@/data/pages";
+import { getPublishedEditorialPage } from "@/data/published";
+import type { Metadata } from "next";
 
 const topics = [
   ["Приватизация жилья", "/privatizaciya-zhilya", "Права участников, документы и обжалование отказов"],
@@ -12,8 +14,21 @@ const topics = [
   ["Судебная практика", "/sudebnaya-praktika-dgi", "Карточки дел, инстанции и первоисточники"],
 ] as const;
 
-export default function HomePage() {
-  const page = getMigratedPage("");
+export const dynamic = "force-dynamic";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const page = (await getPublishedEditorialPage("")) ?? getMigratedPage("");
+  if (!page) return {};
+  return {
+    title: { absolute: page.seoTitle },
+    description: page.description,
+    alternates: { canonical: canonicalUrl(page) },
+    robots: siteIsLive ? { index: true, follow: true } : { index: false, follow: false },
+  };
+}
+
+export default async function HomePage() {
+  const page = (await getPublishedEditorialPage("")) ?? getMigratedPage("");
   if (!page) return null;
   return (
     <PageShell>
