@@ -1,0 +1,12 @@
+{
+  "name": "dgi-housing-platform",
+  "private": true,
+  "packageManager": "pnpm@10.0.0",
+  "scripts": {
+    "dev": "pnpm --filter @dgi/web dev",
+    "build": "pnpm --filter @dgi/web build",
+    "typecheck": "pnpm --filter @dgi/web typecheck",
+    "test": "pnpm --filter @dgi/web test"
+  },
+  "engines": { "node": ">=22" }
+}
