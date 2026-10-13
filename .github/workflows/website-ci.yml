@@ -58,6 +58,16 @@ jobs:
           SITE_CUTOVER: "false"
           NEXT_TELEMETRY_DISABLED: "1"
         run: pnpm build
+      - name: Check 33 routes and staging SEO over HTTP
+        env:
+          SITE_CUTOVER: "false"
+          CMS_PUBLIC_READS: "false"
+          COURT_DB_READS: "false"
+        run: |
+          (pnpm --filter @dgi/web start > /tmp/dgi-next-staging.log 2>&1) &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true; cat /tmp/dgi-next-staging.log' EXIT
+          node scripts/smoke-next-staging.mjs
 
   db-checks:
     runs-on: ubuntu-latest
