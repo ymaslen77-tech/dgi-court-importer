@@ -72,7 +72,6 @@ a:focus-visible, summary:focus-visible { outline: 3px solid var(--red-light); ou
 .source-article .source-item { padding-left: 17px; border-left: 3px solid var(--red); background: #f8f8f8; padding-top: 9px; padding-bottom: 9px; margin-bottom: 11px; }
 .original-copy { background: #f8f8f8; }
 .original-copy .source-article { background: white; padding: 28px; }
-.original-copy .source-article > :nth-child(n+26) { display: none; }
 .links-section { border-top: 3px solid var(--red); padding: 26px 0; margin-top: 54px; }
 .links-section h2 { font-size: 29px; }
 .link-chips { display: flex; flex-wrap: wrap; gap: 11px; }
