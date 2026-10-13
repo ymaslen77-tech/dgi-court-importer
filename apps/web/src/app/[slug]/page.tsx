@@ -28,8 +28,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ContentPage({ params }: Props) {
   const { slug } = await params;
-  const page = getMigratedPage(slug);
-  if (!page || slug === "sudebnaya-praktika-dgi") notFound();
+  if (slug === "sudebnaya-praktika-dgi") notFound();
+  // Render the same approved editorial revision used for metadata and sitemap.
+  const page = (await getPublishedEditorialPage(slug)) ?? getMigratedPage(slug);
+  if (!page) notFound();
   return (
     <PageShell>
       <MigratedArticle page={page} />
