@@ -1,0 +1,37 @@
+name: Site migration checks
+on:
+  pull_request:
+    paths:
+      - "site/**"
+      - ".github/workflows/site-migration-ci.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  web-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: site
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: "10.27.0"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: pnpm
+          cache-dependency-path: site/package.json
+      - name: Install exact direct dependency versions
+        run: pnpm install --no-frozen-lockfile
+      - name: Test manifest and official court links
+        run: pnpm test
+      - name: Generate CMS import map and check types
+        run: |
+          pnpm generate:importmap
+          pnpm typecheck
+        env:
+          PAYLOAD_SECRET: ci-only-random-placeholder-not-for-deploy
+          DATABASE_URL: postgresql://test:test@127.0.0.1:5432/not_connected
