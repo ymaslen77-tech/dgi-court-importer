@@ -56,3 +56,9 @@ test("all preserved deep links resolve to migrated heading anchors", () => {
       `Broken deep link from ${page.slug}: ${block.href}`);
   }
 });
+
+test("content routes render reviewed CMS pages, including new slugs", () => {
+  const route = readFileSync(new URL("../src/app/[slug]/page.tsx", import.meta.url), "utf8");
+  assert.match(route, /const page = \(await getPublishedEditorialPage\(slug\)\) \?\? getMigratedPage\(slug\)/);
+  assert.ok(!route.includes("const page = getMigratedPage(slug);"));
+});
