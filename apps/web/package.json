@@ -11,12 +11,16 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "test": "node --test tests/*.test.mjs"
+    "test": "node --test tests/*.test.mjs",
+    "migrate": "node scripts/migrate.mjs",
+    "court:dry-run": "node scripts/import-court-candidates.mjs",
+    "webflow:export": "node scripts/export-webflow.mjs"
   },
   "dependencies": {
     "next": "^16.4.0",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "pg": "^8.16.0"
   },
   "devDependencies": {
     "typescript": "^6.0.3",
@@ -24,6 +28,7 @@
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "tailwindcss": "^4.1.0",
-    "@tailwindcss/postcss": "^4.1.0"
+    "@tailwindcss/postcss": "^4.1.0",
+    "@types/pg": "^8.15.0"
   }
 }

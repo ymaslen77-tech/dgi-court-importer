@@ -1,0 +1,35 @@
+name: Housing website — Next.js checks
+on:
+  pull_request:
+    paths:
+      - 'apps/web/**'
+      - 'db/**'
+      - '.github/workflows/site-ci.yml'
+      - 'data/court-catalog.jsonl'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  web:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: apps/web
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+      SITE_INDEXABLE: "false"
+      NEXT_PUBLIC_SITE_URL: "http://localhost:3000"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.15.0'
+      - name: Install dependencies (lockfile to follow before release)
+        run: npm install --no-audit --no-fund
+      - name: Route inventory tests
+        run: npm test
+      - name: TypeScript check
+        run: npm run typecheck
+      - name: Production build
+        run: npm run build
