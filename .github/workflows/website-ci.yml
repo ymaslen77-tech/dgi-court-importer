@@ -98,6 +98,7 @@ jobs:
           await db.query(readFileSync("db/migrations/0001_initial.sql", "utf8"));
           await db.query(readFileSync("db/migrations/0002_webflow_cms_staging.sql", "utf8"));
           await db.query(readFileSync("db/migrations/0003_editorial_publication.sql", "utf8"));
+          await db.query(readFileSync("db/migrations/0004_court_search.sql", "utf8"));
           await db.end();
           JS
       - name: Test idempotent staging migration
@@ -132,6 +133,8 @@ jobs:
           console.log({pages,cases,instances,sources,cms,publications:0});
           JS
 
+      - name: Verify court metadata search indexes and keyset paging
+        run: node scripts/tests/court-search-integration.mjs
       - name: Verify editorial publishing is fail-closed
         run: |
           node --input-type=module <<'JS'

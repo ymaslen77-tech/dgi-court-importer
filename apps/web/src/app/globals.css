@@ -97,3 +97,13 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
 }
+
+
+.court-form-action { display: flex; align-items: end; }
+.court-form-action button, .court-more {
+  background: var(--red); color: white; border: 0; padding: 15px 18px;
+  font-weight: 850; font-size: 13px; cursor: pointer; min-height: 49px;
+}
+.court-form-action button:disabled, .court-more:disabled { opacity: .6; cursor: progress; }
+.court-more { margin: 25px 0; }
+.court-error { color: #a21125; font-weight: 700; }

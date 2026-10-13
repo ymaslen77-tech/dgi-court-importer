@@ -3,7 +3,7 @@ import { PageShell } from "@/components/PageShell";
 import { CourtExplorer, type CourtListing } from "@/components/CourtExplorer";
 import { legacyCases, listOfficialCandidates } from "@/data/courts";
 import { canonicalUrl, getMigratedPage, siteIsLive } from "@/data/pages";
-import { listCourtListingsFromDb } from "@/data/court-database";
+import { CourtDatabaseExplorer } from "@/components/CourtDatabaseExplorer";
 
 const page = getMigratedPage("sudebnaya-praktika-dgi");
 // When enabled, this is a dynamic database-backed view.
@@ -36,7 +36,7 @@ export default async function CourtPracticePage() {
       source: "official-candidate" as const,
     })),
   ];
-  const entries = await listCourtListingsFromDb() ?? snapshots;
+  const databaseMode = process.env.COURT_DB_READS === "true";
   return (
     <PageShell>
       <section className="hero">
@@ -49,7 +49,7 @@ export default async function CourtPracticePage() {
           </p>
         </div>
       </section>
-      <CourtExplorer cases={entries} />
+      {databaseMode ? <CourtDatabaseExplorer /> : <CourtExplorer cases={snapshots} />}
     </PageShell>
   );
 }
