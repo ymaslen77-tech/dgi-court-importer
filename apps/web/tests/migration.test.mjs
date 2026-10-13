@@ -51,7 +51,7 @@ test("all preserved deep links resolve to migrated heading anchors", () => {
   for (const page of pages) for (const block of page.blocks) {
     if (block.kind !== "link" || !block.href?.startsWith("/") || !block.href.includes("#")) continue;
     const [path, fragment] = block.href.split("#");
-    const targetSlug = path.replace(/^\\/|\\/$/g, "");
+    const targetSlug = path.split("/").filter(Boolean).join("/");
     assert.ok(ids.has(`${targetSlug}#${fragment}`),
       `Broken deep link from ${page.slug}: ${block.href}`);
   }
