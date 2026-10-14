@@ -46,7 +46,8 @@ test("source corrections: ЖКУ provider and citizen-oriented УК guide",()=>{
  const get=slug=>data.guides.find(x=>x.slug===slug);
  assert.match(get("subsidiya-na-oplatu-zhku-moskva").legal,/Городской центр жилищных субсидий/);
  assert.ok(get("proverka-upravlyayushchey-kompanii").sources.some(s=>s.url.includes("/_citizen/")));
- assert.ok(get("deprivatizatsiya-kvartiry-moskva").sources.some(s=>s.url.endsWith("/1368-PP.pdf")));
+ assert.ok(get("deprivatizatsiya-kvartiry-moskva").sources.some(s=>s.url.includes("AdministrativniireglamentkPrilojeniu1.pdf")));
+ assert.match(get("deprivatizatsiya-kvartiry-moskva").legal,/приложение 5/);
  assert.match(get("pereregistratsiya-zhilishchnyy-uchet").legal,/пять лет/);
 });
 
@@ -77,7 +78,9 @@ test("2026 edition research cannot be misrepresented as a checked current legal 
   assert.equal(row.approved,false);
  }
  const reform=catalog.laws.find(x=>x.id==="521-pp");
- assert.equal(reform.sourceScope,"amending_act_2019");
+ assert.equal(reform.sourceScope,"appendix_5_historical_2022");
+ assert.match(reform.subject,/приложение 5/);
+ assert.match(reform.subject,/приложение 14.*утратило силу/);
  const subsidy=housingLaw=>data.guides.find(g=>g.slug===housingLaw);
  assert.match(subsidy("subsidiya-na-oplatu-zhku-moskva").legal,/18\.08\.2026/);
  assert.match(subsidy("deprivatizatsiya-kvartiry-moskva").legal,/05\.05\.2026/);
