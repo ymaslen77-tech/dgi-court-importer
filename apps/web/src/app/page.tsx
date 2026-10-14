@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { PageShell } from "@/components/PageShell";
 import { MigratedArticle } from "@/components/MigratedArticle";
-import { canonicalUrl, getMigratedPage, siteIsLive } from "@/data/pages";
+import { canIndexPage, canonicalUrl, getMigratedPage, siteIsLive } from "@/data/pages";
+import { notFound } from "next/navigation";
 import { getPublishedEditorialPage } from "@/data/published";
 import type { Metadata } from "next";
 
@@ -17,19 +18,19 @@ const topics = [
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = (await getPublishedEditorialPage("")) ?? getMigratedPage("");
+  const page = (await getPublishedEditorialPage("")) ?? (!siteIsLive ? getMigratedPage("") : undefined);
   if (!page) return {};
   return {
     title: { absolute: page.seoTitle },
     description: page.description,
-    alternates: siteIsLive ? { canonical: canonicalUrl(page) } : undefined,
-    robots: siteIsLive ? { index: true, follow: true } : { index: false, follow: false },
+    alternates: canIndexPage(page) ? { canonical: canonicalUrl(page) } : undefined,
+    robots: canIndexPage(page) ? { index: true, follow: true } : { index: false, follow: false },
   };
 }
 
 export default async function HomePage() {
-  const page = (await getPublishedEditorialPage("")) ?? getMigratedPage("");
-  if (!page) return null;
+  const page = (await getPublishedEditorialPage("")) ?? (!siteIsLive ? getMigratedPage("") : undefined);
+  if (!page) notFound();
   return (
     <PageShell variant="home">
       <MigratedArticle page={page} home afterHero={
