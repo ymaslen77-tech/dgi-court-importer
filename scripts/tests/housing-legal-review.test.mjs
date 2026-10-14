@@ -71,7 +71,7 @@ test("2026 edition research cannot be misrepresented as a checked current legal 
  const updatedIds=["housing-code","47-rf","491-rf","111-pp","521-pp"];
  for(const id of updatedIds){
   const row=catalog.laws.find(x=>x.id===id);
-  assert.ok(/^\\d{2}\\.\\d{2}\\.2026$/.test(row?.revisionResearch?.editionDate ?? ""),`No 2026 research date for ${id}`);
+  assert.ok(/^\d{2}\.\d{2}\.2026$/.test(row?.revisionResearch?.editionDate ?? ""),`No 2026 research date for ${id}`);
   assert.equal(row.revisionResearch.officialCurrentTextChecked,false);
   assert.equal(row.currentVersionVerified,false);
   assert.equal(row.approved,false);
