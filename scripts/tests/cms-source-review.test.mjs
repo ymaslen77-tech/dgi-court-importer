@@ -56,3 +56,23 @@ test("legal acts, situations and news remain non-publishable without full source
   assert.ok(["official_historical_document_revision_unverified","topic_existing_page_source_unverified","secondary_news_primary_source_unverified"].includes(record.reviewStatus));
  }
 });
+
+test("all 50 source CMS entries were cross-checked for content completeness and publication safety",()=>{
+ for(const record of audit.records){
+  const state=record.sourceCmsCheck;
+  assert.ok(state,`No CMS read for ${record.slug}`);
+  assert.equal(state.checkedOn,audit.checkedOn);
+  assert.equal(state.sourceVersion,"live collection read");
+  assert.ok(Number.isInteger(state.fieldsPresent)&&state.fieldsPresent>0);
+  assert.equal(state.reviewedByEditor,false);
+  assert.equal(record.approvedForPublication,false);
+ }
+ const situ=audit.records.filter(x=>x.collection==="dgi-legal-situations");
+ const news=audit.records.filter(x=>x.collection==="housing-law-news");
+ assert.ok(situ.every(x=>x.sourceCmsCheck.richTextFound));
+ assert.ok(news.every(x=>x.sourceCmsCheck.richTextFound));
+ assert.equal(audit.records.filter(x=>!x.sourceCmsCheck.isSourceDraft).length,22);
+ const verdicts=audit.records.filter(x=>x.collection==="dgi-court-cases"&&x.sourceCmsCheck.caseVerdictFieldPopulated);
+ assert.equal(verdicts.length,29);
+ assert.ok(verdicts.every(x=>!x.legalActVerified));
+});
