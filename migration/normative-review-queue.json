@@ -1,0 +1,39 @@
+{
+  "reviewDate": "2026-10-14",
+  "overallStatus": "NOT_APPROVED",
+  "policy": "Evidence discovery only; do not publish as current law or automatically update Webflow.",
+  "documents": [
+    {
+      "slug": "regulation-199-pp",
+      "source": "https://www.mos.ru/upload/documents/files/2650/4InformacionniimaterialnaPK_199-PP.pdf",
+      "observedSource": "Справочный материал об истории изменений",
+      "finding": "Обзор КонсультантПлюс от 23.03.2026 перечисляет 199-ПП в редакции от 12.03.2026; указанная в CMS ссылка сама по себе не подтверждает действующую редакцию.",
+      "evidence": "https://www.consultant.ru/law/review/reg/rlawc/mcw2026-03-23.html",
+      "status": "primary_current_text_required"
+    },
+    {
+      "slug": "regulation-521-pp",
+      "source": "https://www.mos.ru/upload/documents/oiv/10092014-_-521_pp%281%29.pdf",
+      "observedSource": "Редакция размещённого файла не установлена",
+      "finding": "На mos.ru найден отдельный PDF приложения к 521-ПП с указанием редакции от 23.12.2022. Это не доказывает, что данная редакция последняя на 14.10.2026.",
+      "evidence": "https://www.mos.ru/upload/content/files/2a0ff0f6550542ed5ae4f7f149350111/AdministrativniireglamentkPrilojeniu1.pdf",
+      "status": "primary_current_text_required"
+    },
+    {
+      "slug": "regulation-99-pp",
+      "source": "https://www.mos.ru/upload/content/files/1_PolojenieoDGI.pdf",
+      "observedSource": "PDF с редакцией от 02.08.2022",
+      "finding": "Исходный PDF mos.ru прямо обозначен как редакция от 02.08.2022; требуется проверка дальнейших изменений до октября 2026.",
+      "evidence": "https://www.mos.ru/upload/content/files/1_PolojenieoDGI.pdf",
+      "status": "primary_current_text_required"
+    },
+    {
+      "slug": "regulation-546-pp",
+      "source": "https://www.mos.ru/upload/documents/oiv/pp_m_546_15_11_2011_r15.pdf",
+      "observedSource": "Размещённая редакция 2015 года",
+      "finding": "Постановление 546-ПП продолжает цитироваться в материалах официального транспортного портала Москвы; актуальность текста редакции 2015 года не установлена.",
+      "evidence": "https://transport.mos.ru/auto/about_taxi",
+      "status": "primary_current_text_required"
+    }
+  ]
+}
