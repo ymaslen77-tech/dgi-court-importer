@@ -4,6 +4,8 @@ import type { MigratedBlock, MigratedPage } from "@/data/pages";
 import legacyAnchors from "@/data/legacy-anchors.json";
 import { SeoMarkup } from "./SeoMarkup";
 import { isThematicSlug, sourceHeadingAccentIndex } from "@/data/themes";
+import { getMigratedPage } from "@/data/pages";
+import missingTopics from "@/data/missing-topic-destinations.json";
 
 const sanitizeHref = (href?: string) => {
   if (!href) return undefined;
@@ -28,6 +30,89 @@ function ContentBlock({ block, pageSlug }: { block: MigratedBlock; pageSlug: str
       : <p className="article-action"><Link href={href}>{block.text} →</Link></p>;
   }
   return <p className="article-p">{block.text}</p>;
+}
+
+
+const topicDestinations = missingTopics as Record<string, Record<string, string>>;
+const needsAnswer = (text: string): boolean =>
+  /[?？]\\s*$/.test(text) ||
+  /^(?:как|что|где|куда|когда|почему|зачем|кто|кому|какие|какой|можно ли|нужно ли)\\b/i.test(text);
+
+function SourceHeadingId(block: MigratedBlock, slug: string) {
+  return legacyAnchors.find(item => item.slug === slug && item.heading === block.text)?.id;
+}
+
+function TopicDestination({ slug, title }: { slug: string; title: string }) {
+  const href = topicDestinations[slug]?.[title];
+  // CMS editors can add new drafts; never throw on an unreviewed CMS heading.
+  // Migrated snapshot headings MUST all have explicit destinations (tested).
+  if (!href) return <p className="article-topic-note">
+    Подробное содержание этого раздела пока не подтверждено.
+    <Link href="/gosuslugi-dgi">Перейти к справочнику государственных услуг →</Link>
+  </p>;
+  const internal = href.startsWith("/");
+  const target = internal ? getMigratedPage(href.slice(1)) : undefined;
+  return <div className="article-related-topic">
+    <p>{internal ? "Подробнее в связанном материале:" : "Первичный официальный ресурс для уточнения сведений:"}</p>
+    {internal
+      ? <Link href={href}>{target?.title ?? "Читать тематическое руководство"} <span aria-hidden="true">→</span></Link>
+      : <a href={href} target="_blank" rel="noopener noreferrer">
+          Открыть официальный источник <span aria-hidden="true">↗</span>
+        </a>}
+  </div>;
+}
+
+/**
+ * Source blocks are flat. A section with content becomes a native HTML
+ * disclosure when it is a question or a subtopic. Empty source H2 headings
+ * get an explicitly reviewed destination instead of a fake legal answer.
+ */
+function ArticleReadingFlow({ blocks, slug }: { blocks: MigratedBlock[]; slug: string }) {
+  const result: ReactNode[] = [];
+  for (let i = 0; i < blocks.length;) {
+    const block = blocks[i];
+    const level = block.kind;
+    const isHeading = level === "h2" || level === "h3" || level === "h4";
+    if (!isHeading) {
+      result.push(<ContentBlock key={`body-${i}`} block={block} pageSlug={slug} />);
+      i++;
+      continue;
+    }
+
+    let end = i + 1;
+    while (end < blocks.length && !["h1","h2","h3","h4"].includes(blocks[end].kind)) end++;
+    const content = blocks.slice(i + 1, end);
+    const collapsible = content.some(entry => entry.kind === "p") &&
+      (level === "h3" || needsAnswer(block.text));
+    if (collapsible) {
+      const headingClass = level === "h2" ? "article-h2" : level === "h4" ? "article-h4" : "article-h3";
+      const Heading = level;
+      result.push(
+        <details className="article-faq" key={`faq-${i}`} id={SourceHeadingId(block,slug)}>
+          <summary>
+            <Heading className={headingClass}>{block.text}</Heading>
+            <span className="faq-indicator" aria-hidden="true">+</span>
+          </summary>
+          <div className="article-faq-answer">
+            {content.map((entry, index) =>
+              <ContentBlock key={`answer-${i}-${index}`} block={entry} pageSlug={slug} />
+            )}
+          </div>
+        </details>,
+      );
+      i = end;
+      continue;
+    }
+
+    result.push(<ContentBlock key={`heading-${i}`} block={block} pageSlug={slug} />);
+    // Adjacent peer headings or the end of the page previously left empty
+    // promises. Never infer an answer from unrelated legal text.
+    if (level === "h2" && content.length === 0 && (end === blocks.length || blocks[end].kind === "h2")) {
+      result.push(<TopicDestination key={`destination-${i}`} slug={slug} title={block.text} />);
+    }
+    i++;
+  }
+  return <>{result}</>;
 }
 
 export function MigratedArticle({ page, home = false, afterHero }: { page: MigratedPage; home?: boolean; afterHero?: ReactNode }) {
@@ -83,11 +168,11 @@ export function MigratedArticle({ page, home = false, afterHero }: { page: Migra
       <section className="article-section" id="material">
         <div className="container content-layout">
           <article className="article">
-            {beforeFeature.map((block, i) => <ContentBlock key={`before-${i}-${block.kind}`} block={block} pageSlug={page.slug} />)}
+            <ArticleReadingFlow blocks={beforeFeature} slug={page.slug} />
             {featureBlocks.length > 0 && <section className="thematic-feature" aria-label="Главная тема раздела">
-              {featureBlocks.map((block,i) => <ContentBlock key={`feature-${i}-${block.kind}`} block={block} pageSlug={page.slug} />)}
+              <ArticleReadingFlow blocks={featureBlocks} slug={page.slug} />
             </section>}
-            {afterFeature.map((block, i) => <ContentBlock key={`rest-${i}-${block.kind}`} block={block} pageSlug={page.slug} />)}
+            <ArticleReadingFlow blocks={afterFeature} slug={page.slug} />
           </article>
           <aside className="article-aside">
             <div className="aside-panel">
