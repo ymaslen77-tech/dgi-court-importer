@@ -58,7 +58,7 @@ test("all preserved deep links resolve to migrated heading anchors", () => {
 });
 
 test("content routes render reviewed CMS pages, including new slugs", () => {
-  const route = readFileSync(new URL("../src/app/[slug]/page.tsx", import.meta.url), "utf8");
+  const route = readFileSync(new URL("../src/app/[...slug]/page.tsx", import.meta.url), "utf8");
   assert.match(route, /const page = \(await getPublishedEditorialPage\(slug\)\) \?\? getMigratedPage\(slug\)/);
   assert.ok(!route.includes("const page = getMigratedPage(slug);"));
 });
@@ -79,4 +79,13 @@ test("production indexation requires independent release approval and HTTPS cano
   assert.match(release,/SITE_CUTOVER === "true"/);
   assert.match(release,/url.protocol !== "https:"/);
   assert.match(release,/host.endsWith\("\.webflow.io"\)/);
+});
+
+test("CMS detail URLs stay nested and are read only from approved database projection", () => {
+  const route = readFileSync(new URL("../src/app/[...slug]/page.tsx", import.meta.url), "utf8");
+  const adapter = readFileSync(new URL("../src/data/published.ts", import.meta.url), "utf8");
+  assert.ok(route.includes('return parts.join("/")'));
+  assert.ok(route.includes("getPublishedEditorialPage(slug)"));
+  assert.ok(adapter.includes("editorial_status = 'published'"));
+  assert.ok(adapter.includes("checked_at IS NOT NULL"));
 });

@@ -26,3 +26,12 @@ Release checklist for manual/staging QA:
    contacts; do not auto-publish guessed updates.
 4. Create explicit 301 redirects for any changed URLs; keep unchanged paths.
 5. Preserve `SITE_CUTOVER=false` until a responsible person approves release.
+
+## CMS collection detail routes
+
+The Next.js catch-all route accepts one- and two-segment URLs. After an
+independent editorial review, a Payload editorial entry can use the full
+collection/item slug (e.g., housing-law-news/example). The SQL projection
+and sitemap preserve that path. Raw Webflow CMS snapshots and unapproved
+articles are not rendered by this route. The separate archive-only
+dgi-court-cases/[slug] route remains noindex and must not assert outcomes.

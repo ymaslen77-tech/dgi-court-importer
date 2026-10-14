@@ -22,7 +22,7 @@ export function normalizeApprovedPage(input: unknown): ApprovedPage {
   const p = input as Record<string, unknown>;
   if (p._status !== "published" || p.reviewState !== "approved" ||
       !kinds.has(String(p.kind))) throw new Error("CMS document was not approved and published");
-  if (typeof p.slug !== "string" || !/^[a-z0-9-]+$/.test(p.slug))
+  if (typeof p.slug !== "string" || !/^[a-z0-9-]+(?:\/[a-z0-9-]+)?$/.test(p.slug))
     throw new Error("Invalid CMS slug");
   for (const prop of ["title","seoTitle"] as const) {
     if (typeof p[prop] !== "string" || !p[prop].trim() || p[prop].length > 300)

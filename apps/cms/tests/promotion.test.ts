@@ -27,3 +27,10 @@ test("unsafe links, missing text and invalid URLs are rejected",()=>{
   assert.throws(()=>normalizeApprovedPage({...example(),sourceUrls:[{url:"http://example.com"}]}));
   assert.throws(()=>normalizeApprovedPage({...example(),blocks:[]}));
 });
+
+test("reviewed CMS articles can use their original two-segment collection URLs", () => {
+  const p=normalizeApprovedPage({...example(),slug:"housing-law-news/moscow-update"});
+  assert.equal(p.slug,"housing-law-news/moscow-update");
+  assert.throws(()=>normalizeApprovedPage({...example(),slug:"housing-law-news//bad"}));
+  assert.throws(()=>normalizeApprovedPage({...example(),slug:"../../bad"}));
+});

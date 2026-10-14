@@ -57,7 +57,7 @@ function safeBlocks(input: unknown): MigratedBlock[] | undefined {
 function parsePage(row: DbPage): MigratedPage {
   const blocks = safeBlocks(row.body);
   if (!blocks || !row.title?.trim() || !row.seo_title?.trim() ||
-      (row.slug !== "" && !/^[a-z0-9-]+$/.test(row.slug))) {
+      (row.slug !== "" && !/^[a-z0-9-]+(?:\/[a-z0-9-]+)?$/.test(row.slug))) {
     throw new Error("Published editorial page failed public-data validation");
   }
   const source = row.source_url?.startsWith("https://")
@@ -79,7 +79,7 @@ export const getPublishedEditorialPage = cache(async (
   slug: string,
 ): Promise<MigratedPage | undefined> => {
   if (process.env.CMS_PUBLIC_READS !== "true") return undefined;
-  if (slug !== "" && !/^[a-z0-9-]+$/.test(slug)) return undefined;
+  if (slug !== "" && !/^[a-z0-9-]+(?:\/[a-z0-9-]+)?$/.test(slug)) return undefined;
   const result = await dbPool().query<DbPage>(
     `SELECT slug,title,seo_title,seo_description,body,source_url
        FROM editorial_pages
@@ -111,5 +111,5 @@ export async function listPublishedEditorialSlugs(): Promise<string[]> {
   if (result.rows.length > 50000) {
     throw new Error("Published sitemap exceeds 50,000 entries; implement sitemap partitioning");
   }
-  return result.rows.map(row => row.slug).filter(slug => slug === "" || /^[a-z0-9-]+$/.test(slug));
+  return result.rows.map(row => row.slug).filter(slug => slug === "" || /^[a-z0-9-]+(?:\/[a-z0-9-]+)?$/.test(slug));
 }
