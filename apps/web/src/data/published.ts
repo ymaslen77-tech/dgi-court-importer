@@ -70,6 +70,7 @@ function parsePage(row: DbPage): MigratedPage {
     description: row.seo_description || "",
     source,
     blocks,
+    editoriallyApproved: true,
   };
 }
 
