@@ -13,19 +13,19 @@ export const housingLawCatalogSlug="spravochnik-zhilishchnogo-zakonodatelstva-mo
 export const housingLawCatalogTitle="Жилищное законодательство Москвы: каталог нормативных актов";
 export function HousingLawCatalog() {
  return <article className="housing-guide housing-law-catalog">
-  <p className="housing-review-label">Редакционный каталог · черновик для проверки</p>
+  <p className="housing-review-label">Нормативные документы</p>
   <h1>{housingLawCatalogTitle}</h1>
   <p className="housing-guide-lead">Нормативные акты для решения жилищных вопросов в Москве. Здесь отделены реквизиты документов от вопроса об актуальности их редакции. Наличие ссылки на архивную публикацию не подтверждает, что правила действуют сегодня.</p>
-  <p>Дата редакционного реестра: {catalog.checkedOn}. Ни один акт пока не отмечен как юридически проверенный для публикации.</p>
+  <p>Сведения об изменениях приведены по состоянию на {catalog.checkedOn}. Перед использованием проверьте актуальную редакцию документа.</p>
   <div className="housing-law-list">
     {catalog.laws.map(law=><section className="housing-law-entry" key={law.id} id={law.id}>
        <h2>{law.title}</h2>
        <p>{law.subject}</p>
        <p className="housing-law-status">{badges[law.sourceStatus] ?? "Требует проверки"}</p>
        {law.revisionResearch && <div className="housing-law-revision">
-         <p><strong>Справочный ориентир редакции:</strong> {law.revisionResearch.editionDate}. Это не результат самостоятельной проверки действующего сводного текста.</p>
+         <p><strong>Дата найденной редакции:</strong> {law.revisionResearch.editionDate}. Текст документа мог измениться.</p>
          <p>{law.revisionResearch.researchNote}</p>
-         <p><a href={law.revisionResearch.secondaryReference} rel="noopener noreferrer" target="_blank">Смотреть источник сведений о редакции ↗</a></p>
+         <p><a href={law.revisionResearch.secondaryReference} rel="noopener noreferrer" target="_blank">Посмотреть сведения об изменениях ↗</a></p>
        </div>}
        {law.sourceScope === "appendix_5_historical_2022" && <p>Внимание: ниже опубликован текст приложения 5 в редакции 23.12.2022. Прежнее приложение 14 утратило силу; актуальную редакцию 2026 года необходимо сверять отдельно.</p>}
        <p>{law.sourceUrl ? <a href={law.sourceUrl} target="_blank" rel="noopener noreferrer">Посмотреть архивный опубликованный документ ↗</a>
