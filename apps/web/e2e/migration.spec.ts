@@ -69,7 +69,7 @@ test("FAQ answers and step-by-step instructions expand by mouse and keyboard",as
   await page.goto("/zhaloba-na-dgi-moskvy");
   const faq=page.locator("details.article-faq").filter({has:page.locator("summary").getByText("Получите письменный отказ",{exact:true})}).first();
   await expect(faq).toBeVisible();
-  await expect(faq).not.toHaveAttribute("open");
+  await expect(faq).not.toHaveAttribute("open","");
   await faq.locator("summary").focus();
   await page.keyboard.press("Enter");
   await expect(faq).toHaveAttribute("open","");
