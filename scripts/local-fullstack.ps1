@@ -122,6 +122,8 @@ try {
       if(!$env:WEBFLOW_TOKEN) { throw "Supply a private read-only WEBFLOW_TOKEN in your local session." }
       & node scripts/export-webflow.mjs
       Assert-Exit "Webflow export"
+      & node scripts/audit-webflow-exports.mjs
+      Assert-Exit "Court source audit"
       Pnpm @("--filter","@dgi/cms","import:cms-private:dry-run")
       if($ApplyFull) {
         $env:CMS_PRIVATE_IMPORT="yes"; $env:CMS_IMPORT_CONFIRM="yes"
