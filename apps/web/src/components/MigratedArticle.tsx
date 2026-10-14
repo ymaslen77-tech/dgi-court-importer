@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import type { MigratedBlock, MigratedPage } from "@/data/pages";
 import legacyAnchors from "@/data/legacy-anchors.json";
 import { SeoMarkup } from "./SeoMarkup";
-import { isThematicSlug } from "@/data/themes";
+import { isThematicSlug, sourceHeadingAccentIndex } from "@/data/themes";
 
 const sanitizeHref = (href?: string) => {
   if (!href) return undefined;
@@ -39,7 +39,8 @@ export function MigratedArticle({ page, home = false, afterHero }: { page: Migra
   const heading = headingIndex >= 0 ? page.blocks[headingIndex].text : page.title;
   const lead = introIndex >= 0 ? page.blocks[introIndex].text : page.description;
   const body = page.blocks.filter((_block, index) => index !== headingIndex && index !== introIndex);
-  const accentAt = home ? heading.toLocaleLowerCase("ru").lastIndexOf("по жилищным вопросам") : -1;
+  const accentAt = home ? heading.toLocaleLowerCase("ru").lastIndexOf("по жилищным вопросам") :
+    (thematic ? -1 : sourceHeadingAccentIndex(page.slug,heading));
 
   return (
     <>
@@ -56,7 +57,7 @@ export function MigratedArticle({ page, home = false, afterHero }: { page: Migra
           </> : heading}</h1>
           {lead && <p className="hero-lead">{lead}</p>}
           {thematic ? <p className="editorial-notice">
-            Статус информации. Это собственное изложение основных положений официальных материалов, а не копия действующего административного регламента. Перед юридическим использованием проверьте актуальную редакцию документа на mos.ru.
+            Справочный материал. Источники, условия применения норм и актуальную редакцию документов необходимо проверять отдельно по официальным публикациям перед юридическим использованием.
           </p> : <div className="hero-actions">
             <a className="hero-link" href={home ? "#services" : "#material"}>
               {home ? "ВЫБРАТЬ НАПРАВЛЕНИЕ →" : "ПЕРЕЙТИ К МАТЕРИАЛАМ ↓"}
