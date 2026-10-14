@@ -14,6 +14,7 @@
     "migration:cms:apply": "node scripts/import-cms-inventory.mjs --apply",
     "migration:cms:source-audit": "node scripts/audit-webflow-exports.mjs",
     "local:acceptance": "node scripts/local-acceptance.mjs",
+    "local:verify-db": "node scripts/verify-local-site.mjs",
     "release:audit": "node scripts/release-readiness.mjs",
     "release:require-ready": "node scripts/release-readiness.mjs --require-ready",
     "staging:preflight": "node scripts/staging-preflight.mjs"
