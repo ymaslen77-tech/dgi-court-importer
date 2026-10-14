@@ -1,11 +1,12 @@
 import {test,expect} from "@playwright/test";
 import {readFileSync} from "node:fs";
+import {resolve} from "node:path";
 
 const manifest=JSON.parse(readFileSync(
-  new URL("../../../migration/webflow-seo-manifest.json",import.meta.url),"utf8"
+  resolve(process.cwd(),"../../migration/webflow-seo-manifest.json"),"utf8"
 )) as {pages:Array<{path:string}>};
 const court=JSON.parse(readFileSync(
-  new URL("../src/data/legacy-cases.json",import.meta.url),"utf8"
+  resolve(process.cwd(),"src/data/legacy-cases.json"),"utf8"
 )) as {cases:Array<{slug:string}>};
 
 test("staging search engines are blocked",async ({request})=>{
