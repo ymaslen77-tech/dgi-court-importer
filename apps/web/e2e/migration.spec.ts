@@ -54,3 +54,33 @@ test("unreviewed CMS slug does not leak",async ({page})=>{
   const result=await page.goto("/housing-law-news/not-published");
   expect(result?.status()).toBe(404);
 });
+
+
+test("empty original questions now navigate to a real legal guidance page", async ({page})=>{
+  await page.goto("/normativnye-akty");
+  const section=page.locator(".article-related-topic a[href='/funkcii-dgi']");
+  await expect(section).toBeVisible();
+  await section.click();
+  await expect(page).toHaveURL(/\/funkcii-dgi$/);
+  await expect(page.locator("h1")).toContainText("Функции");
+});
+
+test("FAQ answers and step-by-step instructions expand by mouse and keyboard",async ({page})=>{
+  await page.goto("/zhaloba-na-dgi-moskvy");
+  const faq=page.locator("details.article-faq").filter({has:page.locator("summary").getByText("Получите письменный отказ",{exact:true})}).first();
+  await expect(faq).toBeVisible();
+  await expect(faq).not.toHaveAttribute("open");
+  await faq.locator("summary").focus();
+  await page.keyboard.press("Enter");
+  await expect(faq).toHaveAttribute("open","");
+  await expect(faq.locator(".article-faq-answer")).toContainText("решения ДГИ");
+});
+
+test("original question remains accessible as a disclosure heading",async ({page})=>{
+  await page.goto("/renovaciya-pereselenie");
+  const faq=page.locator("details.article-faq").filter({has:page.locator("summary").getByText("Нужно ли подписывать документы, если есть замечания к новой квартире?",{exact:true})}).first();
+  await expect(faq).toBeVisible();
+  await faq.locator("summary").click();
+  await expect(faq).toHaveAttribute("open","");
+  await expect(faq.locator(".article-faq-answer")).not.toBeEmpty();
+});
