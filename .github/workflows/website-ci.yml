@@ -185,6 +185,22 @@ jobs:
           } finally { await db.end(); }
           JS
 
+      - name: Build Next.js for approved CMS HTTP test
+        env:
+          SITE_CUTOVER: "false"
+          SITE_RELEASE_APPROVED: "no"
+        run: pnpm --filter @dgi/web build
+      - name: Verify approved nested CMS routes over HTTP
+        env:
+          SITE_CUTOVER: "false"
+          SITE_RELEASE_APPROVED: "no"
+          CMS_PUBLIC_READS: "true"
+        run: |
+          (pnpm --filter @dgi/web start > /tmp/dgi-cms-route-e2e.log 2>&1) &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true; cat /tmp/dgi-cms-route-e2e.log' EXIT
+          node scripts/smoke-approved-cms.mjs
+
   cms-checks:
     runs-on: ubuntu-latest
     timeout-minutes: 30
