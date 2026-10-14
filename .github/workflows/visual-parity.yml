@@ -4,6 +4,7 @@ on:
     branches: [feature/nextjs-webflow-migration]
     paths:
       - "apps/web/visual/**"
+      - "apps/web/src/**"
       - "apps/web/playwright.visual.config.ts"
       - ".github/workflows/visual-parity.yml"
   workflow_dispatch:
