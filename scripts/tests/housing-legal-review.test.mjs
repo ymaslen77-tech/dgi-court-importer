@@ -49,3 +49,36 @@ test("source corrections: ЖКУ provider and citizen-oriented УК guide",()=>{
  assert.ok(get("deprivatizatsiya-kvartiry-moskva").sources.some(s=>s.url.endsWith("/1368-PP.pdf")));
  assert.match(get("pereregistratsiya-zhilishchnyy-uchet").legal,/пять лет/);
 });
+
+test("legal guide to catalog crosswalk exists and none passes editorial signoff",()=>{
+ const catalog=JSON.parse(readFileSync(new URL("../../apps/web/src/data/housing-law-catalog.json",import.meta.url),"utf8"));
+ const ids=new Set(catalog.laws.map(x=>x.id));
+ for(const item of ledger.guides){
+  assert.ok(Array.isArray(item.relatedLawIds));
+  assert.ok(item.legalResearch && item.legalResearch.researchedOn===ledger.auditDate);
+  assert.equal(item.legalResearch.lastEffectiveEditionIndependentlyChecked,false);
+  for(const id of item.relatedLawIds) assert.ok(ids.has(id),`Missing law ${id} in ${item.slug}`);
+  for(const link of item.legalResearch.secondaryLinks){
+   assert.ok(item.relatedLawIds.includes(link.lawId));
+   const url=new URL(link.url);
+   assert.equal(url.protocol,"https:");
+   assert.ok(["www.consultant.ru","consultant.ru"].includes(url.hostname));
+  }
+ }
+});
+test("2026 edition research cannot be misrepresented as a checked current legal edition",()=>{
+ const catalog=JSON.parse(readFileSync(new URL("../../apps/web/src/data/housing-law-catalog.json",import.meta.url),"utf8"));
+ const updatedIds=["housing-code","47-rf","491-rf","111-pp","521-pp"];
+ for(const id of updatedIds){
+  const row=catalog.laws.find(x=>x.id===id);
+  assert.ok(row?.revisionResearch?.editionDate.startsWith("2026"),`No 2026 research date for ${id}`);
+  assert.equal(row.revisionResearch.officialCurrentTextChecked,false);
+  assert.equal(row.currentVersionVerified,false);
+  assert.equal(row.approved,false);
+ }
+ const reform=catalog.laws.find(x=>x.id==="521-pp");
+ assert.equal(reform.sourceScope,"amending_act_2019");
+ const subsidy=housingLaw=>data.guides.find(g=>g.slug===housingLaw);
+ assert.match(subsidy("subsidiya-na-oplatu-zhku-moskva").legal,/18\.08\.2026/);
+ assert.match(subsidy("deprivatizatsiya-kvartiry-moskva").legal,/05\.05\.2026/);
+});
