@@ -2,9 +2,10 @@
 # Keep .env and all Webflow source exports private. Never deploy from this script.
 [CmdletBinding()]
 param(
-  [ValidateSet("Check","Setup","Bootstrap","Import","FullSource","Web","Cms","BrowserQA","VisualQA")]
+  [ValidateSet("Check","Setup","Bootstrap","Import","FullSource","VerifyData","Web","Cms","BrowserQA","VisualQA")]
   [string]$Action="Check",
   [switch]$ApplyFull,
+  [switch]$RequireFullSource,
   [switch]$SkipInstall
 )
 $ErrorActionPreference="Stop"
@@ -27,7 +28,7 @@ if(-not (Get-Command node -ErrorAction SilentlyContinue) -or
 if((& node --version) -notmatch '^v(2[2-9]|[3-9][0-9])\.') {
   throw "Node.js 22+ required."
 }
-$requiresDb=$Action -in @("Setup","Bootstrap","Import","FullSource","Cms")
+$requiresDb=$Action -in @("Setup","Bootstrap","Import","FullSource","VerifyData","Cms")
 if($requiresDb) {
   $private=Join-Path $root ".env"
   if(-not (Test-Path $private)) { throw "Copy .env.example to .env and set private secrets." }
@@ -136,6 +137,19 @@ try {
             Remove-Item ("Env:"+$key) -ErrorAction SilentlyContinue
           }
         }
+      }
+    }
+
+    "VerifyData" {
+      $env:LOCAL_VERIFY_CONFIRM="yes"
+      if($RequireFullSource) { $env:LOCAL_REQUIRE_FULL_SOURCE="yes" }
+      try {
+        & node scripts/verify-local-site.mjs
+        Assert-Exit "Verify local site PostgreSQL"
+        Pnpm @("--filter","@dgi/cms","verify:local")
+      } finally {
+        Remove-Item Env:LOCAL_VERIFY_CONFIRM -ErrorAction SilentlyContinue
+        Remove-Item Env:LOCAL_REQUIRE_FULL_SOURCE -ErrorAction SilentlyContinue
       }
     }
     "Web" { Pnpm @("--filter","@dgi/web","dev","--hostname","127.0.0.1","--port","3000") }
