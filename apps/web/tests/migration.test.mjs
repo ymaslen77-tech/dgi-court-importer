@@ -100,3 +100,12 @@ test("page template includes factual gated SEO schema and a keyboard skip link",
   assert.ok(shell.includes('href="#main-content"'));
   assert.ok(article.includes('<SeoMarkup page={page} />'));
 });
+
+test("home hero precedes service navigation and original article body", () => {
+  const home = readFileSync(new URL("../src/app/page.tsx",import.meta.url),"utf8");
+  const article = readFileSync(new URL("../src/components/MigratedArticle.tsx",import.meta.url),"utf8");
+  assert.ok(home.includes('<MigratedArticle page={page} home afterHero={'));
+  assert.ok(home.includes('className="topic-section" id="services"'));
+  assert.ok(article.indexOf('{afterHero}') > article.indexOf('className="hero"'));
+  assert.ok(article.indexOf('{afterHero}') < article.indexOf('className="article-section"'));
+});

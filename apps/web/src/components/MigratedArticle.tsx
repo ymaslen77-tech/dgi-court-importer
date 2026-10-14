@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import type { MigratedBlock, MigratedPage } from "@/data/pages";
 import legacyAnchors from "@/data/legacy-anchors.json";
 import { SeoMarkup } from "./SeoMarkup";
@@ -28,7 +29,7 @@ function ContentBlock({ block, pageSlug }: { block: MigratedBlock; pageSlug: str
   return <p className="article-p">{block.text}</p>;
 }
 
-export function MigratedArticle({ page, home = false }: { page: MigratedPage; home?: boolean }) {
+export function MigratedArticle({ page, home = false, afterHero }: { page: MigratedPage; home?: boolean; afterHero?: ReactNode }) {
   const headingIndex = page.blocks.findIndex((block) => block.kind === "h1");
   const introIndex = page.blocks.findIndex((block, index) =>
     index > headingIndex && block.kind === "p" && block.text.length > 50,
@@ -51,6 +52,7 @@ export function MigratedArticle({ page, home = false }: { page: MigratedPage; ho
           <a className="hero-link" href="#material">ПЕРЕЙТИ К МАТЕРИАЛАМ ↓</a>
         </div>
       </section>
+      {afterHero}
       <section className="article-section" id="material">
         <div className="container content-layout">
           <article className="article">

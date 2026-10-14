@@ -32,7 +32,8 @@ export default async function HomePage() {
   if (!page) return null;
   return (
     <PageShell>
-      <section className="topic-section">
+      <MigratedArticle page={page} home afterHero={
+        <section className="topic-section" id="services">
         <div className="container">
           <p className="section-eyebrow">ВЫБЕРИТЕ СВОЙ ВОПРОС</p>
           <h2 className="section-title">Практические жилищные маршруты</h2>
@@ -47,8 +48,8 @@ export default async function HomePage() {
             ))}
           </div>
         </div>
-      </section>
-      <MigratedArticle page={page} home />
+        </section>
+      } />
     </PageShell>
   );
 }

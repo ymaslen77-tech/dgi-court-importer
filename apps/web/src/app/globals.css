@@ -122,3 +122,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .breadcrumb { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 12px; line-height: 1.6; color: #d0d0d0; margin-bottom: 28px; }
 .breadcrumb a { color: #fff; text-underline-offset: 3px; }
 .breadcrumb [aria-current="page"] { color: #d0d0d0; }
+
+/* Preserve useful in-page anchors when links scroll to service or reading sections. */
+#services, #material, .article h2[id], .article h3[id] { scroll-margin-top: 24px; }
