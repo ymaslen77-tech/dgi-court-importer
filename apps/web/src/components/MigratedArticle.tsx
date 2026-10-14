@@ -35,8 +35,8 @@ function ContentBlock({ block, pageSlug }: { block: MigratedBlock; pageSlug: str
 
 const topicDestinations = missingTopics as Record<string, Record<string, string>>;
 const needsAnswer = (text: string): boolean =>
-  /[?？]\\s*$/.test(text) ||
-  /^(?:как|что|где|куда|когда|почему|зачем|кто|кому|какие|какой|можно ли|нужно ли)\\b/i.test(text);
+  /[?？]\s*$/.test(text) ||
+  /^(?:как|что|где|куда|когда|почему|зачем|кто|кому|какие|какой|можно ли|нужно ли)\b/i.test(text);
 
 function SourceHeadingId(block: MigratedBlock, slug: string) {
   return legacyAnchors.find(item => item.slug === slug && item.heading === block.text)?.id;
