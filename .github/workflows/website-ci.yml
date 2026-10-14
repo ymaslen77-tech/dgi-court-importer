@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - feature/nextjs-webflow-migration
+      - feature/dgi-offline-completion
     paths:
       - "apps/web/**"
       - "apps/cms/**"
