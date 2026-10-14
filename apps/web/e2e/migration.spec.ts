@@ -111,7 +111,7 @@ test("homepage banner content starts directly under the header",async ({page})=>
 test("generic Moscow appeal search is not presented as this specific case's act", async ({page}) => {
   await page.goto("/sudebnaya-praktika-dgi");
   const entry = page.locator(".case-card").filter({
-    has: page.getByRole("heading",{name:/02-4422\\/2026/}),
+    has: page.getByRole("heading",{name:"Дело № 02-4422/2026"}),
   });
   await expect(entry).toHaveCount(1);
   await expect(entry.getByRole("link",{name:/Открыть источник/})).toHaveCount(0);
