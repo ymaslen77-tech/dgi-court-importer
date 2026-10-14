@@ -24,6 +24,9 @@ assert.ok(ready, "Offline release-mode server did not become healthy");
 
 const seo = JSON.parse(readFileSync(new URL("../migration/webflow-seo-manifest.json", import.meta.url), "utf8"));
 for (const page of seo.pages) {
+  // The court *index* is intentionally readable as a noindex source locator,
+  // whereas original static editorial snapshots must all return 404.
+  if (page.path === "/sudebnaya-praktika-dgi") continue;
   const response = await get(page.path);
   assert.equal(response.status, 404, `Unapproved legacy snapshot became visible: ${page.path}`);
   const html = await response.text();
@@ -55,7 +58,7 @@ assert.doesNotMatch(await sitemap.text(), /<loc>/i, "Unreviewed URLs appeared in
 const search=await get("/api/courts/search?q=88-21277%2F2026");
 assert.equal(search.status,503, "Unreviewed DB search should remain disabled");
 console.log(JSON.stringify({
-  isolatedMode:true, legacySnapshotsBlocked:seo.pages.length,
+  isolatedMode:true, legacySnapshotsBlocked:seo.pages.length - 1,
   extraDraftsBlocked:3, legacyArchivesNoindex:legacy.cases.length,
   courtIndexNoindex:true, sitemapEmpty:true, databaseSearchDisabled:true,
 },null,2));
