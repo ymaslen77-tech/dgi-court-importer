@@ -176,7 +176,7 @@ export function MigratedArticle({ page, home = false, afterHero }: { page: Migra
               <ArticleReadingFlow blocks={featureBlocks} slug={page.slug} />
             </section>}
             <ArticleReadingFlow blocks={afterFeature} slug={page.slug} />
-            {!siteIsLive && page.slug === "normativnye-akty" && <p className="article-action"><Link href="/spravochnik-zhilishchnogo-zakonodatelstva-moskvy">Открыть редакционный каталог 16 жилищных нормативных актов →</Link></p>}
+            {!siteIsLive && page.slug === "normativnye-akty" && <p className="article-action"><Link href="/spravochnik-zhilishchnogo-zakonodatelstva-moskvy">Открыть справочник жилищных законов и постановлений →</Link></p>}
             {!siteIsLive && <HousingSupplement page={page} />}
           </article>
           <aside className="article-aside">
@@ -187,7 +187,6 @@ export function MigratedArticle({ page, home = false, afterHero }: { page: Migra
               <Link href="/zayavlenie-v-dgi-moskvy">Заявление в ДГИ →</Link>
               <Link href="/normativnye-akty">Нормативные документы →</Link>
             </div>
-            <p className="aside-note">Текст перенесён из опубликованной версии Webflow. Требуется проверка верстки, изображений и актуальности правовых сведений до переключения домена.</p>
           </aside>
         </div>
       </section>
