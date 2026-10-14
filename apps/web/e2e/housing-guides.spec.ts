@@ -83,3 +83,21 @@ test("catalog explains eight reference-only revision dates without asserting leg
  await expect(page.locator('[id="521-pp"]')).toContainText("Прежнее приложение 14 утратило силу");
  await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content",/noindex/);
 });
+
+
+test("public-facing pages do not expose developer or migration messages", async ({ page }) => {
+ const routes = [
+  "/",
+  "/sudebnaya-praktika-dgi",
+  "/dgi-court-cases/decision-02-4422-2026-additional-10",
+  "/priznanie-maloimushchim-dlya-zhilishchnogo-ucheta",
+  "/spravochnik-zhilishchnogo-zakonodatelstva-moskvy",
+  "/zhilishchnaya-ochered",
+ ];
+ for (const path of routes) {
+  const response = await page.goto(path);
+  expect(response?.status(), path).toBe(200);
+  const visibleText = await page.locator("body").innerText();
+  expect(visibleText, path).not.toMatch(/webflow|next\\.?js|\\bCMS\\b|редакционный черновик|предварительная версия|текст перенесён|staging|миграци[яи]|релиз|сборка сайта|техническая проверка/iu);
+ }
+});
