@@ -261,10 +261,10 @@
     {
       "id": "521-pp",
       "title": "Постановление Москвы № 521-ПП от 10.09.2014",
-      "subject": "Административные регламенты жилищных услуг ДГИ, включая передачу жилья городу",
+      "subject": "Регламенты жилищных услуг ДГИ; приложение 5 — приватизация и деприватизация. Приложение 14 прежней редакции утратило силу.",
       "jurisdiction": "moscow",
       "sourceStatus": "primary_historical",
-      "sourceUrl": "https://www.mos.ru/upload/documents/docs/1368-PP.pdf",
+      "sourceUrl": "https://www.mos.ru/upload/content/files/2a0ff0f6550542ed5ae4f7f149350111/AdministrativniireglamentkPrilojeniu1.pdf",
       "related": [
         "deprivatizatsiya-kvartiry-moskva"
       ],
@@ -274,10 +274,10 @@
         "observedOn": "2026-10-14",
         "editionDate": "05.05.2026",
         "secondaryReference": "https://www.consultant.ru/law/podborki/procedura_privatizacii/",
-        "researchNote": "Справочная база фиксирует редакцию от 05.05.2026, а также поправки от 25.03.2026 (820-ПП); PDF № 1368-ПП является архивным актом о внесении изменений, не сводной редакцией.",
+        "researchNote": "Опубликованный текст приложения 5 содержит редакцию от 23.12.2022. Приложение 14 в прежней структуре утратило силу; правовую актуальность на 2026 год нельзя устанавливать по старой PDF. Ориентир справочной редакции 521-ПП — 05.05.2026, без сверки каждого приложения.",
         "officialCurrentTextChecked": false
       },
-      "sourceScope": "amending_act_2019"
+      "sourceScope": "appendix_5_historical_2022"
     },
     {
       "id": "dgi-286",
