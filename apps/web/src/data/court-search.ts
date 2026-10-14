@@ -35,6 +35,10 @@ export function officialCourtHref(value:string|null):string|undefined {
        (uri.port && uri.port!=="443") ||
        !acceptedHosts.some(host=>uri.hostname.toLowerCase()===host||
         uri.hostname.toLowerCase().endsWith("."+host)))return undefined;
+    // Case listings are not case-specific judicial acts, even on an official domain.
+    // A broad appellate list must not be shown as evidence of an identified case.
+    if (/(?:^|\/)services\/cases\/(?:appeal-civil|civil|appeal-criminal|criminal|administrative)\/?$/i
+      .test(uri.pathname)) return undefined;
     uri.hash="";
     return uri.toString();
   } catch {return undefined;}
