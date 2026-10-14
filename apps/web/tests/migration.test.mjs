@@ -140,3 +140,26 @@ test("home nav and hero expose both original primary and secondary actions",()=>
  assert.ok(article.includes("КАК МЫ РАБОТАЕМ"));
  assert.ok(article.includes("hero-link-secondary"));
 });
+
+
+test("all fifteen Webflow light-layout pages use the source-verified thematic variant",()=>{
+ const themes=readFileSync(new URL("../src/data/themes.ts",import.meta.url),"utf8");
+ const target=["dokumenty-na-kvartiru","funkcii-dgi","gorodskoe-imushchestvo-i-zemlya",
+ "gosuslugi-dgi","kadastrovaya-stoimost","kontakty-dgi","normativnye-akty",
+ "privatizaciya-zhilya","renovaciya-pereselenie","socialnyj-naem",
+ "spory-s-dgi","sudebnaya-praktika-dgi","zhilishchnaya-ochered",
+ "zhilishchnye-subsidii","zhilishchnyj-uchet"];
+ const active=[...themes.matchAll(/^  "([a-z0-9-]+)",$/gm)].map(x=>x[1]);
+ assert.deepEqual(active.sort(),target.sort());
+ const sourcePage=readFileSync(new URL("../src/app/sudebnaya-praktika-dgi/page.tsx",import.meta.url),"utf8");
+ assert.ok(sourcePage.includes('<PageShell variant="thematic">'));
+ assert.ok(sourcePage.includes('hero hero--thematic'));
+});
+test("accent spans reuse existing headings rather than introducing unsupported wording",()=>{
+ const themes=readFileSync(new URL("../src/data/themes.ts",import.meta.url),"utf8");
+ const article=readFileSync(new URL("../src/components/MigratedArticle.tsx",import.meta.url),"utf8");
+ assert.ok(themes.includes("sourceHeadingAccentIndex"));
+ assert.ok(article.includes("heading.slice(accentAt)"));
+ assert.ok(article.includes("heading.slice(0, accentAt)"));
+ assert.ok(!article.includes("копия действующего административного регламента"));
+});
