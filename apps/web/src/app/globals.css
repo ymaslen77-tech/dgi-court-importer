@@ -180,3 +180,41 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 /* Never import unlicensed external Webflow background images. */
 .hero--thematic .hero-lead { max-width: 980px; }
 .site--thematic .hero--thematic + .article-section { padding-top: 14px; }
+
+/* Text-only feature-card reconstruction for Webflow's photo-backed thematic
+   modules. Legal copy/links stay from original snapshots; no external media. */
+.site--thematic .hero--thematic { padding-bottom: 38px; }
+.site--thematic .hero--thematic h1 { font-size: clamp(30px, 3.45vw, 44px); max-width: 1080px; }
+.site--thematic .hero--thematic .hero-lead { max-width: 960px; }
+.thematic-feature {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-top: 4px solid var(--red);
+  background: linear-gradient(112deg, #151515 0%, #191919 67%, #3a2630 100%);
+  color: #fff;
+  padding: clamp(25px, 4vw, 43px);
+  min-height: 215px;
+  margin: 0 0 35px;
+}
+.thematic-feature:after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0 0 0 71%;
+  background: repeating-linear-gradient(126deg, transparent 0 14px, rgba(255,255,255,.025) 15px 16px);
+  pointer-events: none;
+}
+.thematic-feature .article-h2 {
+  color: #fff;
+  font-size: clamp(25px, 3vw, 35px);
+  max-width: 550px;
+  margin: 0 0 16px;
+}
+.thematic-feature .article-p { color: #d7d7d7; max-width: 610px; line-height: 1.7; }
+.thematic-feature .article-action { margin: 14px 0 0; }
+.thematic-feature .article-action a { color: #fff; font-size: 12px; text-underline-offset: 4px; }
+@media(max-width:640px) {
+  .thematic-feature { min-height: 0; }
+  .thematic-feature:after { inset: 0 0 0 80%; }
+}
