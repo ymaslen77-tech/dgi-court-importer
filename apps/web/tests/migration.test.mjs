@@ -131,3 +131,12 @@ test("home header can emphasize an existing source phrase without inventing text
  assert.ok(article.includes("heading.slice(accentAt)"));
  assert.ok(article.includes('className="hero-accent"'));
 });
+
+test("home nav and hero expose both original primary and secondary actions",()=>{
+ const shell=readFileSync(new URL("../src/components/PageShell.tsx",import.meta.url),"utf8");
+ const article=readFileSync(new URL("../src/components/MigratedArticle.tsx",import.meta.url),"utf8");
+ assert.ok(shell.includes('href="/#services"'));
+ assert.ok(shell.includes("РАЗОБРАТЬ СИТУАЦИЮ"));
+ assert.ok(article.includes("КАК МЫ РАБОТАЕМ"));
+ assert.ok(article.includes("hero-link-secondary"));
+});

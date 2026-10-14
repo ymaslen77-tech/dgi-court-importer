@@ -155,3 +155,22 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .site--home .hero-accent { display: block; color: #f04455; }
 .site--home .hero .hero-link { background: var(--red); border-color: var(--red); }
 .site--home .hero .hero-link:hover { background: #a91122; }
+
+/* Dedicated source-style homepage navigation and two hero actions. */
+.site--home .header-wrap { gap: 18px; flex-wrap: nowrap; }
+.site--home .brand { max-width: 310px; }
+.site--home .main-nav { flex: 1; justify-content: flex-end; gap: 15px; font-size: 11px; }
+.header-cta { display: inline-flex; align-items: center; min-height: 46px; padding: 12px 17px; background: #c71927; color: #fff; text-decoration: none; font-weight: 900; font-size: 11px; white-space: nowrap; }
+.header-cta:hover { background: #a5101e; }
+.hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+.hero-actions .hero-link { margin-top: 25px; }
+.site--home .hero-link-secondary { background: transparent !important; border-color: #777 !important; }
+.site--home .hero-link-secondary:hover { background: #272727 !important; }
+@media(max-width:1100px) {
+  .site--home .header-wrap { flex-wrap: wrap; }
+  .site--home .main-nav { justify-content: flex-start; order: 3; flex-basis: 100%; }
+}
+@media(max-width:640px) {
+  .site--home .header-cta { font-size: 10px; min-height: 40px; }
+  .site--home .main-nav { gap: 11px; }
+}

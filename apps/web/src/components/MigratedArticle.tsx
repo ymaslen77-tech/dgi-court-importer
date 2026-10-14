@@ -57,9 +57,12 @@ export function MigratedArticle({ page, home = false, afterHero }: { page: Migra
           {lead && <p className="hero-lead">{lead}</p>}
           {thematic ? <p className="editorial-notice">
             Статус информации. Это собственное изложение основных положений официальных материалов, а не копия действующего административного регламента. Перед юридическим использованием проверьте актуальную редакцию документа на mos.ru.
-          </p> : <a className="hero-link" href={home ? "#services" : "#material"}>
-            {home ? "ВЫБРАТЬ НАПРАВЛЕНИЕ ↓" : "ПЕРЕЙТИ К МАТЕРИАЛАМ ↓"}
-          </a>}
+          </p> : <div className="hero-actions">
+            <a className="hero-link" href={home ? "#services" : "#material"}>
+              {home ? "ВЫБРАТЬ НАПРАВЛЕНИЕ →" : "ПЕРЕЙТИ К МАТЕРИАЛАМ ↓"}
+            </a>
+            {home && <a className="hero-link hero-link-secondary" href="#material">КАК МЫ РАБОТАЕМ →</a>}
+          </div>}
         </div>
       </section>
       {afterHero}

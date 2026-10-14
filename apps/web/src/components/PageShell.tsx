@@ -9,6 +9,15 @@ const navigation = [
   { href: "/kontakty-dgi", label: "Контакты" },
 ];
 
+const homeNavigation = [
+  { href: "/#services", label: "Услуги" },
+  { href: "/funkcii-dgi", label: "Каталог ДГИ" },
+  { href: "/#material", label: "Порядок работы" },
+  { href: "/normativnye-akty", label: "Источники" },
+  { href: "/sudebnaya-praktika-dgi", label: "Судебная практика" },
+  { href: "/novosti-zhilishchnogo-prava", label: "Новости" },
+];
+
 export function PageShell({ children, variant = "default" }: Readonly<{ children: React.ReactNode; variant?: "default" | "home" | "thematic" }>) {
   return (
     <div className={`site site--${variant}`}>
@@ -26,8 +35,9 @@ export function PageShell({ children, variant = "default" }: Readonly<{ children
             </span>
           </Link>
           <nav className="main-nav" aria-label="Основная навигация">
-            {navigation.map((item) => <Link href={item.href} key={item.href}>{item.label}</Link>)}
+            {(variant === "home" ? homeNavigation : navigation).map((item) => <Link href={item.href} key={item.href}>{item.label}</Link>)}
           </nav>
+          {variant === "home" && <Link className="header-cta" href="/#services">РАЗОБРАТЬ СИТУАЦИЮ →</Link>}
         </div>
       </header>
       <main id="main-content">{children}</main>
