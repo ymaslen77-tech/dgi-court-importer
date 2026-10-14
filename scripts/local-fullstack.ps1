@@ -71,6 +71,8 @@ try {
       Pnpm @("--filter","@dgi/cms","typecheck")
       Pnpm @("build")
       Pnpm @("release:audit")
+      & node scripts/local-acceptance.mjs
+      Assert-Exit "Local QA register"
     }
     "Setup" {
       if(-not (Get-Command docker -ErrorAction SilentlyContinue)) {
