@@ -21,6 +21,7 @@ Git и интернет для скачивания пакетов. Создай
 .\scripts\local-fullstack.ps1 -Action Bootstrap -SkipInstall
 .\scripts\local-fullstack.ps1 -Action Import -SkipInstall
 .\scripts\local-fullstack.ps1 -Action Check -SkipInstall
+.\scripts\local-fullstack.ps1 -Action VerifyData -SkipInstall
 ```
 
 `Setup` запускает две изолированные локальные PostgreSQL-базы на
@@ -34,6 +35,12 @@ Git и интернет для скачивания пакетов. Создай
 `.migration/reports/local-acceptance.md` и `.json`. По всем 33
 страницам дизайн, мобильная версия, интерактивность и права на изображения
 по умолчанию помечены как **ожидающие проверки**.
+`VerifyData` читает **реальные локальные** две базы и требует строго
+33 черновика, 50 метаданных, отсутствие преждевременной публикации,
+а также действительного локального администратора Payload.
+Для проверки полной частной копии после `FullSource -ApplyFull`
+повторите команду с `-RequireFullSource`, тогда будут обязательны 50
+полных оригиналов Webflow в закрытой CMS.
 После импорта редактор проверяет данные в Payload.
 
 Открыть в двух **разных** терминалах:
