@@ -5,6 +5,7 @@ import { PageShell } from "@/components/PageShell";
 import { canonicalUrl, getMigratedPage, migratedPages, siteIsLive } from "@/data/pages";
 import { getPublishedEditorialPage } from "@/data/published";
 import { isThematicSlug } from "@/data/themes";
+import { findHousingGuide, HousingGuideArticle } from "@/components/HousingGuide";
 
 type Props = { params: Promise<{ slug: string[] }> };
 
@@ -26,7 +27,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const slug = resolvedSlug(parts);
   if (!slug || slug === "sudebnaya-praktika-dgi") return {};
   const page = (await getPublishedEditorialPage(slug)) ?? getMigratedPage(slug);
-  if (!page) return {};
+  if (!page) {
+    const guide = !siteIsLive && findHousingGuide(slug);
+    return guide ? { title: { absolute: guide.title }, description: guide.summary, robots: { index: false, follow: false } } : {};
+  }
   return {
     title: { absolute: page.seoTitle },
     description: page.description,
@@ -41,7 +45,11 @@ export default async function ContentPage({ params }: Props) {
   if (!slug || slug === "sudebnaya-praktika-dgi") notFound();
   // Render the same approved editorial revision used for metadata and sitemap.
   const page = (await getPublishedEditorialPage(slug)) ?? getMigratedPage(slug);
-  if (!page) notFound();
+  if (!page) {
+    const guide = !siteIsLive && findHousingGuide(slug);
+    if (!guide) notFound();
+    return <PageShell variant="thematic"><div className="container"><HousingGuideArticle guide={guide} /></div></PageShell>;
+  }
   return (
     <PageShell variant={isThematicSlug(slug) ? "thematic" : "default"}>
       <MigratedArticle page={page} />
