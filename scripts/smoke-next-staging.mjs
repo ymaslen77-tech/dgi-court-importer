@@ -25,7 +25,8 @@ for (const page of manifest.pages) {
   assert.ok(html.includes("<h1"),`Missing h1: ${page.path}`);
   assert.ok(/<title[> ]/i.test(html),`Missing title: ${page.path}`);
   assert.ok(/noindex/i.test(html),`Indexing was enabled on staging: ${page.path}`);
-  assert.ok(/rel="canonical"/i.test(html),`Missing canonical: ${page.path}`);
+  assert.ok(!/rel="canonical"/i.test(html),`Staging must not publish canonical URLs: ${page.path}`);
+  assert.ok(!/webflow\\.(?:io|com)/i.test(html),`Legacy platform URL appeared in public HTML: ${page.path}`);
 }
 const missing=await fetchReady("/does-not-exist-staging-check-987654321");
 assert.equal(missing.status,404);
