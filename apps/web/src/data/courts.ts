@@ -1,5 +1,4 @@
-import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
+import officialSnapshot from "./official-court-candidates.json";
 import published from "./legacy-cases.json";
 
 export type CourtCandidate = {
@@ -25,18 +24,13 @@ export type LegacyCase = {
   verification: string;
 };
 
+// Checked-in, privacy-minimal source snapshot. Growing indexes are served
+// exclusively through PostgreSQL, not arbitrary server filesystem reads.
+// Avoids Next.js tracing the whole repository into a deployment artifact.
 export function listOfficialCandidates(): CourtCandidate[] {
-  const path = process.env.COURT_CATALOG_PATH ||
-    resolve(process.cwd(), "../../data/court-catalog.jsonl");
-  try {
-    return readFileSync(path, "utf8").split(/\r?\n/)
-      .filter((line) => line.trim())
-      .map((line) => JSON.parse(line) as CourtCandidate)
-      .filter((item) => item.verification === "case_metadata_only");
-  } catch {
-    // The court index is optional for an isolated frontend deploy.
-    return [];
-  }
+  return officialSnapshot.filter((item) =>
+    item.verification === "case_metadata_only" && item.act_reviewed === false
+  ) as CourtCandidate[];
 }
 
 export const legacyCases: LegacyCase[] = published.cases as LegacyCase[];
