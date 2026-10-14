@@ -20,7 +20,7 @@ for (const guide of guides) {
     expect(response?.status()).toBe(200);
     await expect(page.locator("h1")).toHaveCount(1);
     await expect(page.locator("h1")).toHaveText(guide.title);
-    await expect(page.getByText("Редакционный черновик · не прошёл юридическую приёмку")).toBeVisible();
+    await expect(page.getByText("Перед обращением проверьте действующие правила")).toBeVisible();
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
     await expect(page.locator(".housing-guide section")).toHaveCount(7);
     await expect(page.locator(".housing-guide ol > li")).toHaveCount(4);
@@ -41,7 +41,7 @@ for (const item of supplements) {
     const response = await page.goto(`/${item.slug}`);
     expect(response?.status()).toBe(200);
     await expect(page.locator(".housing-supplement")).toHaveCount(1);
-    await expect(page.locator(".housing-supplement .housing-review-label")).toContainText("редакционный черновик");
+    await expect(page.locator(".housing-supplement .housing-review-label")).toContainText("Пошаговая инструкция");
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
     const urls = await page.locator(".housing-supplement .housing-source-list a").evaluateAll(els =>
       els.map(el => (el as HTMLAnchorElement).href),
@@ -64,12 +64,12 @@ test("new guide links lead to an existing local destination", async ({ page }) =
 test("normative acts catalog is accessible from source page and remains noindex",async ({page})=>{
  const response=await page.goto("/normativnye-akty");
  expect(response?.status()).toBe(200);
- await page.getByRole("link",{name:/редакционный каталог 16 жилищных нормативных актов/}).click();
+ await page.getByRole("link",{name:/справочник жилищных законов и постановлений/}).click();
  await expect(page).toHaveURL(/\/spravochnik-zhilishchnogo-zakonodatelstva-moskvy$/);
  await expect(page.locator("h1")).toContainText("Жилищное законодательство Москвы");
  await expect(page.locator(".housing-law-entry")).toHaveCount(16);
  await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content",/noindex/);
- await expect(page.getByText("Ни один акт пока не отмечен как юридически проверенный для публикации.")).toBeVisible();
+ await expect(page.getByText("Перед использованием проверьте актуальную редакцию документа.")).toBeVisible();
  const over=await page.evaluate(()=>document.documentElement.scrollWidth-window.innerWidth);
  expect(over).toBeLessThanOrEqual(2);
 });
