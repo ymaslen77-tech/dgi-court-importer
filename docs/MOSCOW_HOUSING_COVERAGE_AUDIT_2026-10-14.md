@@ -230,7 +230,7 @@
 ## Источники и ограничения
 
 - **S1**: [ДГИ Москвы: официальный ведомственный раздел](https://stroi.mos.ru/structure/dgi)
-- **S2**: [Закон города Москвы №29 от 14.06.2006: исходный официальный PDF (уточнить действующую редакцию)](https://www.mos.ru/upload/documents/oiv/ob_obespechenii_prava_zhiteley_goroda_moskvy_na_zhilye_pomeshcheniya.pdf)
+- **S2**: [Закон города Москвы №29 от 14.06.2006: PDF редакции 20.02.2019 на mos.ru (исторический, сверить с официальными изменениями)](https://www.mos.ru/upload/documents/files/3779/ZakongMoskviot14062006N29%28redot20022019%29Ob.pdf)
 - **S3**: [Закон города Москвы №2 от 27.01.2010, опубликованный PDF с редакцией 2023 года](https://www.mos.ru/upload/content/files/3d0d00970eea8faff8160ee318a3c45e/14Zakong_Moskviot27_01_2010N2%28red_ot15_02_2023%29Osno.pdf)
 - **S4**: [Официальные инструкции ДГИ по приватизации и деприватизации](https://www.mos.ru/upload/documents/files/3258/Instrykciya49%285%29.pdf)
 - **S5**: [Пленум Верховного Суда №14 от 02.07.2009 о применении ЖК РФ](https://www.vsrf.ru/files/13088/)
