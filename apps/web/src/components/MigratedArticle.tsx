@@ -6,6 +6,8 @@ import { SeoMarkup } from "./SeoMarkup";
 import { isThematicSlug, sourceHeadingAccentIndex } from "@/data/themes";
 import { getMigratedPage } from "@/data/pages";
 import missingTopics from "@/data/missing-topic-destinations.json";
+import { HousingSupplement } from "./HousingGuide";
+import { siteIsLive } from "@/data/pages";
 
 const sanitizeHref = (href?: string) => {
   if (!href) return undefined;
@@ -174,6 +176,7 @@ export function MigratedArticle({ page, home = false, afterHero }: { page: Migra
               <ArticleReadingFlow blocks={featureBlocks} slug={page.slug} />
             </section>}
             <ArticleReadingFlow blocks={afterFeature} slug={page.slug} />
+            {!siteIsLive && <HousingSupplement page={page} />}
           </article>
           <aside className="article-aside">
             <div className="aside-panel">
