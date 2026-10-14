@@ -38,7 +38,20 @@ export function MigratedArticle({ page, home = false, afterHero }: { page: Migra
   );
   const heading = headingIndex >= 0 ? page.blocks[headingIndex].text : page.title;
   const lead = introIndex >= 0 ? page.blocks[introIndex].text : page.description;
-  const body = page.blocks.filter((_block, index) => index !== headingIndex && index !== introIndex);
+  const sourceBody = page.blocks.filter((_block, index) => index !== headingIndex && index !== introIndex);
+  // Reuse the source disclaimer once; avoid displaying it a second time in
+  // the article after the light hero. Never rewrite the legal content itself.
+  const sourceNotice = thematic ? sourceBody.find(block => block.kind === "p" &&
+    /^(Это собственное изложение|Сведения носят справочный характер)/.test(block.text)) : undefined;
+  const body = sourceNotice ? sourceBody.filter(block => block !== sourceNotice) : sourceBody;
+  // The original light pages pair their first thematic H2 with a supporting
+  // paragraph/link in a dark feature card. Preserve the exact source blocks.
+  const featureAt = thematic ? body.findIndex((block, index) =>
+    block.kind === "h2" && body[index + 1]?.kind === "p") : -1;
+  const featureLength = featureAt >= 0 ? (body[featureAt + 2]?.kind === "link" ? 3 : 2) : 0;
+  const beforeFeature = featureAt >= 0 ? body.slice(0, featureAt) : [];
+  const featureBlocks = featureAt >= 0 ? body.slice(featureAt, featureAt + featureLength) : [];
+  const afterFeature = featureAt >= 0 ? body.slice(featureAt + featureLength) : body;
   const accentAt = home ? heading.toLocaleLowerCase("ru").lastIndexOf("по жилищным вопросам") :
     (thematic ? -1 : sourceHeadingAccentIndex(page.slug,heading));
 
@@ -57,7 +70,7 @@ export function MigratedArticle({ page, home = false, afterHero }: { page: Migra
           </> : heading}</h1>
           {lead && <p className="hero-lead">{lead}</p>}
           {thematic ? <p className="editorial-notice">
-            Справочный материал. Источники, условия применения норм и актуальную редакцию документов необходимо проверять отдельно по официальным публикациям перед юридическим использованием.
+            {sourceNotice?.text ?? "Справочный материал. Перед юридическим использованием необходимо проверить официальные источники и действующую редакцию норм."}
           </p> : <div className="hero-actions">
             <a className="hero-link" href={home ? "#services" : "#material"}>
               {home ? "ВЫБРАТЬ НАПРАВЛЕНИЕ →" : "ПЕРЕЙТИ К МАТЕРИАЛАМ ↓"}
@@ -70,7 +83,11 @@ export function MigratedArticle({ page, home = false, afterHero }: { page: Migra
       <section className="article-section" id="material">
         <div className="container content-layout">
           <article className="article">
-            {body.map((block, i) => <ContentBlock key={`${i}-${block.kind}`} block={block} pageSlug={page.slug} />)}
+            {beforeFeature.map((block, i) => <ContentBlock key={`before-${i}-${block.kind}`} block={block} pageSlug={page.slug} />)}
+            {featureBlocks.length > 0 && <section className="thematic-feature" aria-label="Главная тема раздела">
+              {featureBlocks.map((block,i) => <ContentBlock key={`feature-${i}-${block.kind}`} block={block} pageSlug={page.slug} />)}
+            </section>}
+            {afterFeature.map((block, i) => <ContentBlock key={`rest-${i}-${block.kind}`} block={block} pageSlug={page.slug} />)}
           </article>
           <aside className="article-aside">
             <div className="aside-panel">
