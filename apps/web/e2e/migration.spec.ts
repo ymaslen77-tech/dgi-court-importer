@@ -84,3 +84,26 @@ test("original question remains accessible as a disclosure heading",async ({page
   await expect(faq).toHaveAttribute("open","");
   await expect(faq.locator(".article-faq-answer")).not.toBeEmpty();
 });
+
+
+test("homepage banner content starts directly under the header",async ({page})=>{
+  await page.goto("/");
+  const geometry=await page.evaluate(()=>{
+    const header=document.querySelector(".site--home .site-header");
+    const main=document.querySelector(".site--home #main-content");
+    const hero=main?.querySelector(":scope > .hero");
+    const eyebrow=hero?.querySelector(".hero-eyebrow");
+    if(!header||!main||!hero||!eyebrow) return null;
+    return {
+      mainFirstSection:hero===main.querySelector("section"),
+      gap:Math.round(hero.getBoundingClientRect().top-header.getBoundingClientRect().bottom),
+      eyebrowGap:Math.round(eyebrow.getBoundingClientRect().top-header.getBoundingClientRect().bottom),
+    };
+  });
+  expect(geometry).not.toBeNull();
+  expect(geometry?.mainFirstSection).toBe(true);
+  expect(geometry?.gap).toBeGreaterThanOrEqual(-2);
+  expect(geometry?.gap).toBeLessThanOrEqual(2);
+  expect(geometry?.eyebrowGap).toBeGreaterThanOrEqual(0);
+  expect(geometry?.eyebrowGap).toBeLessThanOrEqual(45);
+});
