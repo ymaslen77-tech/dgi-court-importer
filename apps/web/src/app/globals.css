@@ -218,3 +218,27 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   .thematic-feature { min-height: 0; }
   .thematic-feature:after { inset: 0 0 0 80%; }
 }
+
+/* Original Webflow light-section utility strip (source screenshot evidence). */
+.site--thematic .topbar { font-size: 11px; line-height: 1.6; }
+.thematic-utility { background: #f7f7f7; border-bottom: 1px solid #ddd; }
+.thematic-utility-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px 25px;
+  padding-block: 18px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.thematic-utility a { color: #b3192c; font-weight: 800; text-decoration: none; }
+.thematic-utility a:hover { text-decoration: underline; }
+.thematic-utility span { color: #717171; }
+@media(max-width: 640px) {
+  .site--thematic .hero--thematic h1 {
+    font-size: clamp(39px, 11vw, 44px);
+    line-height: 1.11;
+  }
+  .site--thematic .hero--thematic { padding-top: 34px; }
+  .thematic-utility-inner { align-items: flex-start; flex-direction: column; padding-block: 22px; }
+}
