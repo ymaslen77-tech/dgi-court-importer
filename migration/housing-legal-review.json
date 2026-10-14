@@ -1,0 +1,185 @@
+{
+  "auditDate": "2026-10-14",
+  "scope": "Москва, город; редакционная проверка для staging",
+  "method": "Status source_check is not proof of current legal text. No checked item is approved for production.",
+  "publicationRule": "Requires official consolidated effective version, competent agency/service, verified mandatory documents and deadlines, human signoff",
+  "guides": [
+    {
+      "slug": "priznanie-maloimushchim-dlya-zhilishchnogo-ucheta",
+      "legalBasis": "Закон Москвы № 7 и ЖК РФ гл. 7",
+      "sourceStatus": "historical_primary_link",
+      "referenceUrl": "https://www.mos.ru/upload/documents/files/7751/ZakongMoskviot25012006N7%28redot28122016%29.pdf",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "nextReview": "Найти официальную актуальную редакцию закона № 7, действующий регламент услуги и состав заявителей."
+    },
+    {
+      "slug": "pereregistratsiya-zhilishchnyy-uchet",
+      "legalBasis": "Приказ ДГИ № 286 от 21.08.2024, пп. 1.1–1.5",
+      "sourceStatus": "primary_text_checked",
+      "referenceUrl": "https://www.mos.ru/upload/content/files/2c7e35924e244c59dfe270088f191922/PRIKAH286ot21082024.pdf",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "nextReview": "Сверить все поправки после 21.08.2024, формы уведомления, актуальные приложения и сроки по ситуации."
+    },
+    {
+      "slug": "izmenenie-dogovora-sotsnayma",
+      "legalBasis": "Ст. 82 ЖК РФ",
+      "sourceStatus": "norm_crosschecked",
+      "referenceUrl": "https://www.mos.ru/upload/documents/oiv/29122004-_-188_fz%281%29.pdf",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "nextReview": "Сверить актуальную редакцию ЖК РФ в официальной базе и действующий московский регламент изменения договора."
+    },
+    {
+      "slug": "deprivatizatsiya-kvartiry-moskva",
+      "legalBasis": "Приложение 14 к постановлению Москвы № 521-ПП, введено 1368-ПП",
+      "sourceStatus": "primary_text_checked",
+      "referenceUrl": "https://www.mos.ru/upload/documents/docs/1368-PP.pdf",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "nextReview": "Сверить изменения после 2019 года, включая опубликованные поправки 2026 года и все приложения."
+    },
+    {
+      "slug": "subsidiya-na-oplatu-zhku-moskva",
+      "legalBasis": "ЖК РФ ст.159, постановление РФ № 761, московское 111-ПП",
+      "sourceStatus": "primary_text_checked",
+      "referenceUrl": "https://www.mos.ru/upload/content/files/d8fca445f3b983500e6a5ac0792fc3fd/24PostanovleniePravitelstvaMoskviot27_03_2012N111-PP%28r.pdf",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "nextReview": "Уточнить действующую редакцию 111-ПП, финансовые стандарты Москвы и текущий перечень документов у ГЦЖС."
+    },
+    {
+      "slug": "proverka-upravlyayushchey-kompanii",
+      "legalBasis": "ЖК РФ; инструкции ГИС ЖКХ для граждан",
+      "sourceStatus": "primary_help_checked",
+      "referenceUrl": "https://cdn.dom.gosuslugi.ru/webhelp/topics/_citizen/view_house-grazhd.html",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "nextReview": "Сверить нормативную базу о лицензировании и актуальные способы обращения; проверить доступность без авторизации."
+    },
+    {
+      "slug": "zhaloba-v-moszhilinspekciyu",
+      "legalBasis": "ЖК РФ, 59-ФЗ, компетенция МЖИ",
+      "sourceStatus": "agency_not_confirmed",
+      "referenceUrl": "https://cdn.dom.gosuslugi.ru/webhelp/topics/introduction/c_system-grazhd.html",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "nextReview": "Подтвердить действующую официальную страницу Мосжилинспекции, регламент канала жалобы и специальные сроки."
+    },
+    {
+      "slug": "kapremont-mkd-moskva",
+      "legalBasis": "ЖК РФ раздел IX, 832-ПП Москвы",
+      "sourceStatus": "help_source_checked",
+      "referenceUrl": "https://cdn.dom.gosuslugi.ru/webhelp/topics/programs_and_plans/repairs_plans/regional_repairs_plan/search-fond_reform.html",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "nextReview": "Сверить редакцию программы 832-ПП, региональный оператор, фактические графики по адресу и адреса приёма жалоб."
+    },
+    {
+      "slug": "renovatsiya-po-adresu-moskva",
+      "legalBasis": "Закон Москвы №14 от 17.05.2017",
+      "sourceStatus": "historical_primary_link",
+      "referenceUrl": "https://www.mos.ru/upload/content/files/15af077500dcc5a1547bf728abf25669/15Zakong_Moskviot17_05_2017N14Odopolnitelnihgaranti.pdf",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "nextReview": "Проверить актуальную редакцию закона, официальную адресную карту и различия для собственников/нанимателей."
+    },
+    {
+      "slug": "vypiska-egrn-na-kvartiru",
+      "legalBasis": "218-ФЗ; официальный портал Росреестра",
+      "sourceStatus": "official_portal_only",
+      "referenceUrl": "https://rosreestr.gov.ru/",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "nextReview": "Сверить действующий порядок предоставления сведений, ограничения персональных данных и точные URL услуг."
+    },
+    {
+      "slug": "subsidiya-na-priobretenie-zhilya-moskva",
+      "legalBasis": "Закон Москвы №29 от 14.06.2006",
+      "sourceStatus": "historical_primary_link",
+      "referenceUrl": "https://www.mos.ru/upload/documents/oiv/zakon_goroda_moskvy_ot_14062006_29.pdf",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "nextReview": "Установить доступные в 2026 году городские программы, категории очередников, формулы и порядок расчёта."
+    }
+  ],
+  "supplements": [
+    {
+      "slug": "zhilishchnaya-ochered",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "sourceStatus": "needs_legal_review",
+      "nextReview": "Уточнить индивидуальный порядок учёта, проверку приказа № 286 и текущих московских поправок."
+    },
+    {
+      "slug": "zhilishchnye-subsidii",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "sourceStatus": "needs_legal_review",
+      "nextReview": "Не смешивать субсидию на покупку с ЖКУ; проверить раздельные регламенты и ответственные органы."
+    },
+    {
+      "slug": "dokumenty-na-kvartiru",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "sourceStatus": "needs_legal_review",
+      "nextReview": "Проверить вид выписки ЕГРН, компетентный архив и порядок подтверждения ранее возникших прав."
+    },
+    {
+      "slug": "kadastrovaya-stoimost",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "sourceStatus": "needs_legal_review",
+      "nextReview": "Разделить оспаривание кадастровой оценки, ошибку ЕГРН и процедуру ГБУ Москвы."
+    },
+    {
+      "slug": "gorodskoe-imushchestvo-i-zemlya",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "sourceStatus": "needs_legal_review",
+      "nextReview": "Для каждой городской сделки уточнить объект, актуальный лот, тип собственности и действующий регламент."
+    },
+    {
+      "slug": "funkcii-dgi",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "sourceStatus": "needs_legal_review",
+      "nextReview": "Сверить полномочия ДГИ с действующим 99-ПП и разграничить их с Мосжилинспекцией."
+    }
+  ]
+}
