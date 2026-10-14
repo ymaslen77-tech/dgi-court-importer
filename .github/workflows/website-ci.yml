@@ -10,6 +10,8 @@ on:
       - "db/**"
       - "scripts/**"
       - "docker-compose.yml"
+      - "deploy/staging/**"
+      - ".dockerignore"
       - ".env.example"
       - "scripts/export-webflow.mjs"
       - "package.json"
@@ -22,6 +24,8 @@ on:
       - "db/**"
       - "scripts/**"
       - "docker-compose.yml"
+      - "deploy/staging/**"
+      - ".dockerignore"
       - ".env.example"
       - "scripts/export-webflow.mjs"
       - "package.json"
@@ -45,6 +49,8 @@ jobs:
           node-version: "22"
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Validate private staging Compose definition
+        run: docker compose --env-file deploy/staging/.env.example -f deploy/staging/compose.yml config --quiet
       - name: Validate migration inventory
         run: pnpm test
       - name: Validate staging preview
