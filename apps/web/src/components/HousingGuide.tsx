@@ -35,7 +35,7 @@ function Related({ slugs }: { slugs: string[] }) {
 }
 export function HousingGuideArticle({ guide }: { guide: HousingGuide }) {
   return <article className="housing-guide">
-    <p className="housing-review-label">Редакционный черновик · не прошёл юридическую приёмку</p>
+    <p className="housing-review-label">Перед обращением проверьте действующие правила</p>
     <h1>{guide.title}</h1>
     <p className="housing-guide-lead">{guide.summary}</p>
     <section><h2>Правовые основания</h2><p>{guide.legal}</p></section>
@@ -52,7 +52,7 @@ export function HousingSupplement({ page }: { page: MigratedPage }) {
   const supplement = supplements.find(item => item.slug === page.slug);
   if (!supplement) return null;
   return <section className="housing-guide housing-supplement" aria-label="Дополнительная практическая инструкция">
-    <p className="housing-review-label">Дополнительная инструкция · редакционный черновик</p>
+    <p className="housing-review-label">Пошаговая инструкция</p>
     <h2>Как решить вопрос: первые действия</h2><p>{supplement.intro}</p>
     <ol>{supplement.steps.map((step,index)=><li key={index}>{step}</li>)}</ol>
     <h3>Официальные источники</h3><SourceLinks sources={supplement.sources}/>
