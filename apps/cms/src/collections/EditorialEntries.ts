@@ -49,7 +49,8 @@ export const EditorialEntries: CollectionConfig = {
         record.reviewState = "needs-review";
         record.reviewedBy = null;
         record.reviewedAt = null;
-      } else if ((role === "reviewer" || role === "admin") && record.reviewState === "approved") {
+      } else if ((role === "reviewer" || role === "admin") &&
+        record.reviewState === "approved" && previous.reviewState !== "approved") {
         record.reviewedBy = String(req.user?.id ?? "");
         record.reviewedAt = new Date().toISOString();
       }
