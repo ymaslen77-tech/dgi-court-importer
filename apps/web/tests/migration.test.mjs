@@ -163,3 +163,14 @@ test("accent spans reuse existing headings rather than introducing unsupported w
  assert.ok(article.includes("heading.slice(0, accentAt)"));
  assert.ok(!article.includes("копия действующего административного регламента"));
 });
+
+
+test("thematic featured card preserves source text and no third-party image URLs",()=>{
+ const article=readFileSync(new URL("../src/components/MigratedArticle.tsx",import.meta.url),"utf8");
+ const css=readFileSync(new URL("../src/app/globals.css",import.meta.url),"utf8");
+ assert.ok(article.includes('body.slice(featureAt, featureAt + featureLength)'));
+ assert.ok(article.includes('thematic-feature'));
+ assert.ok(article.includes('sourceNotice?.text'));
+ assert.ok(css.includes('.thematic-feature'));
+ assert.ok(!css.includes("images.unsplash.com"));
+});
