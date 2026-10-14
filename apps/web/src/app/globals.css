@@ -367,3 +367,21 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", Ari
 @media (max-width: 640px) {
   .site--home #main-content > .hero { padding-top: 18px; }
 }
+
+/* Housing legal guidance: staging-only editorial preview. */
+.housing-guide { margin: 30px auto 64px; max-width: 960px; font-size: 16px; line-height: 1.75; color: #262626; }
+.housing-guide h1 { color: #202020; font-size: clamp(32px,4vw,48px); line-height: 1.2; margin: 22px 0; }
+.housing-guide h2 { font-size: clamp(22px,2.4vw,29px); margin: 34px 0 12px; line-height: 1.3; }
+.housing-guide h3 { font-size: 20px; margin: 24px 0 12px; }
+.housing-guide section { border-top: 1px solid #e6e6e6; padding-top: 4px; }
+.housing-guide li { margin: 8px 0; padding-left: 5px; }
+.housing-guide a { color: #a71929; text-underline-offset: 3px; }
+.housing-guide-lead { font-size: 19px; line-height: 1.7; }
+.housing-review-label { display: inline-block; color: #7e2730; background: #fbf2f3; border: 1px solid #e8c9ce; padding: 7px 11px; font-size: 13px; font-weight: 700; }
+.housing-source-list { list-style: none; padding: 0; }
+.housing-source-list li { margin: 0 0 20px; padding-left: 0; }
+.housing-source-list p { color: #666; font-size: 14px; margin: 2px 0; }
+.housing-related { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; margin: 16px 0; }
+.housing-editorial-foot { color: #777; font-size: 13px; border-top: 1px solid #ddd; padding-top: 15px; }
+.housing-supplement { max-width: 100%; padding: 18px 22px; margin: 32px 0; border: 1px solid #e3d7d8; border-radius: 8px; background: #fff; }
+@media(max-width:640px) { .housing-guide { margin: 22px auto; } .housing-supplement { padding: 16px; } }
