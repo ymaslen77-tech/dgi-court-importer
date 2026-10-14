@@ -51,6 +51,12 @@ export function PageShell({ children, variant = "default" }: Readonly<{ children
           {variant === "home" && <Link className="header-cta" href="/#services">РАЗОБРАТЬ СИТУАЦИЮ →</Link>}
         </div>
       </header>
+      {variant === "thematic" && <div className="thematic-utility">
+        <div className="container thematic-utility-inner">
+          <Link href="/">← Вернуться к каталогу</Link>
+          <span>Редакционный материал · перед применением требуется сверка источников</span>
+        </div>
+      </div>}
       <main id="main-content">{children}</main>
       <footer className="footer">
         <div className="container footer-grid">
