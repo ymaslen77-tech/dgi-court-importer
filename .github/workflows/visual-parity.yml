@@ -1,0 +1,42 @@
+name: Visual reference — Webflow vs Next.js
+on:
+  push:
+    branches: [feature/nextjs-webflow-migration]
+    paths:
+      - "apps/web/visual/**"
+      - "apps/web/playwright.visual.config.ts"
+      - ".github/workflows/visual-parity.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  screenshots:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      CI: "true"
+      SITE_CUTOVER: "false"
+      SITE_RELEASE_APPROVED: "no"
+      CMS_PUBLIC_READS: "false"
+      COURT_DB_READS: "false"
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @dgi/web build
+      - run: pnpm --filter @dgi/web exec playwright install --with-deps chromium
+      - name: Capture paired desktop/mobile screenshots
+        run: pnpm --filter @dgi/web exec playwright test --config playwright.visual.config.ts
+      - name: Save source/target images
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: design-comparison
+          path: apps/web/test-results/
+          retention-days: 7
