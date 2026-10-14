@@ -60,7 +60,7 @@ export function MigratedArticle({ page, home = false, afterHero }: { page: Migra
       <SeoMarkup page={page} />
       <section className={thematic ? "hero hero--thematic" : "hero"}>
         <div className="container">
-          {!home && <nav className="breadcrumb" aria-label="Навигационная цепочка">
+          {!home && !thematic && <nav className="breadcrumb" aria-label="Навигационная цепочка">
             <Link href="/">Главная</Link><span aria-hidden="true"> / </span><span aria-current="page">{page.title}</span>
           </nav>}
           <div className="hero-eyebrow">{home ? "НЕЗАВИСИМАЯ СПРАВОЧНО-ПРАВОВАЯ ПОМОЩЬ · МОСКВА" : thematic ? "ТЕМАТИЧЕСКИЙ РАЗДЕЛ" : "ЖИЛИЩНЫЕ ВОПРОСЫ / МОСКВА"}</div>
