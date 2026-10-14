@@ -1,7 +1,7 @@
 {
   "checkedOn": "2026-10-14",
   "source": "migration/cms-inventory.json",
-  "scope": "Metadata-based provenance screening; not full-content editorial or legal approval",
+  "scope": "Actual CMS collection content and metadata compared against 50-item GitHub inventory; no legal approval. Full text remains in originating service.",
   "counts": {
     "dgi-court-cases": 37,
     "dgi-legal-documents": 4,
@@ -22,7 +22,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": false,
+        "fieldsPresent": 12,
+        "richTextFound": true,
+        "cmsEditorialStatus": "verified_secondary",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": true
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -37,7 +47,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": false,
+        "fieldsPresent": 12,
+        "richTextFound": true,
+        "cmsEditorialStatus": "verified_secondary",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": true
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -52,7 +72,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": true,
+        "fieldsPresent": 12,
+        "richTextFound": true,
+        "cmsEditorialStatus": "pending_result",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": true
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -67,7 +97,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": false,
+        "fieldsPresent": 12,
+        "richTextFound": true,
+        "cmsEditorialStatus": "verified_secondary",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": true
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -82,7 +122,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": true,
+        "fieldsPresent": 12,
+        "richTextFound": true,
+        "cmsEditorialStatus": "pending_result",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": true
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -97,7 +147,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": false,
+        "fieldsPresent": 12,
+        "richTextFound": true,
+        "cmsEditorialStatus": "verified_secondary",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": true
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -112,7 +172,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": true,
+        "fieldsPresent": 12,
+        "richTextFound": true,
+        "cmsEditorialStatus": "pending_result",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": true
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -127,7 +197,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": false,
+        "fieldsPresent": 12,
+        "richTextFound": true,
+        "cmsEditorialStatus": "verified_secondary",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": true
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -142,7 +222,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": false,
+        "fieldsPresent": 16,
+        "richTextFound": true,
+        "cmsEditorialStatus": "official_appeal_metadata_found; trial_act_secondary_only",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": true
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -157,7 +247,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": false,
+        "fieldsPresent": 12,
+        "richTextFound": true,
+        "cmsEditorialStatus": "verified_secondary",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": true
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -172,7 +272,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": false,
+        "fieldsPresent": 12,
+        "richTextFound": true,
+        "cmsEditorialStatus": "verified_secondary",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": true
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -187,7 +297,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": false,
+        "fieldsPresent": 12,
+        "richTextFound": true,
+        "cmsEditorialStatus": "verified_secondary",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": true
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -202,7 +322,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": false,
+        "fieldsPresent": 12,
+        "richTextFound": true,
+        "cmsEditorialStatus": "verified_secondary",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": true
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -217,7 +347,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": false,
+        "fieldsPresent": 12,
+        "richTextFound": true,
+        "cmsEditorialStatus": "verified_secondary",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": true
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -232,7 +372,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": false,
+        "fieldsPresent": 12,
+        "richTextFound": true,
+        "cmsEditorialStatus": "verified_secondary",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": true
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -247,7 +397,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": false,
+        "fieldsPresent": 12,
+        "richTextFound": true,
+        "cmsEditorialStatus": "verified_secondary",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": true
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -262,7 +422,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": true,
+        "fieldsPresent": 12,
+        "richTextFound": true,
+        "cmsEditorialStatus": "pending_appeal",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": true
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -277,7 +447,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": false,
+        "fieldsPresent": 12,
+        "richTextFound": true,
+        "cmsEditorialStatus": "verified_secondary",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": true
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -292,7 +472,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": true,
+        "fieldsPresent": 12,
+        "richTextFound": true,
+        "cmsEditorialStatus": "pending_appeal",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": true
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -307,7 +497,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": true,
+        "fieldsPresent": 12,
+        "richTextFound": true,
+        "cmsEditorialStatus": "pending_appeal",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": true
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -322,7 +522,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": true,
+        "fieldsPresent": 12,
+        "richTextFound": true,
+        "cmsEditorialStatus": "pending_appeal",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": true
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -337,7 +547,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": false,
+        "fieldsPresent": 12,
+        "richTextFound": true,
+        "cmsEditorialStatus": "verified_secondary",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": true
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -352,7 +572,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": false,
+        "fieldsPresent": 12,
+        "richTextFound": true,
+        "cmsEditorialStatus": "verified_secondary",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": true
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -367,7 +597,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": false,
+        "fieldsPresent": 12,
+        "richTextFound": true,
+        "cmsEditorialStatus": "verified_secondary",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": true
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -382,7 +622,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": false,
+        "fieldsPresent": 12,
+        "richTextFound": true,
+        "cmsEditorialStatus": "verified_secondary",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": true
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -397,7 +647,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": false,
+        "fieldsPresent": 12,
+        "richTextFound": true,
+        "cmsEditorialStatus": "verified_secondary",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": true
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -412,7 +672,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": false,
+        "fieldsPresent": 12,
+        "richTextFound": true,
+        "cmsEditorialStatus": "verified_secondary",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": true
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -427,7 +697,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": false,
+        "fieldsPresent": 12,
+        "richTextFound": true,
+        "cmsEditorialStatus": "verified_secondary",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": true
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -442,7 +722,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": false,
+        "fieldsPresent": 12,
+        "richTextFound": true,
+        "cmsEditorialStatus": "verified_secondary",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": true
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -459,7 +749,17 @@
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
       "pending": "Прочитать полный официальный текст определения, выделить нормы и мотивировку, проверить движение дела по инстанциям и подготовить обезличенное резюме перед публикацией",
-      "officialActLocated": true
+      "officialActLocated": true,
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": true,
+        "fieldsPresent": 15,
+        "richTextFound": false,
+        "cmsEditorialStatus": "official_case_act_pending_editorial_review",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": false
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -476,7 +776,17 @@
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
       "pending": "Прочитать полный официальный текст определения, выделить нормы и мотивировку, проверить движение дела по инстанциям и подготовить обезличенное резюме перед публикацией",
-      "officialActLocated": true
+      "officialActLocated": true,
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": true,
+        "fieldsPresent": 15,
+        "richTextFound": false,
+        "cmsEditorialStatus": "official_case_act_pending_editorial_review",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": false
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -493,7 +803,17 @@
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
       "pending": "Прочитать полный официальный текст определения, выделить нормы и мотивировку, проверить движение дела по инстанциям и подготовить обезличенное резюме перед публикацией",
-      "officialActLocated": true
+      "officialActLocated": true,
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": true,
+        "fieldsPresent": 15,
+        "richTextFound": false,
+        "cmsEditorialStatus": "official_case_act_pending_editorial_review",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": false
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -510,7 +830,17 @@
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
       "pending": "Прочитать полный официальный текст определения, выделить нормы и мотивировку, проверить движение дела по инстанциям и подготовить обезличенное резюме перед публикацией",
-      "officialActLocated": true
+      "officialActLocated": true,
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": true,
+        "fieldsPresent": 15,
+        "richTextFound": false,
+        "cmsEditorialStatus": "official_case_act_pending_editorial_review",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": false
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -527,7 +857,17 @@
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
       "pending": "Прочитать полный официальный текст определения, выделить нормы и мотивировку, проверить движение дела по инстанциям и подготовить обезличенное резюме перед публикацией",
-      "officialActLocated": true
+      "officialActLocated": true,
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": true,
+        "fieldsPresent": 15,
+        "richTextFound": false,
+        "cmsEditorialStatus": "official_case_act_pending_editorial_review",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": false
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -543,7 +883,17 @@
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
       "pending": "Прочитать полный официальный текст определения, выделить нормы и мотивировку, проверить движение дела по инстанциям и подготовить обезличенное резюме перед публикацией",
-      "officialActLocated": true
+      "officialActLocated": true,
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": true,
+        "fieldsPresent": 14,
+        "richTextFound": false,
+        "cmsEditorialStatus": "official_case_act_pending_editorial_review",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": false
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -560,7 +910,17 @@
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
       "pending": "Прочитать полный официальный текст определения, выделить нормы и мотивировку, проверить движение дела по инстанциям и подготовить обезличенное резюме перед публикацией",
-      "officialActLocated": true
+      "officialActLocated": true,
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": true,
+        "fieldsPresent": 15,
+        "richTextFound": false,
+        "cmsEditorialStatus": "official_case_act_pending_editorial_review",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": false
+      }
     },
     {
       "collection": "dgi-court-cases",
@@ -577,7 +937,17 @@
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
       "pending": "Прочитать полный официальный текст определения, выделить нормы и мотивировку, проверить движение дела по инстанциям и подготовить обезличенное резюме перед публикацией",
-      "officialActLocated": true
+      "officialActLocated": true,
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": true,
+        "fieldsPresent": 15,
+        "richTextFound": false,
+        "cmsEditorialStatus": "official_case_act_pending_editorial_review",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": false
+      }
     },
     {
       "collection": "dgi-legal-documents",
@@ -590,7 +960,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить все поправки к акту, действующий сводный текст, приложения, даты вступления в силу и применимые пункты"
+      "pending": "Получить все поправки к акту, действующий сводный текст, приложения, даты вступления в силу и применимые пункты",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": true,
+        "fieldsPresent": 6,
+        "richTextFound": false,
+        "cmsEditorialStatus": "Справочный источник; актуальная редакция не сверена",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": false
+      }
     },
     {
       "collection": "dgi-legal-documents",
@@ -603,7 +983,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить все поправки к акту, действующий сводный текст, приложения, даты вступления в силу и применимые пункты"
+      "pending": "Получить все поправки к акту, действующий сводный текст, приложения, даты вступления в силу и применимые пункты",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": true,
+        "fieldsPresent": 6,
+        "richTextFound": false,
+        "cmsEditorialStatus": "Требуется сверить редакцию и приложение",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": false
+      }
     },
     {
       "collection": "dgi-legal-documents",
@@ -616,7 +1006,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить все поправки к акту, действующий сводный текст, приложения, даты вступления в силу и применимые пункты"
+      "pending": "Получить все поправки к акту, действующий сводный текст, приложения, даты вступления в силу и применимые пункты",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": true,
+        "fieldsPresent": 6,
+        "richTextFound": false,
+        "cmsEditorialStatus": "Историческая редакция: актуальность не сверена",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": false
+      }
     },
     {
       "collection": "dgi-legal-documents",
@@ -629,7 +1029,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить все поправки к акту, действующий сводный текст, приложения, даты вступления в силу и применимые пункты"
+      "pending": "Получить все поправки к акту, действующий сводный текст, приложения, даты вступления в силу и применимые пункты",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": true,
+        "fieldsPresent": 6,
+        "richTextFound": false,
+        "cmsEditorialStatus": "Историческая редакция: актуальность не сверена",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": false
+      }
     },
     {
       "collection": "dgi-legal-situations",
@@ -642,7 +1052,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Проверить действующие акты и административные процедуры; подготовить уникальную практическую инструкцию со сроками и отказами"
+      "pending": "Проверить действующие акты и административные процедуры; подготовить уникальную практическую инструкцию со сроками и отказами",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": true,
+        "fieldsPresent": 7,
+        "richTextFound": true,
+        "cmsEditorialStatus": "Информационная карточка: требуется проверка применимости к конкретному делу",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": false
+      }
     },
     {
       "collection": "dgi-legal-situations",
@@ -655,7 +1075,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Проверить действующие акты и административные процедуры; подготовить уникальную практическую инструкцию со сроками и отказами"
+      "pending": "Проверить действующие акты и административные процедуры; подготовить уникальную практическую инструкцию со сроками и отказами",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": true,
+        "fieldsPresent": 7,
+        "richTextFound": true,
+        "cmsEditorialStatus": "Информационная карточка: требуется проверка применимости к конкретному делу",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": false
+      }
     },
     {
       "collection": "dgi-legal-situations",
@@ -668,7 +1098,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Проверить действующие акты и административные процедуры; подготовить уникальную практическую инструкцию со сроками и отказами"
+      "pending": "Проверить действующие акты и административные процедуры; подготовить уникальную практическую инструкцию со сроками и отказами",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": true,
+        "fieldsPresent": 7,
+        "richTextFound": true,
+        "cmsEditorialStatus": "Информационная карточка: требуется проверка применимости к конкретному делу",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": false
+      }
     },
     {
       "collection": "dgi-legal-situations",
@@ -681,7 +1121,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Проверить действующие акты и административные процедуры; подготовить уникальную практическую инструкцию со сроками и отказами"
+      "pending": "Проверить действующие акты и административные процедуры; подготовить уникальную практическую инструкцию со сроками и отказами",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": true,
+        "fieldsPresent": 7,
+        "richTextFound": true,
+        "cmsEditorialStatus": "Информационная карточка: требуется проверка применимости к конкретному делу",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": false
+      }
     },
     {
       "collection": "dgi-legal-situations",
@@ -694,7 +1144,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Проверить действующие акты и административные процедуры; подготовить уникальную практическую инструкцию со сроками и отказами"
+      "pending": "Проверить действующие акты и административные процедуры; подготовить уникальную практическую инструкцию со сроками и отказами",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": true,
+        "fieldsPresent": 7,
+        "richTextFound": true,
+        "cmsEditorialStatus": "Информационная карточка: требуется проверка применимости к конкретному делу",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": false
+      }
     },
     {
       "collection": "dgi-legal-situations",
@@ -707,7 +1167,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Проверить действующие акты и административные процедуры; подготовить уникальную практическую инструкцию со сроками и отказами"
+      "pending": "Проверить действующие акты и административные процедуры; подготовить уникальную практическую инструкцию со сроками и отказами",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": true,
+        "fieldsPresent": 7,
+        "richTextFound": true,
+        "cmsEditorialStatus": "Информационная карточка: требуется проверка применимости к конкретному делу",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": false
+      }
     },
     {
       "collection": "housing-law-news",
@@ -720,7 +1190,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Подтвердить первичный законопроект/акт/сообщение и статус на дату публикации; не объявлять проект действующей нормой"
+      "pending": "Подтвердить первичный законопроект/акт/сообщение и статус на дату публикации; не объявлять проект действующей нормой",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": true,
+        "fieldsPresent": 12,
+        "richTextFound": true,
+        "cmsEditorialStatus": "editorial_review — первичные документы подлежат сверке",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": false
+      }
     },
     {
       "collection": "housing-law-news",
@@ -733,7 +1213,17 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Подтвердить первичный законопроект/акт/сообщение и статус на дату публикации; не объявлять проект действующей нормой"
+      "pending": "Подтвердить первичный законопроект/акт/сообщение и статус на дату публикации; не объявлять проект действующей нормой",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": true,
+        "fieldsPresent": 12,
+        "richTextFound": true,
+        "cmsEditorialStatus": "editorial_review — первичные документы подлежат сверке",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": false
+      }
     },
     {
       "collection": "housing-law-news",
@@ -746,14 +1236,25 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Подтвердить первичный законопроект/акт/сообщение и статус на дату публикации; не объявлять проект действующей нормой"
+      "pending": "Подтвердить первичный законопроект/акт/сообщение и статус на дату публикации; не объявлять проект действующей нормой",
+      "sourceCmsCheck": {
+        "checkedOn": "2026-10-14",
+        "sourceVersion": "live collection read",
+        "isSourceDraft": true,
+        "fieldsPresent": 12,
+        "richTextFound": true,
+        "cmsEditorialStatus": "editorial_review — первичные документы подлежат сверке",
+        "reviewedByEditor": false,
+        "caseVerdictFieldPopulated": false
+      }
     }
   ],
   "notes": [
-    "All 50 entries screened by metadata. Rich-text contents of original CMS collections have not been obtained.",
-    "8 of 37 court records match individual case listings on 2kas.sudrf.ru (number and/or UID); official case pages contain judicial decisions, but full-content legal review has not been accepted.",
-    "28 court records have no official case link; one record points to a generic appellate search list, not a unique court act.",
-    "Four legal act links are historical, six topics reference existing pages, and three news records come from secondary reports.",
-    "No judicial outcome is approved for republication, and no CMS item may be promoted automatically."
+    "On 2026-10-14, read all 4 live source CMS collections: 37 judicial cards, 4 acts, 6 legal situations, 3 news items; all 50 IDs and slugs match the pinned inventory.",
+    "37 judicial cards: 8 unique official Second Cassation case pages matched, 28 missing direct official source, 1 generic search result.",
+    "Source CMS has 22 case records marked notDraft but these are NOT legally approved. 21 judicial status labels say verified_secondary; none of the 37 source cards should be treated as independently court-act verified.",
+    "All 6 legal situations have substantive text; all 3 news items have text, but news primary normative URLs are empty; four legal act records refer to historical publications.",
+    "Case verdict fields present in 29 source records; until official acts and scope/appeal are verified these fields must not be copied into public articles.",
+    "Source values are not duplicated here; only completeness flags and source classifications are saved. No item has publication approval."
   ]
 }
