@@ -174,3 +174,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   .site--home .header-cta { font-size: 10px; min-height: 40px; }
   .site--home .main-nav { gap: 11px; }
 }
+
+/* Highlight only phrases visibly emphasized in the original Webflow dark heroes. */
+.hero:not(.hero--thematic) .hero-accent { color: var(--red-bright); }
+/* Never import unlicensed external Webflow background images. */
+.hero--thematic .hero-lead { max-width: 980px; }
+.site--thematic .hero--thematic + .article-section { padding-top: 14px; }
