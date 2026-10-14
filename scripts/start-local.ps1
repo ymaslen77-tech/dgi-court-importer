@@ -33,7 +33,7 @@ Push-Location $root
 try {
   if (-not $SkipInstall) {
     Write-Host "Installing repository dependencies (pnpm 10)..." -ForegroundColor Cyan
-    & corepack pnpm install --no-frozen-lockfile
+    & corepack pnpm install --frozen-lockfile
     if ($LASTEXITCODE -ne 0) { throw "Dependency installation failed ($LASTEXITCODE)" }
   }
 

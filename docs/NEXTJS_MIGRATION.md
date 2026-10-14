@@ -17,7 +17,7 @@
 
 ```bash
 corepack enable
-pnpm install --no-frozen-lockfile
+pnpm install --frozen-lockfile
 pnpm test
 pnpm typecheck
 pnpm dev
@@ -77,7 +77,7 @@ verified или published. Связь инстанций по УИД — буд�
 Локально: установите Node.js 22, pnpm, Docker Compose и клиент psql.
 Скопируйте .env.example в .env, замените пароль и загрузите переменные
 POSTGRES_PASSWORD, POSTGRES_PORT, DATABASE_URL в окружение.
-Выполните docker compose up -d database; pnpm install --no-frozen-lockfile;
+Выполните docker compose up -d database; pnpm install --frozen-lockfile;
 pnpm migration:dry-run; psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f db/migrations/0001_initial.sql.
 Только на тестовой БД выполните pnpm migration:apply.
 

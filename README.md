@@ -31,7 +31,7 @@
 **Статус:** первая версия приложения и снимки 33 страниц + 22 опубликованных судебных метаданных в ветке `feature/nextjs-webflow-migration`. Это не готовое переключение домена: CMS/DB runtime, изображения и SEO QA остаются в работе. На тестовой версии индексация отключена до отдельного релизного одобрения и проверенного HTTPS-домена.
 
 - [Инструкция по миграции и незакрытые задачи](docs/NEXTJS_MIGRATION.md)
-- Команды: `corepack enable && pnpm install --no-frozen-lockfile && pnpm test && pnpm build && pnpm dev`
+- Команды: `corepack enable && pnpm install --frozen-lockfile && pnpm test && pnpm build && pnpm dev`
 - Не публикуйте сырые Webflow CMS-данные и секреты; `scripts/export-webflow.mjs` складывает backup в gitignored `.migration/`.
 - Действующий Webflow не отключён, текущая ветка `main` не заменяется до ревью.
 

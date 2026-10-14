@@ -17,7 +17,7 @@ remains unchanged:
 ```
 cp apps/cms/.env.example apps/cms/.env
 # Set CMS_DATABASE_URL and PAYLOAD_SECRET in the process environment.
-pnpm install --no-frozen-lockfile
+pnpm install --frozen-lockfile
 pnpm --filter @dgi/cms generate:importmap
 pnpm --filter @dgi/cms dev
 ```
