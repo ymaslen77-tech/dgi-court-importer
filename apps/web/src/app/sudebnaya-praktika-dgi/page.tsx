@@ -39,15 +39,16 @@ export default async function CourtPracticePage() {
   ];
   const databaseMode = process.env.COURT_DB_READS === "true";
   return (
-    <PageShell>
-      <section className="hero">
+    <PageShell variant="thematic">
+      <section className="hero hero--thematic">
         <div className="container">
           <div className="hero-eyebrow">ЖИЛИЩНЫЕ СПОРЫ · СУДЕБНЫЕ ИСТОЧНИКИ</div>
-          <h1>Судебная практика по жилищным вопросам Москвы</h1>
+          <h1>Судебная практика по делам ДГИ</h1>
           <p className="hero-lead">
             Поиск по номеру дела, суду и категории. Архив Webflow и новые официальные карточки
             показаны раздельно по происхождению. Наличие дела не подтверждает содержание решения.
           </p>
+          <p className="editorial-notice">Карточки приводятся для поиска и проверки. Дата, исход спора, мотивировка и дальнейшие инстанции не считаются подтверждёнными без официального текста судебного акта.</p>
         </div>
       </section>
       {databaseMode ? <CourtDatabaseExplorer /> : <CourtExplorer cases={snapshots} />}
