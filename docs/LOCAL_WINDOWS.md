@@ -1,13 +1,13 @@
 # Локальный запуск сайта ДГИ (Windows 11)
 
-Исходники: приватный GitHub-репозиторий
+Исходники: GitHub-репозиторий
 `ymaslen77-tech/dgi-court-importer`, ветка
 `feature/nextjs-webflow-migration` (Draft PR №2).
 
 ## Первый запуск
 
 Требуются Git, Node.js **22+**, Corepack, интернет для установки
-зависимостей, а также GitHub-доступ к приватному репозиторию.
+зависимостей, а также доступ к GitHub.
 
 ```powershell
 git clone --branch feature/nextjs-webflow-migration --single-branch https://github.com/ymaslen77-tech/dgi-court-importer.git
@@ -44,3 +44,9 @@ Webflow, DNS и `main` остаются нетронутыми.
 команда. Чат не может запустить сервер на пользовательском компьютере
 без доступа к его терминалу. На другом устройстве этот адрес
 не откроется.
+
+## Полный локальный стек
+
+Сайт + Payload CMS + две PostgreSQL-базы + миграции + импорт и QA:
+[LOCAL_FULLSTACK.md](LOCAL_FULLSTACK.md).
+Прежний `start-local.ps1` открывает только Next.js без CMS.
