@@ -98,6 +98,6 @@ test("public-facing pages do not expose developer or migration messages", async 
   const response = await page.goto(path);
   expect(response?.status(), path).toBe(200);
   const visibleText = await page.locator("body").innerText();
-  expect(visibleText, path).not.toMatch(/webflow|next\\.?js|\\bCMS\\b|редакционный черновик|предварительная версия|текст перенесён|staging|миграци[яи]|релиз|сборка сайта|техническая проверка/iu);
+  expect(visibleText, path).not.toMatch(/webflow|next\.?js|\bCMS\b|редакционный черновик|предварительная версия|текст перенесён|staging|миграци[яи]|релиз|сборка сайта|техническая проверка/iu);
  }
 });
