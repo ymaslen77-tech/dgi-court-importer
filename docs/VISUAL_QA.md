@@ -1,15 +1,17 @@
 # Source/target design screenshot comparison
 
 Workflow: .github/workflows/visual-parity.yml.
-It captures Webflow and local Next.js screenshots for six representative
-routes at desktop 1280x800 and mobile 390x844.
+It now captures source Webflow and local Next.js screenshots for all 33
+pinned public static URLs at desktop 1280x800 and mobile 390x844.
+This is 66 screenshot pairs (132 captured screenshots) when every test succeeds.
 
 Download the GitHub Actions design-comparison artifact and compare each
 webflow.png/next.png pair. Track discrepancies in navigation, backgrounds,
 typography, layout, forms and mobile rendering. Screenshots do not confer
 media rights and do not authorize a release.
 
-This is a sample, NOT full manual acceptance of all 33 static routes.
+The original 6-route comparison was only a sample. New full-route captures
+are still not a manual acceptance or proof of pixel parity.
 
 ## Findings from source/target screenshot inspection (2026-10-14)
 
