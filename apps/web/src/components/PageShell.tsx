@@ -18,12 +18,23 @@ const homeNavigation = [
   { href: "/novosti-zhilishchnogo-prava", label: "Новости" },
 ];
 
+const thematicNavigation = [
+  { href: "/", label: "Главная" },
+  { href: "/zhilishchnyj-uchet", label: "Жилищный учёт" },
+  { href: "/privatizaciya-zhilya", label: "Приватизация" },
+  { href: "/socialnyj-naem", label: "Социальный наём" },
+  { href: "/renovaciya-pereselenie", label: "Реновация" },
+  { href: "/funkcii-dgi", label: "Функции ДГИ" },
+  { href: "/normativnye-akty", label: "Нормативные акты" },
+  { href: "/gosuslugi-dgi", label: "Госуслуги" },
+];
+
 export function PageShell({ children, variant = "default" }: Readonly<{ children: React.ReactNode; variant?: "default" | "home" | "thematic" }>) {
   return (
     <div className={`site site--${variant}`}>
       <a href="#main-content" className="skip-link">Перейти к основному содержанию</a>
       <div className="topbar">
-        <div className="container">МОСКВА · ЖИЛИЩНОЕ ПРАВО · СПРАВОЧНЫЕ МАТЕРИАЛЫ</div>
+        <div className="container">{variant === "thematic" ? "ЕДИНАЯ СПРАВОЧНАЯ СЛУЖБА МОСКВЫ · ЖИЛИЩНЫЕ ВОПРОСЫ · СПРАВОЧНО-ПРАВОВАЯ ПОМОЩЬ" : "МОСКВА · ЖИЛИЩНОЕ ПРАВО · СПРАВОЧНЫЕ МАТЕРИАЛЫ"}</div>
       </div>
       <header className="site-header">
         <div className="container header-wrap">
@@ -35,7 +46,7 @@ export function PageShell({ children, variant = "default" }: Readonly<{ children
             </span>
           </Link>
           <nav className="main-nav" aria-label="Основная навигация">
-            {(variant === "home" ? homeNavigation : navigation).map((item) => <Link href={item.href} key={item.href}>{item.label}</Link>)}
+            {(variant === "home" ? homeNavigation : variant === "thematic" ? thematicNavigation : navigation).map((item) => <Link href={item.href} key={item.href}>{item.label}</Link>)}
           </nav>
           {variant === "home" && <Link className="header-cta" href="/#services">РАЗОБРАТЬ СИТУАЦИЮ →</Link>}
         </div>
