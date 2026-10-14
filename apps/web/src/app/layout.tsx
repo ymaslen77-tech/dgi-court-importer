@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { siteIsLive, siteOrigin } from "@/data/pages";
+import { siteOrigin } from "@/data/pages";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteOrigin),
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     template: "%s | Жилищные вопросы Москвы",
   },
   description: "Жилищные вопросы Москвы: документы, ДГИ, приватизация, реновация, обращения и судебная практика.",
-  robots: siteIsLive ? { index: true, follow: true } : { index: false, follow: false },
+  robots: { index: false, follow: false },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
