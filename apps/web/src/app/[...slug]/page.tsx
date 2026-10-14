@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { MigratedArticle } from "@/components/MigratedArticle";
 import { PageShell } from "@/components/PageShell";
-import { canonicalUrl, getMigratedPage, migratedPages, siteIsLive } from "@/data/pages";
+import { canIndexPage, canonicalUrl, getMigratedPage, migratedPages, siteIsLive } from "@/data/pages";
 import { getPublishedEditorialPage } from "@/data/published";
 import { isThematicSlug } from "@/data/themes";
 import { findHousingGuide, HousingGuideArticle } from "@/components/HousingGuide";
@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug: parts } = await params;
   const slug = resolvedSlug(parts);
   if (!slug || slug === "sudebnaya-praktika-dgi") return {};
-  const page = (await getPublishedEditorialPage(slug)) ?? getMigratedPage(slug);
+  const page = (await getPublishedEditorialPage(slug)) ?? (!siteIsLive ? getMigratedPage(slug) : undefined);
   if (!page) {
     if (!siteIsLive && slug === housingLawCatalogSlug) return {
       title: { absolute: housingLawCatalogTitle },
@@ -40,8 +40,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: { absolute: page.seoTitle },
     description: page.description,
-    alternates: siteIsLive ? { canonical: canonicalUrl(page) } : undefined,
-    robots: siteIsLive ? { index: true, follow: true } : { index: false, follow: false },
+    alternates: canIndexPage(page) ? { canonical: canonicalUrl(page) } : undefined,
+    robots: canIndexPage(page) ? { index: true, follow: true } : { index: false, follow: false },
   };
 }
 
@@ -50,7 +50,7 @@ export default async function ContentPage({ params }: Props) {
   const slug = resolvedSlug(parts);
   if (!slug || slug === "sudebnaya-praktika-dgi") notFound();
   // Render the same approved editorial revision used for metadata and sitemap.
-  const page = (await getPublishedEditorialPage(slug)) ?? getMigratedPage(slug);
+  const page = (await getPublishedEditorialPage(slug)) ?? (!siteIsLive ? getMigratedPage(slug) : undefined);
   if (!page) {
     if (!siteIsLive && slug === housingLawCatalogSlug) {
       return <PageShell variant="thematic"><div className="container"><HousingLawCatalog /></div></PageShell>;
