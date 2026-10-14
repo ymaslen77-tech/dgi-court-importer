@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: { absolute: page?.seoTitle || "Судебная практика Москвы" },
   description: page?.description || "Поиск карточек судебных дел по жилищным вопросам Москвы.",
-  alternates: page ? { canonical: canonicalUrl(page) } : undefined,
+  alternates: siteIsLive && page ? { canonical: canonicalUrl(page) } : undefined,
   robots: siteIsLive ? { index: true, follow: true } : { index: false, follow: false },
 };
 
