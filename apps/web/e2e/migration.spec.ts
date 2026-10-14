@@ -30,7 +30,7 @@ for(const {path} of manifest.pages){
     expect(response?.status()).toBe(200);
     await expect(page.locator("h1")).toHaveCount(1);
     await expect(page.locator("meta[name=robots]")).toHaveAttribute("content",/noindex/);
-    await expect(page.locator('link[rel="canonical"]')).toHaveCount(1);
+    await expect(page.locator('link[rel="canonical"]')).toHaveCount(0);
     const overflow=await page.evaluate(()=>(
       document.documentElement.scrollWidth-window.innerWidth
     ));
