@@ -176,6 +176,7 @@ export function MigratedArticle({ page, home = false, afterHero }: { page: Migra
               <ArticleReadingFlow blocks={featureBlocks} slug={page.slug} />
             </section>}
             <ArticleReadingFlow blocks={afterFeature} slug={page.slug} />
+            {!siteIsLive && page.slug === "normativnye-akty" && <p className="article-action"><Link href="/spravochnik-zhilishchnogo-zakonodatelstva-moskvy">Открыть редакционный каталог 16 жилищных нормативных актов →</Link></p>}
             {!siteIsLive && <HousingSupplement page={page} />}
           </article>
           <aside className="article-aside">
