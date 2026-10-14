@@ -38,13 +38,14 @@ test("court cards with no exact official case source cannot claim verified decis
  assert.equal(courts.length,37);
  assert.equal(courts.filter(x=>x.reviewStatus==="court_primary_url_missing").length,28);
  assert.equal(courts.filter(x=>x.reviewStatus==="court_generic_search_not_primary").length,1);
- assert.equal(courts.filter(x=>x.reviewStatus==="court_official_case_identity_checked").length,2);
- assert.equal(courts.filter(x=>x.reviewStatus==="court_official_case_url_unchecked").length,6);
+ assert.equal(courts.filter(x=>x.reviewStatus==="court_official_case_identity_checked").length,8);
+ assert.equal(courts.filter(x=>x.reviewStatus==="court_official_case_url_unchecked").length,0);
  for(const item of courts){
   assert.equal(item.legalActVerified,false);
   if(item.sourceIdentityConfirmed){
    assert.ok(item.sourceUrl.startsWith("https://2kas.sudrf.ru/modules.php?"));
-   assert.ok(["kass-88-14012-2026","kass-88-21277-2026"].includes(item.slug));
+   assert.ok(item.slug.startsWith("kass-88-"));
+   assert.equal(item.officialActLocated,true);
   }
  }
 });
