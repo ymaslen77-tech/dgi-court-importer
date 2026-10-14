@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import type { MigratedBlock, MigratedPage } from "@/data/pages";
 import legacyAnchors from "@/data/legacy-anchors.json";
 import { SeoMarkup } from "./SeoMarkup";
+import { isThematicSlug } from "@/data/themes";
 
 const sanitizeHref = (href?: string) => {
   if (!href) return undefined;
@@ -30,6 +31,7 @@ function ContentBlock({ block, pageSlug }: { block: MigratedBlock; pageSlug: str
 }
 
 export function MigratedArticle({ page, home = false, afterHero }: { page: MigratedPage; home?: boolean; afterHero?: ReactNode }) {
+  const thematic = isThematicSlug(page.slug) && !home;
   const headingIndex = page.blocks.findIndex((block) => block.kind === "h1");
   const introIndex = page.blocks.findIndex((block, index) =>
     index > headingIndex && block.kind === "p" && block.text.length > 50,
@@ -41,15 +43,19 @@ export function MigratedArticle({ page, home = false, afterHero }: { page: Migra
   return (
     <>
       <SeoMarkup page={page} />
-      <section className="hero">
+      <section className={thematic ? "hero hero--thematic" : "hero"}>
         <div className="container">
           {!home && <nav className="breadcrumb" aria-label="Навигационная цепочка">
             <Link href="/">Главная</Link><span aria-hidden="true"> / </span><span aria-current="page">{page.title}</span>
           </nav>}
-          <div className="hero-eyebrow">{home ? "СПРАВОЧНО-ПРАВОВОЙ ПОРТАЛ" : "ЖИЛИЩНЫЕ ВОПРОСЫ / МОСКВА"}</div>
+          <div className="hero-eyebrow">{home ? "НЕЗАВИСИМАЯ СПРАВОЧНО-ПРАВОВАЯ ПОМОЩЬ · МОСКВА" : thematic ? "ТЕМАТИЧЕСКИЙ РАЗДЕЛ" : "ЖИЛИЩНЫЕ ВОПРОСЫ / МОСКВА"}</div>
           <h1>{heading}</h1>
           {lead && <p className="hero-lead">{lead}</p>}
-          <a className="hero-link" href="#material">ПЕРЕЙТИ К МАТЕРИАЛАМ ↓</a>
+          {thematic ? <p className="editorial-notice">
+            Статус информации. Это собственное изложение основных положений официальных материалов, а не копия действующего административного регламента. Перед юридическим использованием проверьте актуальную редакцию документа на mos.ru.
+          </p> : <a className="hero-link" href={home ? "#services" : "#material"}>
+            {home ? "ВЫБРАТЬ НАПРАВЛЕНИЕ ↓" : "ПЕРЕЙТИ К МАТЕРИАЛАМ ↓"}
+          </a>}
         </div>
       </section>
       {afterHero}

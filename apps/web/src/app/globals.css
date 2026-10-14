@@ -125,3 +125,28 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 /* Preserve useful in-page anchors when links scroll to service or reading sections. */
 #services, #material, .article h2[id], .article h3[id] { scroll-margin-top: 24px; }
+
+/* Verified screenshot parity adjustments for the home and three thematic
+   landing pages; all other layouts still require individual visual QA. */
+.site--home .topbar { display: none; }
+.site--home .brand-mark { font-size: 16px; letter-spacing: -.04em; }
+.site--home .hero h1 { max-width: 900px; }
+.site--thematic .topbar { background: #ba192c; color: #fff; letter-spacing: .04em; }
+.site--thematic .site-header { background: #0b0b0b; color: #fff; border-bottom: 3px solid #b71928; }
+.site--thematic .site-header .header-wrap { min-height: 44px; padding-block: 10px; justify-content: flex-start; }
+.site--thematic .site-header .brand { display: none; }
+.site--thematic .main-nav { font-size: 12px; gap: 20px; }
+.hero--thematic { color: #191919; background: #fff; padding: 38px 0 24px; }
+.hero--thematic .hero-eyebrow { color: #b71928; font-size: 11px; }
+.hero--thematic h1 { color: #222; font-size: clamp(31px, 4vw, 54px); margin: 14px 0 15px; max-width: 1050px; letter-spacing: -.025em; }
+.hero--thematic .hero-lead { color: #555; max-width: 1080px; font-size: 16px; line-height: 1.75; }
+.hero--thematic .breadcrumb { margin-bottom: 34px; color: #555; }
+.hero--thematic .breadcrumb a { color: #b71928; }
+.editorial-notice { margin: 22px 0 0; border-left: 4px solid #c71927; background: #f7f3f3; color: #666; padding: 18px 20px; font-size: 13px; line-height: 1.7; max-width: 1100px; }
+.site--thematic .article-section { padding-top: 12px; }
+@media(max-width: 640px) {
+  .site--thematic .site-header .header-wrap { padding-block: 13px; }
+  .site--thematic .main-nav { gap: 10px 14px; }
+  .hero--thematic { padding: 26px 0; }
+  .hero--thematic h1 { font-size: 31px; }
+}

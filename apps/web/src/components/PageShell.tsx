@@ -9,9 +9,9 @@ const navigation = [
   { href: "/kontakty-dgi", label: "Контакты" },
 ];
 
-export function PageShell({ children }: Readonly<{ children: React.ReactNode }>) {
+export function PageShell({ children, variant = "default" }: Readonly<{ children: React.ReactNode; variant?: "default" | "home" | "thematic" }>) {
   return (
-    <div className="site">
+    <div className={`site site--${variant}`}>
       <a href="#main-content" className="skip-link">Перейти к основному содержанию</a>
       <div className="topbar">
         <div className="container">МОСКВА · ЖИЛИЩНОЕ ПРАВО · СПРАВОЧНЫЕ МАТЕРИАЛЫ</div>
@@ -19,7 +19,7 @@ export function PageShell({ children }: Readonly<{ children: React.ReactNode }>)
       <header className="site-header">
         <div className="container header-wrap">
           <Link href="/" className="brand" aria-label="Единая справочная служба Москвы — главная">
-            <span className="brand-mark" aria-hidden="true">Е</span>
+            <span className="brand-mark" aria-hidden="true">{variant === "home" ? "ЖК" : "Е"}</span>
             <span className="brand-text">
               ЕДИНАЯ СПРАВОЧНАЯ СЛУЖБА МОСКВЫ
               <span className="brand-sub">ПО ЖИЛИЩНЫМ ВОПРОСАМ</span>

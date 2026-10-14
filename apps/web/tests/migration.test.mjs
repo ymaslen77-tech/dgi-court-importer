@@ -109,3 +109,18 @@ test("home hero precedes service navigation and original article body", () => {
   assert.ok(article.indexOf('{afterHero}') > article.indexOf('className="hero"'));
   assert.ok(article.indexOf('{afterHero}') < article.indexOf('className="article-section"'));
 });
+
+test("verified Webflow thematic pages use a light, separate content template",()=>{
+ const themes=readFileSync(new URL("../src/data/themes.ts",import.meta.url),"utf8");
+ const article=readFileSync(new URL("../src/components/MigratedArticle.tsx",import.meta.url),"utf8");
+ const route=readFileSync(new URL("../src/app/[...slug]/page.tsx",import.meta.url),"utf8");
+ const header=readFileSync(new URL("../src/components/PageShell.tsx",import.meta.url),"utf8");
+ const home=readFileSync(new URL("../src/app/page.tsx",import.meta.url),"utf8");
+ for(const slug of ["privatizaciya-zhilya","socialnyj-naem","renovaciya-pereselenie"])
+   assert.ok(themes.includes(slug));
+ assert.ok(article.includes("hero--thematic"));
+ assert.ok(article.includes("editorial-notice"));
+ assert.ok(route.includes("isThematicSlug(slug)"));
+ assert.ok(header.includes("site--"));
+ assert.ok(home.includes('variant="home"'));
+});

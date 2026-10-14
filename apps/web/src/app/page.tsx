@@ -31,7 +31,7 @@ export default async function HomePage() {
   const page = (await getPublishedEditorialPage("")) ?? getMigratedPage("");
   if (!page) return null;
   return (
-    <PageShell>
+    <PageShell variant="home">
       <MigratedArticle page={page} home afterHero={
         <section className="topic-section" id="services">
         <div className="container">

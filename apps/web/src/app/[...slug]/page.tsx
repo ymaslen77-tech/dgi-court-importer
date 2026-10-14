@@ -4,6 +4,7 @@ import { MigratedArticle } from "@/components/MigratedArticle";
 import { PageShell } from "@/components/PageShell";
 import { canonicalUrl, getMigratedPage, migratedPages, siteIsLive } from "@/data/pages";
 import { getPublishedEditorialPage } from "@/data/published";
+import { isThematicSlug } from "@/data/themes";
 
 type Props = { params: Promise<{ slug: string[] }> };
 
@@ -42,7 +43,7 @@ export default async function ContentPage({ params }: Props) {
   const page = (await getPublishedEditorialPage(slug)) ?? getMigratedPage(slug);
   if (!page) notFound();
   return (
-    <PageShell>
+    <PageShell variant={isThematicSlug(slug) ? "thematic" : "default"}>
       <MigratedArticle page={page} />
     </PageShell>
   );
