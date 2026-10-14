@@ -73,3 +73,13 @@ test("normative acts catalog is accessible from source page and remains noindex"
  const over=await page.evaluate(()=>document.documentElement.scrollWidth-window.innerWidth);
  expect(over).toBeLessThanOrEqual(2);
 });
+
+test("catalog explains eight reference-only revision dates without asserting legal approval",async ({page})=>{
+ await page.goto("/spravochnik-zhilishchnogo-zakonodatelstva-moskvy");
+ await expect(page.locator(".housing-law-revision")).toHaveCount(8);
+ await expect(page.locator("#521-pp")).toContainText("05.05.2026");
+ await expect(page.locator("#111-pp")).toContainText("18.08.2026");
+ await expect(page.locator("#491-rf")).toContainText("26.09.2026");
+ await expect(page.locator("#521-pp")).toContainText("не консолидированный текст");
+ await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content",/noindex/);
+});
