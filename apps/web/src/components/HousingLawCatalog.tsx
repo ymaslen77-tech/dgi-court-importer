@@ -22,7 +22,13 @@ export function HousingLawCatalog() {
        <h2>{law.title}</h2>
        <p>{law.subject}</p>
        <p className="housing-law-status">{badges[law.sourceStatus] ?? "Требует проверки"}</p>
-       <p>{law.sourceUrl ? <a href={law.sourceUrl} target="_blank" rel="noopener noreferrer">Посмотреть опубликованный документ ↗</a>
+       {law.revisionResearch && <div className="housing-law-revision">
+         <p><strong>Справочный ориентир редакции:</strong> {law.revisionResearch.editionDate}. Это не результат самостоятельной проверки действующего сводного текста.</p>
+         <p>{law.revisionResearch.researchNote}</p>
+         <p><a href={law.revisionResearch.secondaryReference} rel="noopener noreferrer" target="_blank">Смотреть источник сведений о редакции ↗</a></p>
+       </div>}
+       {law.sourceScope === "amending_act_2019" && <p>Внимание: ниже размещён отдельный акт о поправках 2019 года, не консолидированный текст постановления № 521-ПП.</p>}
+       <p>{law.sourceUrl ? <a href={law.sourceUrl} target="_blank" rel="noopener noreferrer">Посмотреть архивный опубликованный документ ↗</a>
           : <a href="https://publication.pravo.gov.ru/" target="_blank" rel="noopener noreferrer">Найти официальную публикацию по реквизитам ↗</a>}</p>
        <nav className="housing-related" aria-label={`Темы, связанные с ${law.title}`}>
          {law.related.map(slug=>{
