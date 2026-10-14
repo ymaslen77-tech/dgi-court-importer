@@ -96,12 +96,12 @@
       "slug": "deprivatizatsiya-kvartiry-moskva",
       "legalBasis": "Приложение 14 к постановлению Москвы № 521-ПП, введено 1368-ПП",
       "sourceStatus": "primary_text_checked",
-      "referenceUrl": "https://www.mos.ru/upload/documents/docs/1368-PP.pdf",
+      "referenceUrl": "https://www.mos.ru/upload/content/files/2a0ff0f6550542ed5ae4f7f149350111/AdministrativniireglamentkPrilojeniu1.pdf",
       "checkedOn": "2026-10-14",
       "currentRevisionVerified": false,
       "procedureVerified": false,
       "publicationApproved": false,
-      "nextReview": "Исторический 1368-ПП 2019 года не является сводной редакцией 521-ПП; проверить действующий регламент «Заключение договоров передачи...» после 05.05.2026. Сверить изменения после 2019 года, включая опубликованные поправки 2026 года и все приложения.",
+      "nextReview": "Сверить официальные поправки после 23.12.2022 и действующие приложения к 521-ПП; подтвердить срок услуги, состав необходимых документов и основания отказа по акту 2026 года.",
       "relatedLawIds": [
         "521-pp"
       ],
@@ -113,7 +113,7 @@
             "url": "https://www.consultant.ru/law/podborki/procedura_privatizacii/"
           }
         ],
-        "conclusion": "Исторический 1368-ПП 2019 года не является сводной редакцией 521-ПП; проверить действующий регламент «Заключение договоров передачи...» после 05.05.2026.",
+        "conclusion": "Официально опубликованное приложение 5 к 521-ПП содержит регламент приватизации/деприватизации в редакции 23.12.2022. Прежнее приложение 14 о передаче жилья городу утратило силу. Ориентир редакции 521-ПП по справочной базе — 05.05.2026; целостный действующий текст и документы не проверены.",
         "lastEffectiveEditionIndependentlyChecked": false
       }
     },
