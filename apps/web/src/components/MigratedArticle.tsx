@@ -39,6 +39,7 @@ export function MigratedArticle({ page, home = false, afterHero }: { page: Migra
   const heading = headingIndex >= 0 ? page.blocks[headingIndex].text : page.title;
   const lead = introIndex >= 0 ? page.blocks[introIndex].text : page.description;
   const body = page.blocks.filter((_block, index) => index !== headingIndex && index !== introIndex);
+  const accentAt = home ? heading.toLocaleLowerCase("ru").lastIndexOf("по жилищным вопросам") : -1;
 
   return (
     <>
@@ -49,7 +50,10 @@ export function MigratedArticle({ page, home = false, afterHero }: { page: Migra
             <Link href="/">Главная</Link><span aria-hidden="true"> / </span><span aria-current="page">{page.title}</span>
           </nav>}
           <div className="hero-eyebrow">{home ? "НЕЗАВИСИМАЯ СПРАВОЧНО-ПРАВОВАЯ ПОМОЩЬ · МОСКВА" : thematic ? "ТЕМАТИЧЕСКИЙ РАЗДЕЛ" : "ЖИЛИЩНЫЕ ВОПРОСЫ / МОСКВА"}</div>
-          <h1>{heading}</h1>
+          <h1>{accentAt >= 0 ? <>
+            {heading.slice(0, accentAt).trimEnd()}{" "}
+            <span className="hero-accent">{heading.slice(accentAt)}</span>
+          </> : heading}</h1>
           {lead && <p className="hero-lead">{lead}</p>}
           {thematic ? <p className="editorial-notice">
             Статус информации. Это собственное изложение основных положений официальных материалов, а не копия действующего административного регламента. Перед юридическим использованием проверьте актуальную редакцию документа на mos.ru.

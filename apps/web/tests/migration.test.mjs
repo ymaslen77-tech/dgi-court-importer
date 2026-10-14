@@ -124,3 +124,10 @@ test("verified Webflow thematic pages use a light, separate content template",()
  assert.ok(header.includes("site--"));
  assert.ok(home.includes('variant="home"'));
 });
+
+test("home header can emphasize an existing source phrase without inventing text",()=>{
+ const article=readFileSync(new URL("../src/components/MigratedArticle.tsx",import.meta.url),"utf8");
+ assert.ok(article.includes('lastIndexOf("по жилищным вопросам")'));
+ assert.ok(article.includes("heading.slice(accentAt)"));
+ assert.ok(article.includes('className="hero-accent"'));
+});

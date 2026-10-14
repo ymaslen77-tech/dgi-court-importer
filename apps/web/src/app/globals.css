@@ -150,3 +150,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   .hero--thematic { padding: 26px 0; }
   .hero--thematic h1 { font-size: 31px; }
 }
+
+/* Keep the original red emphasis on the home hero while preserving source text. */
+.site--home .hero-accent { display: block; color: #f04455; }
+.site--home .hero .hero-link { background: var(--red); border-color: var(--red); }
+.site--home .hero .hero-link:hover { background: #a91122; }
