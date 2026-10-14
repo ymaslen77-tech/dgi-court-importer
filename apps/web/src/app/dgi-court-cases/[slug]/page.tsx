@@ -18,7 +18,7 @@ export async function generateMetadata({params}:Props): Promise<Metadata> {
   if(!entry)return {robots:{index:false,follow:false}};
   return {
     title: {absolute:`Дело № ${entry.caseNumber} — архивная карточка, сведения не проверены`},
-    description:"Архивная карточка ДГИ из Webflow. Проверка судебного акта, результата и инстанций не завершена.",
+    description:"Справочные сведения о деле. Результат и история рассмотрения требуют проверки по официальным судебным актам.",
     robots:{index:false,follow:false},
   };
 }
@@ -29,7 +29,7 @@ export default async function LegacyCourtCasePage({params}:Props){
   return <PageShell>
     <section className="hero">
       <div className="container">
-        <div className="hero-eyebrow">АРХИВ WEBFLOW · СУДЕБНАЯ КАРТОЧКА</div>
+        <div className="hero-eyebrow">СУДЕБНОЕ ДЕЛО · АРХИВНЫЕ СВЕДЕНИЯ</div>
         <h1>Дело № {entry.caseNumber}</h1>
         <p className="hero-lead">Архивная информация, не подтверждённая полным текстом судебного акта.</p>
       </div>
@@ -40,7 +40,7 @@ export default async function LegacyCourtCasePage({params}:Props){
         <dl>
           <div><dt>Суд по архивной записи</dt><dd>{entry.court || "Требует проверки"}</dd></div>
           <div><dt>Категория</dt><dd>{entry.category || "Требует проверки"}</dd></div>
-          <div><dt>Источник карточки</dt><dd>Ранее опубликованные метаданные Webflow, вторичный источник</dd></div>
+          <div><dt>Источник карточки</dt><dd>Справочные сведения из ранее опубликованной карточки</dd></div>
           <div><dt>Судебный акт</dt><dd>Текст решения не проверен по официальному первоисточнику</dd></div>
           <div><dt>Результат рассмотрения</dt><dd>Не подтверждён</dd></div>
           <div><dt>История пересмотра</dt><dd>Не подтверждена</dd></div>
