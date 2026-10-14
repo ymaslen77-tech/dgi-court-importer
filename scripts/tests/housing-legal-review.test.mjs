@@ -83,5 +83,6 @@ test("2026 edition research cannot be misrepresented as a checked current legal 
  assert.match(reform.subject,/Приложение 14[^.]*утратило силу/);
  const subsidy=housingLaw=>data.guides.find(g=>g.slug===housingLaw);
  assert.match(subsidy("subsidiya-na-oplatu-zhku-moskva").legal,/18\.08\.2026/);
- assert.match(subsidy("deprivatizatsiya-kvartiry-moskva").legal,/05\.05\.2026/);
+ assert.match(subsidy("deprivatizatsiya-kvartiry-moskva").legal,/приложение 5/);
+ assert.match(subsidy("deprivatizatsiya-kvartiry-moskva").legal,/23\.12\.2022/);
 });
