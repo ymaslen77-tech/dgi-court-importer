@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { siteIsLive } from "@/data/pages";
 
 const navigation = [
   { href: "/funkcii-dgi", label: "О ДГИ" },
@@ -35,7 +34,7 @@ export function PageShell({ children, variant = "default" }: Readonly<{ children
     <div className={`site site--${variant}`}>
       <a href="#main-content" className="skip-link">Перейти к основному содержанию</a>
       <div className="topbar">
-        <div className="container">{!siteIsLive && <strong>ПРЕДВАРИТЕЛЬНАЯ ВЕРСИЯ — правовые сведения проходят проверку. Не используйте без сверки действующего регламента. · </strong>}{variant === "thematic" ? "ЕДИНАЯ СПРАВОЧНАЯ СЛУЖБА МОСКВЫ · ЖИЛИЩНЫЕ ВОПРОСЫ · СПРАВОЧНО-ПРАВОВАЯ ПОМОЩЬ" : "МОСКВА · ЖИЛИЩНОЕ ПРАВО · СПРАВОЧНЫЕ МАТЕРИАЛЫ"}</div>
+        <div className="container">{variant === "thematic" ? "ЕДИНАЯ СПРАВОЧНАЯ СЛУЖБА МОСКВЫ · ЖИЛИЩНЫЕ ВОПРОСЫ · СПРАВОЧНО-ПРАВОВАЯ ПОМОЩЬ" : "МОСКВА · ЖИЛИЩНОЕ ПРАВО · СПРАВОЧНЫЕ МАТЕРИАЛЫ"}</div>
       </div>
       <header className="site-header">
         <div className="container header-wrap">
@@ -55,7 +54,7 @@ export function PageShell({ children, variant = "default" }: Readonly<{ children
       {variant === "thematic" && <div className="thematic-utility">
         <div className="container thematic-utility-inner">
           <Link href="/">← Вернуться к каталогу</Link>
-          <span>Редакционный материал · перед применением требуется сверка источников</span>
+          <span>Ознакомьтесь с официальными источниками перед обращением</span>
         </div>
       </div>}
       <main id="main-content">{children}</main>
