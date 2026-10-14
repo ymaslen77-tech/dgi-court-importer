@@ -453,12 +453,13 @@
       "court": "Второй кассационный суд общей юрисдикции",
       "uid": "77RS0032-02-2024-008322-11",
       "sourceUrl": "https://2kas.sudrf.ru/modules.php?case_id=18112633&case_uid=33f150cf-a0d4-409b-b603-c2be007615da&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
-      "reviewStatus": "court_official_case_url_unchecked",
-      "sourceIdentityConfirmed": false,
+      "reviewStatus": "court_official_case_identity_checked",
+      "sourceIdentityConfirmed": true,
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Прочитать полный официальный текст определения, выделить нормы и мотивировку, проверить движение дела по инстанциям и подготовить обезличенное резюме перед публикацией",
+      "officialActLocated": true
     },
     {
       "collection": "dgi-court-cases",
@@ -474,7 +475,8 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Проверить полный акт, мотивировку и движение по инстанциям до публикации результата"
+      "pending": "Прочитать полный официальный текст определения, выделить нормы и мотивировку, проверить движение дела по инстанциям и подготовить обезличенное резюме перед публикацией",
+      "officialActLocated": true
     },
     {
       "collection": "dgi-court-cases",
@@ -485,12 +487,13 @@
       "court": "Второй кассационный суд общей юрисдикции",
       "uid": "77RS0001-02-2024-012112-81",
       "sourceUrl": "https://2kas.sudrf.ru/modules.php?case_id=18231736&case_uid=6e13d75c-0c64-41df-a31a-de1ddc2dfd31&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
-      "reviewStatus": "court_official_case_url_unchecked",
-      "sourceIdentityConfirmed": false,
+      "reviewStatus": "court_official_case_identity_checked",
+      "sourceIdentityConfirmed": true,
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Прочитать полный официальный текст определения, выделить нормы и мотивировку, проверить движение дела по инстанциям и подготовить обезличенное резюме перед публикацией",
+      "officialActLocated": true
     },
     {
       "collection": "dgi-court-cases",
@@ -501,12 +504,13 @@
       "court": "Второй кассационный суд общей юрисдикции",
       "uid": "77RS0019-02-2025-000750-55",
       "sourceUrl": "https://2kas.sudrf.ru/modules.php?case_id=18372552&case_uid=fb0cc7d0-1a95-4734-99f2-84cbcf562e7f&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
-      "reviewStatus": "court_official_case_url_unchecked",
-      "sourceIdentityConfirmed": false,
+      "reviewStatus": "court_official_case_identity_checked",
+      "sourceIdentityConfirmed": true,
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Прочитать полный официальный текст определения, выделить нормы и мотивировку, проверить движение дела по инстанциям и подготовить обезличенное резюме перед публикацией",
+      "officialActLocated": true
     },
     {
       "collection": "dgi-court-cases",
@@ -522,7 +526,8 @@
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Проверить полный акт, мотивировку и движение по инстанциям до публикации результата"
+      "pending": "Прочитать полный официальный текст определения, выделить нормы и мотивировку, проверить движение дела по инстанциям и подготовить обезличенное резюме перед публикацией",
+      "officialActLocated": true
     },
     {
       "collection": "dgi-court-cases",
@@ -532,12 +537,13 @@
       "caseNumber": "88-3117/2026",
       "court": "Второй кассационный суд общей юрисдикции",
       "sourceUrl": "https://2kas.sudrf.ru/modules.php?case_id=17178494&case_uid=dc226637-f874-4209-9766-6cc784ddb970&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
-      "reviewStatus": "court_official_case_url_unchecked",
-      "sourceIdentityConfirmed": false,
+      "reviewStatus": "court_official_case_identity_checked",
+      "sourceIdentityConfirmed": true,
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Прочитать полный официальный текст определения, выделить нормы и мотивировку, проверить движение дела по инстанциям и подготовить обезличенное резюме перед публикацией",
+      "officialActLocated": true
     },
     {
       "collection": "dgi-court-cases",
@@ -548,12 +554,13 @@
       "court": "Второй кассационный суд общей юрисдикции",
       "uid": "77RS0034-02-2024-025485-20",
       "sourceUrl": "https://2kas.sudrf.ru/modules.php?case_id=17338162&case_uid=d920690b-6625-46d1-a56c-af4b81c5393c&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
-      "reviewStatus": "court_official_case_url_unchecked",
-      "sourceIdentityConfirmed": false,
+      "reviewStatus": "court_official_case_identity_checked",
+      "sourceIdentityConfirmed": true,
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Прочитать полный официальный текст определения, выделить нормы и мотивировку, проверить движение дела по инстанциям и подготовить обезличенное резюме перед публикацией",
+      "officialActLocated": true
     },
     {
       "collection": "dgi-court-cases",
@@ -564,12 +571,13 @@
       "court": "Второй кассационный суд общей юрисдикции",
       "uid": "77RS0005-02-2022-002119-37",
       "sourceUrl": "https://2kas.sudrf.ru/modules.php?case_id=16814499&case_uid=ac88b1a2-d389-48f4-a7b2-2438745b8596&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
-      "reviewStatus": "court_official_case_url_unchecked",
-      "sourceIdentityConfirmed": false,
+      "reviewStatus": "court_official_case_identity_checked",
+      "sourceIdentityConfirmed": true,
       "legalActVerified": false,
       "approvedForPublication": false,
       "reviewDate": "2026-10-14",
-      "pending": "Получить точный официальный URL конкретного дела, сверить суд, номер, УИД, результат, документ и инстанции"
+      "pending": "Прочитать полный официальный текст определения, выделить нормы и мотивировку, проверить движение дела по инстанциям и подготовить обезличенное резюме перед публикацией",
+      "officialActLocated": true
     },
     {
       "collection": "dgi-legal-documents",
@@ -742,10 +750,10 @@
     }
   ],
   "notes": [
-    "All 50 inventory entries examined at metadata level. Source file does not contain complete CMS rich-text bodies.",
-    "Judicial case identity confirmed on directly loaded official pages only for 88-14012/2026 and 88-21277/2026; full legal reasoning still requires verification.",
-    "02-4422/2026 link is a generic Moscow appeal list; no claim to match a particular court document.",
-    "Eight case URLs point to a specific Second Cassation court case page. A URL alone is not confirmation of the case result.",
-    "No item passes publication gating. Staging metadata must not be automatically promoted."
+    "All 50 entries screened by metadata. Rich-text contents of original CMS collections have not been obtained.",
+    "8 of 37 court records match individual case listings on 2kas.sudrf.ru (number and/or UID); official case pages contain judicial decisions, but full-content legal review has not been accepted.",
+    "28 court records have no official case link; one record points to a generic appellate search list, not a unique court act.",
+    "Four legal act links are historical, six topics reference existing pages, and three news records come from secondary reports.",
+    "No judicial outcome is approved for republication, and no CMS item may be promoted automatically."
   ]
 }
