@@ -17,6 +17,7 @@
     "promote:web:apply": "tsx src/scripts/promote-to-web.ts --apply",
     "test": "tsx --test tests/*.test.ts",
     "verify:staging": "tsx src/scripts/verify-staging.ts",
+    "verify:local": "tsx src/scripts/verify-local.ts",
     "import:cms-metadata:dry-run": "tsx src/scripts/import-cms-metadata.ts --dry-run",
     "import:cms-metadata:apply": "tsx src/scripts/import-cms-metadata.ts --apply",
     "import:cms-private:dry-run": "tsx src/scripts/import-cms-private.ts --dry-run",
