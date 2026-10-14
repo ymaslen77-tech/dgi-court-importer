@@ -54,6 +54,7 @@ function TopicDestination({ slug, title }: { slug: string; title: string }) {
   const target = internal ? getMigratedPage(href.slice(1)) : undefined;
   return <div className="article-related-topic">
     <p>{internal ? "Подробнее в связанном материале:" : "Первичный официальный ресурс для уточнения сведений:"}</p>
+    {target?.description && <p className="article-related-summary">{target.description}</p>}
     {internal
       ? <Link href={href}>{target?.title ?? "Читать тематическое руководство"} <span aria-hidden="true">→</span></Link>
       : <a href={href} target="_blank" rel="noopener noreferrer">
