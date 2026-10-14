@@ -12,6 +12,7 @@ const navigation = [
 export function PageShell({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <div className="site">
+      <a href="#main-content" className="skip-link">Перейти к основному содержанию</a>
       <div className="topbar">
         <div className="container">МОСКВА · ЖИЛИЩНОЕ ПРАВО · СПРАВОЧНЫЕ МАТЕРИАЛЫ</div>
       </div>

@@ -89,3 +89,14 @@ test("CMS detail URLs stay nested and are read only from approved database proje
   assert.ok(adapter.includes("editorial_status = 'published'"));
   assert.ok(adapter.includes("checked_at IS NOT NULL"));
 });
+
+test("page template includes factual gated SEO schema and a keyboard skip link", () => {
+  const markup = readFileSync(new URL("../src/components/SeoMarkup.tsx",import.meta.url),"utf8");
+  const shell = readFileSync(new URL("../src/components/PageShell.tsx",import.meta.url),"utf8");
+  const article = readFileSync(new URL("../src/components/MigratedArticle.tsx",import.meta.url),"utf8");
+  assert.ok(markup.includes("if (!siteIsLive) return null"));
+  assert.ok(markup.includes('application/ld+json'));
+  assert.ok(markup.includes("BreadcrumbList"));
+  assert.ok(shell.includes('href="#main-content"'));
+  assert.ok(article.includes('<SeoMarkup page={page} />'));
+});

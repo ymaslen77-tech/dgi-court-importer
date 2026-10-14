@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { MigratedBlock, MigratedPage } from "@/data/pages";
 import legacyAnchors from "@/data/legacy-anchors.json";
+import { SeoMarkup } from "./SeoMarkup";
 
 const sanitizeHref = (href?: string) => {
   if (!href) return undefined;
@@ -38,8 +39,12 @@ export function MigratedArticle({ page, home = false }: { page: MigratedPage; ho
 
   return (
     <>
+      <SeoMarkup page={page} />
       <section className="hero">
         <div className="container">
+          {!home && <nav className="breadcrumb" aria-label="Навигационная цепочка">
+            <Link href="/">Главная</Link><span aria-hidden="true"> / </span><span aria-current="page">{page.title}</span>
+          </nav>}
           <div className="hero-eyebrow">{home ? "СПРАВОЧНО-ПРАВОВОЙ ПОРТАЛ" : "ЖИЛИЩНЫЕ ВОПРОСЫ / МОСКВА"}</div>
           <h1>{heading}</h1>
           {lead && <p className="hero-lead">{lead}</p>}

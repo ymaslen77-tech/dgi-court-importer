@@ -115,3 +115,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .legacy-case-detail dt { font-size: 13px; font-weight: 800; }
 .legacy-case-detail dd { margin: 0; font-size: 14px; line-height: 1.6; color: var(--copy); overflow-wrap: anywhere; }
 @media (max-width: 640px) { .legacy-case-detail dl > div { grid-template-columns: 1fr; gap: 4px; } }
+
+/* Keyboard navigation, readable breadcrumbs and clear focus feedback. */
+.skip-link { position: absolute; top: -90px; left: 12px; z-index: 9999; background: #fff; color: #111; padding: 13px 18px; border: 2px solid var(--red); font-weight: 800; }
+.skip-link:focus { top: 12px; }
+.breadcrumb { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 12px; line-height: 1.6; color: #d0d0d0; margin-bottom: 28px; }
+.breadcrumb a { color: #fff; text-underline-offset: 3px; }
+.breadcrumb [aria-current="page"] { color: #d0d0d0; }
