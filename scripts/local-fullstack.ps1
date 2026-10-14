@@ -28,7 +28,7 @@ if(-not (Get-Command node -ErrorAction SilentlyContinue) -or
 if((& node --version) -notmatch '^v(2[2-9]|[3-9][0-9])\.') {
   throw "Node.js 22+ required."
 }
-$requiresDb=$Action -in @("Setup","Bootstrap","Import","FullSource","VerifyData","Cms")
+$requiresDb=$Action -in @("Check","Setup","Bootstrap","Import","FullSource","VerifyData","Cms")
 if($requiresDb) {
   $private=Join-Path $root ".env"
   if(-not (Test-Path $private)) { throw "Copy .env.example to .env and set private secrets." }
@@ -70,6 +70,7 @@ try {
       Pnpm @("--filter","@dgi/cms","test")
       Pnpm @("typecheck")
       Pnpm @("--filter","@dgi/cms","typecheck")
+      Pnpm @("--filter","@dgi/cms","build")
       Pnpm @("build")
       Pnpm @("release:audit")
       & node scripts/local-acceptance.mjs
