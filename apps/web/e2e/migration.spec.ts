@@ -107,3 +107,13 @@ test("homepage banner content starts directly under the header",async ({page})=>
   expect(geometry?.eyebrowGap).toBeGreaterThanOrEqual(0);
   expect(geometry?.eyebrowGap).toBeLessThanOrEqual(45);
 });
+
+test("generic Moscow appeal search is not presented as this specific case's act", async ({page}) => {
+  await page.goto("/sudebnaya-praktika-dgi");
+  const entry = page.locator(".case-card").filter({
+    has: page.getByRole("heading",{name:/02-4422\\/2026/}),
+  });
+  await expect(entry).toHaveCount(1);
+  await expect(entry.getByRole("link",{name:/Открыть источник/})).toHaveCount(0);
+  await expect(entry.getByRole("link",{name:/Открыть архивную карточку/})).toHaveCount(1);
+});
