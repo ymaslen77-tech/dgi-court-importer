@@ -72,3 +72,11 @@ test("published Webflow court-case slugs have protected archival routes", () => 
   assert.ok(!route.includes("entry.title"));
   assert.ok(cases.every(c=>c.verifiedAct===false && /^[a-z0-9-]+$/.test(c.slug)));
 });
+
+test("production indexation requires independent release approval and HTTPS canonical", () => {
+  const release = readFileSync(new URL("../src/data/pages.ts",import.meta.url),"utf8");
+  assert.match(release,/SITE_RELEASE_APPROVED === "yes"/);
+  assert.match(release,/SITE_CUTOVER === "true"/);
+  assert.match(release,/url.protocol !== "https:"/);
+  assert.match(release,/host.endsWith\("\.webflow.io"\)/);
+});

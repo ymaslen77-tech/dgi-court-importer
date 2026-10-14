@@ -33,13 +33,31 @@ export function getMigratedPage(slug: string): MigratedPage | undefined {
   return migratedPages.find((page) => page.slug === slug);
 }
 
+// Production publication requires three independent settings. A mistakenly
+// enabled SITE_CUTOVER alone must not expose unreviewed static snapshots.
+function approvedProductionOrigin(raw: string | undefined): string | undefined {
+  if (!raw) return undefined;
+  try {
+    const url = new URL(raw);
+    const host = url.hostname.toLowerCase();
+    if (url.protocol !== "https:" || url.username || url.password || url.port ||
+        url.pathname !== "/" || url.search || url.hash ||
+        ["localhost", "127.0.0.1", "dgimos.webflow.io"].includes(host) ||
+        host.endsWith(".webflow.io") || host.endsWith(".webflow.com")) return undefined;
+    return url.origin;
+  } catch {
+    return undefined;
+  }
+}
+const releaseOrigin = approvedProductionOrigin(process.env.SITE_URL);
+export const siteIsLive =
+  process.env.SITE_CUTOVER === "true" &&
+  process.env.SITE_RELEASE_APPROVED === "yes" &&
+  Boolean(releaseOrigin);
+export const siteOrigin = siteIsLive ? releaseOrigin! : "https://dgimos.webflow.io";
+
 export function canonicalUrl(page: MigratedPage): string {
-  const published = process.env.SITE_CUTOVER === "true";
-  const origin = process.env.SITE_URL || "https://dgimos.webflow.io";
-  return published
-    ? new URL(page.slug ? `/${page.slug}` : "/", origin).toString()
+  return siteIsLive
+    ? new URL(page.slug ? `/${page.slug}` : "/", siteOrigin).toString()
     : page.source;
 }
-
-export const siteIsLive = process.env.SITE_CUTOVER === "true";
-export const siteOrigin = process.env.SITE_URL || "https://dgimos.webflow.io";

@@ -1,5 +1,6 @@
 import type { CollectionConfig } from "payload";
 import { canEdit, getRole, signedIn } from "../access";
+import { assertPreviouslyApprovedForPublication } from "../lib/editorial-approval";
 
 const protectedFields = ["slug","title","description","seoTitle","seoDescription","blocks","sourceUrls","kind"] as const;
 const changed = (data: Record<string, unknown>, oldDoc: Record<string, unknown>) =>
@@ -54,11 +55,7 @@ export const EditorialEntries: CollectionConfig = {
       }
       if (record._status === "published") {
         if (role !== "admin" && role !== "publisher") throw new Error("Publisher role required");
-        const approved = record.reviewState === "approved" || previous.reviewState === "approved";
-        const reviewer = record.reviewedBy || previous.reviewedBy;
-        const reviewedAt = record.reviewedAt || previous.reviewedAt;
-        if (!approved || !reviewer || !reviewedAt || edited)
-          throw new Error("Published content requires a previous editorial approval");
+        assertPreviouslyApprovedForPublication(record, previous, edited);
       }
       return record;
     }],

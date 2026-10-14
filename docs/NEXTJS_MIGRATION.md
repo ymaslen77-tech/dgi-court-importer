@@ -86,3 +86,11 @@ CI db-checks запускает отдельный PostgreSQL 17, накатыв
 Приложение Next.js пока отображает локальные снимки, а не БД; Payload CMS,
 авторизация редакторов и поиск по PostgreSQL ещё не подключены.
 Webflow/DNS остаются без изменений.
+
+## Additional fail-closed cutover setting
+
+Even if SITE_CUTOVER=true is set accidentally, the Next.js public app continues
+as staging/noindex until SITE_RELEASE_APPROVED=yes **and** SITE_URL identifies a
+valid HTTPS production origin outside Webflow and localhost. Do not set this
+flag before legal, visual, security and SEO sign-off. This flag does not itself
+verify content or configure DNS, CMS or backups.
