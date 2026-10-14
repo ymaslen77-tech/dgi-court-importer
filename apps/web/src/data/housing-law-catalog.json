@@ -2,7 +2,7 @@
   "checkedOn": "2026-10-14",
   "jurisdiction": "Москва",
   "status": "editorial_draft",
-  "notice": "Реестр реквизитов. Наличие исторического официального PDF не означает подтверждения действующей редакции. Для неподтвержденных актов показан переход в официальный каталог правовой информации.",
+  "notice": "Это реестр редакционных ориентиров, не юридическое удостоверение действующих редакций. Даты из вторичных справочных систем указаны для поиска официального сводного текста. Переход по PDF ведёт на исторические источники и не подтверждает применимые сроки.",
   "laws": [
     {
       "id": "housing-code",
@@ -16,7 +16,15 @@
         "subsidiya-na-oplatu-zhku-moskva"
       ],
       "currentVersionVerified": false,
-      "approved": false
+      "approved": false,
+      "revisionResearch": {
+        "observedOn": "2026-10-14",
+        "editionDate": "04.08.2026",
+        "secondaryReference": "https://www.consultant.ru/law/podborki/zhk_rf_kapitalnyj_remont/",
+        "researchNote": "Справочная база указывает изменения, вступившие в силу 01.09.2026; требуется сверить отдельные статьи и дальнейшие поправки.",
+        "officialCurrentTextChecked": false
+      },
+      "sourceScope": "historical_reference"
     },
     {
       "id": "moscow-29",
@@ -30,7 +38,9 @@
         "subsidiya-na-priobretenie-zhilya-moskva"
       ],
       "currentVersionVerified": false,
-      "approved": false
+      "approved": false,
+      "revisionResearch": null,
+      "sourceScope": "historical_reference"
     },
     {
       "id": "moscow-7",
@@ -43,7 +53,9 @@
         "priznanie-maloimushchim-dlya-zhilishchnogo-ucheta"
       ],
       "currentVersionVerified": false,
-      "approved": false
+      "approved": false,
+      "revisionResearch": null,
+      "sourceScope": "historical_reference"
     },
     {
       "id": "moscow-21",
@@ -56,7 +68,9 @@
         "renovatsiya-po-adresu-moskva"
       ],
       "currentVersionVerified": false,
-      "approved": false
+      "approved": false,
+      "revisionResearch": null,
+      "sourceScope": "historical_reference"
     },
     {
       "id": "moscow-2",
@@ -69,7 +83,9 @@
         "subsidiya-na-priobretenie-zhilya-moskva"
       ],
       "currentVersionVerified": false,
-      "approved": false
+      "approved": false,
+      "revisionResearch": null,
+      "sourceScope": "historical_reference"
     },
     {
       "id": "moscow-14",
@@ -82,7 +98,9 @@
         "renovatsiya-po-adresu-moskva"
       ],
       "currentVersionVerified": false,
-      "approved": false
+      "approved": false,
+      "revisionResearch": null,
+      "sourceScope": "historical_reference"
     },
     {
       "id": "508-pp",
@@ -95,7 +113,9 @@
         "dokumenty-na-kvartiru"
       ],
       "currentVersionVerified": false,
-      "approved": false
+      "approved": false,
+      "revisionResearch": null,
+      "sourceScope": "historical_reference"
     },
     {
       "id": "832-pp",
@@ -108,7 +128,9 @@
         "kapremont-mkd-moskva"
       ],
       "currentVersionVerified": false,
-      "approved": false
+      "approved": false,
+      "revisionResearch": null,
+      "sourceScope": "historical_reference"
     },
     {
       "id": "47-rf",
@@ -121,7 +143,15 @@
         "avariynoe-zhile-moskva"
       ],
       "currentVersionVerified": false,
-      "approved": false
+      "approved": false,
+      "revisionResearch": {
+        "observedOn": "2026-10-14",
+        "editionDate": "20.06.2026",
+        "secondaryReference": "https://www.consultant.ru/document/cons_doc_LAW_58136/",
+        "researchNote": "Постановление РФ № 771 от 20.06.2026 изменило положения, вступление указано с 01.09.2026. Проверить фактическое содержание положений.",
+        "officialCurrentTextChecked": false
+      },
+      "sourceScope": "not_located"
     },
     {
       "id": "354-rf",
@@ -134,7 +164,15 @@
         "pereraschet-zhku-moskva"
       ],
       "currentVersionVerified": false,
-      "approved": false
+      "approved": false,
+      "revisionResearch": {
+        "observedOn": "2026-10-14",
+        "editionDate": "19.12.2025",
+        "secondaryReference": "https://www.consultant.ru/document/cons_doc_LAW_114247/",
+        "researchNote": "В справочном тексте указана редакция 19.12.2025; требуется проверить, не изменялась ли после этого.",
+        "officialCurrentTextChecked": false
+      },
+      "sourceScope": "not_located"
     },
     {
       "id": "491-rf",
@@ -147,7 +185,15 @@
         "proverka-upravlyayushchey-kompanii"
       ],
       "currentVersionVerified": false,
-      "approved": false
+      "approved": false,
+      "revisionResearch": {
+        "observedOn": "2026-10-14",
+        "editionDate": "26.09.2026",
+        "secondaryReference": "https://www.consultant.ru/document/cons_doc_LAW_62293/",
+        "researchNote": "Постановление РФ № 1242 от 26.09.2026 добавило положения об объектах микрогенерации к общему имуществу; требуется сверить официальный опубликованный текст.",
+        "officialCurrentTextChecked": false
+      },
+      "sourceScope": "not_located"
     },
     {
       "id": "290-rf",
@@ -160,7 +206,15 @@
         "zhaloba-v-moszhilinspekciyu"
       ],
       "currentVersionVerified": false,
-      "approved": false
+      "approved": false,
+      "revisionResearch": {
+        "observedOn": "2026-10-14",
+        "editionDate": "07.03.2025",
+        "secondaryReference": "https://www.consultant.ru/document/cons_doc_LAW_144804/",
+        "researchNote": "В справочной базе указана редакция 07.03.2025; проверить историю изменений после этой даты.",
+        "officialCurrentTextChecked": false
+      },
+      "sourceScope": "not_located"
     },
     {
       "id": "761-rf",
@@ -173,7 +227,15 @@
         "subsidiya-na-oplatu-zhku-moskva"
       ],
       "currentVersionVerified": false,
-      "approved": false
+      "approved": false,
+      "revisionResearch": {
+        "observedOn": "2026-10-14",
+        "editionDate": "22.06.2024",
+        "secondaryReference": "https://www.consultant.ru/document/cons_doc_LAW_45158/",
+        "researchNote": "Справочная база указывает редакцию 22.06.2024; проверить изменения, вступление в силу и московские правила 2026 года.",
+        "officialCurrentTextChecked": false
+      },
+      "sourceScope": "not_located"
     },
     {
       "id": "111-pp",
@@ -186,7 +248,15 @@
         "subsidiya-na-oplatu-zhku-moskva"
       ],
       "currentVersionVerified": false,
-      "approved": false
+      "approved": false,
+      "revisionResearch": {
+        "observedOn": "2026-10-14",
+        "editionDate": "18.08.2026",
+        "secondaryReference": "https://www.consultant.ru/law/review/reg/rlawc/mcw2026-08-31.html",
+        "researchNote": "По справочному обзору появилась редакция 18.08.2026. Файл 2023 года не подтверждает действующие сроки, состав документов или полномочия.",
+        "officialCurrentTextChecked": false
+      },
+      "sourceScope": "historical_reference"
     },
     {
       "id": "521-pp",
@@ -199,7 +269,15 @@
         "deprivatizatsiya-kvartiry-moskva"
       ],
       "currentVersionVerified": false,
-      "approved": false
+      "approved": false,
+      "revisionResearch": {
+        "observedOn": "2026-10-14",
+        "editionDate": "05.05.2026",
+        "secondaryReference": "https://www.consultant.ru/law/podborki/procedura_privatizacii/",
+        "researchNote": "Справочная база фиксирует редакцию от 05.05.2026, а также поправки от 25.03.2026 (820-ПП); PDF № 1368-ПП является архивным актом о внесении изменений, не сводной редакцией.",
+        "officialCurrentTextChecked": false
+      },
+      "sourceScope": "amending_act_2019"
     },
     {
       "id": "dgi-286",
@@ -212,7 +290,9 @@
         "pereregistratsiya-zhilishchnyy-uchet"
       ],
       "currentVersionVerified": false,
-      "approved": false
+      "approved": false,
+      "revisionResearch": null,
+      "sourceScope": "historical_reference"
     }
   ]
 }
