@@ -54,7 +54,7 @@ export const siteIsLive =
   process.env.SITE_CUTOVER === "true" &&
   process.env.SITE_RELEASE_APPROVED === "yes" &&
   Boolean(releaseOrigin);
-export const siteOrigin = siteIsLive ? releaseOrigin! : "https://dgimos.webflow.io";
+export const siteOrigin = siteIsLive ? releaseOrigin! : "https://dgi-housing-preview.vercel.app";
 
 export function canonicalUrl(page: MigratedPage): string {
   return siteIsLive
