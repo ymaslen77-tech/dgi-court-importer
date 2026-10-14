@@ -12,6 +12,7 @@
     "migration:apply": "node scripts/import-snapshots-to-db.mjs --apply",
     "migration:cms:dry-run": "node scripts/import-cms-inventory.mjs --dry-run",
     "migration:cms:apply": "node scripts/import-cms-inventory.mjs --apply",
+    "migration:cms:source-audit": "node scripts/audit-webflow-exports.mjs",
     "release:audit": "node scripts/release-readiness.mjs",
     "release:require-ready": "node scripts/release-readiness.mjs --require-ready",
     "staging:preflight": "node scripts/staging-preflight.mjs"
