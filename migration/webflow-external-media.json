@@ -1,0 +1,43 @@
+{
+  "sourceSiteId": "6aca6bde03aad0f2e3c19259",
+  "inspectedAt": "2026-10-14",
+  "source": "Webflow styles API background-image properties",
+  "limitation": "Does not cover inline images, external HTML/CSS or responsive visual parity.",
+  "media": [
+    {
+      "style": "esh-photo-interior",
+      "url": "https://images.unsplash.com/photo-1560185127-6ed189bf02f4?auto=format&fit=crop&w=1250&q=78",
+      "origin": "external",
+      "rights": "unverified",
+      "copyApproved": false
+    },
+    {
+      "style": "esh-photo-law",
+      "url": "https://images.unsplash.com/photo-1767972463877-b64ba4283cd0?auto=format&fit=crop&w=1250&q=78",
+      "origin": "external",
+      "rights": "unverified",
+      "copyApproved": false
+    },
+    {
+      "style": "esh-photo-key",
+      "url": "https://images.unsplash.com/photo-1744782351841-9cc6b86a5add?auto=format&fit=crop&w=1250&q=78",
+      "origin": "external",
+      "rights": "unverified",
+      "copyApproved": false
+    },
+    {
+      "style": "esh-photo-city",
+      "url": "https://images.unsplash.com/photo-1769872875197-2b97a47b6394?auto=format&fit=crop&w=1250&q=78",
+      "origin": "external",
+      "rights": "unverified",
+      "copyApproved": false
+    },
+    {
+      "style": "esh-photo-moscow",
+      "url": "https://images.unsplash.com/photo-1758714542345-15eef845714f?auto=format&fit=crop&w=1250&q=78",
+      "origin": "external",
+      "rights": "unverified",
+      "copyApproved": false
+    }
+  ]
+}
