@@ -1,10 +1,10 @@
 import type { MigratedPage } from "@/data/pages";
-import { canonicalUrl, siteIsLive, siteOrigin } from "@/data/pages";
+import { canIndexPage, canonicalUrl, siteOrigin } from "@/data/pages";
 
 // Minimal factual schema. No unsupported reviews, legal credentials,
 // fictional organization address, dates, author or court outcomes.
 export function SeoMarkup({page}: {page: MigratedPage}) {
-  if (!siteIsLive) return null;
+  if (!canIndexPage(page)) return null;
   const url=canonicalUrl(page);
   const site={ "@type":"WebSite",name:"Единая справочная служба Москвы",
     url:siteOrigin };
