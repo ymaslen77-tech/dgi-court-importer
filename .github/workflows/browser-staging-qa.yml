@@ -33,6 +33,13 @@ jobs:
           node-version: "22"
       - name: Install workspace
         run: pnpm install --no-frozen-lockfile
+      - name: Generate reviewable pnpm dependency lock
+        run: |
+          test -s pnpm-lock.yaml
+          echo "BEGIN_PNPM_LOCK_B64"
+          base64 -w0 pnpm-lock.yaml
+          echo
+          echo "END_PNPM_LOCK_B64"
       - name: Build private staging preview
         run: pnpm --filter @dgi/web build
       - name: Install Chromium
