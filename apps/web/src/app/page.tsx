@@ -22,7 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: { absolute: page.seoTitle },
     description: page.description,
-    alternates: { canonical: canonicalUrl(page) },
+    alternates: siteIsLive ? { canonical: canonicalUrl(page) } : undefined,
     robots: siteIsLive ? { index: true, follow: true } : { index: false, follow: false },
   };
 }
