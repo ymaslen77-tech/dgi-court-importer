@@ -51,6 +51,16 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Validate private staging Compose definition
         run: docker compose --env-file deploy/staging/.env.example -f deploy/staging/compose.yml config --quiet
+      - name: Syntax-check Windows local full-stack launcher
+        shell: pwsh
+        run: |
+          $tokens = $null
+          $errors = $null
+          [System.Management.Automation.Language.Parser]::ParseFile("scripts/local-fullstack.ps1", [ref]$tokens, [ref]$errors) | Out-Null
+          if ($errors.Count -gt 0) {
+            $errors | ForEach-Object { Write-Error $_.Message }
+            exit 1
+          }
       - name: Validate migration inventory
         run: pnpm test
       - name: Validate staging preview
