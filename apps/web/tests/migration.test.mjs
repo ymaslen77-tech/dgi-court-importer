@@ -59,7 +59,7 @@ test("all preserved deep links resolve to migrated heading anchors", () => {
 
 test("content routes render reviewed CMS pages, including new slugs", () => {
   const route = readFileSync(new URL("../src/app/[...slug]/page.tsx", import.meta.url), "utf8");
-  assert.match(route, /const page = \(await getPublishedEditorialPage\(slug\)\) \?\? getMigratedPage\(slug\)/);
+  assert.ok(route.includes('const page = (await getPublishedEditorialPage(slug)) ?? (!siteIsLive ? getMigratedPage(slug) : undefined)'));
   assert.ok(!route.includes("const page = getMigratedPage(slug);"));
 });
 
@@ -94,7 +94,7 @@ test("page template includes factual gated SEO schema and a keyboard skip link",
   const markup = readFileSync(new URL("../src/components/SeoMarkup.tsx",import.meta.url),"utf8");
   const shell = readFileSync(new URL("../src/components/PageShell.tsx",import.meta.url),"utf8");
   const article = readFileSync(new URL("../src/components/MigratedArticle.tsx",import.meta.url),"utf8");
-  assert.ok(markup.includes("if (!siteIsLive) return null"));
+  assert.ok(markup.includes("if (!canIndexPage(page)) return null"));
   assert.ok(markup.includes('application/ld+json'));
   assert.ok(markup.includes("BreadcrumbList"));
   assert.ok(shell.includes('href="#main-content"'));
