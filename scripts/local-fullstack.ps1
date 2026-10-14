@@ -79,7 +79,7 @@ try {
       if(-not (Get-Command docker -ErrorAction SilentlyContinue)) {
         throw "Docker Desktop and Docker Compose v2 required for database setup."
       }
-      Compose @("up","-d","database","cms_database")
+      Compose @("up","-d","--wait","database","cms_database")
       $sql="SELECT count(*) FROM information_schema.tables WHERE table_schema='public'"
       $count=(& docker compose -f docker-compose.yml -f docker-compose.cms.yml exec -T database psql -X -At -U housing -d housing -c $sql).Trim()
       Assert-Exit "Inspect website schema"
