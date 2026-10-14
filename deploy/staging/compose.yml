@@ -1,0 +1,100 @@
+# Private staging only. No DNS/production cutover, no automatic publication.
+name: dgi-staging
+services:
+  site-db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: housing
+      POSTGRES_USER: housing
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set site DB password}
+    volumes:
+      - site_pgdata:/var/lib/postgresql/data
+    networks: [site-private]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U housing -d housing"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+  cms-db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: housing_cms
+      POSTGRES_USER: housing_cms
+      POSTGRES_PASSWORD: ${CMS_POSTGRES_PASSWORD:?Set CMS DB password}
+    volumes:
+      - cms_pgdata:/var/lib/postgresql/data
+    networks: [cms-private]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U housing_cms -d housing_cms"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+  web:
+    build:
+      context: ../..
+      dockerfile: deploy/staging/Dockerfile
+    restart: unless-stopped
+    init: true
+    depends_on:
+      site-db: {condition: service_healthy}
+    working_dir: /app
+    command: ["sh", "-ec", "pnpm --filter @dgi/web build && exec pnpm --filter @dgi/web start"]
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: ${DATABASE_URL:?Set isolated site database URL}
+      SITE_URL: ${STAGING_SITE_URL:?Set staging URL}
+      SITE_CUTOVER: "false"
+      SITE_RELEASE_APPROVED: "no"
+      CMS_PUBLIC_READS: "false"
+      COURT_DB_READS: "false"
+      NEXT_TELEMETRY_DISABLED: "1"
+    ports:
+      - "127.0.0.1:${STAGING_WEB_PORT:-3100}:3000"
+    networks: [site-private, preview]
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: ["ALL"]
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 20
+      start_period: 240s
+  cms:
+    build:
+      context: ../..
+      dockerfile: deploy/staging/Dockerfile
+    restart: unless-stopped
+    init: true
+    depends_on:
+      cms-db: {condition: service_healthy}
+    working_dir: /app
+    command: ["sh", "-ec", "pnpm --filter @dgi/cms generate:importmap && pnpm --filter @dgi/cms build && exec pnpm --filter @dgi/cms start"]
+    environment:
+      NODE_ENV: production
+      CMS_DATABASE_URL: ${CMS_DATABASE_URL:?Set isolated CMS database URL}
+      PAYLOAD_SECRET: ${PAYLOAD_SECRET:?Set unique Payload secret}
+      NEXT_PUBLIC_CMS_URL: ${STAGING_CMS_URL:?Set private CMS URL}
+      NEXT_TELEMETRY_DISABLED: "1"
+    volumes:
+      - cms_uploads:/app/apps/cms/media
+    ports:
+      - "127.0.0.1:${STAGING_CMS_PORT:-3101}:3001"
+    networks: [cms-private, preview]
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: ["ALL"]
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3001/admin').then(r=>process.exit(r.status<500?0:1)).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 20
+      start_period: 300s
+networks:
+  site-private: {internal: true}
+  cms-private: {internal: true}
+  preview: {}
+volumes:
+  site_pgdata: {}
+  cms_pgdata: {}
+  cms_uploads: {}

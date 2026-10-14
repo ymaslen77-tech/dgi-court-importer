@@ -1,0 +1,249 @@
+{
+  "source": "Webflow published court CMS snapshot",
+  "snapshotDate": "2026-10-13",
+  "notes": "Published metadata only, no text of decisions, no names or outcomes asserted",
+  "cases": [
+    {
+      "id": "6aca8e2335b13f9b9ec60512",
+      "slug": "decision-02-4422-2026-additional-10",
+      "caseNumber": "02-4422/2026",
+      "court": "Нагатинский районный суд Москвы",
+      "category": "Реновация",
+      "title": "Реновация: суд удовлетворил иск ДГИ о переселении",
+      "officialUrl": "https://www.mos-gorsud.ru/mgs/services/cases/appeal-civil?caseNumber=33-&page=14",
+      "verifiedAct": false,
+      "verification": "secondary-material-needs-primary-act-review"
+    },
+    {
+      "id": "6aca8e2335b13f9b9ec6050c",
+      "slug": "decision-02-0531-2025-additional-7",
+      "caseNumber": "02-0531/2025",
+      "court": "Районный суд Москвы",
+      "category": "Имущество",
+      "title": "ДГИ обязал заключить соглашение по аренде участка",
+      "officialUrl": "",
+      "verifiedAct": false,
+      "verification": "secondary-material-needs-primary-act-review"
+    },
+    {
+      "id": "6aca8e2335b13f9b9ec6050a",
+      "slug": "decision-02-6479-2025-additional-6",
+      "caseNumber": "02-6479/2025",
+      "court": "Зюзинский районный суд Москвы",
+      "category": "Приватизация",
+      "title": "Приватизация федеральной квартиры: ДГИ ненадлежащий ответчик",
+      "officialUrl": "",
+      "verifiedAct": false,
+      "verification": "secondary-material-needs-primary-act-review"
+    },
+    {
+      "id": "6aca8e2335b13f9b9ec60508",
+      "slug": "decision-02-7102-2025-additional-5",
+      "caseNumber": "02-7102/2025",
+      "court": "Нагатинский районный суд Москвы",
+      "category": "Имущество",
+      "title": "Выморочное имущество: требования ДГИ удовлетворены частично",
+      "officialUrl": "",
+      "verifiedAct": false,
+      "verification": "secondary-material-needs-primary-act-review"
+    },
+    {
+      "id": "6aca8e2335b13f9b9ec60506",
+      "slug": "decision-02-0873-2026-additional-4",
+      "caseNumber": "02-0873/2026",
+      "court": "Бабушкинский районный суд Москвы",
+      "category": "Социальный наём",
+      "title": "ДГИ добился выселения, встречный иск о соцнайме отклонён",
+      "officialUrl": "",
+      "verifiedAct": false,
+      "verification": "secondary-material-needs-primary-act-review"
+    },
+    {
+      "id": "6aca8e2335b13f9b9ec60504",
+      "slug": "decision-02-3437-2025-additional-3",
+      "caseNumber": "02-3437/2025",
+      "court": "Троицкий районный суд Москвы",
+      "category": "Реновация",
+      "title": "Реновация: встречный иск жильцов к ДГИ удовлетворён",
+      "officialUrl": "",
+      "verifiedAct": false,
+      "verification": "secondary-material-needs-primary-act-review"
+    },
+    {
+      "id": "6aca8e2335b13f9b9ec60502",
+      "slug": "decision-02-2249-2026-additional-2",
+      "caseNumber": "02-2249/2026",
+      "court": "Люблинский районный суд Москвы",
+      "category": "Приватизация",
+      "title": "Признание собственности на квартиру по приватизации",
+      "officialUrl": "",
+      "verifiedAct": false,
+      "verification": "secondary-material-needs-primary-act-review"
+    },
+    {
+      "id": "6aca8e2335b13f9b9ec60500",
+      "slug": "decision-02-1330-2025-additional-1",
+      "caseNumber": "02-1330/2025",
+      "court": "Таганский районный суд Москвы",
+      "category": "Приватизация",
+      "title": "Приватизация после отказа из-за двух месяцев регистрации",
+      "officialUrl": "",
+      "verifiedAct": false,
+      "verification": "secondary-material-needs-primary-act-review"
+    },
+    {
+      "id": "6aca8c21dd79f27f267aa8bc",
+      "slug": "dgi-case-15-02-5509-2025",
+      "caseNumber": "02-5509/2025",
+      "court": "Пресненский районный суд Москвы",
+      "category": "Очередь",
+      "title": "Восстановление в очереди: площадь комнаты общежития",
+      "officialUrl": "",
+      "verifiedAct": false,
+      "verification": "secondary-material-needs-primary-act-review"
+    },
+    {
+      "id": "6aca8c21dd79f27f267aa8b8",
+      "slug": "dgi-case-13-33-58410-2025",
+      "caseNumber": "33-58410/2025",
+      "court": "Московский городской суд",
+      "category": "Очередь",
+      "title": "Апелляция: отказ в постановке на учёт устоял",
+      "officialUrl": "",
+      "verifiedAct": false,
+      "verification": "secondary-material-needs-primary-act-review"
+    },
+    {
+      "id": "6aca8c21dd79f27f267aa8b6",
+      "slug": "dgi-case-12-02-7607-2025",
+      "caseNumber": "02-7607/2025",
+      "court": "Пресненский районный суд Москвы",
+      "category": "Очередь",
+      "title": "Отказ в постановке на учёт: повторное рассмотрение",
+      "officialUrl": "",
+      "verifiedAct": false,
+      "verification": "secondary-material-needs-primary-act-review"
+    },
+    {
+      "id": "6aca8c21dd79f27f267aa8b4",
+      "slug": "dgi-case-11-02-3970-2025",
+      "caseNumber": "02-3970/2025",
+      "court": "Тимирязевский районный суд Москвы",
+      "category": "Реновация",
+      "title": "Реновация: равнозначная квартира для очередников",
+      "officialUrl": "",
+      "verifiedAct": false,
+      "verification": "secondary-material-needs-primary-act-review"
+    },
+    {
+      "id": "6aca8c21dd79f27f267aa8b2",
+      "slug": "dgi-case-10--40-178086-2024",
+      "caseNumber": "А40-178086/2024",
+      "court": "Арбитражный суд Москвы",
+      "category": "Имущество",
+      "title": "Городское имущество: отказ по договорному спору",
+      "officialUrl": "",
+      "verifiedAct": false,
+      "verification": "secondary-material-needs-primary-act-review"
+    },
+    {
+      "id": "6aca8c21dd79f27f267aa8b0",
+      "slug": "dgi-case-9--40-97673-2024",
+      "caseNumber": "А40-97673/2024",
+      "court": "Арбитражный суд Москвы",
+      "category": "Имущество",
+      "title": "Нежилой объект: отмена распоряжения ДГИ",
+      "officialUrl": "",
+      "verifiedAct": false,
+      "verification": "secondary-material-needs-primary-act-review"
+    },
+    {
+      "id": "6aca8c21dd79f27f267aa8ae",
+      "slug": "dgi-case-8-02-0121-2025",
+      "caseNumber": "02-0121/2025",
+      "court": "Пресненский районный суд Москвы",
+      "category": "Очередь",
+      "title": "Отказ в жилищном учёте: удовлетворено частично",
+      "officialUrl": "",
+      "verifiedAct": false,
+      "verification": "secondary-material-needs-primary-act-review"
+    },
+    {
+      "id": "6aca8c21dd79f27f267aa8ac",
+      "slug": "dgi-case-7-02-1971-2025",
+      "caseNumber": "02-1971/2025",
+      "court": "Пресненский районный суд Москвы",
+      "category": "Субсидия",
+      "title": "Жилищная обеспеченность: учёт площади стороннего лица",
+      "officialUrl": "",
+      "verifiedAct": false,
+      "verification": "secondary-material-needs-primary-act-review"
+    },
+    {
+      "id": "6aca8c21dd79f27f267aa8aa",
+      "slug": "dgi-case-6-02-0968-2025",
+      "caseNumber": "02-0968/2025",
+      "court": "Пресненский районный суд Москвы",
+      "category": "Очередь",
+      "title": "Восстановление в очереди: площадь чужого жилья",
+      "officialUrl": "",
+      "verifiedAct": false,
+      "verification": "secondary-material-needs-primary-act-review"
+    },
+    {
+      "id": "6aca8c21dd79f27f267aa8a8",
+      "slug": "dgi-case-5-02-8225-2025",
+      "caseNumber": "02-8225/2025",
+      "court": "Пресненский районный суд Москвы",
+      "category": "Очередь",
+      "title": "Постановка на учёт после вселения третьего лица",
+      "officialUrl": "",
+      "verifiedAct": false,
+      "verification": "secondary-material-needs-primary-act-review"
+    },
+    {
+      "id": "6aca8c21dd79f27f267aa8a6",
+      "slug": "dgi-case-4-02-2769-2025",
+      "caseNumber": "02-2769/2025",
+      "court": "Пресненский районный суд Москвы",
+      "category": "Очередь",
+      "title": "Перерегистрация: документы лица вне очереди",
+      "officialUrl": "",
+      "verifiedAct": false,
+      "verification": "secondary-material-needs-primary-act-review"
+    },
+    {
+      "id": "6aca8c21dd79f27f267aa8a4",
+      "slug": "dgi-case-3-02-7149-2025",
+      "caseNumber": "02-7149/2025",
+      "court": "Пресненский районный суд Москвы",
+      "category": "Реновация",
+      "title": "Реновация: последствия расторжения брака",
+      "officialUrl": "",
+      "verifiedAct": false,
+      "verification": "secondary-material-needs-primary-act-review"
+    },
+    {
+      "id": "6aca8c21dd79f27f267aa8a2",
+      "slug": "dgi-case-2-02-6195-2025",
+      "caseNumber": "02-6195/2025",
+      "court": "Савёловский районный суд Москвы",
+      "category": "Приватизация",
+      "title": "Приватизация: нет подтверждений прошлой регистрации",
+      "officialUrl": "",
+      "verifiedAct": false,
+      "verification": "secondary-material-needs-primary-act-review"
+    },
+    {
+      "id": "6aca8be714a0adc3105edd4c",
+      "slug": "dgi-case-1-02-4169-2025",
+      "caseNumber": "02-4169/2025",
+      "court": "Дорогомиловский районный суд Москвы",
+      "category": "Приватизация",
+      "title": "Приватизация без ордера: право признано",
+      "officialUrl": "",
+      "verifiedAct": false,
+      "verification": "secondary-material-needs-primary-act-review"
+    }
+  ]
+}

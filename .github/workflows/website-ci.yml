@@ -1,0 +1,290 @@
+name: Next.js migration checks
+
+on:
+  push:
+    branches:
+      - feature/nextjs-webflow-migration
+    paths:
+      - "apps/web/**"
+      - "apps/cms/**"
+      - "db/**"
+      - "scripts/**"
+      - "docker-compose.yml"
+      - "deploy/staging/**"
+      - ".dockerignore"
+      - ".env.example"
+      - "scripts/export-webflow.mjs"
+      - "package.json"
+      - "pnpm-workspace.yaml"
+      - ".github/workflows/website-ci.yml"
+  pull_request:
+    paths:
+      - "apps/web/**"
+      - "apps/cms/**"
+      - "db/**"
+      - "scripts/**"
+      - "docker-compose.yml"
+      - "deploy/staging/**"
+      - ".dockerignore"
+      - ".env.example"
+      - "scripts/export-webflow.mjs"
+      - "package.json"
+      - "pnpm-workspace.yaml"
+      - ".github/workflows/website-ci.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  web-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Validate private staging Compose definition
+        run: docker compose --env-file deploy/staging/.env.example -f deploy/staging/compose.yml config --quiet
+      - name: Syntax-check Windows local full-stack launcher
+        shell: pwsh
+        run: |
+          $tokens = $null
+          $errors = $null
+          [System.Management.Automation.Language.Parser]::ParseFile("scripts/local-fullstack.ps1", [ref]$tokens, [ref]$errors) | Out-Null
+          if ($errors.Count -gt 0) {
+            $errors | ForEach-Object { Write-Error $_.Message }
+            exit 1
+          }
+      - name: Validate migration inventory
+        run: pnpm test
+      - name: Validate staging preview
+        run: pnpm migration:dry-run
+      - name: Validate sanitized Webflow CMS archive
+        run: pnpm migration:cms:dry-run
+      - name: TypeScript typecheck
+        run: pnpm typecheck
+      - name: Compile Next.js
+        env:
+          SITE_CUTOVER: "false"
+          NEXT_TELEMETRY_DISABLED: "1"
+        run: pnpm build
+      - name: Check 33 routes and staging SEO over HTTP
+        env:
+          SITE_CUTOVER: "false"
+          CMS_PUBLIC_READS: "false"
+          COURT_DB_READS: "false"
+        run: |
+          (pnpm --filter @dgi/web start > /tmp/dgi-next-staging.log 2>&1) &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true; cat /tmp/dgi-next-staging.log' EXIT
+          node scripts/smoke-next-staging.mjs
+
+  db-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: housing_ci
+          POSTGRES_USER: housing_ci
+          POSTGRES_PASSWORD: ci-only-password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U housing_ci -d housing_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    env:
+      DATABASE_URL: postgresql://housing_ci:ci-only-password@127.0.0.1:5432/housing_ci
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Apply schema to disposable test DB
+        run: |
+          node --input-type=module <<'JS'
+          import pg from "pg";
+          import { readFileSync } from "node:fs";
+          const db = new pg.Client({ connectionString: process.env.DATABASE_URL });
+          await db.connect();
+          await db.query(readFileSync("db/migrations/0001_initial.sql", "utf8"));
+          await db.query(readFileSync("db/migrations/0002_webflow_cms_staging.sql", "utf8"));
+          await db.query(readFileSync("db/migrations/0003_editorial_publication.sql", "utf8"));
+          await db.query(readFileSync("db/migrations/0004_court_search.sql", "utf8"));
+          await db.end();
+          JS
+      - name: Test idempotent staging migration
+        run: |
+          pnpm migration:apply
+          pnpm migration:apply
+      - name: Test idempotent non-publishable CMS migration
+        run: |
+          pnpm migration:cms:apply
+          pnpm migration:cms:apply
+      - name: Verify staging database integrity
+        run: |
+          node --input-type=module <<'JS'
+          import pg from "pg";
+          import { prepareMigrationData } from "./scripts/lib/prepare-migration-data.mjs";
+          const expected=prepareMigrationData().counts;
+          const db=new pg.Client({connectionString:process.env.DATABASE_URL});
+          await db.connect();
+          const count=async(sql)=>Number((await db.query(sql)).rows[0].count);
+          const pages=await count("SELECT count(*) FROM editorial_pages");
+          const cases=await count("SELECT count(*) FROM court_cases");
+          const instances=await count("SELECT count(*) FROM court_instances");
+          const sources=await count("SELECT count(*) FROM court_sources");
+          const badCases=await count("SELECT count(*) FROM court_cases WHERE act_verified=true OR editorial_status='published'");
+          const badPages=await count("SELECT count(*) FROM editorial_pages WHERE editorial_status='published'");
+          const cms=await count("SELECT count(*) FROM webflow_cms_staging");
+          const invalidCms=await count("SELECT count(*) FROM webflow_cms_staging WHERE verified=true OR publication_allowed=true OR editorial_status <> 'review'");
+          await db.end();
+          if(pages!==expected.pages || cases!==expected.candidateRows || instances!==expected.candidateRows ||
+              sources!==expected.officialCandidates || badCases || badPages || cms!==50 || invalidCms)
+            throw new Error(JSON.stringify({pages,cases,instances,sources,badCases,badPages,cms,invalidCms,expected}));
+          console.log({pages,cases,instances,sources,cms,publications:0});
+          JS
+
+      - name: Verify court metadata search indexes and keyset paging
+        run: node scripts/tests/court-search-integration.mjs
+      - name: Verify editorial publishing is fail-closed
+        run: |
+          node --input-type=module <<'JS'
+          import pg from "pg";
+          const db = new pg.Client({ connectionString: process.env.DATABASE_URL });
+          await db.connect();
+          try {
+            await db.query("BEGIN");
+            await db.query("SAVEPOINT invalid_publish");
+            let blocked = false;
+            try {
+              await db.query(`INSERT INTO editorial_pages
+                (slug,kind,title,seo_title,body,editorial_status)
+                VALUES ('ci-approval-check','guide','Sample','Sample','[{"kind":"p","text":"Sample"}]'::jsonb,'published')`);
+            } catch (error) {
+              if (error.code !== "23514") throw error;
+              blocked = true;
+            }
+            if (!blocked) throw new Error("Unreviewed content was publishable");
+            await db.query("ROLLBACK TO SAVEPOINT invalid_publish");
+            const created = await db.query(`INSERT INTO editorial_pages
+              (slug,kind,title,seo_title,body,editorial_status)
+              VALUES ('ci-approval-check','guide','Sample','Sample','[{"kind":"p","text":"Sample"}]'::jsonb,'review')
+              RETURNING id`);
+            const id = created.rows[0].id;
+            const approved = await db.query(`UPDATE editorial_pages
+              SET checked_at=now(),reviewed_by='ci-reviewer',published_at=now(),
+                  editorial_status='published' WHERE id=$1
+              RETURNING editorial_status`, [id]);
+            if (approved.rows[0].editorial_status !== "published") throw new Error("Approved content not publishable");
+            const invalidated = await db.query(`UPDATE editorial_pages SET title='Changed title'
+              WHERE id=$1 RETURNING editorial_status,checked_at,reviewed_by,published_at`, [id]);
+            const row = invalidated.rows[0];
+            if (row.editorial_status !== "review" || row.checked_at || row.reviewed_by || row.published_at)
+              throw new Error("Content changes did not invalidate approval");
+            await db.query("ROLLBACK");
+            console.log("Unreviewed blocked; reviewed published; edits revoked approval");
+          } finally { await db.end(); }
+          JS
+
+      - name: Build Next.js for approved CMS HTTP test
+        env:
+          SITE_CUTOVER: "false"
+          SITE_RELEASE_APPROVED: "no"
+        run: pnpm --filter @dgi/web build
+      - name: Verify approved nested CMS routes over HTTP
+        env:
+          SITE_CUTOVER: "false"
+          SITE_RELEASE_APPROVED: "no"
+          CMS_PUBLIC_READS: "true"
+        run: |
+          (pnpm --filter @dgi/web start > /tmp/dgi-cms-route-e2e.log 2>&1) &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true; cat /tmp/dgi-cms-route-e2e.log' EXIT
+          node scripts/smoke-approved-cms.mjs
+
+  cms-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: housing_cms_ci
+          POSTGRES_USER: housing_cms_ci
+          POSTGRES_PASSWORD: test-cms-password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U housing_cms_ci -d housing_cms_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    env:
+      CMS_DATABASE_URL: postgresql://housing_cms_ci:test-cms-password@127.0.0.1:5432/housing_cms_ci
+      PAYLOAD_SECRET: 4f2e916c-example-ci-only-change-for-production
+      NEXT_PUBLIC_CMS_URL: http://localhost:3001
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Generate Payload import map
+        run: pnpm --filter @dgi/cms generate:importmap
+      - name: Validate safe Webflow draft inventory
+        run: pnpm --filter @dgi/cms import:webflow:dry-run
+      - name: Test guarded CMS promotion
+        run: pnpm --filter @dgi/cms test
+      - name: Validate Webflow CMS metadata importer
+        run: pnpm --filter @dgi/cms import:cms-metadata:dry-run
+      - name: CMS typecheck
+        run: pnpm --filter @dgi/cms typecheck
+      - name: Bootstrap administrator in disposable CMS DB
+        env:
+          NODE_ENV: development
+          CMS_BOOTSTRAP_CONFIRM: "yes"
+          CMS_BOOTSTRAP_EMAIL: ci-admin@example.com
+          CMS_BOOTSTRAP_PASSWORD: ci-only-never-reused-strong-password
+        run: pnpm --filter @dgi/cms bootstrap:admin
+      - name: Import 33 public Webflow snapshots as drafts twice
+        env:
+          NODE_ENV: development
+          CMS_PRIVATE_IMPORT: "yes"
+          CMS_IMPORT_CONFIRM: "yes"
+        run: |
+          pnpm --filter @dgi/cms import:webflow:apply
+          pnpm --filter @dgi/cms import:webflow:apply
+      - name: Import 50 sanitized CMS source records twice
+        env:
+          NODE_ENV: development
+          CMS_PRIVATE_IMPORT: "yes"
+          CMS_IMPORT_CONFIRM: "yes"
+        run: |
+          pnpm --filter @dgi/cms import:cms-metadata:apply
+          pnpm --filter @dgi/cms import:cms-metadata:apply
+      - name: Verify CMS staging state
+        env:
+          NODE_ENV: development
+        run: pnpm --filter @dgi/cms verify:staging
+      - name: CMS production build
+        run: pnpm --filter @dgi/cms build

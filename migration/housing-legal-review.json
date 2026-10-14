@@ -1,0 +1,383 @@
+{
+  "auditDate": "2026-10-14",
+  "scope": "Москва, город; редакционная проверка для staging",
+  "method": "Secondary-law indexes give edition leads only. No available evidence establishes exhaustive consolidated effective text and full service procedure. Do not approve or publish until primary act, annexes, start dates and service rules are checked.",
+  "publicationRule": "Requires official consolidated effective version, competent agency/service, verified mandatory documents and deadlines, human signoff",
+  "guides": [
+    {
+      "slug": "priznanie-maloimushchim-dlya-zhilishchnogo-ucheta",
+      "legalBasis": "Закон Москвы № 7 и ЖК РФ гл. 7",
+      "sourceStatus": "historical_primary_link",
+      "referenceUrl": "https://www.mos.ru/upload/documents/files/7751/ZakongMoskviot25012006N7%28redot28122016%29.pdf",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "nextReview": "Найти официальную актуальную редакцию закона № 7, действующий регламент услуги и состав заявителей.",
+      "relatedLawIds": [
+        "housing-code",
+        "moscow-7",
+        "521-pp"
+      ],
+      "legalResearch": {
+        "researchedOn": "2026-10-14",
+        "secondaryLinks": [
+          {
+            "lawId": "housing-code",
+            "url": "https://www.consultant.ru/law/podborki/zhk_rf_kapitalnyj_remont/"
+          },
+          {
+            "lawId": "521-pp",
+            "url": "https://www.consultant.ru/law/podborki/procedura_privatizacii/"
+          }
+        ],
+        "conclusion": "Нужны действующие редакции закона № 7 и регламента по учёту из 521-ПП (справочный ориентир — 05.05.2026), отдельные критерии малоимущих и уполномоченный орган.",
+        "lastEffectiveEditionIndependentlyChecked": false
+      }
+    },
+    {
+      "slug": "pereregistratsiya-zhilishchnyy-uchet",
+      "legalBasis": "Приказ ДГИ № 286 от 21.08.2024, пп. 1.1–1.5",
+      "sourceStatus": "primary_text_checked",
+      "referenceUrl": "https://www.mos.ru/upload/content/files/2c7e35924e244c59dfe270088f191922/PRIKAH286ot21082024.pdf",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "nextReview": "Сверить все поправки после 21.08.2024, формы уведомления, актуальные приложения и сроки по ситуации.",
+      "relatedLawIds": [
+        "moscow-29",
+        "dgi-286",
+        "521-pp"
+      ],
+      "legalResearch": {
+        "researchedOn": "2026-10-14",
+        "secondaryLinks": [
+          {
+            "lawId": "521-pp",
+            "url": "https://www.consultant.ru/law/podborki/procedura_privatizacii/"
+          }
+        ],
+        "conclusion": "Первичный приказ 286 и регламент исходной публикации есть; проверить изменения и конкретную практику уведомлений, перечень межведомственных данных и надлежащий срок.",
+        "lastEffectiveEditionIndependentlyChecked": false
+      }
+    },
+    {
+      "slug": "izmenenie-dogovora-sotsnayma",
+      "legalBasis": "Ст. 82 ЖК РФ",
+      "sourceStatus": "norm_crosschecked",
+      "referenceUrl": "https://www.mos.ru/upload/documents/oiv/29122004-_-188_fz%281%29.pdf",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "nextReview": "Сверить актуальную редакцию ЖК РФ в официальной базе и действующий московский регламент изменения договора.",
+      "relatedLawIds": [
+        "housing-code",
+        "521-pp"
+      ],
+      "legalResearch": {
+        "researchedOn": "2026-10-14",
+        "secondaryLinks": [
+          {
+            "lawId": "housing-code",
+            "url": "https://www.consultant.ru/law/podborki/zhk_rf_kapitalnyj_remont/"
+          },
+          {
+            "lawId": "521-pp",
+            "url": "https://www.consultant.ru/law/podborki/procedura_privatizacii/"
+          }
+        ],
+        "conclusion": "Ст.82 ЖК РФ подтверждает общий порядок; московский регламент в изменённом 521-ПП (справочный ориентир 05.05.2026) и перечень согласий не сверены.",
+        "lastEffectiveEditionIndependentlyChecked": false
+      }
+    },
+    {
+      "slug": "deprivatizatsiya-kvartiry-moskva",
+      "legalBasis": "Приложение 14 к постановлению Москвы № 521-ПП, введено 1368-ПП",
+      "sourceStatus": "primary_text_checked",
+      "referenceUrl": "https://www.mos.ru/upload/content/files/2a0ff0f6550542ed5ae4f7f149350111/AdministrativniireglamentkPrilojeniu1.pdf",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "nextReview": "Сверить официальные поправки после 23.12.2022 и действующие приложения к 521-ПП; подтвердить срок услуги, состав необходимых документов и основания отказа по акту 2026 года.",
+      "relatedLawIds": [
+        "521-pp"
+      ],
+      "legalResearch": {
+        "researchedOn": "2026-10-14",
+        "secondaryLinks": [
+          {
+            "lawId": "521-pp",
+            "url": "https://www.consultant.ru/law/podborki/procedura_privatizacii/"
+          }
+        ],
+        "conclusion": "Официально опубликованное приложение 5 к 521-ПП содержит регламент приватизации/деприватизации в редакции 23.12.2022. Прежнее приложение 14 о передаче жилья городу утратило силу. Ориентир редакции 521-ПП по справочной базе — 05.05.2026; целостный действующий текст и документы не проверены.",
+        "lastEffectiveEditionIndependentlyChecked": false
+      }
+    },
+    {
+      "slug": "subsidiya-na-oplatu-zhku-moskva",
+      "legalBasis": "ЖК РФ ст.159, постановление РФ № 761, московское 111-ПП",
+      "sourceStatus": "primary_text_checked",
+      "referenceUrl": "https://www.mos.ru/upload/content/files/d8fca445f3b983500e6a5ac0792fc3fd/24PostanovleniePravitelstvaMoskviot27_03_2012N111-PP%28r.pdf",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "nextReview": "111-ПП имеет более позднюю справочную редакцию 18.08.2026; историческая PDF 2023 года не подходит для сроков и расчётов; подтвердить компетенцию и приложения. Уточнить действующую редакцию 111-ПП, финансовые стандарты Москвы и текущий перечень документов у ГЦЖС.",
+      "relatedLawIds": [
+        "housing-code",
+        "761-rf",
+        "111-pp"
+      ],
+      "legalResearch": {
+        "researchedOn": "2026-10-14",
+        "secondaryLinks": [
+          {
+            "lawId": "housing-code",
+            "url": "https://www.consultant.ru/law/podborki/zhk_rf_kapitalnyj_remont/"
+          },
+          {
+            "lawId": "761-rf",
+            "url": "https://www.consultant.ru/document/cons_doc_LAW_45158/"
+          },
+          {
+            "lawId": "111-pp",
+            "url": "https://www.consultant.ru/law/review/reg/rlawc/mcw2026-08-31.html"
+          }
+        ],
+        "conclusion": "111-ПП имеет более позднюю справочную редакцию 18.08.2026; историческая PDF 2023 года не подходит для сроков и расчётов; подтвердить компетенцию и приложения.",
+        "lastEffectiveEditionIndependentlyChecked": false
+      }
+    },
+    {
+      "slug": "proverka-upravlyayushchey-kompanii",
+      "legalBasis": "ЖК РФ; инструкции ГИС ЖКХ для граждан",
+      "sourceStatus": "primary_help_checked",
+      "referenceUrl": "https://cdn.dom.gosuslugi.ru/webhelp/topics/_citizen/view_house-grazhd.html",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "nextReview": "Правила 491 изменены 26.09.2026 (1242) по составу общего имущества; проверить официальный первичный акт и договор управления конкретным домом. Сверить нормативную базу о лицензировании и актуальные способы обращения; проверить доступность без авторизации.",
+      "relatedLawIds": [
+        "housing-code",
+        "491-rf",
+        "290-rf"
+      ],
+      "legalResearch": {
+        "researchedOn": "2026-10-14",
+        "secondaryLinks": [
+          {
+            "lawId": "housing-code",
+            "url": "https://www.consultant.ru/law/podborki/zhk_rf_kapitalnyj_remont/"
+          },
+          {
+            "lawId": "491-rf",
+            "url": "https://www.consultant.ru/document/cons_doc_LAW_62293/"
+          },
+          {
+            "lawId": "290-rf",
+            "url": "https://www.consultant.ru/document/cons_doc_LAW_144804/"
+          }
+        ],
+        "conclusion": "Правила 491 изменены 26.09.2026 (1242) по составу общего имущества; проверить официальный первичный акт и договор управления конкретным домом.",
+        "lastEffectiveEditionIndependentlyChecked": false
+      }
+    },
+    {
+      "slug": "zhaloba-v-moszhilinspekciyu",
+      "legalBasis": "ЖК РФ, 59-ФЗ, компетенция МЖИ",
+      "sourceStatus": "agency_not_confirmed",
+      "referenceUrl": "https://cdn.dom.gosuslugi.ru/webhelp/topics/introduction/c_system-grazhd.html",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "nextReview": "Сверить точный канал Мосжилинспекции и вид обращения. Правила 491 менялись 26.09.2026; № 290 справочно по состоянию на 07.03.2025. Подтвердить действующую официальную страницу Мосжилинспекции, регламент канала жалобы и специальные сроки.",
+      "relatedLawIds": [
+        "housing-code",
+        "491-rf",
+        "290-rf",
+        "354-rf"
+      ],
+      "legalResearch": {
+        "researchedOn": "2026-10-14",
+        "secondaryLinks": [
+          {
+            "lawId": "housing-code",
+            "url": "https://www.consultant.ru/law/podborki/zhk_rf_kapitalnyj_remont/"
+          },
+          {
+            "lawId": "491-rf",
+            "url": "https://www.consultant.ru/document/cons_doc_LAW_62293/"
+          },
+          {
+            "lawId": "290-rf",
+            "url": "https://www.consultant.ru/document/cons_doc_LAW_144804/"
+          },
+          {
+            "lawId": "354-rf",
+            "url": "https://www.consultant.ru/document/cons_doc_LAW_114247/"
+          }
+        ],
+        "conclusion": "Сверить точный канал Мосжилинспекции и вид обращения. Правила 491 менялись 26.09.2026; № 290 справочно по состоянию на 07.03.2025.",
+        "lastEffectiveEditionIndependentlyChecked": false
+      }
+    },
+    {
+      "slug": "kapremont-mkd-moskva",
+      "legalBasis": "ЖК РФ раздел IX, 832-ПП Москвы",
+      "sourceStatus": "help_source_checked",
+      "referenceUrl": "https://cdn.dom.gosuslugi.ru/webhelp/topics/programs_and_plans/repairs_plans/regional_repairs_plan/search-fond_reform.html",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "nextReview": "Сверить редакцию программы 832-ПП, региональный оператор, фактические графики по адресу и адреса приёма жалоб.",
+      "relatedLawIds": [
+        "housing-code",
+        "832-pp"
+      ],
+      "legalResearch": {
+        "researchedOn": "2026-10-14",
+        "secondaryLinks": [
+          {
+            "lawId": "housing-code",
+            "url": "https://www.consultant.ru/law/podborki/zhk_rf_kapitalnyj_remont/"
+          }
+        ],
+        "conclusion": "Сверить редакцию 832-ПП и программу по адресу; ЖК РФ изменён в 2026 году. Проверить полномочия оператора и актуальный график.",
+        "lastEffectiveEditionIndependentlyChecked": false
+      }
+    },
+    {
+      "slug": "renovatsiya-po-adresu-moskva",
+      "legalBasis": "Закон Москвы №14 от 17.05.2017",
+      "sourceStatus": "historical_primary_link",
+      "referenceUrl": "https://www.mos.ru/upload/content/files/15af077500dcc5a1547bf728abf25669/15Zakong_Moskviot17_05_2017N14Odopolnitelnihgaranti.pdf",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "nextReview": "Проверить актуальную редакцию закона, официальную адресную карту и различия для собственников/нанимателей.",
+      "relatedLawIds": [
+        "moscow-14",
+        "47-rf"
+      ],
+      "legalResearch": {
+        "researchedOn": "2026-10-14",
+        "secondaryLinks": [
+          {
+            "lawId": "47-rf",
+            "url": "https://www.consultant.ru/document/cons_doc_LAW_58136/"
+          }
+        ],
+        "conclusion": "Закон Москвы №14 и Фонд реновации относятся к иному механизму, чем аварийность; для второго есть №47 с изменениями 20.06.2026 (771).",
+        "lastEffectiveEditionIndependentlyChecked": false
+      }
+    },
+    {
+      "slug": "vypiska-egrn-na-kvartiru",
+      "legalBasis": "218-ФЗ; официальный портал Росреестра",
+      "sourceStatus": "official_portal_only",
+      "referenceUrl": "https://rosreestr.gov.ru/",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "nextReview": "Сверить действующий порядок предоставления сведений, ограничения персональных данных и точные URL услуг.",
+      "relatedLawIds": [],
+      "legalResearch": {
+        "researchedOn": "2026-10-14",
+        "secondaryLinks": [],
+        "conclusion": "Отдельно найти официальный порядок ЕГРН по №218-ФЗ; не сообщать третьим лицам персональные сведения, которые ограничены законом.",
+        "lastEffectiveEditionIndependentlyChecked": false
+      }
+    },
+    {
+      "slug": "subsidiya-na-priobretenie-zhilya-moskva",
+      "legalBasis": "Закон Москвы №29 от 14.06.2006",
+      "sourceStatus": "historical_primary_link",
+      "referenceUrl": "https://www.mos.ru/upload/documents/oiv/zakon_goroda_moskvy_ot_14062006_29.pdf",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "nextReview": "Установить доступные в 2026 году городские программы, категории очередников, формулы и порядок расчёта.",
+      "relatedLawIds": [
+        "moscow-29",
+        "521-pp"
+      ],
+      "legalResearch": {
+        "researchedOn": "2026-10-14",
+        "secondaryLinks": [
+          {
+            "lawId": "521-pp",
+            "url": "https://www.consultant.ru/law/podborki/procedura_privatizacii/"
+          }
+        ],
+        "conclusion": "Проверить, какие городские программы и условия реально действуют; в 521-ПП есть поправки 2026 года, но расчёт, деньги и заявители не сверены.",
+        "lastEffectiveEditionIndependentlyChecked": false
+      }
+    }
+  ],
+  "supplements": [
+    {
+      "slug": "zhilishchnaya-ochered",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "sourceStatus": "needs_legal_review",
+      "nextReview": "Уточнить индивидуальный порядок учёта, проверку приказа № 286 и текущих московских поправок."
+    },
+    {
+      "slug": "zhilishchnye-subsidii",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "sourceStatus": "needs_legal_review",
+      "nextReview": "Не смешивать субсидию на покупку с ЖКУ; проверить раздельные регламенты и ответственные органы."
+    },
+    {
+      "slug": "dokumenty-na-kvartiru",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "sourceStatus": "needs_legal_review",
+      "nextReview": "Проверить вид выписки ЕГРН, компетентный архив и порядок подтверждения ранее возникших прав."
+    },
+    {
+      "slug": "kadastrovaya-stoimost",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "sourceStatus": "needs_legal_review",
+      "nextReview": "Разделить оспаривание кадастровой оценки, ошибку ЕГРН и процедуру ГБУ Москвы."
+    },
+    {
+      "slug": "gorodskoe-imushchestvo-i-zemlya",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "sourceStatus": "needs_legal_review",
+      "nextReview": "Для каждой городской сделки уточнить объект, актуальный лот, тип собственности и действующий регламент."
+    },
+    {
+      "slug": "funkcii-dgi",
+      "checkedOn": "2026-10-14",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "sourceStatus": "needs_legal_review",
+      "nextReview": "Сверить полномочия ДГИ с действующим 99-ПП и разграничить их с Мосжилинспекцией."
+    }
+  ]
+}

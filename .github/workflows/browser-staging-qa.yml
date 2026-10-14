@@ -1,0 +1,48 @@
+name: Browser QA — Next.js migration
+
+on:
+  push:
+    branches: [feature/nextjs-webflow-migration]
+    paths:
+      - "apps/web/**"
+      - "migration/**"
+      - ".github/workflows/browser-staging-qa.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  chromium:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      CI: "true"
+      SITE_CUTOVER: "false"
+      SITE_RELEASE_APPROVED: "no"
+      CMS_PUBLIC_READS: "false"
+      COURT_DB_READS: "false"
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install workspace
+        run: pnpm install --frozen-lockfile
+      - name: Build private staging preview
+        run: pnpm --filter @dgi/web build
+      - name: Install Chromium
+        run: pnpm --filter @dgi/web exec playwright install --with-deps chromium
+      - name: Test 33 pages and 22 archive URLs on desktop/mobile
+        run: pnpm --filter @dgi/web test:e2e
+      - name: Preserve failure screenshots and traces
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-failure-traces
+          path: apps/web/test-results/
+          retention-days: 7

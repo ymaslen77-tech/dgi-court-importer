@@ -1,0 +1,12 @@
+**/node_modules
+**/.next
+**/.env
+**/.env.*
+!**/.env.example
+.migration
+.git
+*.log
+*.age
+backups
+**/test-results
+**/playwright-report
