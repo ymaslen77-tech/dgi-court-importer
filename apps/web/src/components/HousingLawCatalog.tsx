@@ -27,7 +27,7 @@ export function HousingLawCatalog() {
          <p>{law.revisionResearch.researchNote}</p>
          <p><a href={law.revisionResearch.secondaryReference} rel="noopener noreferrer" target="_blank">Смотреть источник сведений о редакции ↗</a></p>
        </div>}
-       {law.sourceScope === "amending_act_2019" && <p>Внимание: ниже размещён отдельный акт о поправках 2019 года, не консолидированный текст постановления № 521-ПП.</p>}
+       {law.sourceScope === "appendix_5_historical_2022" && <p>Внимание: ниже опубликован текст приложения 5 в редакции 23.12.2022. Прежнее приложение 14 утратило силу; актуальную редакцию 2026 года необходимо сверять отдельно.</p>}
        <p>{law.sourceUrl ? <a href={law.sourceUrl} target="_blank" rel="noopener noreferrer">Посмотреть архивный опубликованный документ ↗</a>
           : <a href="https://publication.pravo.gov.ru/" target="_blank" rel="noopener noreferrer">Найти официальную публикацию по реквизитам ↗</a>}</p>
        <nav className="housing-related" aria-label={`Темы, связанные с ${law.title}`}>
