@@ -44,7 +44,7 @@ export function CourtExplorer({ cases }: { cases: CourtListing[] }) {
       <div className="case-grid">
         {visible.map((item) => (
           <article className="case-card" key={item.id}>
-            <p className="case-tag">{item.source === "official-candidate" ? "ОФИЦИАЛЬНАЯ КАРТОЧКА · ТРЕБУЕТ ПРОВЕРКИ" : "АРХИВ WEBFLOW · ВТОРИЧНЫЙ ИСТОЧНИК"}</p>
+            <p className="case-tag">{item.source === "official-candidate" ? "СВЕДЕНИЯ О ДЕЛЕ · СУДЕБНЫЙ АКТ УТОЧНЯЕТСЯ" : "АРХИВНАЯ КАРТОЧКА · РЕШЕНИЕ НЕ ПОДТВЕРЖДЕНО"}</p>
             <h2>Дело № {item.number || "номер уточняется"}</h2>
             <p>{item.court || "Суд уточняется"}</p>
             <p className="case-category">{item.category || "Категория требует проверки"}</p>
