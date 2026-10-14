@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { PageShell } from "@/components/PageShell";
 import { CourtExplorer, type CourtListing } from "@/components/CourtExplorer";
 import { legacyCases, listOfficialCandidates } from "@/data/courts";
-import { canonicalUrl, getMigratedPage, siteIsLive } from "@/data/pages";
+import { getMigratedPage } from "@/data/pages";
 import { CourtDatabaseExplorer } from "@/components/CourtDatabaseExplorer";
 
 const page = getMigratedPage("sudebnaya-praktika-dgi");
@@ -12,8 +12,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: { absolute: page?.seoTitle || "Судебная практика Москвы" },
   description: page?.description || "Поиск карточек судебных дел по жилищным вопросам Москвы.",
-  alternates: siteIsLive && page ? { canonical: canonicalUrl(page) } : undefined,
-  robots: siteIsLive ? { index: true, follow: true } : { index: false, follow: false },
+  robots: { index: false, follow: false },
 };
 
 export default async function CourtPracticePage() {
