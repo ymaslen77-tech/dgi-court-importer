@@ -18,6 +18,7 @@ export type MigratedPage = {
   description: string;
   source: string;
   blocks: MigratedBlock[];
+  editoriallyApproved?: boolean;
 };
 
 export const migratedPages: MigratedPage[] = [
@@ -54,7 +55,12 @@ export const siteIsLive =
   process.env.SITE_CUTOVER === "true" &&
   process.env.SITE_RELEASE_APPROVED === "yes" &&
   Boolean(releaseOrigin);
-export const siteOrigin = siteIsLive ? releaseOrigin! : "https://dgi-housing-preview.vercel.app";
+export const siteOrigin = siteIsLive ? releaseOrigin! : "http://localhost:3000";
+
+// Individual pages must pass editorial approval; global release flags alone are insufficient.
+export function canIndexPage(page: MigratedPage): boolean {
+  return siteIsLive && page.editoriallyApproved === true;
+}
 
 export function canonicalUrl(page: MigratedPage): string {
   return siteIsLive
