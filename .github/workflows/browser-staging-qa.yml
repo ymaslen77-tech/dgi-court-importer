@@ -2,7 +2,7 @@ name: Browser QA — Next.js migration
 
 on:
   push:
-    branches: [feature/nextjs-webflow-migration]
+    branches: [feature/nextjs-webflow-migration, feature/dgi-offline-completion]
     paths:
       - "apps/web/**"
       - "migration/**"
