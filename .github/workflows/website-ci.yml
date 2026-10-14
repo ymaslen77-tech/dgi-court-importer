@@ -44,7 +44,7 @@ jobs:
         with:
           node-version: "22"
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install --frozen-lockfile
       - name: Validate migration inventory
         run: pnpm test
       - name: Validate staging preview
@@ -97,7 +97,7 @@ jobs:
         with:
           node-version: "22"
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install --frozen-lockfile
       - name: Apply schema to disposable test DB
         run: |
           node --input-type=module <<'JS'
@@ -232,7 +232,7 @@ jobs:
         with:
           node-version: "22"
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install --frozen-lockfile
       - name: Generate Payload import map
         run: pnpm --filter @dgi/cms generate:importmap
       - name: Validate safe Webflow draft inventory

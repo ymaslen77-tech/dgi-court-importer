@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   chromium:
@@ -32,22 +32,7 @@ jobs:
         with:
           node-version: "22"
       - name: Install workspace
-        run: pnpm install --no-frozen-lockfile
-      - name: Archive generated pnpm lockfile
-        uses: actions/upload-artifact@v4
-        with:
-          name: pnpm-lock-generated
-          path: pnpm-lock.yaml
-          retention-days: 3
-      - name: Pin generated workspace lock (migration branch only)
-        if: github.ref == 'refs/heads/feature/nextjs-webflow-migration'
-        run: |
-          test -s pnpm-lock.yaml
-          if ! git ls-files --error-unmatch pnpm-lock.yaml >/dev/null 2>&1; then
-            git add pnpm-lock.yaml
-            git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'chore(deps): pin pnpm dependency tree'
-            git push origin HEAD:feature/nextjs-webflow-migration
-          fi
+        run: pnpm install --frozen-lockfile
       - name: Build private staging preview
         run: pnpm --filter @dgi/web build
       - name: Install Chromium
