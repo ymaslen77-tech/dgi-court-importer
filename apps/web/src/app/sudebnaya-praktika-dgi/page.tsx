@@ -24,7 +24,9 @@ export default async function CourtPracticePage() {
       number: c.caseNumber,
       court: c.court,
       category: c.category,
-      url: c.officialUrl || undefined,
+      // A legacy URL can point to a generic court search (e.g. appeal-civil?page=14).
+      // Do not present it as evidence of this specific judicial act.
+      url: undefined,
       source: "published-legacy" as const,
     })),
     ...catalog.map((c) => ({
