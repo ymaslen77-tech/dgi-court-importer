@@ -10,7 +10,7 @@ const services=read("apps/web/src/data/dgi-service-register.json");
 const courts=read("migration/court-legal-acceptance-queue-2026-10-15.json");
 
 test("every catalog law, guide and service has exactly one private legal signoff record",()=>{
-  assert.equal(law.laws.length,20);assert.equal(guide.guides.length,18);assert.equal(services.services.length,6);
+  assert.equal(law.laws.length,20);assert.equal(guide.guides.length,18);assert.equal(services.services.length,7);
   assert.deepEqual(audit.legislation.map(x=>x.id).sort(),law.laws.map(x=>x.id).sort());
   assert.deepEqual(audit.instructions.map(x=>x.slug).sort(),guide.guides.map(x=>x.slug).sort());
   assert.deepEqual(audit.serviceChecks.map(x=>x.id).sort(),services.services.map(x=>x.id).sort());
