@@ -221,6 +221,21 @@ jobs:
           trap 'kill "$server_pid" 2>/dev/null || true; cat /tmp/dgi-cms-route-e2e.log' EXIT
           node scripts/smoke-approved-cms.mjs
 
+      - name: Verify published full judicial text and SEO over local release-mode HTTP
+        env:
+          CI: "true"
+          SITE_CUTOVER: "true"
+          SITE_RELEASE_APPROVED: "yes"
+          SITE_URL: "https://example.org"
+          COURT_FULLTEXT_PUBLIC_READS: "true"
+          CMS_PUBLIC_READS: "false"
+          COURT_DB_READS: "false"
+        run: |
+          (pnpm --filter @dgi/web start --hostname 127.0.0.1 --port 3000 > /tmp/dgi-court-act-http.log 2>&1) &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true; cat /tmp/dgi-court-act-http.log' EXIT
+          node scripts/tests/court-fulltext-http.mjs
+
   cms-checks:
     runs-on: ubuntu-latest
     timeout-minutes: 30
