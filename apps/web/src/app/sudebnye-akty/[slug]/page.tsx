@@ -33,7 +33,7 @@ export default async function CourtActPage({params}:Props){
   {"@type":"WebPage","@id":url,name:act.seo_title,url,inLanguage:"ru",
     description:act.seo_description},
   {"@type":"CreativeWork",name:title,inLanguage:"ru",datePublished:act.decision_date,
-    identifier:[act.case_number,...(act.uid?[act.uid]:[])],text:act.full_text,
+    identifier:[act.case_number,...(act.uid?[act.uid]:[])],
     isBasedOn:act.official_url,url},
   {"@type":"BreadcrumbList",itemListElement:[
     {"@type":"ListItem",position:1,name:"Главная",item:siteOrigin},
