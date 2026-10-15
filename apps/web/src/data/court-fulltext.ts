@@ -93,3 +93,29 @@ export async function listPublishedCourtActSummaries(limit=50):Promise<CourtActS
  LIMIT $1`,[n]);
  return rows.filter(row=>/^[a-z0-9][a-z0-9-]{2,159}$/.test(row.slug));
 }
+
+export type PublishedCourtActSearchPage={items:CourtActSummary[];nextCursor:string|null};
+export async function searchPublishedCourtActs(q:string,cursor:string|null):Promise<PublishedCourtActSearchPage>{
+ if(!courtFullTextReadsEnabled)return {items:[],nextCursor:null};
+ const term=q.trim().normalize("NFC");
+ if(term.length>100 || /[\\x00-\\x1f\\x7f]/.test(term))throw new RangeError("Invalid court search");
+ if(cursor && !/^[a-z0-9][a-z0-9-]{2,159}$/.test(cursor))throw new RangeError("Invalid court cursor");
+ const pattern="%"+term.replace(/[\\%_]/g,"\\$&")+"%";
+ const {rows}=await db().query<CourtActSummary>(`
+ SELECT slug,case_number,court_name,decision_date::text,act_type,topic,
+        seo_title,seo_description,updated_at::text
+ FROM court_act_documents
+ WHERE status='published' AND source_checked_at IS NOT NULL
+   AND text_verified_at IS NOT NULL AND privacy_checked_at IS NOT NULL
+   AND reviewed_by IS NOT NULL AND length(btrim(reviewed_by))>=3
+   AND published_at IS NOT NULL AND published_at<=now()
+   AND ($1::text='' OR
+        to_tsvector('russian',full_text) @@ plainto_tsquery('russian',$1)
+        OR case_number ILIKE $2 ESCAPE '\\'
+        OR court_name ILIKE $2 ESCAPE '\\'
+        OR topic ILIKE $2 ESCAPE '\\')
+   AND ($3::text IS NULL OR slug>$3)
+ ORDER BY slug ASC LIMIT 26`,[term,pattern,cursor]);
+ const hasMore=rows.length>25,items=rows.slice(0,25);
+ return {items,nextCursor:hasMore?items.at(-1)!.slug:null};
+}
