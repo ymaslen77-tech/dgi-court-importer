@@ -67,7 +67,7 @@ test("normative acts catalog is accessible from source page and remains noindex"
  await page.getByRole("link",{name:/справочник жилищных законов и постановлений/}).click();
  await expect(page).toHaveURL(/\/spravochnik-zhilishchnogo-zakonodatelstva-moskvy$/);
  await expect(page.locator("h1")).toContainText("Жилищное законодательство Москвы");
- await expect(page.locator(".housing-law-entry")).toHaveCount(16);
+ await expect(page.locator(".housing-law-entry")).toHaveCount(19);
  await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content",/noindex/);
  await expect(page.getByText("Перед использованием проверьте актуальную редакцию документа.")).toBeVisible();
  const over=await page.evaluate(()=>document.documentElement.scrollWidth-window.innerWidth);
