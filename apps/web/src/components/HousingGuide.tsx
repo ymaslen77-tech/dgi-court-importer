@@ -4,7 +4,7 @@ import { getMigratedPage, type MigratedPage } from "@/data/pages";
 
 type Source = { label: string; url: string; note: string };
 export type HousingGuide = { slug: string; title: string; summary: string; legal: string; documents: string[]; steps: string[]; objection: string; sources: Source[]; related: string[]; stage: string; jurisdiction: string };
-type Supplement = {slug: string; intro: string; steps: string[]; sources: Source[]; related: string[] };
+type Supplement = {slug: string; intro: string; steps: string[]; sources: Source[]; related: string[]; authority: string; documents: string[]; decision: string; risks: string };
 export const housingGuides: HousingGuide[] = raw.guides;
 const supplements: Supplement[] = raw.supplements;
 
@@ -54,7 +54,16 @@ export function HousingSupplement({ page }: { page: MigratedPage }) {
   return <section className="housing-guide housing-supplement" aria-label="Дополнительная практическая инструкция">
     <p className="housing-review-label">Пошаговая инструкция</p>
     <h2>Как решить вопрос: первые действия</h2><p>{supplement.intro}</p>
+    <h3>Компетентный орган</h3>
+    <p>{supplement.authority}</p>
+    <h3>Какие документы проверить</h3>
+    <ul>{supplement.documents.map((item,index)=><li key={index}>{item}</li>)}</ul>
+    <h3>Порядок действий</h3>
     <ol>{supplement.steps.map((step,index)=><li key={index}>{step}</li>)}</ol>
+    <h3>Ожидаемый результат</h3>
+    <p>{supplement.decision}</p>
+    <h3>Что важно при отказе и проверке</h3>
+    <p>{supplement.risks}</p>
     <h3>Официальные источники</h3><SourceLinks sources={supplement.sources}/>
     <h3>Смежные вопросы</h3><Related slugs={supplement.related}/>
   </section>;
