@@ -42,6 +42,9 @@ for (const path of [
   "/perevod-zhilogo-pomeshcheniya-v-nezhiloe",
   "/predostavlenie-zhilya-po-sotsnaymu-moskva",
   "/izyatie-zhilogo-pomeshcheniya-vozmeshchenie",
+  "/obmen-kvartir-po-sotsialnomu-naymu-moskva",
+  "/proverka-dogovora-renovatsii-moskva",
+  "/izmenenie-arendy-zemelnogo-uchastka-moskva",
 ]) {
   assert.equal((await get(path)).status, 404, `Private legal draft exposed: ${path}`);
 }
@@ -64,6 +67,6 @@ const search=await get("/api/courts/search?q=88-21277%2F2026");
 assert.equal(search.status,503, "Unreviewed DB search should remain disabled");
 console.log(JSON.stringify({
   isolatedMode:true, legacySnapshotsBlocked:seo.pages.length - 1,
-  extraDraftsBlocked:8, legacyArchivesNoindex:legacy.cases.length,
+  extraDraftsBlocked:11, legacyArchivesNoindex:legacy.cases.length,
   courtIndexNoindex:true, sitemapEmpty:true, databaseSearchDisabled:true,
 },null,2));
