@@ -10,7 +10,7 @@ const { guides, supplements } = JSON.parse(
 };
 
 test("the housing guidance inventory is complete for this delivery", () => {
-  expect(guides).toHaveLength(15);
+  expect(guides).toHaveLength(18);
   expect(supplements).toHaveLength(6);
 });
 
@@ -67,7 +67,7 @@ test("normative acts catalog is accessible from source page and remains noindex"
  await page.getByRole("link",{name:/справочник жилищных законов и постановлений/}).click();
  await expect(page).toHaveURL(/\/spravochnik-zhilishchnogo-zakonodatelstva-moskvy$/);
  await expect(page.locator("h1")).toContainText("Жилищное законодательство Москвы");
- await expect(page.locator(".housing-law-entry")).toHaveCount(19);
+ await expect(page.locator(".housing-law-entry")).toHaveCount(20);
  await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content",/noindex/);
  await expect(page.getByText("Перед использованием проверьте актуальную редакцию документа.")).toBeVisible();
  const over=await page.evaluate(()=>document.documentElement.scrollWidth-window.innerWidth);
@@ -106,10 +106,10 @@ test("DGI services register renders all four source-backed services without lega
   const response=await page.goto("/reestr-gosuslug-dgi");
   expect(response?.status()).toBe(200);
   await expect(page.locator("h1")).toHaveCount(1);
-  await expect(page.locator(".housing-law-entry")).toHaveCount(4);
+  await expect(page.locator(".housing-law-entry")).toHaveCount(6);
   await expect(page.locator("meta[name=robots]")).toHaveAttribute("content",/noindex/);
   await expect(page.locator('link[rel="canonical"]')).toHaveCount(0);
-  await expect(page.locator(".housing-law-entry .housing-law-status")).toHaveCount(4);
+  await expect(page.locator(".housing-law-entry .housing-law-status")).toHaveCount(6);
   const urls=await page.locator(".housing-law-entry a[href^='https://']").evaluateAll(els=>els.map(x=>(x as HTMLAnchorElement).hostname));
   expect(urls.every(host=>host==="www.mos.ru"||host==="mos.ru")).toBe(true);
   const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-window.innerWidth);
