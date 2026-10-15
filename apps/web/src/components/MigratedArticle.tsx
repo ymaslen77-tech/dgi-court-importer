@@ -118,6 +118,19 @@ function ArticleReadingFlow({ blocks, slug }: { blocks: MigratedBlock[]; slug: s
   return <>{result}</>;
 }
 
+// Internal editorial cross-links only. Unapproved guides must never appear
+// in the public navigation, canonical metadata or live sitemap.
+const editorialRelatedGuides: Record<string, { href: string; label: string }[]> = {
+  "socialnyj-naem": [
+    { href: "/obmen-kvartir-po-sotsialnomu-naymu-moskva", label: "Обмен квартиры по социальному найму" },
+    { href: "/izmenenie-dogovora-sotsnayma", label: "Изменение договора социального найма" },
+  ],
+  "renovaciya-pereselenie": [
+    { href: "/proverka-dogovora-renovatsii-moskva", label: "Проверка договора при переселении по реновации" },
+    { href: "/izyatie-zhilogo-pomeshcheniya-vozmeshchenie", label: "Изъятие жилья и возмещение: отличия от реновации" },
+  ],
+};
+
 export function MigratedArticle({ page, home = false, afterHero }: { page: MigratedPage; home?: boolean; afterHero?: ReactNode }) {
   const thematic = isThematicSlug(page.slug) && !home;
   const headingIndex = page.blocks.findIndex((block) => block.kind === "h1");
@@ -178,6 +191,11 @@ export function MigratedArticle({ page, home = false, afterHero }: { page: Migra
             <ArticleReadingFlow blocks={afterFeature} slug={page.slug} />
             {!siteIsLive && page.slug === "normativnye-akty" && <p className="article-action"><Link href="/spravochnik-zhilishchnogo-zakonodatelstva-moskvy">Открыть справочник жилищных законов и постановлений →</Link></p>}
             {!siteIsLive && <HousingSupplement page={page} />}
+            {!siteIsLive && editorialRelatedGuides[page.slug] && <nav className="housing-guide housing-supplement housing-related" aria-label="Дополнительные правовые инструкции">
+              <strong>Дополнительные правовые инструкции</strong>
+              {editorialRelatedGuides[page.slug].map(item=><Link href={item.href} key={item.href}>{item.label} →</Link>)}
+              <p className="housing-editorial-foot">Материалы находятся на редакционной проверке и не разрешены к публичной юридической публикации.</p>
+            </nav>}
           </article>
           <aside className="article-aside">
             <div className="aside-panel">
