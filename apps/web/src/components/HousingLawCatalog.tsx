@@ -22,6 +22,12 @@ export function HousingLawCatalog() {
        <h2>{law.title}</h2>
        <p>{law.subject}</p>
        <p className="housing-law-status">{badges[law.sourceStatus] ?? "Требует проверки"}</p>
+       {"confirmedAmendment" in law && law.confirmedAmendment && <div className="housing-law-revision">
+         <p><strong>Подтверждённый изменяющий акт:</strong> {law.confirmedAmendment.act}.</p>
+         <p>{law.confirmedAmendment.scope}</p>
+         <p><a href={law.confirmedAmendment.officialPublication} rel="noopener noreferrer" target="_blank">Официальная публикация изменения ↗</a></p>
+         <p>Это не подтверждение действующей консолидированной редакции. Итоговая юридическая проверка не выполнена.</p>
+       </div>}
        {law.revisionResearch && <div className="housing-law-revision">
          <p><strong>Дата найденной редакции:</strong> {law.revisionResearch.editionDate}. Текст документа мог измениться.</p>
          <p>{law.revisionResearch.researchNote}</p>
