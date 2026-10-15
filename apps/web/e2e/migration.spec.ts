@@ -127,6 +127,6 @@ test("full judicial text index remains closed in staging",async ({request})=>{
 test("a fabricated court act slug cannot expose full text or create a canonical",async ({page})=>{
  const response=await page.goto("/sudebnye-akty/never-published-test-act");
  expect(response?.status()).toBe(404);
- await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content",/noindex/);
+ await expect(page.locator('meta[name="robots"]').first()).toHaveAttribute("content",/noindex/);
  await expect(page.locator('link[rel="canonical"]')).toHaveCount(0);
 });
