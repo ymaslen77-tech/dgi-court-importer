@@ -57,3 +57,17 @@ test("official 820-PP amends only the specified 521-PP housing-registration regu
   assert.match(archive.act,/2895-ПП/);
   assert.equal(archive.currentConsolidatedEditionChecked,false);
 });
+
+test("820-PP public-facing wording distinguishes application changes from periodic review",()=>{
+ const guide=read("apps/web/src/data/housing-guides.json");
+ const candidate=guide.guides.find(x=>x.slug==="priznanie-maloimushchim-dlya-zhilishchnogo-ucheta");
+ const periodic=guide.guides.find(x=>x.slug==="pereregistratsiya-zhilishchnyy-uchet");
+ const index=guide.supplements.find(x=>x.slug==="zhilishchnaya-ochered");
+ const journal="vestnikmoscow.mos.ru/wp-content/uploads/2026/03/";
+ for(const row of [candidate,periodic,index]){
+   assert.ok(row.sources.some(x=>x.url.includes(journal)));
+ }
+ assert.match(candidate.legal,/820-ПП/);
+ assert.match(periodic.legal,/не подтверждает текущую редакцию приказа № 286/);
+ assert.match(index.risks,/приказа № 286|перерегистрации/);
+});
