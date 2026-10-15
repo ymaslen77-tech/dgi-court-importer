@@ -408,6 +408,66 @@
         "conclusion": "ЖК РФ содержит регулирование изъятия жилья, но правовые режимы аварийности и реновации не тождественны; актуальная совокупность норм для конкретного дела не подтверждена.",
         "lastEffectiveEditionIndependentlyChecked": false
       }
+    },
+    {
+      "slug": "obmen-kvartir-po-sotsialnomu-naymu-moskva",
+      "legalBasis": "ЖК РФ ст.72–75; приложение 3 к 519-ПП Москвы",
+      "sourceStatus": "historical_primary_link",
+      "referenceUrl": "https://www.mos.ru/upload/documents/oiv/administrativnyy_reglament%2811%29.pdf",
+      "checkedOn": "2026-10-15",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "nextReview": "Установить действующую редакцию 519-ПП и приложения об обмене жилья, точные требования согласий участников и опеки, действующий канал подачи и официальные основания отказа.",
+      "relatedLawIds": [
+        "housing-code",
+        "519-pp"
+      ],
+      "legalResearch": {
+        "researchedOn": "2026-10-15",
+        "secondaryLinks": [],
+        "conclusion": "Официально опубликован регламент о согласии на обмен, действующая редакция на дату проверки не подтверждена.",
+        "lastEffectiveEditionIndependentlyChecked": false
+      }
+    },
+    {
+      "slug": "proverka-dogovora-renovatsii-moskva",
+      "legalBasis": "Закон о статусе столицы ст.7.1–7.3; Закон Москвы №14; Фонд реновации",
+      "sourceStatus": "official_portal_only",
+      "referenceUrl": "https://fr.mos.ru/",
+      "checkedOn": "2026-10-15",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "nextReview": "Проверить консолидированный текст закона о статусе столицы и московских гарантий, тип конкретного договора, статус нанимателя или собственника и применимые условия докупки.",
+      "relatedLawIds": [
+        "moscow-14",
+        "housing-code"
+      ],
+      "legalResearch": {
+        "researchedOn": "2026-10-15",
+        "secondaryLinks": [],
+        "conclusion": "Официальный Фонд реновации описывает переселение и докупку; индивидуальные условия требуют проверки действующих норм.",
+        "lastEffectiveEditionIndependentlyChecked": false
+      }
+    },
+    {
+      "slug": "izmenenie-arendy-zemelnogo-uchastka-moskva",
+      "legalBasis": "Земельный кодекс РФ; инструкция mos.ru об изменении договора аренды",
+      "sourceStatus": "historical_primary_link",
+      "referenceUrl": "https://www.mos.ru/upload/documents/files/602/Instrykciya37%285%29.pdf",
+      "checkedOn": "2026-10-15",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "nextReview": "Установить действующий регламент конкретного изменения аренды, заявителей, документы, сроки, порядок межведомственного обмена и основания отказа по официальному акту.",
+      "relatedLawIds": [],
+      "legalResearch": {
+        "researchedOn": "2026-10-15",
+        "secondaryLinks": [],
+        "conclusion": "Официальная инструкция подтверждает наличие услуги; действующий полный нормативный регламент и сроки не проверены.",
+        "lastEffectiveEditionIndependentlyChecked": false
+      }
     }
   ],
   "supplements": [
