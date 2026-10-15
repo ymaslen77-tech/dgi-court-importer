@@ -2,7 +2,7 @@ import type {Metadata} from "next";
 import Link from "next/link";
 import {notFound} from "next/navigation";
 import {PageShell} from "@/components/PageShell";
-import {getPublishedCourtAct,courtActBasePath} from "@/data/court-fulltext";
+import {getPublishedCourtAct,relatedPublishedCourtActs,courtActBasePath} from "@/data/court-fulltext";
 import {siteOrigin} from "@/data/pages";
 
 export const dynamic="force-dynamic";
@@ -26,6 +26,7 @@ export default async function CourtActPage({params}:Props){
  const {slug}=await params;
  const act=await getPublishedCourtAct(slug);
  if(!act)notFound();
+ const related=await relatedPublishedCourtActs(act.case_id,act.slug);
  const title=`${actName[act.act_type]||"Судебный акт"} по делу № ${act.case_number}`;
  const url=urlFor(act.slug);
  // No invented author, winner, legal outcome, reviews or unsupported schema.
@@ -68,6 +69,13 @@ export default async function CourtActPage({params}:Props){
        {act.full_text.split(/\n\s*\n/).filter(Boolean).map((paragraph,index)=>
          <p key={index} style={{whiteSpace:"pre-wrap",overflowWrap:"anywhere"}}>{paragraph}</p>)}
      </div>
+     {related.length>0 && <section aria-label="Другие опубликованные судебные акты по этому делу">
+       <h2 className="article-h2">Другие судебные акты по этому делу</h2>
+       <ul>{related.map(item=><li key={item.slug}>
+         <Link href={`${courtActBasePath}/${item.slug}`}>{item.seo_title}</Link>
+         <span> — {item.court_name}, {item.decision_date}</span>
+       </li>)}</ul>
+     </section>}
      <h2 className="article-h2">Первоначальный официальный источник</h2>
      <p className="article-p"><a href={act.official_url} target="_blank" rel="noopener noreferrer">Открыть официальный судебный акт ↗</a></p>
      <p className="article-p">Источник: официальный сайт суда. Содержание других инстанций не подразумевается подтверждённым, если их акты не представлены отдельно.</p>
