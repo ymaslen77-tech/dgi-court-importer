@@ -30,3 +30,17 @@ test("source metadata cannot be promoted to a confirmed judgment",()=>{
   assert.ok(item.requiredAction.length>60);
  }
 });
+
+test("official court search observations do not imply legal acceptance",()=>{
+ assert.equal(queue.additionalSourceObservations.length,3);
+ for(const item of queue.additionalSourceObservations) {
+  const sourceCase=queue.cases.find(x=>x.slug===item.slug);
+  assert.ok(sourceCase?.metadataIdentityChecked);
+  assert.equal(item.officialCaseUrl,sourceCase.officialCaseUrl);
+  assert.equal(new URL(item.officialCaseUrl).hostname,"2kas.sudrf.ru");
+  assert.equal(item.legalActVerified,false);
+  assert.equal(item.allInstancesVerified,false);
+  assert.equal(item.publicationApproved,false);
+  assert.equal(sourceCase.judicialActTextChecked,false);
+ }
+});
