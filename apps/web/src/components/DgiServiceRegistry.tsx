@@ -1,6 +1,7 @@
 import Link from "next/link";
 import registry from "@/data/dgi-service-register.json";
 import { findHousingGuide } from "./HousingGuide";
+import { getMigratedPage } from "@/data/pages";
 
 export const dgiServiceRegistrySlug = "reestr-gosuslug-dgi";
 export const dgiServiceRegistryTitle = "Государственные услуги ДГИ: проверяемый реестр";
@@ -21,7 +22,7 @@ export function DgiServiceRegistry() {
         <p className="housing-law-status">Действующая редакция и регламент не подтверждены</p>
         <p><strong>Что ещё необходимо проверить:</strong> {item.remaining}</p>
         <nav className="housing-related" aria-label={`Ссылки к услуге: ${item.title}`}>
-          {findHousingGuide(item.guideSlug) && <Link href={`/${item.guideSlug}`}>Пошаговая правовая инструкция →</Link>}
+          {(findHousingGuide(item.guideSlug) || getMigratedPage(item.guideSlug)) && <Link href={`/${item.guideSlug}`}>Правовое руководство →</Link>}
           <a href={item.officialSource} target="_blank" rel="noopener noreferrer">Официально размещённый исходный документ ↗</a>
         </nav>
       </section>)}
