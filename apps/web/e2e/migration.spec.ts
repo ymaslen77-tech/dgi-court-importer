@@ -117,3 +117,16 @@ test("generic Moscow appeal search is not presented as this specific case's act"
   await expect(entry.getByRole("link",{name:/Открыть источник/})).toHaveCount(0);
   await expect(entry.getByRole("link",{name:/Открыть архивную карточку/})).toHaveCount(1);
 });
+
+test("full judicial text index remains closed in staging",async ({request})=>{
+ const response=await request.get("/sudebnye-akty");
+ expect(response.status()).toBe(404);
+ const xml=await (await request.get("/sitemap.xml")).text();
+ expect(xml).not.toContain("/sudebnye-akty/");
+});
+test("a fabricated court act slug cannot expose full text or create a canonical",async ({page})=>{
+ const response=await page.goto("/sudebnye-akty/never-published-test-act");
+ expect(response?.status()).toBe(404);
+ await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content",/noindex/);
+ await expect(page.locator('link[rel="canonical"]')).toHaveCount(0);
+});
