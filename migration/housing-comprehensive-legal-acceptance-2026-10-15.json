@@ -5,7 +5,7 @@
   "counts": {
     "norms": 20,
     "guides": 18,
-    "dgiServiceDrafts": 6,
+    "dgiServiceDrafts": 7,
     "courtDrafts": 37
   },
   "legislation": [
@@ -717,6 +717,14 @@
       "id": "land-lease-amendment",
       "guideSlug": "izmenenie-arendy-zemelnogo-uchastka-moskva",
       "officialSource": "https://www.mos.ru/upload/documents/files/602/Instrykciya37%285%29.pdf",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "housing-needs-registration",
+      "guideSlug": "zhilishchnyj-uchet",
+      "officialSource": "https://vestnikmoscow.mos.ru/wp-content/uploads/2026/03/zhurnal-vestnik-moskvy-%E2%84%96-18-1.pdf",
       "currentRevisionVerified": false,
       "procedureVerified": false,
       "publicationApproved": false
