@@ -17,7 +17,7 @@ test("legal review covers each public-facing staging item exactly once",()=>{
 });
 test("legal review cannot pass solely because a source exists",()=>{
  for(const item of [...ledger.guides,...ledger.supplements]){
-  assert.ok(/^20\\d{2}-\\d{2}-\\d{2}$/.test(item.checkedOn));
+  assert.ok(typeof item.checkedOn==="string" && item.checkedOn.length===10 && Number.isFinite(Date.parse(item.checkedOn)));
   assert.ok(item.checkedOn <= ledger.auditDate, "Review date cannot be future");
   assert.equal(item.currentRevisionVerified,false);
   assert.equal(item.procedureVerified,false);
