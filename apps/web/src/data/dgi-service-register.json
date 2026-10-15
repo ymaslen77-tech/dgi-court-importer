@@ -59,6 +59,34 @@
       "currentRevisionVerified": false,
       "publicationApproved": false,
       "remaining": "Подтвердить нынешнее название услуги и состав приложения 5 к 521-ПП после изменений; не ссылаться на утратившее силу приложение 14."
+    },
+    {
+      "id": "social-rent-exchange",
+      "title": "Принятие решения о согласии на обмен жилыми помещениями города Москвы по договорам социального найма",
+      "area": "Социальный наём",
+      "authority": "Департамент городского имущества Москвы (по опубликованному административному регламенту)",
+      "law": "ЖК РФ, ст.72–75; постановление Москвы №519-ПП от 08.08.2017, приложение 3",
+      "officialSource": "https://www.mos.ru/upload/documents/oiv/administrativnyy_reglament%2811%29.pdf",
+      "guideSlug": "obmen-kvartir-po-sotsialnomu-naymu-moskva",
+      "sourceScope": "historical_primary",
+      "procedureVerified": false,
+      "currentRevisionVerified": false,
+      "publicationApproved": false,
+      "remaining": "Сверить актуальную редакцию приложения 3 к 519-ПП, согласия сторон и опеки, действующие документы, канал, сроки и основания отказа."
+    },
+    {
+      "id": "land-lease-amendment",
+      "title": "Дополнительное соглашение об изменении договора аренды земельного участка",
+      "area": "Имущественно-земельные отношения",
+      "authority": "Департамент городского имущества Москвы (по официальной инструкции)",
+      "law": "Земельный кодекс РФ; действующий московский регламент услуги требуется установить",
+      "officialSource": "https://www.mos.ru/upload/documents/files/602/Instrykciya37%285%29.pdf",
+      "guideSlug": "izmenenie-arendy-zemelnogo-uchastka-moskva",
+      "sourceScope": "official_instruction_regulation_pending",
+      "procedureVerified": false,
+      "currentRevisionVerified": false,
+      "publicationApproved": false,
+      "remaining": "Получить и подтвердить точный действующий нормативный регламент, изменения, перечень документов, компетенцию, канал, сроки и результат."
     }
   ]
 }
