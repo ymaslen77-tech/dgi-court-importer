@@ -15,7 +15,7 @@ const isSafeSource = (url: string) => {
   try {
     const parsed = new URL(url);
     return parsed.protocol === "https:" && !parsed.username && !parsed.password &&
-      ["mos.ru","www.mos.ru","fr.mos.ru","cdn.dom.gosuslugi.ru","rosreestr.gov.ru","www.gosuslugi.ru","www.mosgorbti.ru","tender.mos.ru"].includes(parsed.hostname);
+      ["mos.ru","www.mos.ru","fr.mos.ru","vestnikmoscow.mos.ru","cdn.dom.gosuslugi.ru","rosreestr.gov.ru","www.gosuslugi.ru","www.mosgorbti.ru","tender.mos.ru"].includes(parsed.hostname);
   } catch { return false; }
 };
 function SourceLinks({ sources }: { sources: Source[] }) {
