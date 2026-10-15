@@ -19,7 +19,24 @@
       "allAmendmentsAndAnnexesVerified": false,
       "legalSignoff": false,
       "publicationApproved": false,
-      "pending": "Find current official consolidated text and annexes; compare amendment entry-into-force dates and confirm applicant-specific applicability"
+      "pending": "Find current official consolidated text and annexes; compare amendment entry-into-force dates and confirm applicant-specific applicability",
+      "additionalFederalPublicationLead": {
+        "type": "official_portal_new_law_summary_not_consolidated",
+        "act": "Федеральный закон от 29.12.2025 № 530-ФЗ",
+        "topic": "Изменения в ЖК РФ об управлении признанным аварийным многоквартирным домом, если способ управления не выбран или не реализован",
+        "officialPortal": "https://www.pravo.gov.ru/",
+        "officialDigestDate": "2025-12-29",
+        "applicability": [
+          "proverka-upravlyayushchey-kompanii",
+          "kapremont-mkd-moskva",
+          "izyatie-zhilogo-pomeshcheniya-vozmeshchenie"
+        ],
+        "caution": "Закон об управлении аварийным домом не является автоматически новым порядком выплаты компенсации при изъятии; требуются исходный текст, дата вступления и все последующие изменения.",
+        "fullTextChecked": false,
+        "effectiveDateChecked": false,
+        "completeConsolidatedEditionVerified": false,
+        "publicationApproved": false
+      }
     },
     {
       "id": "moscow-29",
