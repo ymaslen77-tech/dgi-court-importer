@@ -293,6 +293,54 @@
       "approved": false,
       "revisionResearch": null,
       "sourceScope": "historical_reference"
+    },
+    {
+      "id": "132-pp",
+      "title": "Постановление Москвы № 132-ПП от 01.03.2019",
+      "subject": "Особенности выдачи документов о зарегистрированных до 31 января 1998 года правах на жильё в Москве; учитывать последующие изменения",
+      "jurisdiction": "moscow",
+      "sourceStatus": "primary_historical",
+      "sourceUrl": "https://www.mos.ru/upload/documents/docs/132-PP%282%29.pdf",
+      "related": [
+        "arhivnye-prava-na-zhile-do-1998",
+        "dokumenty-na-kvartiru"
+      ],
+      "currentVersionVerified": false,
+      "approved": false,
+      "revisionResearch": null,
+      "sourceScope": "historical_reference"
+    },
+    {
+      "id": "692-pp",
+      "title": "Постановление Москвы № 692-ПП от 27.10.2015",
+      "subject": "Государственная услуга перевода жилых и нежилых помещений; согласование статуса помещения и взаимодействие с другими ведомствами",
+      "jurisdiction": "moscow",
+      "sourceStatus": "primary_historical",
+      "sourceUrl": "https://www.mos.ru/upload/content/files/69bb625cd994fc161c79162d45864fd8/AdministrativniireglamentPerevodjilogovnejiloe.pdf",
+      "related": [
+        "perevod-zhilogo-pomeshcheniya-v-nezhiloe",
+        "pereplanirovka-kvartiry-moskva"
+      ],
+      "currentVersionVerified": false,
+      "approved": false,
+      "revisionResearch": null,
+      "sourceScope": "historical_reference"
+    },
+    {
+      "id": "99-pp",
+      "title": "Постановление Москвы № 99-ПП от 20.02.2013",
+      "subject": "Положение о Департаменте городского имущества Москвы, его полномочия и компетенция; опубликованная редакция требует обновления",
+      "jurisdiction": "moscow",
+      "sourceStatus": "primary_historical",
+      "sourceUrl": "https://www.mos.ru/upload/content/files/1_PolojenieoDGI.pdf",
+      "related": [
+        "funkcii-dgi",
+        "gosuslugi-dgi"
+      ],
+      "currentVersionVerified": false,
+      "approved": false,
+      "revisionResearch": null,
+      "sourceScope": "historical_reference"
     }
   ]
 }
