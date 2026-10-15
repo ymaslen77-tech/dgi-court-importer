@@ -17,7 +17,9 @@
     "missingOfficialCaseUrl": 28,
     "genericSearchInsteadOfAct": 1,
     "officialCaseIdentityOnly": 8,
-    "fullyVerifiedJudicialActs": 0
+    "fullyVerifiedJudicialActs": 0,
+    "cassationOperativePartsObserved": 3,
+    "fullTextChainsAccepted": 0
   },
   "cases": [
     {
@@ -603,6 +605,99 @@
       "legalActVerified": false,
       "allInstancesVerified": false,
       "publicationApproved": false
+    }
+  ],
+  "cassationDispositionObservations": [
+    {
+      "slug": "kass-88-21277-2026",
+      "uid": "77RS0013-02-2025-011552-74",
+      "cassationNumber": "88-21277/2026",
+      "date": "2026-07-28",
+      "issue": "Изъятие жилья для госнужд, переселение, выселение с предоставлением иного помещения",
+      "category": "housing_resettlement",
+      "firstInstance": {
+        "court": "Кунцевский районный суд Москвы",
+        "date": "2025-12-22"
+      },
+      "appeal": {
+        "court": "Московский городской суд",
+        "date": "2026-05-28"
+      },
+      "recordedCassationDisposition": "Решение первой инстанции и апелляционное определение оставлены без изменения; кассационная жалоба оставлена без удовлетворения.",
+      "headerOperativeConsistency": "consistent",
+      "followUp": "Подтвердить отсутствие последующего пересмотра, полный текст первой и апелляционной инстанций и корректное применение нормы.",
+      "officialCaseUrl": "https://2kas.sudrf.ru/modules.php?case_id=18910390&case_uid=207aa87d-e20e-49ea-bd58-14f1bc1f49b7&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "officialTextObserved": true,
+      "operativeSectionTranscribedForResearch": true,
+      "fullTextCompletenessVerified": false,
+      "firstAndAppealFullActsVerified": false,
+      "laterReviewChecked": false,
+      "legalReasoningAccepted": false,
+      "personalDataApproved": false,
+      "legalSignOff": false,
+      "publicationApproved": false,
+      "verificationStage": "official_cassation_text_observed_not_legally_accepted"
+    },
+    {
+      "slug": "kass-88-3117-2026",
+      "uid": "77RS0024-01-2019-007189-21",
+      "cassationNumber": "88-3117/2026",
+      "date": "2026-02-19",
+      "issue": "Аренда земельного участка с множественностью лиц, признание договора незаключенным для конкретного лица",
+      "category": "land_lease_not_housing",
+      "firstInstance": {
+        "court": "Симоновский районный суд Москвы",
+        "date": "2023-08-24"
+      },
+      "appeal": {
+        "court": "Московский городской суд",
+        "date": "2025-06-26"
+      },
+      "recordedCassationDisposition": "Решение и апелляционное определение оставлены без изменения, кассационная жалоба ДГИ оставлена без удовлетворения.",
+      "headerOperativeConsistency": "not_independently_compared",
+      "followUp": "Сверить полный мотивированный текст и дальнейшее движение дела; не относить земельный договор к жилищным спорам.",
+      "officialCaseUrl": "https://2kas.sudrf.ru/modules.php?case_id=17178494&case_uid=dc226637-f874-4209-9766-6cc784ddb970&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "officialTextObserved": true,
+      "operativeSectionTranscribedForResearch": true,
+      "fullTextCompletenessVerified": false,
+      "firstAndAppealFullActsVerified": false,
+      "laterReviewChecked": false,
+      "legalReasoningAccepted": false,
+      "personalDataApproved": false,
+      "legalSignOff": false,
+      "publicationApproved": false,
+      "verificationStage": "official_cassation_text_observed_not_legally_accepted"
+    },
+    {
+      "slug": "kass-88-13792-2026",
+      "uid": "77RS0032-02-2024-008322-11",
+      "cassationNumber": "88-13792/2026",
+      "date": "2026-06-04",
+      "issue": "Требования ДГИ о признании права на бесхозяйные нежилые объекты и наследственные права",
+      "category": "urban_property_nonresidential",
+      "firstInstance": {
+        "court": "Черёмушкинский районный суд Москвы",
+        "date": "2024-07-10"
+      },
+      "appeal": {
+        "court": "Московский городской суд",
+        "date": "2025-12-03"
+      },
+      "recordedCassationDisposition": "В опубликованной резолютивной части упоминается отмена решения первой инстанции и апелляционного определения с направлением на новое апелляционное рассмотрение.",
+      "headerOperativeConsistency": "discrepancy_needs_manual_review",
+      "discrepancy": "Краткий результат на официальной карточке говорит об отмене апелляционного определения, а фрагмент опубликованной резолютивной части упоминает отмену также решения первой инстанции. Не утверждать окончательный объем отмены до проверки заверенного текста.",
+      "followUp": "Получить текст судебного акта из надлежащего официального источника и после этого проверить новый апелляционный пересмотр, характер недвижимого имущества и итоговое решение.",
+      "officialCaseUrl": "https://2kas.sudrf.ru/modules.php?case_id=18112633&case_uid=33f150cf-a0d4-409b-b603-c2be007615da&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "officialTextObserved": true,
+      "operativeSectionTranscribedForResearch": true,
+      "fullTextCompletenessVerified": false,
+      "firstAndAppealFullActsVerified": false,
+      "laterReviewChecked": false,
+      "legalReasoningAccepted": false,
+      "personalDataApproved": false,
+      "legalSignOff": false,
+      "publicationApproved": false,
+      "verificationStage": "official_cassation_text_observed_not_legally_accepted"
     }
   ]
 }
