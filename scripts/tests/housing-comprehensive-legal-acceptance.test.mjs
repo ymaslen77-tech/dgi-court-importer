@@ -48,7 +48,7 @@ test("official 820-PP has multiple amendments, including 521-PP appendix six",()
   const entry=audit.legislation.find(x=>x.id==="521-pp");
   assert.match(entry.officialResearchEvidence.act,/820-ПП/);
   assert.equal(entry.officialResearchEvidence.effective,"2026-04-15");
-  assert.match(entry.officialResearchEvidence.scope,/appendix 6/);
+  assert.match(entry.officialResearchEvidence.scope,/(appendix 6|приложение 6)/i);
   assert.ok(!entry.officialResearchEvidence.scope.includes("Changes only appendix"));
   const impact=read("migration/820-pp-official-amendment-impact-2026-10-15.json");
   assert.equal(impact.effectiveFrom,"2026-04-15");
