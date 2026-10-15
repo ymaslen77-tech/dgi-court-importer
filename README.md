@@ -1,5 +1,12 @@
 # ДГИ — перенос Webflow → Next.js
 
+## Стандарт архитектуры и цикла разработки (15.10.2026)
+
+**[Полная схема разработки, размещения и работы сайта](docs/DEVELOPMENT_AND_INFRASTRUCTURE.md)** — целевая архитектура `локальная разработка → GitHub → GitHub Actions → Vercel ↔ Neon`, дополнительные компоненты, окружения, контроль миграций и публикации, мониторинг и rollback.
+
+**Разграничение:** Vercel — целевой хостинг, Neon — целевая PostgreSQL-платформа; сам факт их включения в схему **не подтверждает подключение production**. Текущий разрешённый режим — **работа только в `feature/dgi-offline-completion`, без Vercel deployment, merge в `main` и изменения работающего сайта/DNS**. Неподтверждённые юридические материалы остаются закрытыми для публикации. См. [отчёт офлайн-проверок](docs/OFFLINE_COMPLETION_QA_2026-10-14.md) и [критерии выпуска](docs/RELEASE_READINESS.md).
+
+
 ## Текущий статус: 14 октября 2026
 
 Рабочая ветка: `feature/nextjs-webflow-migration`; [Draft PR №2](https://github.com/ymaslen77-tech/dgi-court-importer/pull/2).
