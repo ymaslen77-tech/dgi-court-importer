@@ -1,0 +1,397 @@
+{
+  "createdOn": "2026-10-15",
+  "scope": "Primary legal source reconciliation for DGI, official domains only",
+  "publicationGate": "closed",
+  "summary": "For each law find original and all amendments; never infer actual version from publication date or related search results.",
+  "officialPublicationDirectories": [
+    "https://www.pravo.gov.ru/",
+    "https://publication.pravo.gov.ru/",
+    "https://vestnikmoscow.mos.ru/",
+    "https://www.mos.ru/dgi/"
+  ],
+  "sources": [
+    {
+      "id": "housing-code",
+      "title": "Жилищный кодекс РФ № 188-ФЗ",
+      "scope": "federal",
+      "previousSource": "https://www.mos.ru/upload/documents/oiv/29122004-_-188_fz%281%29.pdf",
+      "evidenceCategory": "historical_source_from_prior_catalog_not_revalidated",
+      "primarySearchLocation": "pravo.gov.ru",
+      "reviewSteps": [
+        "Проверить 530-ФЗ от 29.12.2025 на pravo.gov.ru, официальный полный текст и дату вступления",
+        "Сверить главу 7 и статью 32 ЖК РФ с изменениями по 15.10.2026; отдельно нормы об управлении аварийным МКД"
+      ],
+      "originalOfficialActConfirmed": false,
+      "amendmentsComplete": false,
+      "fullCurrentEditionVerified": false,
+      "allAnnexesVerified": false,
+      "serviceRulesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "moscow-29",
+      "title": "Закон Москвы от 14.06.2006 № 29",
+      "scope": "Moscow",
+      "previousSource": "https://www.mos.ru/upload/documents/oiv/zakon_goroda_moskvy_ot_14062006_29.pdf",
+      "evidenceCategory": "historical_source_from_prior_catalog_not_revalidated",
+      "primarySearchLocation": "vestnikmoscow.mos.ru / mos.ru",
+      "reviewSteps": [
+        "Сверить московскую систему жилищного учёта, очередность и предоставление с действующей редакцией закона №29",
+        "Проверить редакции определений категорий заявителей, социального найма, документов"
+      ],
+      "originalOfficialActConfirmed": false,
+      "amendmentsComplete": false,
+      "fullCurrentEditionVerified": false,
+      "allAnnexesVerified": false,
+      "serviceRulesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "moscow-7",
+      "title": "Закон Москвы от 25.01.2006 № 7",
+      "scope": "Moscow",
+      "previousSource": "https://www.mos.ru/upload/documents/files/7751/ZakongMoskviot25012006N7%28redot28122016%29.pdf",
+      "evidenceCategory": "historical_source_from_prior_catalog_not_revalidated",
+      "primarySearchLocation": "vestnikmoscow.mos.ru / mos.ru",
+      "reviewSteps": [
+        "Сверить критерии малоимущих, имущественную обеспеченность и отсылки к 362-ПП, включая 820-ПП",
+        "Проверить перечни доходов и документов, исключая устаревший PDF 2016 года"
+      ],
+      "originalOfficialActConfirmed": false,
+      "amendmentsComplete": false,
+      "fullCurrentEditionVerified": false,
+      "allAnnexesVerified": false,
+      "serviceRulesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "moscow-21",
+      "title": "Закон Москвы от 31.05.2006 № 21",
+      "scope": "Moscow",
+      "previousSource": "https://www.mos.ru/upload/documents/oiv/ob_obespechenii_zhilishchnykh_prav_grazhdan_pri_pereselenii_i_osvobozhdenii_zhilykh_pomeshcheniy_zhilykh_domov_v_gorode_moskve.pdf",
+      "evidenceCategory": "historical_source_from_prior_catalog_not_revalidated",
+      "primarySearchLocation": "vestnikmoscow.mos.ru / mos.ru",
+      "reviewSteps": [
+        "Проверить гарантии при переселении и освобождении жилья, отличия от реновации и изъятия",
+        "Сверить изменения к московскому закону №21 после размещённой копии"
+      ],
+      "originalOfficialActConfirmed": false,
+      "amendmentsComplete": false,
+      "fullCurrentEditionVerified": false,
+      "allAnnexesVerified": false,
+      "serviceRulesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "moscow-2",
+      "title": "Закон Москвы от 27.01.2010 № 2",
+      "scope": "Moscow",
+      "previousSource": "https://www.mos.ru/upload/content/files/3d0d00970eea8faff8160ee318a3c45e/14Zakong_Moskviot27_01_2010N2%28red_ot15_02_2023%29Osno.pdf",
+      "evidenceCategory": "historical_source_from_prior_catalog_not_revalidated",
+      "primarySearchLocation": "vestnikmoscow.mos.ru / mos.ru",
+      "reviewSteps": [
+        "Проверить условия льгот и мер поддержки отдельных категорий по действующей редакции",
+        "Установить, какие положения относятся к компетенции ДГИ, а какие — к социальной защите"
+      ],
+      "originalOfficialActConfirmed": false,
+      "amendmentsComplete": false,
+      "fullCurrentEditionVerified": false,
+      "allAnnexesVerified": false,
+      "serviceRulesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "moscow-14",
+      "title": "Закон Москвы от 17.05.2017 № 14",
+      "scope": "Moscow",
+      "previousSource": "https://www.mos.ru/upload/content/files/15af077500dcc5a1547bf728abf25669/15Zakong_Moskviot17_05_2017N14Odopolnitelnihgaranti.pdf",
+      "evidenceCategory": "historical_source_from_prior_catalog_not_revalidated",
+      "primarySearchLocation": "vestnikmoscow.mos.ru / mos.ru",
+      "reviewSteps": [
+        "Проверить московские гарантии при реновации и последние поправки к договорному механизму",
+        "Отдельно сверить равнозначность жилья и механизм докупки"
+      ],
+      "originalOfficialActConfirmed": false,
+      "amendmentsComplete": false,
+      "fullCurrentEditionVerified": false,
+      "allAnnexesVerified": false,
+      "serviceRulesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "508-pp",
+      "title": "Постановление Москвы № 508-ПП от 25.10.2011",
+      "scope": "Moscow",
+      "previousSource": "https://www.mos.ru/upload/documents/files/6678/ppm_ot_25102011_508_pp.pdf",
+      "evidenceCategory": "historical_source_from_prior_catalog_not_revalidated",
+      "primarySearchLocation": "vestnikmoscow.mos.ru / mos.ru",
+      "reviewSteps": [
+        "Проверить актуальный регламент перепланировки, Мосжилинспекцию и приложения",
+        "Разграничить перепланировку и перевод помещения по 692-ПП"
+      ],
+      "originalOfficialActConfirmed": false,
+      "amendmentsComplete": false,
+      "fullCurrentEditionVerified": false,
+      "allAnnexesVerified": false,
+      "serviceRulesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "832-pp",
+      "title": "Постановление Москвы № 832-ПП от 29.12.2014",
+      "scope": "Moscow",
+      "previousSource": "https://www.mos.ru/upload/documents/oiv/832_pp%284%29.pdf",
+      "evidenceCategory": "historical_source_from_prior_catalog_not_revalidated",
+      "primarySearchLocation": "vestnikmoscow.mos.ru / mos.ru",
+      "reviewSteps": [
+        "Уточнить действующий предмет постановления и применимые жилищные процедуры по официальному полному тексту",
+        "Проверить изменения, приложения, срок действия и компетенцию"
+      ],
+      "originalOfficialActConfirmed": false,
+      "amendmentsComplete": false,
+      "fullCurrentEditionVerified": false,
+      "allAnnexesVerified": false,
+      "serviceRulesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "47-rf",
+      "title": "Постановление Правительства РФ № 47 от 28.01.2006",
+      "scope": "federal",
+      "previousSource": null,
+      "evidenceCategory": "official_original_not_located",
+      "primarySearchLocation": "pravo.gov.ru",
+      "reviewSteps": [
+        "Найти официальный исходный текст ПП РФ №47 и все последующие изменения",
+        "Сверить порядок признания дома аварийным и полномочия межведомственной комиссии"
+      ],
+      "originalOfficialActConfirmed": false,
+      "amendmentsComplete": false,
+      "fullCurrentEditionVerified": false,
+      "allAnnexesVerified": false,
+      "serviceRulesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "354-rf",
+      "title": "Постановление Правительства РФ № 354 от 06.05.2011",
+      "scope": "federal",
+      "previousSource": null,
+      "evidenceCategory": "official_original_not_located",
+      "primarySearchLocation": "pravo.gov.ru",
+      "reviewSteps": [
+        "Найти оригинал ПП РФ №354 и изменения по правилам коммунальных услуг",
+        "Сверить расчёт, перерасчёт и права при ненадлежащих услугах, не смешивать с ДГИ"
+      ],
+      "originalOfficialActConfirmed": false,
+      "amendmentsComplete": false,
+      "fullCurrentEditionVerified": false,
+      "allAnnexesVerified": false,
+      "serviceRulesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "491-rf",
+      "title": "Постановление Правительства РФ № 491 от 13.08.2006",
+      "scope": "federal",
+      "previousSource": null,
+      "evidenceCategory": "official_original_not_located",
+      "primarySearchLocation": "pravo.gov.ru",
+      "reviewSteps": [
+        "Найти исходный официальный текст ПП РФ №491 и изменения",
+        "Сверить состав общего имущества МКД и обязанности его содержания"
+      ],
+      "originalOfficialActConfirmed": false,
+      "amendmentsComplete": false,
+      "fullCurrentEditionVerified": false,
+      "allAnnexesVerified": false,
+      "serviceRulesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "290-rf",
+      "title": "Постановление Правительства РФ № 290 от 03.04.2013",
+      "scope": "federal",
+      "previousSource": null,
+      "evidenceCategory": "official_original_not_located",
+      "primarySearchLocation": "pravo.gov.ru",
+      "reviewSteps": [
+        "Найти исходный официальный текст ПП РФ №290 с приложениями",
+        "Проверить обязательный минимальный перечень работ и связь с ЖК РФ"
+      ],
+      "originalOfficialActConfirmed": false,
+      "amendmentsComplete": false,
+      "fullCurrentEditionVerified": false,
+      "allAnnexesVerified": false,
+      "serviceRulesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "761-rf",
+      "title": "Постановление Правительства РФ № 761 от 14.12.2005",
+      "scope": "federal",
+      "previousSource": null,
+      "evidenceCategory": "official_original_not_located",
+      "primarySearchLocation": "pravo.gov.ru",
+      "reviewSteps": [
+        "Найти официальный исходный текст ПП РФ №761 и изменения",
+        "Сверить субсидию на оплату ЖКУ отдельно от субсидии на покупку квартиры"
+      ],
+      "originalOfficialActConfirmed": false,
+      "amendmentsComplete": false,
+      "fullCurrentEditionVerified": false,
+      "allAnnexesVerified": false,
+      "serviceRulesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "111-pp",
+      "title": "Постановление Москвы № 111-ПП от 27.03.2012",
+      "scope": "Moscow",
+      "previousSource": "https://www.mos.ru/upload/content/files/d8fca445f3b983500e6a5ac0792fc3fd/24PostanovleniePravitelstvaMoskviot27_03_2012N111-PP%28r.pdf",
+      "evidenceCategory": "historical_source_from_prior_catalog_not_revalidated",
+      "primarySearchLocation": "vestnikmoscow.mos.ru / mos.ru",
+      "reviewSteps": [
+        "Сверить московский механизм субсидий на оплату ЖКУ и компетенцию ГЦЖС",
+        "Проверить действующие критерии и приложения отдельно от положения ДГИ"
+      ],
+      "originalOfficialActConfirmed": false,
+      "amendmentsComplete": false,
+      "fullCurrentEditionVerified": false,
+      "allAnnexesVerified": false,
+      "serviceRulesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "521-pp",
+      "title": "Постановление Москвы № 521-ПП от 10.09.2014",
+      "scope": "Moscow",
+      "previousSource": "https://www.mos.ru/upload/content/files/2a0ff0f6550542ed5ae4f7f149350111/AdministrativniireglamentkPrilojeniu1.pdf",
+      "evidenceCategory": "identified_official_amendment_not_consolidated",
+      "primarySearchLocation": "vestnikmoscow.mos.ru / mos.ru",
+      "reviewSteps": [
+        "Сопоставить все приложения №521-ПП, включая №5 и №6; подтвердить изменения 820-ПП 2026 года",
+        "Сверить 362-ПП, 219-ПП и 1105-ПП из общего изменяющего акта, периоды действия каждого приложения"
+      ],
+      "originalOfficialActConfirmed": true,
+      "amendmentsComplete": false,
+      "fullCurrentEditionVerified": false,
+      "allAnnexesVerified": false,
+      "serviceRulesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "dgi-286",
+      "title": "Приказ ДГИ Москвы № 286 от 21.08.2024",
+      "scope": "Moscow",
+      "previousSource": "https://www.mos.ru/upload/content/files/2c7e35924e244c59dfe270088f191922/PRIKAH286ot21082024.pdf",
+      "evidenceCategory": "historical_source_from_prior_catalog_not_revalidated",
+      "primarySearchLocation": "vestnikmoscow.mos.ru / mos.ru",
+      "reviewSteps": [
+        "Проверить оригинал приказа ДГИ №286 от 21.08.2024 и все изменения",
+        "Разграничить периодическую перерегистрацию от отдельной услуги 521-ПП"
+      ],
+      "originalOfficialActConfirmed": false,
+      "amendmentsComplete": false,
+      "fullCurrentEditionVerified": false,
+      "allAnnexesVerified": false,
+      "serviceRulesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "132-pp",
+      "title": "Постановление Москвы № 132-ПП от 01.03.2019",
+      "scope": "Moscow",
+      "previousSource": "https://www.mos.ru/upload/documents/docs/132-PP%282%29.pdf",
+      "evidenceCategory": "identified_official_amendment_not_consolidated",
+      "primarySearchLocation": "vestnikmoscow.mos.ru / mos.ru",
+      "reviewSteps": [
+        "Проверить изменения 2895-ПП и последующие изменения 132-ПП",
+        "Сверить точные архивные виды справок до 31.01.1998, категории заявителей и сроки"
+      ],
+      "originalOfficialActConfirmed": true,
+      "amendmentsComplete": false,
+      "fullCurrentEditionVerified": false,
+      "allAnnexesVerified": false,
+      "serviceRulesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "692-pp",
+      "title": "Постановление Москвы № 692-ПП от 27.10.2015",
+      "scope": "Moscow",
+      "previousSource": "https://www.mos.ru/upload/content/files/69bb625cd994fc161c79162d45864fd8/AdministrativniireglamentPerevodjilogovnejiloe.pdf",
+      "evidenceCategory": "identified_original_official_procedure_not_consolidated",
+      "primarySearchLocation": "vestnikmoscow.mos.ru / mos.ru",
+      "reviewSteps": [
+        "Сверить все приложения к 692-ПП после опубликованной редакции 923-ПП 07.05.2024",
+        "Проверить согласия собственников, техдокументы и взаимодействие Мосжилинспекции с ДГИ"
+      ],
+      "originalOfficialActConfirmed": true,
+      "amendmentsComplete": false,
+      "fullCurrentEditionVerified": false,
+      "allAnnexesVerified": false,
+      "serviceRulesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "99-pp",
+      "title": "Постановление Москвы № 99-ПП от 20.02.2013",
+      "scope": "Moscow",
+      "previousSource": "https://www.mos.ru/upload/content/files/1_PolojenieoDGI.pdf",
+      "evidenceCategory": "city_hosted_secondary_text_not_consolidated",
+      "primarySearchLocation": "vestnikmoscow.mos.ru / mos.ru",
+      "reviewSteps": [
+        "Не использовать версию КонсультантПлюс на mos.ru за 2022 год как текущую",
+        "Получить официальный действующий полный текст положения о ДГИ и проверить компетенцию по каждой услуге"
+      ],
+      "originalOfficialActConfirmed": false,
+      "amendmentsComplete": false,
+      "fullCurrentEditionVerified": false,
+      "allAnnexesVerified": false,
+      "serviceRulesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "519-pp",
+      "title": "Постановление Москвы № 519-ПП от 08.08.2017",
+      "scope": "Moscow",
+      "previousSource": "https://www.mos.ru/upload/documents/oiv/administrativnyy_reglament%2811%29.pdf",
+      "evidenceCategory": "identified_original_official_procedure_not_consolidated",
+      "primarySearchLocation": "vestnikmoscow.mos.ru / mos.ru",
+      "reviewSteps": [
+        "Сверить приложение 3 по обмену соцнайма и другие применимые положения 519-ПП",
+        "Проверить согласия семьи и опеки, действующие правила подачи, сроки и отказы"
+      ],
+      "originalOfficialActConfirmed": true,
+      "amendmentsComplete": false,
+      "fullCurrentEditionVerified": false,
+      "allAnnexesVerified": false,
+      "serviceRulesVerified": false,
+      "publicationApproved": false
+    }
+  ],
+  "awaitingAdditionalMoscowActs": [
+    {
+      "act": "362-ПП от 06.06.2006",
+      "reason": "Изменено 820-ПП 25.03.2026; проверка условий признания малоимущими",
+      "status": "research_only"
+    },
+    {
+      "act": "219-ПП от 23.04.2014",
+      "reason": "Изменено 820-ПП; функции МФЦ",
+      "status": "research_only"
+    },
+    {
+      "act": "1105-ПП от 21.07.2021",
+      "reason": "Изменено 820-ПП; электронные услуги",
+      "status": "research_only"
+    }
+  ],
+  "gates": {
+    "normsTotal": 20,
+    "currentEffectiveEditionsVerified": 0,
+    "legalEditorialApproved": 0,
+    "affectedDraftServices": 7
+  }
+}
