@@ -125,3 +125,16 @@ test("the new DGI registry links to the detailed archive-rights legal route",asy
   await expect(page.locator("h1")).toContainText("Архивные права");
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content",/noindex/);
 });
+
+test("social tenancy and renovation landing pages link to draft legal routes only in preview",async({page})=>{
+  const checks=[
+    {parent:"/socialnyj-naem",child:"/obmen-kvartir-po-sotsialnomu-naymu-moskva"},
+    {parent:"/renovaciya-pereselenie",child:"/proverka-dogovora-renovatsii-moskva"},
+  ];
+  for(const item of checks) {
+    await page.goto(item.parent);
+    const nav=page.getByRole("navigation",{name:"Дополнительные правовые инструкции"});
+    await expect(nav.locator(`a[href="${item.child}"]`)).toHaveCount(1);
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content",/noindex/);
+  }
+});
