@@ -8,7 +8,7 @@ export const courtFullTextReadsEnabled =
 export const courtActBasePath="/sudebnye-akty";
 
 export type PublishedCourtAct = {
- slug:string; case_number:string; uid:string|null; court_name:string;
+ slug:string; case_id:string; case_number:string; uid:string|null; court_name:string;
  instance_type:string; decision_date:string; act_type:string; topic:string;
  full_text:string; full_text_sha256:string; official_url:string;
  seo_title:string; seo_description:string; editor_note:string;
@@ -51,7 +51,7 @@ function validPublicAct(row:PublishedCourtAct):boolean {
 export const getPublishedCourtAct=cache(async (slug:string):Promise<PublishedCourtAct|undefined>=>{
  if(!courtFullTextReadsEnabled || !/^[a-z0-9][a-z0-9-]{2,159}$/.test(slug))return undefined;
  const result=await db().query<PublishedCourtAct>(`
-   SELECT slug,case_number,uid,court_name,instance_type,
+   SELECT slug,case_id,case_number,uid,court_name,instance_type,
       decision_date::text,act_type,topic,full_text,full_text_sha256,
       official_url,seo_title,seo_description,editor_note,
       published_at::text,updated_at::text
@@ -118,4 +118,19 @@ export async function searchPublishedCourtActs(q:string,cursor:string|null):Prom
  ORDER BY slug ASC LIMIT 26`,[term,pattern,cursor]);
  const hasMore=rows.length>25,items=rows.slice(0,25);
  return {items,nextCursor:hasMore?items.at(-1)!.slug:null};
+}
+
+export async function relatedPublishedCourtActs(caseId:string,excludeSlug:string):Promise<CourtActSummary[]>{
+ if(!courtFullTextReadsEnabled || !/^[a-f0-9-]{36}$/i.test(caseId))return [];
+ const {rows}=await db().query<CourtActSummary>(`
+ SELECT slug,case_number,court_name,decision_date::text,act_type,topic,
+        seo_title,seo_description,updated_at::text
+ FROM court_act_documents
+ WHERE case_id=$1::uuid AND slug<>$2 AND status='published'
+  AND source_checked_at IS NOT NULL AND text_verified_at IS NOT NULL
+  AND privacy_checked_at IS NOT NULL AND reviewed_by IS NOT NULL
+  AND length(btrim(reviewed_by))>=3 AND published_at IS NOT NULL
+  AND published_at<=now()
+ ORDER BY decision_date ASC,slug LIMIT 50`,[caseId,excludeSlug]);
+ return rows.filter(row=>/^[a-z0-9][a-z0-9-]{2,159}$/.test(row.slug));
 }
