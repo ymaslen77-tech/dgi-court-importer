@@ -575,5 +575,34 @@
       "publicationApproved": false,
       "requiredAction": "Получить полный судебный акт по официальной карточке, сверить результат, мотивировку и все связанные инстанции, затем юридическая приёмка"
     }
+  ],
+  "additionalSourceObservations": [
+    {
+      "slug": "kass-88-13792-2026",
+      "officialCaseUrl": "https://2kas.sudrf.ru/modules.php?case_id=18112633&case_uid=33f150cf-a0d4-409b-b603-c2be007615da&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "checkedOn": "2026-10-15",
+      "observed": "Официальная поисковая выдача Второго кассационного суда содержит карточку дела с УИД и опубликованным текстом определения. Не подтверждены полный объём судебного акта, его мотивировка и история дальнейшего пересмотра.",
+      "legalActVerified": false,
+      "allInstancesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "slug": "kass-88-21277-2026",
+      "officialCaseUrl": "https://2kas.sudrf.ru/modules.php?case_id=18910390&case_uid=207aa87d-e20e-49ea-bd58-14f1bc1f49b7&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "checkedOn": "2026-10-15",
+      "observed": "Официальная поисковая выдача Второго кассационного суда содержит карточку дела с УИД и опубликованным текстом определения. Не подтверждены полный объём судебного акта, его мотивировка и история дальнейшего пересмотра.",
+      "legalActVerified": false,
+      "allInstancesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "slug": "kass-88-3117-2026",
+      "officialCaseUrl": "https://2kas.sudrf.ru/modules.php?case_id=17178494&case_uid=dc226637-f874-4209-9766-6cc784ddb970&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "checkedOn": "2026-10-15",
+      "observed": "Официальная поисковая выдача Второго кассационного суда содержит карточку дела с УИД и опубликованным текстом определения. Не подтверждены полный объём судебного акта, его мотивировка и история дальнейшего пересмотра.",
+      "legalActVerified": false,
+      "allInstancesVerified": false,
+      "publicationApproved": false
+    }
   ]
 }
