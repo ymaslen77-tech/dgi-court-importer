@@ -282,9 +282,14 @@
         "act": "Постановление Москвы № 820-ПП от 25.03.2026",
         "officialPublication": "https://vestnikmoscow.mos.ru/wp-content/uploads/2026/03/zhurnal-vestnik-moskvy-%E2%84%96-18-1.pdf",
         "effectiveDate": "2026-04-15",
-        "scope": "Изменения приложения 6 — принятие на жилищный учёт и внесение изменений в учётное дело. В частности: электронная форма заявления и запрошенные при приостановлении оригиналы через МФЦ.",
+        "scope": "Изменения приложения 6 к 521-ПП: электронная форма заявления о жилищном учёте и внесении изменений в учётное дело; предоставление затребованных при приостановлении оригиналов через МФЦ. Постановление 820-ПП также изменяет 362-ПП, 219-ПП и 1105-ПП.",
         "currentConsolidatedEditionChecked": false,
-        "publicationApproved": false
+        "publicationApproved": false,
+        "relatedAffectedActs": [
+          "362-ПП от 06.06.2006",
+          "219-ПП от 23.04.2014",
+          "1105-ПП от 21.07.2021"
+        ]
       }
     },
     {
@@ -340,7 +345,13 @@
       "currentVersionVerified": false,
       "approved": false,
       "revisionResearch": null,
-      "sourceScope": "historical_reference"
+      "sourceScope": "historical_reference",
+      "additionalSourceEvidence": {
+        "officialUrl": "https://www.mos.ru/upload/content/files/1e49025f03239cc73bdc66282b8fe9f2/PostanovleniePravitelstvaMoskviot27102015N692-PP%28redakciyaot07052024923-PP%29.pdf",
+        "editionEvidence": "Официально размещенная копия с изменениями по 07.05.2024 № 923-ПП",
+        "current2026Verified": false,
+        "allAnnexesCurrentVerified": false
+      }
     },
     {
       "id": "99-pp",
