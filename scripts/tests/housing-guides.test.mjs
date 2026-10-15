@@ -22,6 +22,8 @@ test("all legal routes contain distinct practical instructions, references and g
  }
  for(const page of file.supplements){
   assert.ok(page.intro.length>80 && page.steps.length>=4);
+  assert.ok(page.authority.length>50 && page.decision.length>60 && page.risks.length>70);
+  assert.ok(page.documents.length>=3);
   for(const r of page.related)assert.ok(known.has(r),`Broken supplement link ${r}`);
  }
 });
