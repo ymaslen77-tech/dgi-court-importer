@@ -8,11 +8,11 @@ const guides=JSON.parse(read("apps/web/src/data/housing-guides.json"));
 const legacy=Array.from({length:6},(_,i)=>JSON.parse(read(`apps/web/src/data/pages-${i}.json`))).flat();
 const existing=new Set([...guides.guides.map(x=>x.slug),...legacy.map(x=>x.slug)]);
 
-test("six official-source DGI services remain non-approved until current regulations checked",()=>{
- assert.equal(catalog.services.length,6);
+test("seven official-source DGI services remain non-approved until current regulations checked",()=>{
+ assert.equal(catalog.services.length,7);
  assert.equal(catalog.status,"editorial_draft");
- assert.equal(new Set(catalog.services.map(x=>x.id)).size,6);
- const accepted=new Set(["www.mos.ru","mos.ru"]);
+ assert.equal(new Set(catalog.services.map(x=>x.id)).size,7);
+ const accepted=new Set(["www.mos.ru","mos.ru","vestnikmoscow.mos.ru"]);
  for(const item of catalog.services){
   assert.ok(item.title.length>25 && item.law.length>25);
   assert.ok(existing.has(item.guideSlug),`Broken guide: ${item.id}`);
