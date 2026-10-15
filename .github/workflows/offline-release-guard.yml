@@ -27,6 +27,7 @@ jobs:
       SITE_URL: "https://example.org"
       CMS_PUBLIC_READS: "false"
       COURT_DB_READS: "false"
+      COURT_FULLTEXT_PUBLIC_READS: "false"
       NEXT_TELEMETRY_DISABLED: "1"
     steps:
       - uses: actions/checkout@v4
