@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { courtFullTextReadsEnabled,listPublishedCourtActSummaries,courtActBasePath } from "@/data/court-fulltext";
 import { PageShell } from "@/components/PageShell";
 import { CourtExplorer, type CourtListing } from "@/components/CourtExplorer";
 import { legacyCases, listOfficialCandidates } from "@/data/courts";
@@ -39,6 +41,7 @@ export default async function CourtPracticePage() {
     })),
   ];
   const databaseMode = process.env.COURT_DB_READS === "true";
+  const hasPublishedCourtActs = courtFullTextReadsEnabled && (await listPublishedCourtActSummaries(1)).length>0;
   return (
     <PageShell variant="thematic">
       <section className="hero hero--thematic">
@@ -52,6 +55,9 @@ export default async function CourtPracticePage() {
           <p className="editorial-notice">Карточки приводятся для поиска и проверки. Дата, исход спора, мотивировка и дальнейшие инстанции не считаются подтверждёнными без официального текста судебного акта.</p>
         </div>
       </section>
+      {hasPublishedCourtActs && <div className="container">
+        <p className="article-p"><Link href={courtActBasePath}>Открыть полные тексты опубликованных судебных актов и поиск по формулировкам →</Link></p>
+      </div>}
       {databaseMode ? <CourtDatabaseExplorer /> : <CourtExplorer cases={snapshots} />}
     </PageShell>
   );
