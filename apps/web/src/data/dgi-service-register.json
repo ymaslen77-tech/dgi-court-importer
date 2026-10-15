@@ -1,0 +1,64 @@
+{
+  "checkedOn": "2026-10-15",
+  "status": "editorial_draft",
+  "scope": "Москва; первичный выбор подтверждённых по названию услуг, а не полный список государственных услуг ДГИ",
+  "notice": "Наличие официального текста старого регламента подтверждает существование описанной процедуры на дату документа, но не актуальность срока, пакета документов, канала обращения или действующего названия услуги в октябре 2026 года. Не публиковать без отдельной юридической приёмки.",
+  "services": [
+    {
+      "id": "archive-1998",
+      "title": "Информация и документы о правах на жилищный фонд, зарегистрированных до 31.01.1998",
+      "area": "Права на жильё",
+      "authority": "Департамент городского имущества Москвы",
+      "law": "Постановление Москвы № 132-ПП от 01.03.2019; изменения в том числе № 2895-ПП",
+      "officialSource": "https://www.mos.ru/upload/documents/docs/132-PP%282%29.pdf",
+      "guideSlug": "arhivnye-prava-na-zhile-do-1998",
+      "sourceScope": "historical_primary",
+      "procedureVerified": false,
+      "currentRevisionVerified": false,
+      "publicationApproved": false,
+      "remaining": "Проверить консолидированную редакцию 132-ПП и регламента 521-ПП; точные категории заявителей, виды справок, документы, канал и срок."
+    },
+    {
+      "id": "premises-status",
+      "title": "Перевод жилого (нежилого) помещения в нежилое (жилое) помещение",
+      "area": "Статус помещения",
+      "authority": "Департамент городского имущества Москвы; при необходимости работ также Мосжилинспекция",
+      "law": "Постановление Москвы № 692-ПП от 27.10.2015, глава 3 ЖК РФ",
+      "officialSource": "https://www.mos.ru/upload/content/files/69bb625cd994fc161c79162d45864fd8/AdministrativniireglamentPerevodjilogovnejiloe.pdf",
+      "guideSlug": "perevod-zhilogo-pomeshcheniya-v-nezhiloe",
+      "sourceScope": "published_primary_revision_undetermined",
+      "procedureVerified": false,
+      "currentRevisionVerified": false,
+      "publicationApproved": false,
+      "remaining": "Сверить действующие изменения 692-ПП; требования к доступу, общему имуществу, согласия, формы, сроки, результат и обжалование."
+    },
+    {
+      "id": "city-social-rent",
+      "title": "Предоставление жилья города Москвы по договору социального найма",
+      "area": "Жилищный учёт и предоставление",
+      "authority": "Департамент городского имущества Москвы",
+      "law": "ЖК РФ, глава 7; Закон Москвы № 29; постановление Москвы № 521-ПП",
+      "officialSource": "https://www.mos.ru/upload/documents/oiv/10092014-_-521_pp%281%29.pdf",
+      "guideSlug": "predostavlenie-zhilya-po-sotsnaymu-moskva",
+      "sourceScope": "historical_primary",
+      "procedureVerified": false,
+      "currentRevisionVerified": false,
+      "publicationApproved": false,
+      "remaining": "Определить конкретный действующий регламент в 521-ПП, категорию заявителей, исчерпывающий перечень документов, порядок предоставления и решения."
+    },
+    {
+      "id": "privatization",
+      "title": "Заключение договора передачи жилых помещений в собственность граждан или города Москвы (приватизация и деприватизация)",
+      "area": "Приватизация",
+      "authority": "Департамент городского имущества Москвы",
+      "law": "Закон РФ № 1541-I; постановление Москвы № 521-ПП, приложение 5 в опубликованной редакции 2022 года",
+      "officialSource": "https://www.mos.ru/upload/content/files/2a0ff0f6550542ed5ae4f7f149350111/AdministrativniireglamentkPrilojeniu1.pdf",
+      "guideSlug": "deprivatizatsiya-kvartiry-moskva",
+      "sourceScope": "historical_primary_2022",
+      "procedureVerified": false,
+      "currentRevisionVerified": false,
+      "publicationApproved": false,
+      "remaining": "Подтвердить нынешнее название услуги и состав приложения 5 к 521-ПП после изменений; не ссылаться на утратившее силу приложение 14."
+    }
+  ]
+}
