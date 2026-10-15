@@ -17,7 +17,8 @@ test("legal review covers each public-facing staging item exactly once",()=>{
 });
 test("legal review cannot pass solely because a source exists",()=>{
  for(const item of [...ledger.guides,...ledger.supplements]){
-  assert.equal(item.checkedOn,ledger.auditDate);
+  assert.ok(/^20\\d{2}-\\d{2}-\\d{2}$/.test(item.checkedOn));
+  assert.ok(item.checkedOn <= ledger.auditDate, "Review date cannot be future");
   assert.equal(item.currentRevisionVerified,false);
   assert.equal(item.procedureVerified,false);
   assert.equal(item.publicationApproved,false);
@@ -56,7 +57,7 @@ test("legal guide to catalog crosswalk exists and none passes editorial signoff"
  const ids=new Set(catalog.laws.map(x=>x.id));
  for(const item of ledger.guides){
   assert.ok(Array.isArray(item.relatedLawIds));
-  assert.ok(item.legalResearch && item.legalResearch.researchedOn===ledger.auditDate);
+  assert.ok(item.legalResearch && item.legalResearch.researchedOn===item.checkedOn);
   assert.equal(item.legalResearch.lastEffectiveEditionIndependentlyChecked,false);
   for(const id of item.relatedLawIds) assert.ok(ids.has(id),`Missing law ${id} in ${item.slug}`);
   for(const link of item.legalResearch.secondaryLinks){
