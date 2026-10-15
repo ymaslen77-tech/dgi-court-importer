@@ -101,3 +101,25 @@ test("public-facing pages do not expose developer or migration messages", async 
   expect(visibleText, path).not.toMatch(/webflow|next\.?js|\bCMS\b|редакционный черновик|предварительная версия|текст перенесён|staging|миграци[яи]|релиз|сборка сайта|техническая проверка/iu);
  }
 });
+
+test("DGI services register renders all four source-backed services without legal approval",async({page})=>{
+  const response=await page.goto("/reestr-gosuslug-dgi");
+  expect(response?.status()).toBe(200);
+  await expect(page.locator("h1")).toHaveCount(1);
+  await expect(page.locator(".housing-law-entry")).toHaveCount(4);
+  await expect(page.locator("meta[name=robots]")).toHaveAttribute("content",/noindex/);
+  await expect(page.locator('link[rel="canonical"]')).toHaveCount(0);
+  await expect(page.locator(".housing-law-entry .housing-law-status")).toHaveCount(4);
+  const urls=await page.locator(".housing-law-entry a[href^='https://']").evaluateAll(els=>els.map(x=>(x as HTMLAnchorElement).hostname));
+  expect(urls.every(host=>host==="www.mos.ru"||host==="mos.ru")).toBe(true);
+  const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-window.innerWidth);
+  expect(overflow).toBeLessThanOrEqual(2);
+});
+
+test("the new DGI registry links to the detailed archive-rights legal route",async({page})=>{
+  await page.goto("/reestr-gosuslug-dgi");
+  await page.getByRole("link",{name:/Пошаговая правовая инструкция/}).first().click();
+  await expect(page).toHaveURL(/\/arhivnye-prava-na-zhile-do-1998$/);
+  await expect(page.locator("h1")).toContainText("Архивные права");
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content",/noindex/);
+});
