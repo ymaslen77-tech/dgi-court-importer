@@ -1,0 +1,1028 @@
+{
+  "auditOn": "2026-10-15",
+  "sourceQueue": "migration/court-legal-acceptance-queue-2026-10-15.json",
+  "purpose": "Исследовательская очередь 34 дел, кроме трёх ранее исследованных кассационных определений. Не является каталогом подтверждённых решений.",
+  "officialSearchEndpoints": [
+    "https://mos-gorsud.ru/search",
+    "https://kad.arbitr.ru/",
+    "https://2kas.sudrf.ru/"
+  ],
+  "stats": {
+    "reviewedAsIntake": 34,
+    "individualOfficialCasePagesPreviouslyMatched": 5,
+    "additionalOfficialDocketListMatches": 2,
+    "fullJudicialChainsApproved": 0
+  },
+  "cases": [
+    {
+      "slug": "decision-02-0531-2025-additional-7",
+      "caseNumber": "02-0531/2025",
+      "courtAsRecorded": "Районный суд Москвы",
+      "caseType": "district_civil",
+      "sourceState": "court_primary_url_missing",
+      "officialIndividualCaseUrl": null,
+      "needsCourtDisambiguation": true,
+      "officialDocketListingLead": null,
+      "queryTerms": [
+        "02-0531/2025",
+        "Районный суд Москвы",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": false,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Индивидуальный поиск по сочетанию суд + номер + ДГИ на официальном судебном портале; проверить УИД и соответствие сторон перед привязкой."
+    },
+    {
+      "slug": "decision-02-0873-2026-additional-4",
+      "caseNumber": "02-0873/2026",
+      "courtAsRecorded": "Бабушкинский районный суд Москвы",
+      "caseType": "district_civil",
+      "sourceState": "court_primary_url_missing",
+      "officialIndividualCaseUrl": null,
+      "needsCourtDisambiguation": false,
+      "officialDocketListingLead": null,
+      "queryTerms": [
+        "02-0873/2026",
+        "Бабушкинский районный суд Москвы",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": false,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Индивидуальный поиск по сочетанию суд + номер + ДГИ на официальном судебном портале; проверить УИД и соответствие сторон перед привязкой."
+    },
+    {
+      "slug": "decision-02-11030-2025-additional-0",
+      "caseNumber": "02-11030/2025",
+      "courtAsRecorded": "Савёловский районный суд Москвы",
+      "caseType": "district_civil",
+      "sourceState": "court_primary_url_missing",
+      "officialIndividualCaseUrl": null,
+      "needsCourtDisambiguation": false,
+      "officialDocketListingLead": null,
+      "queryTerms": [
+        "02-11030/2025",
+        "Савёловский районный суд Москвы",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": false,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Индивидуальный поиск по сочетанию суд + номер + ДГИ на официальном судебном портале; проверить УИД и соответствие сторон перед привязкой."
+    },
+    {
+      "slug": "decision-02-1330-2025-additional-1",
+      "caseNumber": "02-1330/2025",
+      "courtAsRecorded": "Таганский районный суд Москвы",
+      "caseType": "district_civil",
+      "sourceState": "court_primary_url_missing",
+      "officialIndividualCaseUrl": null,
+      "needsCourtDisambiguation": false,
+      "officialDocketListingLead": null,
+      "queryTerms": [
+        "02-1330/2025",
+        "Таганский районный суд Москвы",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": false,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Индивидуальный поиск по сочетанию суд + номер + ДГИ на официальном судебном портале; проверить УИД и соответствие сторон перед привязкой."
+    },
+    {
+      "slug": "decision-02-1693-2025-additional-9",
+      "caseNumber": "02-1693/2025",
+      "courtAsRecorded": "Районный суд Москвы",
+      "caseType": "district_civil",
+      "sourceState": "court_primary_url_missing",
+      "officialIndividualCaseUrl": null,
+      "needsCourtDisambiguation": true,
+      "officialDocketListingLead": null,
+      "queryTerms": [
+        "02-1693/2025",
+        "Районный суд Москвы",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": false,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Индивидуальный поиск по сочетанию суд + номер + ДГИ на официальном судебном портале; проверить УИД и соответствие сторон перед привязкой."
+    },
+    {
+      "slug": "decision-02-2249-2026-additional-2",
+      "caseNumber": "02-2249/2026",
+      "courtAsRecorded": "Люблинский районный суд Москвы",
+      "caseType": "district_civil",
+      "sourceState": "court_primary_url_missing",
+      "officialIndividualCaseUrl": null,
+      "needsCourtDisambiguation": false,
+      "officialDocketListingLead": null,
+      "queryTerms": [
+        "02-2249/2026",
+        "Люблинский районный суд Москвы",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": false,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Индивидуальный поиск по сочетанию суд + номер + ДГИ на официальном судебном портале; проверить УИД и соответствие сторон перед привязкой."
+    },
+    {
+      "slug": "decision-02-2285-2025-additional-8",
+      "caseNumber": "02-2285/2025",
+      "courtAsRecorded": "Районный суд Москвы",
+      "caseType": "district_civil",
+      "sourceState": "court_primary_url_missing",
+      "officialIndividualCaseUrl": null,
+      "needsCourtDisambiguation": true,
+      "officialDocketListingLead": null,
+      "queryTerms": [
+        "02-2285/2025",
+        "Районный суд Москвы",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": false,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Индивидуальный поиск по сочетанию суд + номер + ДГИ на официальном судебном портале; проверить УИД и соответствие сторон перед привязкой."
+    },
+    {
+      "slug": "decision-02-3437-2025-additional-3",
+      "caseNumber": "02-3437/2025",
+      "courtAsRecorded": "Троицкий районный суд Москвы",
+      "caseType": "district_civil",
+      "sourceState": "court_primary_url_missing",
+      "officialIndividualCaseUrl": null,
+      "needsCourtDisambiguation": false,
+      "officialDocketListingLead": null,
+      "queryTerms": [
+        "02-3437/2025",
+        "Троицкий районный суд Москвы",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": false,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Индивидуальный поиск по сочетанию суд + номер + ДГИ на официальном судебном портале; проверить УИД и соответствие сторон перед привязкой."
+    },
+    {
+      "slug": "decision-02-4422-2026-additional-10",
+      "caseNumber": "02-4422/2026",
+      "courtAsRecorded": "Нагатинский районный суд Москвы",
+      "caseType": "district_civil",
+      "sourceState": "court_generic_search_not_primary",
+      "officialIndividualCaseUrl": null,
+      "needsCourtDisambiguation": false,
+      "officialDocketListingLead": {
+        "slug": "decision-02-4422-2026-additional-10",
+        "kind": "official_appellate_docket_listing",
+        "url": "https://www.mos-gorsud.ru/mgs/services/cases/appeal-civil?caseNumber=33-&page=14",
+        "matchedCourt": "Нагатинский районный суд Москвы",
+        "matchedLowerCaseNumber": "02-4422/2026",
+        "appellateNumber": "33-51761/2026",
+        "incomingComplaintNumber": "Ж-55162/2026",
+        "listStatus": "Назначено заседание на 26.10.2026 14:50",
+        "scheduledHearingDate": "2026-10-26",
+        "category": "137 — Иные жилищные споры",
+        "caution": "Официальная общая страница списка, а НЕ индивидуальная карточка или судебный акт. Судебное заседание позже даты проверки; результат не известен."
+      },
+      "queryTerms": [
+        "02-4422/2026",
+        "Нагатинский районный суд Москвы",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": false,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Найти индивидуальную карточку/УИД по опубликованному номеру апелляционного производства; затем полный текст и результат."
+    },
+    {
+      "slug": "decision-02-6479-2025-additional-6",
+      "caseNumber": "02-6479/2025",
+      "courtAsRecorded": "Зюзинский районный суд Москвы",
+      "caseType": "district_civil",
+      "sourceState": "court_primary_url_missing",
+      "officialIndividualCaseUrl": null,
+      "needsCourtDisambiguation": false,
+      "officialDocketListingLead": null,
+      "queryTerms": [
+        "02-6479/2025",
+        "Зюзинский районный суд Москвы",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": false,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Индивидуальный поиск по сочетанию суд + номер + ДГИ на официальном судебном портале; проверить УИД и соответствие сторон перед привязкой."
+    },
+    {
+      "slug": "decision-02-7102-2025-additional-5",
+      "caseNumber": "02-7102/2025",
+      "courtAsRecorded": "Нагатинский районный суд Москвы",
+      "caseType": "district_civil",
+      "sourceState": "court_primary_url_missing",
+      "officialIndividualCaseUrl": null,
+      "needsCourtDisambiguation": false,
+      "officialDocketListingLead": {
+        "slug": "decision-02-7102-2025-additional-5",
+        "kind": "official_appellate_intake_listing",
+        "url": "https://m.mos-gorsud.ru/mgs/services/cases/appeal-civil?_cb=1776702482.5689&page=63",
+        "matchedCourt": "Нагатинский районный суд Москвы",
+        "matchedLowerCaseNumber": "02-7102/2025",
+        "appellateNumber": null,
+        "incomingComplaintNumber": "Ж-40273/2026",
+        "listStatus": "Апелляционная жалоба зарегистрирована 03.07.2026",
+        "scheduledHearingDate": null,
+        "category": "186 — Иные споры, связанные с наследованием имущества",
+        "caution": "В найденном списке зафиксирована регистрация жалобы; индивидуальная карточка, текст и итог не проверены."
+      },
+      "queryTerms": [
+        "02-7102/2025",
+        "Нагатинский районный суд Москвы",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": false,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Найти индивидуальную карточку/УИД по опубликованному номеру апелляционного производства; затем полный текст и результат."
+    },
+    {
+      "slug": "dgi-case-1-02-4169-2025",
+      "caseNumber": "02-4169/2025",
+      "courtAsRecorded": "Дорогомиловский районный суд Москвы",
+      "caseType": "district_civil",
+      "sourceState": "court_primary_url_missing",
+      "officialIndividualCaseUrl": null,
+      "needsCourtDisambiguation": false,
+      "officialDocketListingLead": null,
+      "queryTerms": [
+        "02-4169/2025",
+        "Дорогомиловский районный суд Москвы",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": false,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Индивидуальный поиск по сочетанию суд + номер + ДГИ на официальном судебном портале; проверить УИД и соответствие сторон перед привязкой."
+    },
+    {
+      "slug": "dgi-case-10--40-178086-2024",
+      "caseNumber": "А40-178086/2024",
+      "courtAsRecorded": "Арбитражный суд Москвы",
+      "caseType": "arbitration",
+      "sourceState": "court_primary_url_missing",
+      "officialIndividualCaseUrl": null,
+      "needsCourtDisambiguation": false,
+      "officialDocketListingLead": null,
+      "queryTerms": [
+        "А40-178086/2024",
+        "Арбитражный суд Москвы",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": false,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Индивидуальный поиск по сочетанию суд + номер + ДГИ на официальном судебном портале; проверить УИД и соответствие сторон перед привязкой."
+    },
+    {
+      "slug": "dgi-case-11-02-3970-2025",
+      "caseNumber": "02-3970/2025",
+      "courtAsRecorded": "Тимирязевский районный суд Москвы",
+      "caseType": "district_civil",
+      "sourceState": "court_primary_url_missing",
+      "officialIndividualCaseUrl": null,
+      "needsCourtDisambiguation": false,
+      "officialDocketListingLead": null,
+      "queryTerms": [
+        "02-3970/2025",
+        "Тимирязевский районный суд Москвы",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": false,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Индивидуальный поиск по сочетанию суд + номер + ДГИ на официальном судебном портале; проверить УИД и соответствие сторон перед привязкой."
+    },
+    {
+      "slug": "dgi-case-12-02-7607-2025",
+      "caseNumber": "02-7607/2025",
+      "courtAsRecorded": "Пресненский районный суд Москвы",
+      "caseType": "district_civil",
+      "sourceState": "court_primary_url_missing",
+      "officialIndividualCaseUrl": null,
+      "needsCourtDisambiguation": false,
+      "officialDocketListingLead": null,
+      "queryTerms": [
+        "02-7607/2025",
+        "Пресненский районный суд Москвы",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": false,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Индивидуальный поиск по сочетанию суд + номер + ДГИ на официальном судебном портале; проверить УИД и соответствие сторон перед привязкой."
+    },
+    {
+      "slug": "dgi-case-13-33-58410-2025",
+      "caseNumber": "33-58410/2025",
+      "courtAsRecorded": "Московский городской суд",
+      "caseType": "appeal",
+      "sourceState": "court_primary_url_missing",
+      "officialIndividualCaseUrl": null,
+      "needsCourtDisambiguation": false,
+      "officialDocketListingLead": null,
+      "queryTerms": [
+        "33-58410/2025",
+        "Московский городской суд",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": false,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Индивидуальный поиск по сочетанию суд + номер + ДГИ на официальном судебном портале; проверить УИД и соответствие сторон перед привязкой."
+    },
+    {
+      "slug": "dgi-case-14-33-60650-2025",
+      "caseNumber": "33-60650/2025",
+      "courtAsRecorded": "Московский городской суд",
+      "caseType": "appeal",
+      "sourceState": "court_primary_url_missing",
+      "officialIndividualCaseUrl": null,
+      "needsCourtDisambiguation": false,
+      "officialDocketListingLead": null,
+      "queryTerms": [
+        "33-60650/2025",
+        "Московский городской суд",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": false,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Индивидуальный поиск по сочетанию суд + номер + ДГИ на официальном судебном портале; проверить УИД и соответствие сторон перед привязкой."
+    },
+    {
+      "slug": "dgi-case-15-02-5509-2025",
+      "caseNumber": "02-5509/2025",
+      "courtAsRecorded": "Пресненский районный суд Москвы",
+      "caseType": "district_civil",
+      "sourceState": "court_primary_url_missing",
+      "officialIndividualCaseUrl": null,
+      "needsCourtDisambiguation": false,
+      "officialDocketListingLead": null,
+      "queryTerms": [
+        "02-5509/2025",
+        "Пресненский районный суд Москвы",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": false,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Индивидуальный поиск по сочетанию суд + номер + ДГИ на официальном судебном портале; проверить УИД и соответствие сторон перед привязкой."
+    },
+    {
+      "slug": "dgi-case-16-33-61771-2025",
+      "caseNumber": "33-61771/2025",
+      "courtAsRecorded": "Московский городской суд",
+      "caseType": "appeal",
+      "sourceState": "court_primary_url_missing",
+      "officialIndividualCaseUrl": null,
+      "needsCourtDisambiguation": false,
+      "officialDocketListingLead": null,
+      "queryTerms": [
+        "33-61771/2025",
+        "Московский городской суд",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": false,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Индивидуальный поиск по сочетанию суд + номер + ДГИ на официальном судебном портале; проверить УИД и соответствие сторон перед привязкой."
+    },
+    {
+      "slug": "dgi-case-17-33-60754-2025",
+      "caseNumber": "33-60754/2025",
+      "courtAsRecorded": "Московский городской суд",
+      "caseType": "appeal",
+      "sourceState": "court_primary_url_missing",
+      "officialIndividualCaseUrl": null,
+      "needsCourtDisambiguation": false,
+      "officialDocketListingLead": null,
+      "queryTerms": [
+        "33-60754/2025",
+        "Московский городской суд",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": false,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Индивидуальный поиск по сочетанию суд + номер + ДГИ на официальном судебном портале; проверить УИД и соответствие сторон перед привязкой."
+    },
+    {
+      "slug": "dgi-case-18-02-4222-2025",
+      "caseNumber": "02-4222/2025",
+      "courtAsRecorded": "Районный суд Москвы",
+      "caseType": "district_civil",
+      "sourceState": "court_primary_url_missing",
+      "officialIndividualCaseUrl": null,
+      "needsCourtDisambiguation": true,
+      "officialDocketListingLead": null,
+      "queryTerms": [
+        "02-4222/2025",
+        "Районный суд Москвы",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": false,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Индивидуальный поиск по сочетанию суд + номер + ДГИ на официальном судебном портале; проверить УИД и соответствие сторон перед привязкой."
+    },
+    {
+      "slug": "dgi-case-2-02-6195-2025",
+      "caseNumber": "02-6195/2025",
+      "courtAsRecorded": "Савёловский районный суд Москвы",
+      "caseType": "district_civil",
+      "sourceState": "court_primary_url_missing",
+      "officialIndividualCaseUrl": null,
+      "needsCourtDisambiguation": false,
+      "officialDocketListingLead": null,
+      "queryTerms": [
+        "02-6195/2025",
+        "Савёловский районный суд Москвы",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": false,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Индивидуальный поиск по сочетанию суд + номер + ДГИ на официальном судебном портале; проверить УИД и соответствие сторон перед привязкой."
+    },
+    {
+      "slug": "dgi-case-3-02-7149-2025",
+      "caseNumber": "02-7149/2025",
+      "courtAsRecorded": "Пресненский районный суд Москвы",
+      "caseType": "district_civil",
+      "sourceState": "court_primary_url_missing",
+      "officialIndividualCaseUrl": null,
+      "needsCourtDisambiguation": false,
+      "officialDocketListingLead": null,
+      "queryTerms": [
+        "02-7149/2025",
+        "Пресненский районный суд Москвы",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": false,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Индивидуальный поиск по сочетанию суд + номер + ДГИ на официальном судебном портале; проверить УИД и соответствие сторон перед привязкой."
+    },
+    {
+      "slug": "dgi-case-4-02-2769-2025",
+      "caseNumber": "02-2769/2025",
+      "courtAsRecorded": "Пресненский районный суд Москвы",
+      "caseType": "district_civil",
+      "sourceState": "court_primary_url_missing",
+      "officialIndividualCaseUrl": null,
+      "needsCourtDisambiguation": false,
+      "officialDocketListingLead": null,
+      "queryTerms": [
+        "02-2769/2025",
+        "Пресненский районный суд Москвы",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": false,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Индивидуальный поиск по сочетанию суд + номер + ДГИ на официальном судебном портале; проверить УИД и соответствие сторон перед привязкой."
+    },
+    {
+      "slug": "dgi-case-5-02-8225-2025",
+      "caseNumber": "02-8225/2025",
+      "courtAsRecorded": "Пресненский районный суд Москвы",
+      "caseType": "district_civil",
+      "sourceState": "court_primary_url_missing",
+      "officialIndividualCaseUrl": null,
+      "needsCourtDisambiguation": false,
+      "officialDocketListingLead": null,
+      "queryTerms": [
+        "02-8225/2025",
+        "Пресненский районный суд Москвы",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": false,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Индивидуальный поиск по сочетанию суд + номер + ДГИ на официальном судебном портале; проверить УИД и соответствие сторон перед привязкой."
+    },
+    {
+      "slug": "dgi-case-6-02-0968-2025",
+      "caseNumber": "02-0968/2025",
+      "courtAsRecorded": "Пресненский районный суд Москвы",
+      "caseType": "district_civil",
+      "sourceState": "court_primary_url_missing",
+      "officialIndividualCaseUrl": null,
+      "needsCourtDisambiguation": false,
+      "officialDocketListingLead": null,
+      "queryTerms": [
+        "02-0968/2025",
+        "Пресненский районный суд Москвы",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": false,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Индивидуальный поиск по сочетанию суд + номер + ДГИ на официальном судебном портале; проверить УИД и соответствие сторон перед привязкой."
+    },
+    {
+      "slug": "dgi-case-7-02-1971-2025",
+      "caseNumber": "02-1971/2025",
+      "courtAsRecorded": "Пресненский районный суд Москвы",
+      "caseType": "district_civil",
+      "sourceState": "court_primary_url_missing",
+      "officialIndividualCaseUrl": null,
+      "needsCourtDisambiguation": false,
+      "officialDocketListingLead": null,
+      "queryTerms": [
+        "02-1971/2025",
+        "Пресненский районный суд Москвы",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": false,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Индивидуальный поиск по сочетанию суд + номер + ДГИ на официальном судебном портале; проверить УИД и соответствие сторон перед привязкой."
+    },
+    {
+      "slug": "dgi-case-8-02-0121-2025",
+      "caseNumber": "02-0121/2025",
+      "courtAsRecorded": "Пресненский районный суд Москвы",
+      "caseType": "district_civil",
+      "sourceState": "court_primary_url_missing",
+      "officialIndividualCaseUrl": null,
+      "needsCourtDisambiguation": false,
+      "officialDocketListingLead": null,
+      "queryTerms": [
+        "02-0121/2025",
+        "Пресненский районный суд Москвы",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": false,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Индивидуальный поиск по сочетанию суд + номер + ДГИ на официальном судебном портале; проверить УИД и соответствие сторон перед привязкой."
+    },
+    {
+      "slug": "dgi-case-9--40-97673-2024",
+      "caseNumber": "А40-97673/2024",
+      "courtAsRecorded": "Арбитражный суд Москвы",
+      "caseType": "arbitration",
+      "sourceState": "court_primary_url_missing",
+      "officialIndividualCaseUrl": null,
+      "needsCourtDisambiguation": false,
+      "officialDocketListingLead": null,
+      "queryTerms": [
+        "А40-97673/2024",
+        "Арбитражный суд Москвы",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": false,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Индивидуальный поиск по сочетанию суд + номер + ДГИ на официальном судебном портале; проверить УИД и соответствие сторон перед привязкой."
+    },
+    {
+      "slug": "kass-88-14012-2026",
+      "caseNumber": "88-14012/2026",
+      "courtAsRecorded": "Второй кассационный суд общей юрисдикции",
+      "caseType": "cassation",
+      "sourceState": "court_official_case_identity_checked",
+      "officialIndividualCaseUrl": "https://2kas.sudrf.ru/modules.php?case_id=17983681&case_uid=301df5dc-24f6-4fd3-bd0e-53fe3b464061&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "needsCourtDisambiguation": false,
+      "officialDocketListingLead": null,
+      "queryTerms": [
+        "88-14012/2026",
+        "Второй кассационный суд общей юрисдикции",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": true,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Получить полный официальный текст, проверить инстанции и итоговую мотивировку."
+    },
+    {
+      "slug": "kass-88-15278-2026",
+      "caseNumber": "88-15278/2026",
+      "courtAsRecorded": "Второй кассационный суд общей юрисдикции",
+      "caseType": "cassation",
+      "sourceState": "court_official_case_identity_checked",
+      "officialIndividualCaseUrl": "https://2kas.sudrf.ru/modules.php?case_id=18231736&case_uid=6e13d75c-0c64-41df-a31a-de1ddc2dfd31&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "needsCourtDisambiguation": false,
+      "officialDocketListingLead": null,
+      "queryTerms": [
+        "88-15278/2026",
+        "Второй кассационный суд общей юрисдикции",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": true,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Получить полный официальный текст, проверить инстанции и итоговую мотивировку."
+    },
+    {
+      "slug": "kass-88-15955-2026",
+      "caseNumber": "88-15955/2026",
+      "courtAsRecorded": "Второй кассационный суд общей юрисдикции",
+      "caseType": "cassation",
+      "sourceState": "court_official_case_identity_checked",
+      "officialIndividualCaseUrl": "https://2kas.sudrf.ru/modules.php?case_id=18372552&case_uid=fb0cc7d0-1a95-4734-99f2-84cbcf562e7f&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "needsCourtDisambiguation": false,
+      "officialDocketListingLead": null,
+      "queryTerms": [
+        "88-15955/2026",
+        "Второй кассационный суд общей юрисдикции",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": true,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Получить полный официальный текст, проверить инстанции и итоговую мотивировку."
+    },
+    {
+      "slug": "kass-88-5020-2026",
+      "caseNumber": "88-5020/2026",
+      "courtAsRecorded": "Второй кассационный суд общей юрисдикции",
+      "caseType": "cassation",
+      "sourceState": "court_official_case_identity_checked",
+      "officialIndividualCaseUrl": "https://2kas.sudrf.ru/modules.php?case_id=17338162&case_uid=d920690b-6625-46d1-a56c-af4b81c5393c&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "needsCourtDisambiguation": false,
+      "officialDocketListingLead": null,
+      "queryTerms": [
+        "88-5020/2026",
+        "Второй кассационный суд общей юрисдикции",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": true,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Получить полный официальный текст, проверить инстанции и итоговую мотивировку."
+    },
+    {
+      "slug": "kass-88-724-2026",
+      "caseNumber": "88-724/2026",
+      "courtAsRecorded": "Второй кассационный суд общей юрисдикции",
+      "caseType": "cassation",
+      "sourceState": "court_official_case_identity_checked",
+      "officialIndividualCaseUrl": "https://2kas.sudrf.ru/modules.php?case_id=16814499&case_uid=ac88b1a2-d389-48f4-a7b2-2438745b8596&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "needsCourtDisambiguation": false,
+      "officialDocketListingLead": null,
+      "queryTerms": [
+        "88-724/2026",
+        "Второй кассационный суд общей юрисдикции",
+        "Департамент городского имущества города Москвы"
+      ],
+      "manualChecks": [
+        "Установить конкретный суд (без слова «Районный суд Москвы»)",
+        "Получить УИД и индивидуальную страницу именно этого дела",
+        "Получить полный официальный текст судебного акта",
+        "Сверить апелляционную, кассационную и последующие инстанции",
+        "Проверить мотивировку и результат, обезличивание и юридическую приёмку"
+      ],
+      "exactCaseAndUidVerified": true,
+      "fullActTextVerified": false,
+      "allInstancesVerified": false,
+      "legalOutcomeApproved": false,
+      "personalDataReviewed": false,
+      "publicationApproved": false,
+      "nextAction": "Получить полный официальный текст, проверить инстанции и итоговую мотивировку."
+    }
+  ]
+}
