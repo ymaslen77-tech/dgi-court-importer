@@ -1,0 +1,55 @@
+{
+  "auditedOn": "2026-10-15",
+  "officialAct": "Постановление Правительства Москвы № 820-ПП от 25.03.2026",
+  "effectiveFrom": "2026-04-15",
+  "officialPublishedSource": "https://vestnikmoscow.mos.ru/wp-content/uploads/2026/03/zhurnal-vestnik-moskvy-%E2%84%96-18-1.pdf",
+  "verifiedOriginalPublication": "Вестник Москвы №18 за март 2026, печатные страницы 68–79",
+  "notConsolidated": true,
+  "legalSignoff": false,
+  "publicationApproved": false,
+  "note": "820-ПП имеет более широкий предмет, чем одно приложение 6 к 521-ПП. Подтверждение изменяющего акта не доказывает полноту консолидированной редакции других постановлений или всех последующих изменений.",
+  "affected": [
+    {
+      "id": "362-pp",
+      "act": "Постановление Москвы № 362-ПП от 06.06.2006",
+      "change": "Положения о признании малоимущими: отдельные учитываемые доходы и имущественные обстоятельства, документы и названия статусов",
+      "category": "low_income_eligibility",
+      "guideSlugs": [
+        "priznanie-maloimushchim-dlya-zhilishchnogo-ucheta"
+      ],
+      "pending": "Сверить полную редакцию и приложения 362-ПП, индивидуальную категорию семьи и все последующие поправки"
+    },
+    {
+      "id": "219-pp",
+      "act": "Постановление Москвы № 219-ПП от 23.04.2014",
+      "change": "Уточняет участие МФЦ в отдельных этапах приема документов по жилищной услуге",
+      "category": "mfc",
+      "guideSlugs": [
+        "priznanie-maloimushchim-dlya-zhilishchnogo-ucheta",
+        "pereregistratsiya-zhilishchnyy-uchet"
+      ],
+      "pending": "Подтвердить действующую редакцию перечня операций МФЦ"
+    },
+    {
+      "id": "521-pp",
+      "act": "Постановление Москвы № 521-ПП от 10.09.2014",
+      "change": "Изменяет приложение 6: электронная форма обращения, запрос отдельных оригиналов документов через МФЦ и приложения с составом сведений",
+      "category": "housing_registration",
+      "guideSlugs": [
+        "priznanie-maloimushchim-dlya-zhilishchnogo-ucheta",
+        "pereregistratsiya-zhilishchnyy-uchet"
+      ],
+      "pending": "Проверить полный консолидированный текст приложения 6, дальнейшие изменения и индивидуальные сроки"
+    },
+    {
+      "id": "1105-pp",
+      "act": "Постановление Москвы № 1105-ПП от 21.07.2021",
+      "change": "Включает рассмотрение запроса о принятии на жилищный учет и изменении учетного дела в перечень услуг, предоставляемых в электронной форме",
+      "category": "digital_service_list",
+      "guideSlugs": [
+        "priznanie-maloimushchim-dlya-zhilishchnogo-ucheta"
+      ],
+      "pending": "Сверить действующий перечень электронных услуг и редакцию 1105-ПП"
+    }
+  ]
+}
