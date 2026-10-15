@@ -44,11 +44,18 @@ test("partial official documentary findings never authorize an effective legal e
   }
 });
 
-test("official 820-PP amends only the specified 521-PP housing-registration regulation",()=>{
+test("official 820-PP has multiple amendments, including 521-PP appendix six",()=>{
   const entry=audit.legislation.find(x=>x.id==="521-pp");
   assert.match(entry.officialResearchEvidence.act,/820-ПП/);
   assert.equal(entry.officialResearchEvidence.effective,"2026-04-15");
   assert.match(entry.officialResearchEvidence.scope,/appendix 6/);
+  assert.ok(!entry.officialResearchEvidence.scope.includes("Changes only appendix"));
+  const impact=read("migration/820-pp-official-amendment-impact-2026-10-15.json");
+  assert.equal(impact.effectiveFrom,"2026-04-15");
+  assert.deepEqual(impact.affected.map(x=>x.id),["362-pp","219-pp","521-pp","1105-pp"]);
+  assert.ok(impact.affected.every(x=>x.pending.length>45));
+  assert.equal(impact.legalSignoff,false);
+  assert.equal(impact.publicationApproved,false);
   const city=law.laws.find(x=>x.id==="521-pp").confirmedAmendment;
   assert.equal(city.effectiveDate,"2026-04-15");
   assert.equal(city.currentConsolidatedEditionChecked,false);
