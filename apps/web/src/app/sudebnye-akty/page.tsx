@@ -49,6 +49,7 @@ export default async function CourtActsIndex({searchParams}:Props){
       <h2><Link href={`${courtActBasePath}/${item.slug}`}>{item.seo_title}</Link></h2>
       <p>{item.court_name} · Дело № {item.case_number} · {item.decision_date}</p>
       <p>{item.seo_description}</p>
+      {q && item.excerpt && <p aria-label="Фрагмент судебного акта по запросу">Фрагмент текста: {item.excerpt}</p>}
      </li>)}
     </ol>}
    {result.nextCursor&&<p><Link href={queryHref(result.nextCursor)}>Следующие судебные акты →</Link></p>}
