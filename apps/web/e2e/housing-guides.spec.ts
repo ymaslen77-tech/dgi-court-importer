@@ -41,6 +41,8 @@ for (const item of supplements) {
     const response = await page.goto(`/${item.slug}`);
     expect(response?.status()).toBe(200);
     await expect(page.locator(".housing-supplement")).toHaveCount(1);
+    await expect(page.locator(".housing-supplement h3")).toHaveCount(7);
+    await expect(page.locator(".housing-supplement ul:not(.housing-source-list) > li")).toHaveCount(3);
     await expect(page.locator(".housing-supplement .housing-review-label")).toContainText("Пошаговая инструкция");
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
     const urls = await page.locator(".housing-supplement .housing-source-list a").evaluateAll(els =>
