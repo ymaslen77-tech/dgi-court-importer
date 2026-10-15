@@ -7,6 +7,7 @@ import { getPublishedEditorialPage } from "@/data/published";
 import { isThematicSlug } from "@/data/themes";
 import { findHousingGuide, HousingGuideArticle } from "@/components/HousingGuide";
 import { HousingLawCatalog, housingLawCatalogSlug, housingLawCatalogTitle } from "@/components/HousingLawCatalog";
+import { DgiServiceRegistry, dgiServiceRegistrySlug, dgiServiceRegistryTitle } from "@/components/DgiServiceRegistry";
 
 type Props = { params: Promise<{ slug: string[] }> };
 
@@ -29,6 +30,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!slug || slug === "sudebnaya-praktika-dgi") return {};
   const page = (await getPublishedEditorialPage(slug)) ?? (!siteIsLive ? getMigratedPage(slug) : undefined);
   if (!page) {
+    if (!siteIsLive && slug === dgiServiceRegistrySlug) return {
+      title: { absolute: dgiServiceRegistryTitle },
+      description: "Реестр официально документированных услуг ДГИ с отметкой о необходимости актуализации регламентов.",
+      robots: { index: false, follow: false },
+    };
     if (!siteIsLive && slug === housingLawCatalogSlug) return {
       title: { absolute: housingLawCatalogTitle },
       description: "Перечень актов жилищного законодательства Москвы с указанием непроверенных редакций.",
@@ -52,6 +58,9 @@ export default async function ContentPage({ params }: Props) {
   // Render the same approved editorial revision used for metadata and sitemap.
   const page = (await getPublishedEditorialPage(slug)) ?? (!siteIsLive ? getMigratedPage(slug) : undefined);
   if (!page) {
+    if (!siteIsLive && slug === dgiServiceRegistrySlug) {
+      return <PageShell variant="thematic"><div className="container"><DgiServiceRegistry /></div></PageShell>;
+    }
     if (!siteIsLive && slug === housingLawCatalogSlug) {
       return <PageShell variant="thematic"><div className="container"><HousingLawCatalog /></div></PageShell>;
     }
