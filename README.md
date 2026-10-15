@@ -1,5 +1,7 @@
 # ДГИ — перенос Webflow → Next.js
 
+> **Архитектура и стандарт разработки (15.10.2026):** [полная схема разработки, размещения и работы сайта — GitHub → GitHub Actions → Vercel ↔ Neon](docs/PROJECT_INFRASTRUCTURE_ARCHITECTURE.md). Это целевая архитектура: подключение Neon и production deployment новой версии пока не подтверждены. Продолжение работы — в `feature/dgi-offline-completion`; Vercel-развёртывания, изменения действующего сайта/DNS и merge в `main` не выполняются.
+
 ## Стандарт архитектуры и цикла разработки (15.10.2026)
 
 **[Полная схема разработки, размещения и работы сайта](docs/DEVELOPMENT_AND_INFRASTRUCTURE.md)** — целевая архитектура `локальная разработка → GitHub → GitHub Actions → Vercel ↔ Neon`, дополнительные компоненты, окружения, контроль миграций и публикации, мониторинг и rollback.
