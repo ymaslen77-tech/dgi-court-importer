@@ -186,14 +186,15 @@
         "source": "https://vestnikmoscow.mos.ru/wp-content/uploads/2026/03/zhurnal-vestnik-moskvy-%E2%84%96-18-1.pdf",
         "act": "820-ПП от 25.03.2026",
         "effective": "2026-04-15",
-        "scope": "Changes only appendix 6 to 521-ПП (housing registration / account update) and related electronic services"
+        "scope": "820-ПП в том числе изменяет приложение 6 к 521-ПП (жилищный учет и изменения учетного дела); отдельно изменяет 362-ПП, 219-ПП и 1105-ПП."
       },
       "evidenceClass": "identified_official_amendment_not_consolidated",
       "lastEffectiveConsolidatedEditionVerified": false,
       "allAmendmentsAndAnnexesVerified": false,
       "legalSignoff": false,
       "publicationApproved": false,
-      "pending": "Find current official consolidated text and annexes; compare amendment entry-into-force dates and confirm applicant-specific applicability"
+      "pending": "Find current official consolidated text and annexes; compare amendment entry-into-force dates and confirm applicant-specific applicability",
+      "relatedOfficialAmendmentRegister": "migration/820-pp-official-amendment-impact-2026-10-15.json"
     },
     {
       "id": "dgi-286",
@@ -241,7 +242,12 @@
       "allAmendmentsAndAnnexesVerified": false,
       "legalSignoff": false,
       "publicationApproved": false,
-      "pending": "Find current official consolidated text and annexes; compare amendment entry-into-force dates and confirm applicant-specific applicability"
+      "pending": "Find current official consolidated text and annexes; compare amendment entry-into-force dates and confirm applicant-specific applicability",
+      "additionalEvidence": {
+        "officialUrl": "https://www.mos.ru/upload/content/files/1e49025f03239cc73bdc66282b8fe9f2/PostanovleniePravitelstvaMoskviot27102015N692-PP%28redakciyaot07052024923-PP%29.pdf",
+        "editionDate": "2024-05-07",
+        "lastEffectiveConsolidatedEditionVerified": false
+      }
     },
     {
       "id": "99-pp",
