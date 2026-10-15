@@ -277,7 +277,15 @@
         "researchNote": "Опубликованный текст приложения 5 содержит редакцию от 23.12.2022. Приложение 14 в прежней структуре утратило силу; правовую актуальность на 2026 год нельзя устанавливать по старой PDF. Ориентир справочной редакции 521-ПП — 05.05.2026, без сверки каждого приложения.",
         "officialCurrentTextChecked": false
       },
-      "sourceScope": "appendix_5_historical_2022"
+      "sourceScope": "appendix_5_historical_2022",
+      "confirmedAmendment": {
+        "act": "Постановление Москвы № 820-ПП от 25.03.2026",
+        "officialPublication": "https://vestnikmoscow.mos.ru/wp-content/uploads/2026/03/zhurnal-vestnik-moskvy-%E2%84%96-18-1.pdf",
+        "effectiveDate": "2026-04-15",
+        "scope": "Изменения приложения 6 — принятие на жилищный учёт и внесение изменений в учётное дело. В частности: электронная форма заявления и запрошенные при приостановлении оригиналы через МФЦ.",
+        "currentConsolidatedEditionChecked": false,
+        "publicationApproved": false
+      }
     },
     {
       "id": "dgi-286",
@@ -308,7 +316,15 @@
       "currentVersionVerified": false,
       "approved": false,
       "revisionResearch": null,
-      "sourceScope": "historical_reference"
+      "sourceScope": "historical_reference",
+      "confirmedAmendment": {
+        "act": "Постановление Москвы № 2895-ПП от 20.12.2022",
+        "officialPublication": "https://www.mos.ru/upload/documents/docs/2895-PP-uyt4c.pdf",
+        "effectiveDate": null,
+        "scope": "Изменяет 521-ПП и 132-ПП; не удостоверяет редакцию, действующую в 2026 году.",
+        "currentConsolidatedEditionChecked": false,
+        "publicationApproved": false
+      }
     },
     {
       "id": "692-pp",
