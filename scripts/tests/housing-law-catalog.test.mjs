@@ -7,9 +7,9 @@ const housing=JSON.parse(readFileSync(new URL("../../apps/web/src/data/housing-g
 const pages=Array.from({length:6},(_,i)=>JSON.parse(readFileSync(
  new URL(`../../apps/web/src/data/pages-${i}.json`,import.meta.url),"utf8"))).flat();
 const slugs=new Set([...housing.guides.map(x=>x.slug),...pages.map(x=>x.slug)]);
-test("normative catalog has 16 distinct non-approved law entries",()=>{
- assert.equal(catalog.laws.length,16);
- assert.equal(new Set(catalog.laws.map(x=>x.id)).size,16);
+test("normative catalog has 19 distinct non-approved law entries",()=>{
+ assert.equal(catalog.laws.length,19);
+ assert.equal(new Set(catalog.laws.map(x=>x.id)).size,19);
  for(const item of catalog.laws){
   assert.equal(item.currentVersionVerified,false);
   assert.equal(item.approved,false);
