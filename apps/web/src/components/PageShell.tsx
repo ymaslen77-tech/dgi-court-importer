@@ -27,6 +27,7 @@ const thematicNavigation = [
   { href: "/funkcii-dgi", label: "Функции ДГИ" },
   { href: "/normativnye-akty", label: "Нормативные акты" },
   { href: "/gosuslugi-dgi", label: "Госуслуги" },
+  { href: "/reestr-gosuslug-dgi", label: "Реестр услуг" },
 ];
 
 export function PageShell({ children, variant = "default" }: Readonly<{ children: React.ReactNode; variant?: "default" | "home" | "thematic" }>) {
