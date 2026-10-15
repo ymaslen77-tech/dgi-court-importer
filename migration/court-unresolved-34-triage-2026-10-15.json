@@ -11,7 +11,10 @@
     "reviewedAsIntake": 34,
     "individualOfficialCasePagesPreviouslyMatched": 5,
     "additionalOfficialDocketListMatches": 2,
-    "fullJudicialChainsApproved": 0
+    "fullJudicialChainsApproved": 0,
+    "newlyObservedCassationOperativeParts": 5,
+    "remainingWithNoObservedOperativeResult": 29,
+    "allEightPreviouslyIdentifiedCassationCardsWithDisposition": 8
   },
   "cases": [
     {
@@ -906,7 +909,17 @@
       "legalOutcomeApproved": false,
       "personalDataReviewed": false,
       "publicationApproved": false,
-      "nextAction": "Получить полный официальный текст, проверить инстанции и итоговую мотивировку."
+      "nextAction": "Проверить полные нижестоящие акты, мотивировку, дальнейшее движение после кассации, обезличивание и юридическую приёмку.",
+      "subsequentCassationEvidence": {
+        "officialCaseUrl": "https://2kas.sudrf.ru/modules.php?case_id=17983681&case_uid=301df5dc-24f6-4fd3-bd0e-53fe3b464061&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+        "uid": "77RS0035-02-2022-000512-67",
+        "decisionDate": "2026-05-21",
+        "topic": "Право собственности на часть жилого дома в силу приобретательной давности",
+        "category": "housing_house_ownership_acquisitive_prescription",
+        "operativeSummary": "Апелляционное определение от 22.10.2025 оставить без изменения, кассационную жалобу — без удовлетворения.",
+        "verifiedFullChain": false,
+        "publicationApproved": false
+      }
     },
     {
       "slug": "kass-88-15278-2026",
@@ -935,7 +948,17 @@
       "legalOutcomeApproved": false,
       "personalDataReviewed": false,
       "publicationApproved": false,
-      "nextAction": "Получить полный официальный текст, проверить инстанции и итоговую мотивировку."
+      "nextAction": "Проверить полные нижестоящие акты, мотивировку, дальнейшее движение после кассации, обезличивание и юридическую приёмку.",
+      "subsequentCassationEvidence": {
+        "officialCaseUrl": "https://2kas.sudrf.ru/modules.php?case_id=18231736&case_uid=6e13d75c-0c64-41df-a31a-de1ddc2dfd31&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+        "uid": "77RS0001-02-2024-012112-81",
+        "decisionDate": "2026-06-23",
+        "topic": "Размер возмещения при изъятии нежилого гаражного бокса",
+        "category": "nonresidential_garage_compensation",
+        "operativeSummary": "Решение от 25.06.2025 и апелляционное определение от 04.12.2025 оставлены без изменения, жалоба ДГИ и Правительства Москвы — без удовлетворения.",
+        "verifiedFullChain": false,
+        "publicationApproved": false
+      }
     },
     {
       "slug": "kass-88-15955-2026",
@@ -964,7 +987,17 @@
       "legalOutcomeApproved": false,
       "personalDataReviewed": false,
       "publicationApproved": false,
-      "nextAction": "Получить полный официальный текст, проверить инстанции и итоговую мотивировку."
+      "nextAction": "Проверить полные нижестоящие акты, мотивировку, дальнейшее движение после кассации, обезличивание и юридическую приёмку.",
+      "subsequentCassationEvidence": {
+        "officialCaseUrl": "https://2kas.sudrf.ru/modules.php?case_id=18372552&case_uid=fb0cc7d0-1a95-4734-99f2-84cbcf562e7f&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+        "uid": "77RS0019-02-2025-000750-55",
+        "decisionDate": "2026-06-16",
+        "topic": "Изъятие нежилого помещения для государственных нужд и судебная оценка возмещения",
+        "category": "nonresidential_expropriation_compensation",
+        "operativeSummary": "Решение от 07.10.2025 и апелляционное определение от 05.02.2026 оставлены без изменения, кассационная жалоба — без удовлетворения.",
+        "verifiedFullChain": false,
+        "publicationApproved": false
+      }
     },
     {
       "slug": "kass-88-5020-2026",
@@ -993,7 +1026,17 @@
       "legalOutcomeApproved": false,
       "personalDataReviewed": false,
       "publicationApproved": false,
-      "nextAction": "Получить полный официальный текст, проверить инстанции и итоговую мотивировку."
+      "nextAction": "Проверить полные нижестоящие акты, мотивировку, дальнейшее движение после кассации, обезличивание и юридическую приёмку.",
+      "subsequentCassationEvidence": {
+        "officialCaseUrl": "https://2kas.sudrf.ru/modules.php?case_id=17338162&case_uid=d920690b-6625-46d1-a56c-af4b81c5393c&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+        "uid": "77RS0034-02-2024-025485-20",
+        "decisionDate": "2026-02-17",
+        "topic": "Признание права собственности на гаражное нежилое здание",
+        "category": "nonresidential_garage_ownership",
+        "operativeSummary": "Решение от 19.02.2025 и апелляционное определение от 20.10.2025 оставлены без изменения, кассационная жалоба ДГИ — без удовлетворения.",
+        "verifiedFullChain": false,
+        "publicationApproved": false
+      }
     },
     {
       "slug": "kass-88-724-2026",
@@ -1022,7 +1065,17 @@
       "legalOutcomeApproved": false,
       "personalDataReviewed": false,
       "publicationApproved": false,
-      "nextAction": "Получить полный официальный текст, проверить инстанции и итоговую мотивировку."
+      "nextAction": "Проверить полные нижестоящие акты, мотивировку, дальнейшее движение после кассации, обезличивание и юридическую приёмку.",
+      "subsequentCassationEvidence": {
+        "officialCaseUrl": "https://2kas.sudrf.ru/modules.php?case_id=16814499&case_uid=ac88b1a2-d389-48f4-a7b2-2438745b8596&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+        "uid": "77RS0005-02-2022-002119-37",
+        "decisionDate": "2026-01-20",
+        "topic": "Выморочное жилое имущество, наследование, выселение и регистрация",
+        "category": "housing_inheritance_escheat_eviction",
+        "operativeSummary": "Апелляционное определение от 18.08.2025 оставлено без изменения, кассационная жалоба — без удовлетворения.",
+        "verifiedFullChain": false,
+        "publicationApproved": false
+      }
     }
   ]
 }
