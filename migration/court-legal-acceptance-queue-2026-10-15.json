@@ -699,5 +699,42 @@
       "publicationApproved": false,
       "verificationStage": "official_cassation_text_observed_not_legally_accepted"
     }
-  ]
+  ],
+  "additionalAppellateDocketLeads": [
+    {
+      "slug": "decision-02-4422-2026-additional-10",
+      "source": "https://www.mos-gorsud.ru/mgs/services/cases/appeal-civil?caseNumber=33-&page=14",
+      "caseNumber": "02-4422/2026",
+      "appellateNumber": "33-51761/2026",
+      "complaintNumber": "Ж-55162/2026",
+      "court": "Нагатинский районный суд Москвы",
+      "reportedStatus": "Назначено заседание на 26.10.2026 14:50",
+      "scheduledHearingDate": "2026-10-26",
+      "caseCategory": "137 - Иные жилищные споры",
+      "officialIndividualCaseUrl": null,
+      "uid": null,
+      "verifiedJudgment": false,
+      "legalSignOff": false,
+      "publicationApproved": false,
+      "caution": "Общий официальный список, не индивидуальная карточка; заседание ещё не состоялось на дату проверки."
+    },
+    {
+      "slug": "decision-02-7102-2025-additional-5",
+      "source": "https://m.mos-gorsud.ru/mgs/services/cases/appeal-civil?_cb=1776702482.5689&page=63",
+      "caseNumber": "02-7102/2025",
+      "appellateNumber": null,
+      "complaintNumber": "Ж-40273/2026",
+      "court": "Нагатинский районный суд Москвы",
+      "reportedStatus": "Зарегистрировано 03.07.2026",
+      "scheduledHearingDate": null,
+      "caseCategory": "186 - Иные наследственные споры",
+      "officialIndividualCaseUrl": null,
+      "uid": null,
+      "verifiedJudgment": false,
+      "legalSignOff": false,
+      "publicationApproved": false,
+      "caution": "Общий официальный список апелляционных поступлений. Отсутствует точная карточка, УИД и текст решения."
+    }
+  ],
+  "additionalCourtTriage": "migration/court-unresolved-34-triage-2026-10-15.json"
 }
