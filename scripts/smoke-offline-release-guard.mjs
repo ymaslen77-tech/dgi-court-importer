@@ -6,7 +6,8 @@ import { readFileSync } from "node:fs";
 if (process.env.CI !== "true" || process.env.SITE_CUTOVER !== "true" ||
     process.env.SITE_RELEASE_APPROVED !== "yes" ||
     process.env.CMS_PUBLIC_READS !== "false" ||
-    process.env.COURT_DB_READS !== "false")
+    process.env.COURT_DB_READS !== "false" ||
+    process.env.COURT_FULLTEXT_PUBLIC_READS !== "false")
   throw new Error("Refusing release guard smoke outside isolated CI configuration");
 
 const origin = process.env.OFFLINE_TEST_ORIGIN || "http://127.0.0.1:3000";
@@ -57,6 +58,11 @@ for (const entry of legacy.cases) {
   assert.match(html, /noindex/i, `Archive exposed to indexing: ${url}`);
   assert.doesNotMatch(html, /rel=["']canonical["']/i);
 }
+for (const path of ["/sudebnye-akty","/sudebnye-akty/unreviewed-court-act"]) {
+  const response=await get(path);
+  assert.equal(response.status,404,`Court fulltext leaked without approval: ${path}`);
+  assert.match(await response.text(),/noindex/i);
+}
 const index=await get("/sudebnaya-praktika-dgi");
 assert.equal(index.status,200);
 assert.match(await index.text(),/noindex/i);
@@ -68,5 +74,5 @@ assert.equal(search.status,503, "Unreviewed DB search should remain disabled");
 console.log(JSON.stringify({
   isolatedMode:true, legacySnapshotsBlocked:seo.pages.length - 1,
   extraDraftsBlocked:protectedDrafts.length, legacyArchivesNoindex:legacy.cases.length,
-  courtIndexNoindex:true, sitemapEmpty:true, databaseSearchDisabled:true,
+  courtIndexNoindex:true, courtFulltextUnpublished:true, sitemapEmpty:true, databaseSearchDisabled:true,
 },null,2));
