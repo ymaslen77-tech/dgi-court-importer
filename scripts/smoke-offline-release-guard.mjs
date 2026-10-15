@@ -33,19 +33,19 @@ for (const page of seo.pages) {
   assert.match(html, /noindex/i, `Unapproved 404 lacks noindex: ${page.path}`);
   assert.doesNotMatch(html, /rel=["']canonical["']/i, `Unapproved canonical: ${page.path}`);
 }
-for (const path of [
-  "/priznanie-maloimushchim-dlya-zhilishchnogo-ucheta",
+// Derive every draft route from the source inventory, so future legal pages
+// cannot bypass release gating merely because a developer forgot this list.
+const draftInventory = JSON.parse(readFileSync(
+  new URL("../apps/web/src/data/housing-guides.json",import.meta.url),"utf8"
+));
+const protectedDrafts = [
   "/spravochnik-zhilishchnogo-zakonodatelstva-moskvy",
-  "/housing-law-news/unreviewed-source",
   "/reestr-gosuslug-dgi",
-  "/arhivnye-prava-na-zhile-do-1998",
-  "/perevod-zhilogo-pomeshcheniya-v-nezhiloe",
-  "/predostavlenie-zhilya-po-sotsnaymu-moskva",
-  "/izyatie-zhilogo-pomeshcheniya-vozmeshchenie",
-  "/obmen-kvartir-po-sotsialnomu-naymu-moskva",
-  "/proverka-dogovora-renovatsii-moskva",
-  "/izmenenie-arendy-zemelnogo-uchastka-moskva",
-]) {
+  "/housing-law-news/unreviewed-source",
+  ...draftInventory.guides.map(item=>"/"+item.slug),
+];
+assert.equal(new Set(protectedDrafts).size,protectedDrafts.length,"Duplicate protected draft path");
+for (const path of protectedDrafts) {
   assert.equal((await get(path)).status, 404, `Private legal draft exposed: ${path}`);
 }
 const legacy = JSON.parse(readFileSync(new URL("../apps/web/src/data/legacy-cases.json",import.meta.url),"utf8"));
@@ -67,6 +67,6 @@ const search=await get("/api/courts/search?q=88-21277%2F2026");
 assert.equal(search.status,503, "Unreviewed DB search should remain disabled");
 console.log(JSON.stringify({
   isolatedMode:true, legacySnapshotsBlocked:seo.pages.length - 1,
-  extraDraftsBlocked:11, legacyArchivesNoindex:legacy.cases.length,
+  extraDraftsBlocked:protectedDrafts.length, legacyArchivesNoindex:legacy.cases.length,
   courtIndexNoindex:true, sitemapEmpty:true, databaseSearchDisabled:true,
 },null,2));
