@@ -5,7 +5,7 @@ import { readFileSync } from "node:fs";
 const ledger=JSON.parse(readFileSync(new URL("../../migration/housing-legal-review.json",import.meta.url),"utf8"));
 const data=JSON.parse(readFileSync(new URL("../../apps/web/src/data/housing-guides.json",import.meta.url),"utf8"));
 const norm=new Set(["primary_text_checked","historical_primary_link","norm_crosschecked","primary_help_checked","help_source_checked","official_portal_only","agency_not_confirmed","needs_legal_review"]);
-const origin=new Set(["mos.ru","www.mos.ru","fr.mos.ru","cdn.dom.gosuslugi.ru","rosreestr.gov.ru","www.gosuslugi.ru","www.mosgorbti.ru","tender.mos.ru"]);
+const origin=new Set(["mos.ru","www.mos.ru","fr.mos.ru","vestnikmoscow.mos.ru","cdn.dom.gosuslugi.ru","rosreestr.gov.ru","www.gosuslugi.ru","www.mosgorbti.ru","tender.mos.ru"]);
 
 test("legal review covers each public-facing staging item exactly once",()=>{
  const slugs=data.guides.map(x=>x.slug).sort();
