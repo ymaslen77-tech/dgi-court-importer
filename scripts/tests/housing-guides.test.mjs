@@ -28,7 +28,7 @@ test("all legal routes contain distinct practical instructions, references and g
  }
 });
 test("sources are on explicitly approved official hosts, no invented publication statuses",()=>{
- const allow=new Set(["www.mos.ru","mos.ru","fr.mos.ru","cdn.dom.gosuslugi.ru","rosreestr.gov.ru","www.gosuslugi.ru","www.mosgorbti.ru","tender.mos.ru"]);
+ const allow=new Set(["www.mos.ru","mos.ru","fr.mos.ru","vestnikmoscow.mos.ru","cdn.dom.gosuslugi.ru","rosreestr.gov.ru","www.gosuslugi.ru","www.mosgorbti.ru","tender.mos.ru"]);
  for(const item of [...file.guides,...file.supplements])for(const source of item.sources){
   const url=new URL(source.url);
   assert.equal(url.protocol,"https:");
