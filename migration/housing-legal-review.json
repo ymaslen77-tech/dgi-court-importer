@@ -1,7 +1,7 @@
 {
-  "auditDate": "2026-10-14",
+  "auditDate": "2026-10-15",
   "scope": "Москва, город; редакционная проверка для staging",
-  "method": "Secondary-law indexes give edition leads only. No available evidence establishes exhaustive consolidated effective text and full service procedure. Do not approve or publish until primary act, annexes, start dates and service rules are checked.",
+  "method": "Secondary-law indexes give edition leads only. No available evidence establishes exhaustive consolidated effective text and full service procedure. Do not approve or publish until primary act, annexes, start dates and service rules are checked. Existing records retain their actual check date of 2026-10-14; new service drafts were added on 2026-10-15. No later current editions assumed.",
   "publicationRule": "Requires official consolidated effective version, competent agency/service, verified mandatory documents and deadlines, human signoff",
   "guides": [
     {
@@ -320,6 +320,92 @@
           }
         ],
         "conclusion": "Проверить, какие городские программы и условия реально действуют; в 521-ПП есть поправки 2026 года, но расчёт, деньги и заявители не сверены.",
+        "lastEffectiveEditionIndependentlyChecked": false
+      }
+    },
+    {
+      "slug": "arhivnye-prava-na-zhile-do-1998",
+      "legalBasis": "Постановление Москвы № 132-ПП от 01.03.2019; изменения № 2895-ПП",
+      "sourceStatus": "historical_primary_link",
+      "referenceUrl": "https://www.mos.ru/upload/documents/docs/132-PP%282%29.pdf",
+      "checkedOn": "2026-10-15",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "nextReview": "Сверить 132-ПП, последующие изменения и действующее приложение к 521-ПП, уточнить виды архивных справок, полномочия заявителя, сроки, перечень документов и официальный сервис.",
+      "relatedLawIds": [
+        "132-pp",
+        "521-pp"
+      ],
+      "legalResearch": {
+        "researchedOn": "2026-10-15",
+        "secondaryLinks": [],
+        "conclusion": "Наличие архивной государственной услуги документировано в официальных московских актах; действующую редакцию регламента в 2026 году полностью не сверили.",
+        "lastEffectiveEditionIndependentlyChecked": false
+      }
+    },
+    {
+      "slug": "perevod-zhilogo-pomeshcheniya-v-nezhiloe",
+      "legalBasis": "Глава 3 ЖК РФ; постановление Москвы № 692-ПП от 27.10.2015",
+      "sourceStatus": "historical_primary_link",
+      "referenceUrl": "https://www.mos.ru/upload/content/files/69bb625cd994fc161c79162d45864fd8/AdministrativniireglamentPerevodjilogovnejiloe.pdf",
+      "checkedOn": "2026-10-15",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "nextReview": "Получить официально подтверждённую консолидированную редакцию 692-ПП, проверить все приложения, актуальные правила согласий собственников, сроки, способ подачи и этапы участия Мосжилинспекции.",
+      "relatedLawIds": [
+        "housing-code",
+        "692-pp"
+      ],
+      "legalResearch": {
+        "researchedOn": "2026-10-15",
+        "secondaryLinks": [],
+        "conclusion": "На официальном портале опубликован регламент перевода помещений, но не установлена полнота и применимость его текущей редакции.",
+        "lastEffectiveEditionIndependentlyChecked": false
+      }
+    },
+    {
+      "slug": "predostavlenie-zhilya-po-sotsnaymu-moskva",
+      "legalBasis": "Глава 7 ЖК РФ; Закон Москвы № 29; постановление Москвы № 521-ПП",
+      "sourceStatus": "historical_primary_link",
+      "referenceUrl": "https://www.mos.ru/upload/documents/oiv/10092014-_-521_pp%281%29.pdf",
+      "checkedOn": "2026-10-15",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "nextReview": "Определить действующее приложение к 521-ПП и отдельные процедуры по предоставлению жилья, категории заявителей, нормы площади, актуальные согласия, межведомственные сведения и порядок обжалования.",
+      "relatedLawIds": [
+        "housing-code",
+        "moscow-29",
+        "521-pp"
+      ],
+      "legalResearch": {
+        "researchedOn": "2026-10-15",
+        "secondaryLinks": [],
+        "conclusion": "Общие основания и исторический регламент установлены; последняя редакция и индивидуальные правила предоставления не подтверждены.",
+        "lastEffectiveEditionIndependentlyChecked": false
+      }
+    },
+    {
+      "slug": "izyatie-zhilogo-pomeshcheniya-vozmeshchenie",
+      "legalBasis": "ЖК РФ ст. 32; отдельно правила аварийного жилья и московской реновации",
+      "sourceStatus": "historical_primary_link",
+      "referenceUrl": "https://www.mos.ru/upload/documents/files/6377/Kodeksot29_12_2004N188-FZJilishniikodeksRossiiskoiFederacii%28sizmeneniyamina2maya2026_Tekst.pdf",
+      "checkedOn": "2026-10-15",
+      "currentRevisionVerified": false,
+      "procedureVerified": false,
+      "publicationApproved": false,
+      "nextReview": "Проверить изменения статьи 32 ЖК РФ после 02.05.2026, правовой режим конкретного изъятия, действующие правила определения возмещения, порядок уведомления и все специальные московские гарантии.",
+      "relatedLawIds": [
+        "housing-code",
+        "moscow-14",
+        "47-rf"
+      ],
+      "legalResearch": {
+        "researchedOn": "2026-10-15",
+        "secondaryLinks": [],
+        "conclusion": "ЖК РФ содержит регулирование изъятия жилья, но правовые режимы аварийности и реновации не тождественны; актуальная совокупность норм для конкретного дела не подтверждена.",
         "lastEffectiveEditionIndependentlyChecked": false
       }
     }
