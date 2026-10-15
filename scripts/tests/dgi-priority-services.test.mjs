@@ -56,4 +56,6 @@ test("new registry cannot render or index when SITE_CUTOVER is enabled",()=>{
  assert.ok(route.includes("index: false, follow: false"));
  assert.ok(!sitemap.includes("dgiServiceRegistrySlug"));
  assert.ok(shell.includes('href: "/reestr-gosuslug-dgi"'));
+ assert.ok(shell.includes('...(!siteIsLive ? [{ href: "/reestr-gosuslug-dgi"'));
+ assert.ok(shell.includes('import { siteIsLive } from "@/data/pages"'));
 });
