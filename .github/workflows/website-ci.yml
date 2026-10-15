@@ -234,7 +234,7 @@ jobs:
           # Build with release flags inside this disposable GitHub runner only.
           # Next.js may bake a false release gate into server output at build time.
           pnpm --filter @dgi/web build
-          (pnpm --filter @dgi/web start --hostname 127.0.0.1 --port 3000 > /tmp/dgi-court-act-http.log 2>&1) &
+          (pnpm --filter @dgi/web start --hostname 127.0.0.1 --port 3002 > /tmp/dgi-court-act-http.log 2>&1) &
           server_pid=$!
           trap 'kill "$server_pid" 2>/dev/null || true; cat /tmp/dgi-court-act-http.log' EXIT
           node scripts/tests/court-fulltext-http.mjs
