@@ -10,7 +10,7 @@ const { guides, supplements } = JSON.parse(
 };
 
 test("the housing guidance inventory is complete for this delivery", () => {
-  expect(guides).toHaveLength(11);
+  expect(guides).toHaveLength(15);
   expect(supplements).toHaveLength(6);
 });
 
