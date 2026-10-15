@@ -15,7 +15,7 @@ export type PublishedCourtAct = {
  published_at:string; updated_at:string;
 };
 export type CourtActSummary=Pick<PublishedCourtAct,
-  "slug"|"case_number"|"court_name"|"decision_date"|"act_type"|"topic"|"seo_title"|"seo_description"|"updated_at">;
+  "slug"|"case_number"|"court_name"|"decision_date"|"act_type"|"topic"|"seo_title"|"seo_description"|"updated_at"> & {excerpt?:string};
 
 let pool:PgPool|undefined;
 function db():PgPool {
@@ -103,7 +103,10 @@ export async function searchPublishedCourtActs(q:string,cursor:string|null):Prom
  const pattern="%"+term.replace(/[\\%_]/g,"\\$&")+"%";
  const {rows}=await db().query<CourtActSummary>(`
  SELECT slug,case_number,court_name,decision_date::text,act_type,topic,
-        seo_title,seo_description,updated_at::text
+        seo_title,seo_description,updated_at::text,
+        CASE WHEN $1::text='' THEN left(full_text,220)
+             ELSE ts_headline('russian',full_text,plainto_tsquery('russian',$1),
+                'MaxWords=27,MinWords=10,MaxFragments=2') END AS excerpt
  FROM court_act_documents
  WHERE status='published' AND source_checked_at IS NOT NULL
    AND text_verified_at IS NOT NULL AND privacy_checked_at IS NOT NULL
