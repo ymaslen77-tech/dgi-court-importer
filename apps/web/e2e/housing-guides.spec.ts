@@ -79,6 +79,9 @@ test("normative acts catalog is accessible from source page and remains noindex"
 test("catalog explains eight reference-only revision dates without asserting legal approval",async ({page})=>{
  await page.goto("/spravochnik-zhilishchnogo-zakonodatelstva-moskvy");
  await expect(page.locator(".housing-law-revision")).toHaveCount(8);
+ await expect(page.locator(".housing-law-amendment")).toHaveCount(2);
+ await expect(page.locator('[id="521-pp"]')).toContainText("820-ПП");
+ await expect(page.locator('[id="132-pp"]')).toContainText("2895-ПП");
  await expect(page.locator('[id="521-pp"]')).toContainText("05.05.2026");
  await expect(page.locator('[id="111-pp"]')).toContainText("18.08.2026");
  await expect(page.locator('[id="491-rf"]')).toContainText("26.09.2026");
