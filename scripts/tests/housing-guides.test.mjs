@@ -4,10 +4,10 @@ import { readFileSync } from "node:fs";
 const file = JSON.parse(readFileSync(new URL("../../apps/web/src/data/housing-guides.json", import.meta.url),"utf8"));
 const legacy = Array.from({length:6},(_,i)=>JSON.parse(readFileSync(new URL(`../../apps/web/src/data/pages-${i}.json`, import.meta.url),"utf8"))).flat();
 const known = new Set([...legacy.map(p=>p.slug),...file.guides.map(g=>g.slug)]);
-test("fifteen draft routes and six existing landing-page supplements",()=>{
- assert.equal(file.guides.length,15);
+test("eighteen draft routes and six existing landing-page supplements",()=>{
+ assert.equal(file.guides.length,18);
  assert.equal(file.supplements.length,6);
- assert.equal(new Set(file.guides.map(g=>g.slug)).size,15);
+ assert.equal(new Set(file.guides.map(g=>g.slug)).size,18);
  for(const s of file.supplements)assert.ok(legacy.some(p=>p.slug===s.slug));
 });
 test("all legal routes contain distinct practical instructions, references and guarded sources",()=>{
