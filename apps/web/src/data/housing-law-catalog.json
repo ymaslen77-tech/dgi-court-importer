@@ -341,6 +341,22 @@
       "approved": false,
       "revisionResearch": null,
       "sourceScope": "historical_reference"
+    },
+    {
+      "id": "519-pp",
+      "title": "Постановление Москвы № 519-ПП от 08.08.2017",
+      "subject": "Административный регламент принятия решения о согласии на обмен городских жилых помещений, занимаемых по договорам социального найма; опубликовано приложение 3",
+      "jurisdiction": "moscow",
+      "sourceStatus": "primary_historical",
+      "sourceUrl": "https://www.mos.ru/upload/documents/oiv/administrativnyy_reglament%2811%29.pdf",
+      "related": [
+        "obmen-kvartir-po-sotsialnomu-naymu-moskva",
+        "socialnyj-naem"
+      ],
+      "currentVersionVerified": false,
+      "approved": false,
+      "revisionResearch": null,
+      "sourceScope": "historical_reference"
     }
   ]
 }
