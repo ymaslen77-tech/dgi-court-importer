@@ -8,7 +8,7 @@ if(process.env.CI!=="true" || !process.env.DATABASE_URL?.includes("housing_ci") 
  throw new Error("Refuse fulltext HTTP test outside disposable CI");
 const db=new pg.Client({connectionString:process.env.DATABASE_URL});
 await db.connect();
-const origin="http://127.0.0.1:3000",slug="ci-fulltext-russian-seo-example";
+const origin="http://127.0.0.1:3002",slug="ci-fulltext-russian-seo-example";
 const get=async path=>fetch(new URL(path,origin),{signal:AbortSignal.timeout(15000)});
 const wait=async()=>{for(let i=0;i<50;i++){try{if((await get("/api/health")).ok)return;}catch{}await new Promise(r=>setTimeout(r,500));}throw new Error("Local Next.js not ready");};
 let inserted=false;
