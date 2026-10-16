@@ -21,7 +21,7 @@ export const EditorialEntries: CollectionConfig = {
     beforeChange: [({ data, originalDoc, req }) => {
       const role = getRole(req.user);
       const privateImport = process.env.CMS_PRIVATE_IMPORT === "yes" &&
-        req.context?.migrationSource === "webflow-public-pages";
+        ["webflow-public-pages","dgi-curated-drafts"].includes(String(req.context?.migrationSource ?? ""));
       if (!role && !privateImport) throw new Error("Authenticated CMS staff account required");
       const record = data as Record<string, unknown>;
       if (privateImport) {
