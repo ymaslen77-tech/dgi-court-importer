@@ -12,7 +12,7 @@ if (admins.totalDocs !== 1 || admins.docs[0]?.role !== "admin")
 const entries = await payload.find({
   collection:"editorial-entries",overrideAccess:true,draft:true,limit:100,depth:0,
 });
-if (entries.totalDocs !== 33) throw new Error(`Expected 33 unique draft pages, got ${entries.totalDocs}`);
+if (entries.totalDocs !== 78) throw new Error(`Expected 78 unique draft pages, got ${entries.totalDocs}`);
 for (const doc of entries.docs) {
   if (doc._status !== "draft" || doc.reviewState !== "needs-review" ||
       doc.reviewedAt || doc.reviewedBy)
