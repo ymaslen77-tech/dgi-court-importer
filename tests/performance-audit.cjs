@@ -2,7 +2,7 @@ const fs=require('node:fs');
 const {execFileSync}=require('node:child_process');
 const items=[];
 fs.mkdirSync('test-results',{recursive:true});
-for(const [path,tag] of [['/','home'],['/gosuslugi-dgi','services']]){
+for(const [path,tag] of [['/','home'],['/gosuslugi-dgi','services'],['/kontakty-dgi','contacts'],['/sudebnaya-praktika-dgi','cases']]){
   for(const mode of ['mobile','desktop']){
     const output='test-results/lighthouse-'+tag+'-'+mode+'.json';
     try{
