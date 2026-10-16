@@ -1,0 +1,42 @@
+import {test} from "node:test";
+import assert from "node:assert/strict";
+import {readFileSync} from "node:fs";
+const read=p=>readFileSync(new URL("../../"+p,import.meta.url),"utf8");
+const migration=read("db/migrations/0005_court_fulltext_publication.sql");
+const detail=read("apps/web/src/app/sudebnye-akty/[slug]/page.tsx");
+const index=read("apps/web/src/app/sudebnye-akty/page.tsx");
+const adapter=read("apps/web/src/data/court-fulltext.ts");
+const sitemap=read("apps/web/src/app/sitemap.ts");
+const importer=read("scripts/import-official-court-act.mjs");
+test("court decisions are stored on-site with complete text and Russian search index",()=>{
+ assert.match(migration,/CREATE TABLE IF NOT EXISTS court_act_documents/);
+ assert.match(migration,/full_text text NOT NULL/);
+ assert.match(migration,/full_text_sha256 text GENERATED ALWAYS/);
+ assert.match(migration,/to_tsvector\('russian',full_text\)/);
+ assert.match(adapter,/to_tsvector\('russian',full_text\)/);
+ assert.match(detail,/act\.full_text\.split/);
+ assert.match(detail,/whiteSpace:"pre-wrap"/);
+ assert.match(detail,/act\.official_url/);
+ assert.match(index,/searchPublishedCourtActs/);
+});
+test("SEO is based on an independently reviewed act and never on metadata-only court cards",()=>{
+ assert.match(adapter,/siteIsLive && process\.env\.COURT_FULLTEXT_PUBLIC_READS === "true"/);
+ assert.match(adapter,/status='published'/);
+ assert.match(adapter,/text_verified_at IS NOT NULL/);
+ assert.match(adapter,/privacy_checked_at IS NOT NULL/);
+ assert.match(migration,/court_act_published_guard/);
+ assert.match(migration,/court_act_revoke_on_change_trigger/);
+ assert.match(sitemap,/listPublishedCourtActSlugs\(\)/);
+ assert.match(detail,/canonical:urlFor\(act\.slug\)/);
+ assert.match(detail,/"@type":"CreativeWork"/);
+ assert.match(detail,/relatedPublishedCourtActs/);
+ assert.doesNotMatch(detail,/dangerouslySetInnerHTML={{__html:act\.full_text}}/);
+});
+test("bulk uploader is not a publisher and rejects unofficial source lists",()=>{
+ assert.match(importer,/COURT_IMPORT_ALLOW_WRITE!=="staging"/);
+ assert.match(importer,/courtPublicTextConfirmed!==true/);
+ assert.match(importer,/sensitiveDataReviewedForDraft!==true/);
+ assert.match(importer,/status='review'/);
+ assert.doesNotMatch(importer,/status='published'/);
+ assert.match(importer,/source_checked_at=NULL/);
+});

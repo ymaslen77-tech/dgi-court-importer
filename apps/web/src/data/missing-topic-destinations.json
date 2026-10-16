@@ -1,0 +1,82 @@
+{
+  "dokumenty-na-kvartiru": {
+    "Какие документы встречаются": "/gosuslugi-dgi",
+    "Как выбрать нужную услугу": "/gosuslugi-dgi",
+    "Что делать при отказе или отсутствии данных": "/zhaloba-na-dgi-moskvy"
+  },
+  "zhilishchnaya-ochered": {
+    "Как устроен жилищный учёт": "/zhilishchnyj-uchet",
+    "Типовые вопросы граждан": "/snyatie-s-zhilishchnogo-ucheta-moskva",
+    "Документы для правового разбора": "/zayavlenie-v-dgi-moskvy"
+  },
+  "zhilishchnye-subsidii": {
+    "Проверяем применимую программу": "/zhilishchnaya-ochered",
+    "Что имеет юридическое значение": "/normativnye-akty",
+    "Как действовать": "/zayavlenie-v-dgi-moskvy"
+  },
+  "spory-s-dgi": {
+    "С чего начинается разбор": "/zhaloba-na-dgi-moskvy",
+    "Что может быть предметом проверки": "/sudebnaya-praktika-dgi",
+    "Возможные этапы защиты": "/zhaloba-na-dgi-moskvy"
+  },
+  "kontakty-dgi": {
+    "Справочная контактная информация": "https://stroi.mos.ru/structure/dgi/reference-dgi",
+    "Посещение службы одного окна": "/zapis-na-priem-dgi-moskvy",
+    "Как оформить обращение": "/zayavlenie-v-dgi-moskvy"
+  },
+  "kadastrovaya-stoimost": {
+    "Утверждение результатов оценки": "https://www.mos.ru/dgi/documents/normativnye-dokumenty/view/331810220/",
+    "Исправление ошибок": "https://rosreestr.gov.ru/",
+    "Правовая помощь": "/zayavlenie-v-dgi-moskvy"
+  },
+  "gosuslugi-dgi": {
+    "Жилищные услуги": "/zhilishchnyj-uchet",
+    "Сведения о правах на недвижимость": "/dokumenty-na-kvartiru",
+    "Единая логика обращения": "/zayavlenie-v-dgi-moskvy",
+    "Важно о версиях": "/normativnye-akty",
+    "Другие разделы справочника": "/funkcii-dgi"
+  },
+  "normativnye-akty": {
+    "Положение о компетенции ДГИ": "/funkcii-dgi",
+    "Жилищные права граждан": "/zhilishchnyj-uchet",
+    "Реновация, городская собственность и процедуры": "/renovaciya-pereselenie",
+    "Проверка актуальности": "https://vestnikmoscow.mos.ru/"
+  },
+  "gorodskoe-imushchestvo-i-zemlya": {
+    "Управление собственностью": "/torgi-dgi-moskvy",
+    "Земельные отношения": "/arenda-zemli-dgi-moskvy",
+    "Другие разделы справочника": "/gosuslugi-dgi"
+  },
+  "renovaciya-pereselenie": {
+    "Права при переселении": "/dokumenty-na-kvartiru",
+    "На что обращать внимание": "/spory-s-dgi",
+    "Правовые действия": "/zayavlenie-v-dgi-moskvy",
+    "Другие разделы справочника": "/sudebnaya-praktika-dgi"
+  },
+  "socialnyj-naem": {
+    "Различия правовых оснований": "/normativnye-akty",
+    "Типовые обращения": "/isk-o-vyselenii-socialnyy-naem",
+    "Что важно зафиксировать": "/dokumenty-na-kvartiru",
+    "Другие разделы справочника": "/spory-s-dgi"
+  },
+  "privatizaciya-zhilya": {
+    "Кто вправе обращаться": "/normativnye-akty",
+    "Как проходит процедура": "/gosuslugi-dgi",
+    "Какие сведения необходимо подготовить": "/dokumenty-na-kvartiru",
+    "Если отказали": "/otkaz-v-privatizacii-kvartiry",
+    "Другие разделы справочника": "/sudebnaya-praktika-dgi"
+  },
+  "zhilishchnyj-uchet": {
+    "Кому посвящено правовое регулирование": "/normativnye-akty",
+    "Какие решения проверяются": "/snyatie-s-zhilishchnogo-ucheta-moskva",
+    "Документы и факты для анализа": "/dokumenty-na-kvartiru",
+    "Юридическая помощь": "/zhaloba-na-dgi-moskvy",
+    "Другие разделы справочника": "/zhilishchnaya-ochered"
+  },
+  "funkcii-dgi": {
+    "Основные сферы компетенции": "/gorodskoe-imushchestvo-i-zemlya",
+    "Как полномочия превращаются в конкретные решения": "/gosuslugi-dgi",
+    "Как гражданам использовать этот раздел": "/zayavlenie-v-dgi-moskvy",
+    "Другие разделы справочника": "/kontakty-dgi"
+  }
+}

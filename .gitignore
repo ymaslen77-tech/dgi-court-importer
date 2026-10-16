@@ -5,3 +5,13 @@ __pycache__/
 .env
 court-data.json
 *.jsonl
+
+# Next.js migration
+node_modules/
+.pnpm-store/
+.next/
+*.tsbuildinfo
+*.log
+.migration/
+.env.*
+!.env.example

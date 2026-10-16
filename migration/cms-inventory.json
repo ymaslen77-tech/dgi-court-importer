@@ -1,0 +1,702 @@
+{
+  "source": "Webflow CMS export from PR #5 (snapshot, not live sync)",
+  "siteId": "6aca6bde03aad0f2e3c19259",
+  "editorialGate": "unverified; never auto-publish",
+  "collections": [
+    {
+      "slug": "dgi-court-cases",
+      "sourceCollectionId": "6aca8b43f741d6755539f345",
+      "items": [
+        {
+          "id": "6aca8e2335b13f9b9ec6050c",
+          "slug": "decision-02-0531-2025-additional-7",
+          "status": "legacy_public_unverified",
+          "verified": false,
+          "title": "Дело № 02-0531/2025",
+          "metadata": {
+            "caseNumber": "02-0531/2025",
+            "court": "Районный суд Москвы",
+            "uid": null,
+            "category": "Имущество",
+            "officialCaseUrl": null
+          }
+        },
+        {
+          "id": "6aca8e2335b13f9b9ec60506",
+          "slug": "decision-02-0873-2026-additional-4",
+          "status": "legacy_public_unverified",
+          "verified": false,
+          "title": "Дело № 02-0873/2026",
+          "metadata": {
+            "caseNumber": "02-0873/2026",
+            "court": "Бабушкинский районный суд Москвы",
+            "uid": null,
+            "category": "Социальный наём",
+            "officialCaseUrl": null
+          }
+        },
+        {
+          "id": "6aca8e2335b13f9b9ec604fe",
+          "slug": "decision-02-11030-2025-additional-0",
+          "status": "draft",
+          "verified": false,
+          "title": "Дело № 02-11030/2025",
+          "metadata": {
+            "caseNumber": "02-11030/2025",
+            "court": "Савёловский районный суд Москвы",
+            "uid": null,
+            "category": "Приватизация",
+            "officialCaseUrl": null
+          }
+        },
+        {
+          "id": "6aca8e2335b13f9b9ec60500",
+          "slug": "decision-02-1330-2025-additional-1",
+          "status": "legacy_public_unverified",
+          "verified": false,
+          "title": "Дело № 02-1330/2025",
+          "metadata": {
+            "caseNumber": "02-1330/2025",
+            "court": "Таганский районный суд Москвы",
+            "uid": null,
+            "category": "Приватизация",
+            "officialCaseUrl": null
+          }
+        },
+        {
+          "id": "6aca8e2335b13f9b9ec60510",
+          "slug": "decision-02-1693-2025-additional-9",
+          "status": "draft",
+          "verified": false,
+          "title": "Дело № 02-1693/2025",
+          "metadata": {
+            "caseNumber": "02-1693/2025",
+            "court": "Районный суд Москвы",
+            "uid": null,
+            "category": "Имущество",
+            "officialCaseUrl": null
+          }
+        },
+        {
+          "id": "6aca8e2335b13f9b9ec60502",
+          "slug": "decision-02-2249-2026-additional-2",
+          "status": "legacy_public_unverified",
+          "verified": false,
+          "title": "Дело № 02-2249/2026",
+          "metadata": {
+            "caseNumber": "02-2249/2026",
+            "court": "Люблинский районный суд Москвы",
+            "uid": null,
+            "category": "Приватизация",
+            "officialCaseUrl": null
+          }
+        },
+        {
+          "id": "6aca8e2335b13f9b9ec6050e",
+          "slug": "decision-02-2285-2025-additional-8",
+          "status": "draft",
+          "verified": false,
+          "title": "Дело № 02-2285/2025",
+          "metadata": {
+            "caseNumber": "02-2285/2025",
+            "court": "Районный суд Москвы",
+            "uid": null,
+            "category": "Имущество",
+            "officialCaseUrl": null
+          }
+        },
+        {
+          "id": "6aca8e2335b13f9b9ec60504",
+          "slug": "decision-02-3437-2025-additional-3",
+          "status": "legacy_public_unverified",
+          "verified": false,
+          "title": "Дело № 02-3437/2025",
+          "metadata": {
+            "caseNumber": "02-3437/2025",
+            "court": "Троицкий районный суд Москвы",
+            "uid": null,
+            "category": "Реновация",
+            "officialCaseUrl": null
+          }
+        },
+        {
+          "id": "6aca8e2335b13f9b9ec60512",
+          "slug": "decision-02-4422-2026-additional-10",
+          "status": "legacy_public_unverified",
+          "verified": false,
+          "title": "Дело № 02-4422/2026",
+          "metadata": {
+            "caseNumber": "02-4422/2026",
+            "court": "Нагатинский районный суд Москвы",
+            "uid": null,
+            "category": "Реновация",
+            "officialCaseUrl": "https://www.mos-gorsud.ru/mgs/services/cases/appeal-civil?caseNumber=33-&page=14"
+          }
+        },
+        {
+          "id": "6aca8e2335b13f9b9ec6050a",
+          "slug": "decision-02-6479-2025-additional-6",
+          "status": "legacy_public_unverified",
+          "verified": false,
+          "title": "Дело № 02-6479/2025",
+          "metadata": {
+            "caseNumber": "02-6479/2025",
+            "court": "Зюзинский районный суд Москвы",
+            "uid": null,
+            "category": "Приватизация",
+            "officialCaseUrl": null
+          }
+        },
+        {
+          "id": "6aca8e2335b13f9b9ec60508",
+          "slug": "decision-02-7102-2025-additional-5",
+          "status": "legacy_public_unverified",
+          "verified": false,
+          "title": "Дело № 02-7102/2025",
+          "metadata": {
+            "caseNumber": "02-7102/2025",
+            "court": "Нагатинский районный суд Москвы",
+            "uid": null,
+            "category": "Имущество",
+            "officialCaseUrl": null
+          }
+        },
+        {
+          "id": "6aca8be714a0adc3105edd4c",
+          "slug": "dgi-case-1-02-4169-2025",
+          "status": "legacy_public_unverified",
+          "verified": false,
+          "title": "Дело № 02-4169/2025",
+          "metadata": {
+            "caseNumber": "02-4169/2025",
+            "court": "Дорогомиловский районный суд Москвы",
+            "uid": null,
+            "category": "Приватизация",
+            "officialCaseUrl": null
+          }
+        },
+        {
+          "id": "6aca8c21dd79f27f267aa8b2",
+          "slug": "dgi-case-10--40-178086-2024",
+          "status": "legacy_public_unverified",
+          "verified": false,
+          "title": "Дело № А40-178086/2024",
+          "metadata": {
+            "caseNumber": "А40-178086/2024",
+            "court": "Арбитражный суд Москвы",
+            "uid": null,
+            "category": "Имущество",
+            "officialCaseUrl": null
+          }
+        },
+        {
+          "id": "6aca8c21dd79f27f267aa8b4",
+          "slug": "dgi-case-11-02-3970-2025",
+          "status": "legacy_public_unverified",
+          "verified": false,
+          "title": "Дело № 02-3970/2025",
+          "metadata": {
+            "caseNumber": "02-3970/2025",
+            "court": "Тимирязевский районный суд Москвы",
+            "uid": null,
+            "category": "Реновация",
+            "officialCaseUrl": null
+          }
+        },
+        {
+          "id": "6aca8c21dd79f27f267aa8b6",
+          "slug": "dgi-case-12-02-7607-2025",
+          "status": "legacy_public_unverified",
+          "verified": false,
+          "title": "Дело № 02-7607/2025",
+          "metadata": {
+            "caseNumber": "02-7607/2025",
+            "court": "Пресненский районный суд Москвы",
+            "uid": null,
+            "category": "Очередь",
+            "officialCaseUrl": null
+          }
+        },
+        {
+          "id": "6aca8c21dd79f27f267aa8b8",
+          "slug": "dgi-case-13-33-58410-2025",
+          "status": "legacy_public_unverified",
+          "verified": false,
+          "title": "Дело № 33-58410/2025",
+          "metadata": {
+            "caseNumber": "33-58410/2025",
+            "court": "Московский городской суд",
+            "uid": null,
+            "category": "Очередь",
+            "officialCaseUrl": null
+          }
+        },
+        {
+          "id": "6aca8c21dd79f27f267aa8ba",
+          "slug": "dgi-case-14-33-60650-2025",
+          "status": "draft",
+          "verified": false,
+          "title": "Дело № 33-60650/2025",
+          "metadata": {
+            "caseNumber": "33-60650/2025",
+            "court": "Московский городской суд",
+            "uid": null,
+            "category": "Очередь",
+            "officialCaseUrl": null
+          }
+        },
+        {
+          "id": "6aca8c21dd79f27f267aa8bc",
+          "slug": "dgi-case-15-02-5509-2025",
+          "status": "legacy_public_unverified",
+          "verified": false,
+          "title": "Дело № 02-5509/2025",
+          "metadata": {
+            "caseNumber": "02-5509/2025",
+            "court": "Пресненский районный суд Москвы",
+            "uid": null,
+            "category": "Очередь",
+            "officialCaseUrl": null
+          }
+        },
+        {
+          "id": "6aca8c21dd79f27f267aa8be",
+          "slug": "dgi-case-16-33-61771-2025",
+          "status": "draft",
+          "verified": false,
+          "title": "Дело № 33-61771/2025",
+          "metadata": {
+            "caseNumber": "33-61771/2025",
+            "court": "Московский городской суд",
+            "uid": null,
+            "category": "Очередь",
+            "officialCaseUrl": null
+          }
+        },
+        {
+          "id": "6aca8c21dd79f27f267aa8c0",
+          "slug": "dgi-case-17-33-60754-2025",
+          "status": "draft",
+          "verified": false,
+          "title": "Дело № 33-60754/2025",
+          "metadata": {
+            "caseNumber": "33-60754/2025",
+            "court": "Московский городской суд",
+            "uid": null,
+            "category": "Очередь",
+            "officialCaseUrl": null
+          }
+        },
+        {
+          "id": "6aca8c21dd79f27f267aa8c2",
+          "slug": "dgi-case-18-02-4222-2025",
+          "status": "draft",
+          "verified": false,
+          "title": "Дело № 02-4222/2025",
+          "metadata": {
+            "caseNumber": "02-4222/2025",
+            "court": "Районный суд Москвы",
+            "uid": null,
+            "category": "Очередь",
+            "officialCaseUrl": null
+          }
+        },
+        {
+          "id": "6aca8c21dd79f27f267aa8a2",
+          "slug": "dgi-case-2-02-6195-2025",
+          "status": "legacy_public_unverified",
+          "verified": false,
+          "title": "Дело № 02-6195/2025",
+          "metadata": {
+            "caseNumber": "02-6195/2025",
+            "court": "Савёловский районный суд Москвы",
+            "uid": null,
+            "category": "Приватизация",
+            "officialCaseUrl": null
+          }
+        },
+        {
+          "id": "6aca8c21dd79f27f267aa8a4",
+          "slug": "dgi-case-3-02-7149-2025",
+          "status": "legacy_public_unverified",
+          "verified": false,
+          "title": "Дело № 02-7149/2025",
+          "metadata": {
+            "caseNumber": "02-7149/2025",
+            "court": "Пресненский районный суд Москвы",
+            "uid": null,
+            "category": "Реновация",
+            "officialCaseUrl": null
+          }
+        },
+        {
+          "id": "6aca8c21dd79f27f267aa8a6",
+          "slug": "dgi-case-4-02-2769-2025",
+          "status": "legacy_public_unverified",
+          "verified": false,
+          "title": "Дело № 02-2769/2025",
+          "metadata": {
+            "caseNumber": "02-2769/2025",
+            "court": "Пресненский районный суд Москвы",
+            "uid": null,
+            "category": "Очередь",
+            "officialCaseUrl": null
+          }
+        },
+        {
+          "id": "6aca8c21dd79f27f267aa8a8",
+          "slug": "dgi-case-5-02-8225-2025",
+          "status": "legacy_public_unverified",
+          "verified": false,
+          "title": "Дело № 02-8225/2025",
+          "metadata": {
+            "caseNumber": "02-8225/2025",
+            "court": "Пресненский районный суд Москвы",
+            "uid": null,
+            "category": "Очередь",
+            "officialCaseUrl": null
+          }
+        },
+        {
+          "id": "6aca8c21dd79f27f267aa8aa",
+          "slug": "dgi-case-6-02-0968-2025",
+          "status": "legacy_public_unverified",
+          "verified": false,
+          "title": "Дело № 02-0968/2025",
+          "metadata": {
+            "caseNumber": "02-0968/2025",
+            "court": "Пресненский районный суд Москвы",
+            "uid": null,
+            "category": "Очередь",
+            "officialCaseUrl": null
+          }
+        },
+        {
+          "id": "6aca8c21dd79f27f267aa8ac",
+          "slug": "dgi-case-7-02-1971-2025",
+          "status": "legacy_public_unverified",
+          "verified": false,
+          "title": "Дело № 02-1971/2025",
+          "metadata": {
+            "caseNumber": "02-1971/2025",
+            "court": "Пресненский районный суд Москвы",
+            "uid": null,
+            "category": "Субсидия",
+            "officialCaseUrl": null
+          }
+        },
+        {
+          "id": "6aca8c21dd79f27f267aa8ae",
+          "slug": "dgi-case-8-02-0121-2025",
+          "status": "legacy_public_unverified",
+          "verified": false,
+          "title": "Дело № 02-0121/2025",
+          "metadata": {
+            "caseNumber": "02-0121/2025",
+            "court": "Пресненский районный суд Москвы",
+            "uid": null,
+            "category": "Очередь",
+            "officialCaseUrl": null
+          }
+        },
+        {
+          "id": "6aca8c21dd79f27f267aa8b0",
+          "slug": "dgi-case-9--40-97673-2024",
+          "status": "legacy_public_unverified",
+          "verified": false,
+          "title": "Дело № А40-97673/2024",
+          "metadata": {
+            "caseNumber": "А40-97673/2024",
+            "court": "Арбитражный суд Москвы",
+            "uid": null,
+            "category": "Имущество",
+            "officialCaseUrl": null
+          }
+        },
+        {
+          "id": "6acd38465fe2e287de40484a",
+          "slug": "kass-88-13792-2026",
+          "status": "draft",
+          "verified": false,
+          "title": "Дело № 88-13792/2026",
+          "metadata": {
+            "caseNumber": "88-13792/2026",
+            "court": "Второй кассационный суд общей юрисдикции",
+            "uid": "77RS0032-02-2024-008322-11",
+            "category": "Бесхозяйные объекты недвижимости",
+            "officialCaseUrl": "https://2kas.sudrf.ru/modules.php?case_id=18112633&case_uid=33f150cf-a0d4-409b-b603-c2be007615da&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1"
+          }
+        },
+        {
+          "id": "6acd38465fe2e287de404848",
+          "slug": "kass-88-14012-2026",
+          "status": "draft",
+          "verified": false,
+          "title": "Дело № 88-14012/2026",
+          "metadata": {
+            "caseNumber": "88-14012/2026",
+            "court": "Второй кассационный суд общей юрисдикции",
+            "uid": "77RS0035-02-2022-000512-67",
+            "category": "Собственность по приобретательной давности",
+            "officialCaseUrl": "https://2kas.sudrf.ru/modules.php?case_id=17983681&case_uid=301df5dc-24f6-4fd3-bd0e-53fe3b464061&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1"
+          }
+        },
+        {
+          "id": "6acd38465fe2e287de40484e",
+          "slug": "kass-88-15278-2026",
+          "status": "draft",
+          "verified": false,
+          "title": "Дело № 88-15278/2026",
+          "metadata": {
+            "caseNumber": "88-15278/2026",
+            "court": "Второй кассационный суд общей юрисдикции",
+            "uid": "77RS0001-02-2024-012112-81",
+            "category": "Компенсация при изъятии недвижимости",
+            "officialCaseUrl": "https://2kas.sudrf.ru/modules.php?case_id=18231736&case_uid=6e13d75c-0c64-41df-a31a-de1ddc2dfd31&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1"
+          }
+        },
+        {
+          "id": "6acd3814defc6bea149dae8f",
+          "slug": "kass-88-15955-2026",
+          "status": "draft",
+          "verified": false,
+          "title": "Дело № 88-15955/2026",
+          "metadata": {
+            "caseNumber": "88-15955/2026",
+            "court": "Второй кассационный суд общей юрисдикции",
+            "uid": "77RS0019-02-2025-000750-55",
+            "category": "Изъятие имущества и компенсация",
+            "officialCaseUrl": "https://2kas.sudrf.ru/modules.php?case_id=18372552&case_uid=fb0cc7d0-1a95-4734-99f2-84cbcf562e7f&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1"
+          }
+        },
+        {
+          "id": "6acd3814defc6bea149dae8b",
+          "slug": "kass-88-21277-2026",
+          "status": "draft",
+          "verified": false,
+          "title": "Дело № 88-21277/2026",
+          "metadata": {
+            "caseNumber": "88-21277/2026",
+            "court": "Второй кассационный суд общей юрисдикции",
+            "uid": "77RS0013-02-2025-011552-74",
+            "category": "Выселение с предоставлением другого жилья",
+            "officialCaseUrl": "https://2kas.sudrf.ru/modules.php?case_id=18910390&case_uid=207aa87d-e20e-49ea-bd58-14f1bc1f49b7&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1"
+          }
+        },
+        {
+          "id": "6acd3814defc6bea149dae8d",
+          "slug": "kass-88-3117-2026",
+          "status": "draft",
+          "verified": false,
+          "title": "Дело № 88-3117/2026",
+          "metadata": {
+            "caseNumber": "88-3117/2026",
+            "court": "Второй кассационный суд общей юрисдикции",
+            "uid": null,
+            "category": "Договор аренды земельного участка",
+            "officialCaseUrl": "https://2kas.sudrf.ru/modules.php?case_id=17178494&case_uid=dc226637-f874-4209-9766-6cc784ddb970&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1"
+          }
+        },
+        {
+          "id": "6acd38465fe2e287de40484c",
+          "slug": "kass-88-5020-2026",
+          "status": "draft",
+          "verified": false,
+          "title": "Дело № 88-5020/2026",
+          "metadata": {
+            "caseNumber": "88-5020/2026",
+            "court": "Второй кассационный суд общей юрисдикции",
+            "uid": "77RS0034-02-2024-025485-20",
+            "category": "Признание права собственности",
+            "officialCaseUrl": "https://2kas.sudrf.ru/modules.php?case_id=17338162&case_uid=d920690b-6625-46d1-a56c-af4b81c5393c&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1"
+          }
+        },
+        {
+          "id": "6acd37ef4a365a0542496445",
+          "slug": "kass-88-724-2026",
+          "status": "draft",
+          "verified": false,
+          "title": "Дело № 88-724/2026",
+          "metadata": {
+            "caseNumber": "88-724/2026",
+            "court": "Второй кассационный суд общей юрисдикции",
+            "uid": "77RS0005-02-2022-002119-37",
+            "category": "Право собственности и выселение",
+            "officialCaseUrl": "https://2kas.sudrf.ru/modules.php?case_id=16814499&case_uid=ac88b1a2-d389-48f4-a7b2-2438745b8596&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1"
+          }
+        }
+      ]
+    },
+    {
+      "slug": "dgi-legal-documents",
+      "sourceCollectionId": "6acbb1ca75f0fd4e89dba736",
+      "items": [
+        {
+          "id": "6acbb22fd1be8ecd29119734",
+          "slug": "regulation-199-pp",
+          "status": "draft",
+          "verified": false,
+          "title": "Постановление Правительства Москвы № 199-ПП от 15.05.2012",
+          "metadata": {
+            "actRef": "199-ПП от 15.05.2012",
+            "topic": "Имущественно-земельные услуги",
+            "officialUrl": "https://www.mos.ru/upload/documents/files/2650/4InformacionniimaterialnaPK_199-PP.pdf"
+          }
+        },
+        {
+          "id": "6acbb22fd1be8ecd29119732",
+          "slug": "regulation-521-pp",
+          "status": "draft",
+          "verified": false,
+          "title": "Постановление Правительства Москвы № 521-ПП от 10.09.2014",
+          "metadata": {
+            "actRef": "521-ПП от 10.09.2014",
+            "topic": "Приватизация и жилищные государственные услуги",
+            "officialUrl": "https://www.mos.ru/upload/documents/oiv/10092014-_-521_pp%281%29.pdf"
+          }
+        },
+        {
+          "id": "6acbb22fd1be8ecd29119736",
+          "slug": "regulation-546-pp",
+          "status": "draft",
+          "verified": false,
+          "title": "Постановление Правительства Москвы № 546-ПП от 15.11.2011",
+          "metadata": {
+            "actRef": "546-ПП от 15.11.2011",
+            "topic": "Обжалование государственных услуг Москвы",
+            "officialUrl": "https://www.mos.ru/upload/documents/oiv/pp_m_546_15_11_2011_r15.pdf"
+          }
+        },
+        {
+          "id": "6acbb21db961c8e0e133c2f8",
+          "slug": "regulation-99-pp",
+          "status": "draft",
+          "verified": false,
+          "title": "Постановление Правительства Москвы № 99-ПП от 20.02.2013",
+          "metadata": {
+            "actRef": "99-ПП от 20.02.2013",
+            "topic": "Полномочия ДГИ",
+            "officialUrl": "https://www.mos.ru/upload/content/files/1_PolojenieoDGI.pdf"
+          }
+        }
+      ]
+    },
+    {
+      "slug": "dgi-legal-situations",
+      "sourceCollectionId": "6acbb1cb3b6b24eada522db4",
+      "items": [
+        {
+          "id": "6acbb24c1bf780689bca615f",
+          "slug": "isk-o-vyselenii",
+          "status": "draft",
+          "verified": false,
+          "title": "Иск ДГИ о выселении",
+          "metadata": {
+            "category": "Пользование жильём",
+            "siteSection": "https://dgimos.webflow.io/socialnyj-naem#guide-social-rent"
+          }
+        },
+        {
+          "id": "6acbb24c1bf780689bca6163",
+          "slug": "otkaz-v-arende-zemli",
+          "status": "draft",
+          "verified": false,
+          "title": "Отказ ДГИ в аренде или выкупе земли",
+          "metadata": {
+            "category": "Земля и аренда",
+            "siteSection": "https://dgimos.webflow.io/gorodskoe-imushchestvo-i-zemlya"
+          }
+        },
+        {
+          "id": "6acbb24c1bf780689bca615d",
+          "slug": "otkaz-v-privatizacii",
+          "status": "draft",
+          "verified": false,
+          "title": "Отказ ДГИ в приватизации жилья",
+          "metadata": {
+            "category": "Жилищные права",
+            "siteSection": "https://dgimos.webflow.io/privatizaciya-zhilya#guide-privatization"
+          }
+        },
+        {
+          "id": "6acbb24c1bf780689bca6165",
+          "slug": "snyatie-s-zhilishchnogo-ucheta",
+          "status": "draft",
+          "verified": false,
+          "title": "Снятие с жилищного учёта",
+          "metadata": {
+            "category": "Жилищный учёт",
+            "siteSection": "https://dgimos.webflow.io/zhilishchnyj-uchet#guide-housing-records"
+          }
+        },
+        {
+          "id": "6acbb24c1bf780689bca6167",
+          "slug": "spor-pri-renovacii",
+          "status": "draft",
+          "verified": false,
+          "title": "Спор при переселении и реновации",
+          "metadata": {
+            "category": "Реновация и переселение",
+            "siteSection": "https://dgimos.webflow.io/renovaciya-pereselenie#guide-renovation-check"
+          }
+        },
+        {
+          "id": "6acbb24c1bf780689bca6161",
+          "slug": "vymorochnoe-nasledstvo",
+          "status": "draft",
+          "verified": false,
+          "title": "Спор о выморочном наследственном имуществе",
+          "metadata": {
+            "category": "Наследство и городская собственность",
+            "siteSection": "https://dgimos.webflow.io/vymorochnoe-imushchestvo-moskva"
+          }
+        }
+      ]
+    },
+    {
+      "slug": "housing-law-news",
+      "sourceCollectionId": "6acbbe75ee81535770a2bff7",
+      "items": [
+        {
+          "id": "6acbbfe40f0c77113b58d392",
+          "slug": "housing-utility-budget-2027",
+          "status": "draft",
+          "verified": false,
+          "title": "В проекте бюджета обсуждается финансирование устойчивости ЖКХ",
+          "metadata": {
+            "category": "ЖКХ / бюджет",
+            "source": "ГАРАНТ.РУ",
+            "sourceUrl": "https://www.garant.ru/news/2264077/",
+            "sourceDate": "2026-10-05T11:10:00.000Z"
+          }
+        },
+        {
+          "id": "6acbbfe40f0c77113b58d390",
+          "slug": "registered-residents-mvd-2026",
+          "status": "draft",
+          "verified": false,
+          "title": "Адресная справка для собственника: сведения о зарегистрированных жильцах",
+          "metadata": {
+            "category": "Документы / регистрация",
+            "source": "ГАРАНТ.РУ",
+            "sourceUrl": "https://www.garant.ru/news/2262611/",
+            "sourceDate": "2026-10-02T14:37:00.000Z"
+          }
+        },
+        {
+          "id": "6acbbfe40f0c77113b58d38e",
+          "slug": "tax-replacement-2026",
+          "status": "draft",
+          "verified": false,
+          "title": "Продажа жилья взамен изъятого: предлагаются изменения в НДФЛ",
+          "metadata": {
+            "category": "Недвижимость / законопроект",
+            "source": "ГАРАНТ.РУ",
+            "sourceUrl": "https://www.garant.ru/news/2263304/",
+            "sourceDate": "2026-10-06T14:15:00.000Z"
+          }
+        }
+      ]
+    }
+  ]
+}

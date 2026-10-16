@@ -1,0 +1,50 @@
+name: Offline production publication guard
+
+on:
+  push:
+    branches:
+      - feature/dgi-offline-completion
+    paths:
+      - "apps/web/**"
+      - "migration/**"
+      - "scripts/smoke-offline-release-guard.mjs"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - ".github/workflows/offline-release-guard.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deny-unapproved-live-content:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      CI: "true"
+      SITE_CUTOVER: "true"
+      SITE_RELEASE_APPROVED: "yes"
+      SITE_URL: "https://example.org"
+      CMS_PUBLIC_READS: "false"
+      COURT_DB_READS: "false"
+      COURT_FULLTEXT_PUBLIC_READS: "false"
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install immutable dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build a local release-mode web application
+        run: pnpm --filter @dgi/web build
+      - name: Verify unapproved routes are denied even with cutover flags
+        shell: bash
+        run: |
+          (pnpm --filter @dgi/web start --hostname 127.0.0.1 --port 3000 > /tmp/dgi-offline-release.log 2>&1) &
+          app_pid=$!
+          trap 'kill "$app_pid" 2>/dev/null || true; cat /tmp/dgi-offline-release.log' EXIT
+          node scripts/smoke-offline-release-guard.mjs
