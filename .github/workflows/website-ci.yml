@@ -304,6 +304,14 @@ jobs:
         run: |
           pnpm --filter @dgi/cms import:cms-metadata:apply
           pnpm --filter @dgi/cms import:cms-metadata:apply
+      - name: Import 45 DGI legal reference drafts twice
+        env:
+          NODE_ENV: development
+          CMS_PRIVATE_IMPORT: "yes"
+          CMS_IMPORT_CONFIRM: "yes"
+        run: |
+          pnpm --filter @dgi/cms import:extra-dgi:apply
+          pnpm --filter @dgi/cms import:extra-dgi:apply
       - name: Verify CMS staging state
         env:
           NODE_ENV: development
