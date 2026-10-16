@@ -61,3 +61,13 @@ are directly publishable, and repeated imports do not overwrite staff work.
 
 See `docs/WEBFLOW_PRIVATE_CONTENT_IMPORT.md` for the optional local-only
 full CMS source importer. It never approves or publishes source records.
+
+## Постоянная Neon CMS (16.10.2026)
+
+Отдельный проект `dgi-court-importer`, базы `dgi_cms` в ветках `main` и `staging`: 18 таблиц, 78 редакционных черновиков (33 исходные страницы и 45 расширенных руководств/услуг/нормативных карточек), 78 версий, 1682 блока, 50 исходных Webflow CMS записей, 16 судебных ссылок (`metadata-only`). Ноль опубликованных/юридически одобренных материалов. Структура перенесена из подтверждённого PostgreSQL 17 CI schema snapshot `db/cms/payload-schema-2026-10-16.sql`.
+
+Для новых материалов: `pnpm --filter @dgi/cms import:extra-dgi:dry-run` и после одобрения в приватном окружении `import:extra-dgi:apply`. Исходный генератор: `scripts/lib/build-extra-dgi-drafts.mjs`. Повторный импорт пропускает существующие slugs.
+
+**Важно:** CMS-приложение ещё не развёрнуто как постоянная приватная служба. Ни одного администратора со временным паролем не создавали. Первый администратор должен быть создан через штатный `bootstrap:admin` с личной почтой и секретами владельца в защищённом окружении. Миграция схемы через SQL snapshot ещё требует smoke-проверки штатного Payload runtime на выделенной Neon, прежде чем открывать админку.
+
+Read-only аудит БД: `node scripts/verify-dgi-neon-cms.mjs` с приватным `CMS_DATABASE_URL`.
