@@ -1,0 +1,35 @@
+name: DGI layout diagnostics and Lighthouse
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'tests/layout-diagnostics.cjs'
+      - 'tests/performance-audit.cjs'
+      - '.github/workflows/dgi-site-diagnostics.yml'
+permissions:
+  contents: read
+jobs:
+  live-site:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install testing tools
+        run: |
+          npm install --no-save playwright@1.56.1 lighthouse@12.8.2
+          npx playwright install --with-deps chromium
+      - name: Find mobile overflow elements on published site
+        run: node tests/layout-diagnostics.cjs
+      - name: Lighthouse mobile and desktop measurements
+        if: always()
+        run: node tests/performance-audit.cjs
+      - name: Save diagnostic reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: layout-and-performance
+          path: test-results/
+          if-no-files-found: warn
