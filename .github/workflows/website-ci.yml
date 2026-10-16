@@ -308,5 +308,16 @@ jobs:
         env:
           NODE_ENV: development
         run: pnpm --filter @dgi/cms verify:staging
+      - name: Export Payload schema for isolated Neon bootstrap
+        run: |
+          postgres_container=$(docker ps --filter ancestor=postgres:17-alpine --format '{{.ID}}' | head -n 1)
+          test -n "$postgres_container"
+          docker exec "$postgres_container" pg_dump -U housing_cms_ci -d housing_cms_ci \
+            --schema-only --no-owner --no-privileges > /tmp/payload-schema.sql
+          # Public CI contains no private content in schema-only dump.
+          echo 'PAYLOAD_SCHEMA_B64_BEGIN'
+          base64 -w0 /tmp/payload-schema.sql
+          echo
+          echo 'PAYLOAD_SCHEMA_B64_END'
       - name: CMS production build
         run: pnpm --filter @dgi/cms build
