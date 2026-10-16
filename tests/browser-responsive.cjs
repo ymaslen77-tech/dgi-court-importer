@@ -61,7 +61,27 @@ let issues = 0;
      if (!info.h1) problems.push('no h1');
      if ((path === '/' || path === '/kontakty-dgi') && !info.email) problems.push('editorial email link missing');
      if (info.images) problems.push(info.images+' failed images');
-     if (errors.length) problems.push('uncaught JS: '+errors.join(' / '));
+     let searchWorks = null;
+     if (path === '/sudebnaya-praktika-dgi') {
+      searchWorks = await page.evaluate(() => {
+       const input = document.getElementById('case-search');
+       const count = document.getElementById('case-count');
+       if (!input || !count) return false;
+       const before = count.textContent.trim();
+       input.value = 'специальныйпоисковыйзапросбезсовпадений987654321';
+       input.dispatchEvent(new Event('input', { bubbles:true }));
+       const filtered = count.textContent.trim();
+       input.value = '';
+       input.dispatchEvent(new Event('input', { bubbles:true }));
+       const restored = count.textContent.trim();
+       return before.length>0 && filtered!==before && restored===before;
+      });
+      if (!searchWorks) problems.push('court search interaction failed');
+     }
+     const crossOriginWarnings = errors.filter(e => e.includes('challenges.cloudflare.com') && e.includes('Blocked a frame'));
+     const otherErrors = errors.filter(e => !crossOriginWarnings.includes(e));
+     if (otherErrors.length) problems.push('uncaught JS: '+otherErrors.join(' / '));
+     if (crossOriginWarnings.length) console.log('THIRD PARTY WARNING '+browserName+' '+size.name+' '+path+' Cloudflare cross-origin iframe restriction; court search working='+searchWorks);
      issues += problems.length;
      result.push({ browserName, ...size, path, status:response?.status(), domContentLoadedMs:elapsed, ...info, problems });
      console.log((problems.length ? 'FAIL' : 'PASS')+' '+browserName+' '+size.name+' '+path+' '+elapsed+'ms '+problems.join('; '));
