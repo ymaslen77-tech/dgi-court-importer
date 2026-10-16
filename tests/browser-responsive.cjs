@@ -32,6 +32,7 @@ let issues = 0;
       bodyWidth: document.body.scrollWidth,
       title: document.title,
       h1: !!document.querySelector('h1'),
+      email: !!document.querySelector('a[href^="mailto:admin@dgi-pravo.ru"]'),
       images: [...document.images].filter(i => i.complete && !i.naturalWidth).length,
       visibleNavigation: [...document.querySelectorAll('nav a,header a')].filter(a => {
        const r = a.getBoundingClientRect(), s = getComputedStyle(a);
@@ -42,6 +43,7 @@ let issues = 0;
      if (!response || response.status() >= 400) problems.push('HTTP '+(response?.status() || 'missing'));
      if (info.documentWidth > info.viewport + 3) problems.push('horizontal document overflow: '+info.documentWidth+'px');
      if (!info.h1) problems.push('no h1');
+     if ((path === '/' || path === '/kontakty-dgi') && !info.email) problems.push('editorial email link missing');
      if (info.images) problems.push(info.images+' failed images');
      if (errors.length) problems.push('uncaught JS: '+errors.join(' / '));
      issues += problems.length;
