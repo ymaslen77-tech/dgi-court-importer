@@ -432,28 +432,62 @@
     {
       "id": "specialized-fund",
       "title": "Специализированный жилищный фонд: служебное жильё, общежития, маневренный фонд",
-      "coverage": "not_a_standalone_guide",
+      "coverage": "draft_beta_statutory_overview",
       "priority": "P1",
       "legalLead": "ЖК РФ, раздел IV; отдельные постановления и ведомственные полномочия по конкретному фонду",
       "officialLead": "https://pravo.gov.ru/",
       "evidenceStatus": "official_research_lead_not_a_verified_2026_procedure",
-      "nextStep": "Компетентный наймодатель, категория фонда, договор, право проживать, основания выселения, актуальный порядок",
+      "nextStep": "Есть новая beta-страница с разграничением категорий специализированного фонда и компетенций; до юридической приёмки получить полную актуальную редакцию ЖК РФ, 159-ФЗ, профильных постановлений Москвы и каждого регламента, установить индивидуальные заявительские права, документы, сроки, решения и отказ.",
       "targetSlug": "specializirovannyy-zhilishchnyy-fond",
       "publicationApproved": false,
-      "legalSignoff": false
+      "legalSignoff": false,
+      "primaryResearchSlug": "specializirovannyy-zhilishchnyy-fond",
+      "evidence": [
+        {
+          "name": "ЖК РФ, раздел IV и статья 92, правовой вид жилого помещения",
+          "status": "current_complete_edition_not_verified"
+        },
+        {
+          "name": "Федеральный закон от 02.05.2026 №131-ФЗ, изменение ч.2 ст.92",
+          "url": "https://publication.pravo.gov.ru/document/0001202605020016",
+          "status": "official_federal_publication_verified"
+        },
+        {
+          "name": "Положение о ДГИ Москвы №99-ПП, пункты 4.2.61 и 4.2.62",
+          "url": "https://www.mos.ru/upload/documents/files/5977/PostanovleniePravitelstvaMoskviot20022013N99-PP%28re.pdf",
+          "status": "mos_ru_published_edition_not_confirmed_current"
+        }
+      ]
     },
     {
       "id": "orphans",
       "title": "Предоставление жилья детям-сиротам и лицам из их числа",
-      "coverage": "not_a_standalone_guide",
+      "coverage": "draft_beta_statutory_overview",
       "priority": "P1",
       "legalLead": "Федеральный закон №159-ФЗ, региональное регулирование и административные процедуры",
       "officialLead": "https://www.mos.ru/dgi/",
       "evidenceStatus": "official_research_lead_not_a_verified_2026_procedure",
-      "nextStep": "Проверить категорию получателя, орган, очередь/список, процедуру, документы, действующий срок",
+      "nextStep": "Есть новая beta-страница с разграничением категорий специализированного фонда и компетенций; до юридической приёмки получить полную актуальную редакцию ЖК РФ, 159-ФЗ, профильных постановлений Москвы и каждого регламента, установить индивидуальные заявительские права, документы, сроки, решения и отказ.",
       "targetSlug": "zhilyo-detyam-sirotam-moskva",
       "publicationApproved": false,
-      "legalSignoff": false
+      "legalSignoff": false,
+      "primaryResearchSlug": "specializirovannyy-zhilishchnyy-fond",
+      "evidence": [
+        {
+          "name": "ЖК РФ, раздел IV и статья 92, правовой вид жилого помещения",
+          "status": "current_complete_edition_not_verified"
+        },
+        {
+          "name": "Федеральный закон от 02.05.2026 №131-ФЗ, изменение ч.2 ст.92",
+          "url": "https://publication.pravo.gov.ru/document/0001202605020016",
+          "status": "official_federal_publication_verified"
+        },
+        {
+          "name": "Положение о ДГИ Москвы №99-ПП, пункты 4.2.61 и 4.2.62",
+          "url": "https://www.mos.ru/upload/documents/files/5977/PostanovleniePravitelstvaMoskviot20022013N99-PP%28re.pdf",
+          "status": "mos_ru_published_edition_not_confirmed_current"
+        }
+      ]
     },
     {
       "id": "communal-rooms",
@@ -626,6 +660,15 @@
     "officialPublication": "https://publication.pravo.gov.ru/document/0001202404240001",
     "appliesTo": "статья 59 ЖК РФ и вопросы проживания по особому иному договору найма",
     "consolidatedAndCaseSpecificReviewPending": true,
+    "publicationApproved": false
+  },
+  "federalOfficial2026Research": {
+    "id": "131-fz-2026",
+    "act": "Федеральный закон от 02.05.2026 №131-ФЗ",
+    "officialPublication": "https://publication.pravo.gov.ru/document/0001202605020016",
+    "scope": "Изменяет ч.2 ст.92 ЖК РФ об отнесении помещений к специализированному фонду и исключениях, предусмотренных федеральными законами",
+    "evidenceStatus": "official_publication_id_found_in_official_register_full_consolidated_code_not_approved",
+    "currentEditionVerified": false,
     "publicationApproved": false
   }
 }
