@@ -6,6 +6,7 @@ import { CourtExplorer, type CourtListing } from "@/components/CourtExplorer";
 import { legacyCases, listOfficialCandidates } from "@/data/courts";
 import { getMigratedPage } from "@/data/pages";
 import { CourtDatabaseExplorer } from "@/components/CourtDatabaseExplorer";
+import { factualSocialMetadata } from "@/data/seo-social";
 
 const page = getMigratedPage("sudebnaya-praktika-dgi");
 // When enabled, this is a dynamic database-backed view.
@@ -14,6 +15,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: { absolute: page?.seoTitle || "Судебная практика Москвы" },
   description: page?.description || "Поиск карточек судебных дел по жилищным вопросам Москвы.",
+  ...factualSocialMetadata("sudebnaya-praktika-dgi", page?.seoTitle || "Судебная практика Москвы", page?.description || "Поиск карточек судебных дел по жилищным вопросам Москвы.", "website"),
   robots: { index: false, follow: false },
 };
 
