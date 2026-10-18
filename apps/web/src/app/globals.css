@@ -395,3 +395,12 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", Ari
 .editorial-email a{color:#9e1724;font-weight:800;text-decoration:underline}
 .editorial-email-note{color:#555;font-size:14px!important}
 @media(max-width:640px){.editorial-email{padding:18px 16px;margin-block:18px}}
+
+
+/* Clearly distinguish the independent, unapproved legal reference release. */
+.legal-review-strip{background:#fff4dc;color:#54380a;border-block:1px solid #edd5a1}
+.legal-review-strip-inner{display:flex;flex-direction:column;gap:4px;padding-block:12px}
+.legal-review-strip strong{font-size:14px;line-height:1.45}
+.legal-review-strip span{font-size:13px;line-height:1.5}
+.legal-review-strip a{color:#684700;text-decoration:underline;font-weight:700}
+@media(max-width:640px){.legal-review-strip-inner{padding-block:11px}.legal-review-strip strong{font-size:13px}.legal-review-strip span{font-size:12px}}
