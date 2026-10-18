@@ -30,9 +30,9 @@ test("unreviewed court archives never enter published sitemap", () => {
   assert.ok(courtIndex.includes("index: false, follow: false"));
 });
 
-test("Git-hosted offline work cannot trigger Vercel Git deploys for this branch", () => {
+test("migration branch permits private Vercel previews but not unapproved public content", () => {
   for (const path of ["vercel.json", "apps/web/vercel.json"]) {
     const config = JSON.parse(read(path));
-    assert.equal(config.git.deploymentEnabled["feature/dgi-offline-completion"], false);
+    assert.equal(config.git.deploymentEnabled["feature/dgi-offline-completion"], true);
   }
 });
