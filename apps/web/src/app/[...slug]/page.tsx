@@ -70,6 +70,13 @@ export default async function ContentPage({ params }: Props) {
   }
   return (
     <PageShell variant={isThematicSlug(slug) ? "thematic" : "default"}>
+      {slug === "kontakty-dgi" && (
+        <section className="container editorial-email" aria-label="Контакты редакции независимого проекта">
+          <h2>Почта редакции справочного проекта</h2>
+          <p>По вопросам работы независимого сайта: <a href="mailto:admin@dgi-pravo.ru">admin@dgi-pravo.ru</a>.</p>
+          <p className="editorial-email-note">Это не электронная почта ДГИ Москвы. Для официальных обращений используйте государственные каналы связи.</p>
+        </section>
+      )}
       <MigratedArticle page={page} />
     </PageShell>
   );
