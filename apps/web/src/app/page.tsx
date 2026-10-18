@@ -23,6 +23,15 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: { absolute: page.seoTitle },
     description: page.description,
+    openGraph: {
+      type: "website",
+      locale: "ru_RU",
+      siteName: "Единая справочная служба Москвы — жилищные вопросы",
+      title: page.seoTitle,
+      description: page.description,
+      url: "https://dgi-pravo.ru/",
+    },
+    twitter: { card: "summary", title: page.seoTitle, description: page.description },
     alternates: canIndexPage(page) ? { canonical: canonicalUrl(page) } : undefined,
     robots: canIndexPage(page) ? { index: true, follow: true } : { index: false, follow: false },
   };

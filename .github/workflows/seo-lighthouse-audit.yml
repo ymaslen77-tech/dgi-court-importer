@@ -1,0 +1,65 @@
+name: DGI Lighthouse SEO and performance — live lab
+on:
+  workflow_dispatch:
+  push:
+    branches: [seo/official-google-yandex-audit-20261018]
+    paths:
+      - ".github/workflows/seo-lighthouse-audit.yml"
+permissions:
+  contents: read
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install Lighthouse
+        run: npm install --no-save --no-package-lock --prefix /tmp/dgi-lighthouse lighthouse@12
+      - name: Measure desktop and mobile performance of four real sections
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p test-results/lighthouse
+          for slug in home gosuslugi-dgi socialnyj-naem sudebnaya-praktika-dgi; do
+            if [[ "$slug" == "home" ]]; then url="https://dgi-pravo.ru/"; else url="https://dgi-pravo.ru/$slug"; fi
+            for device in mobile desktop; do
+              echo "Auditing $url on $device"
+              extra=()
+              if [[ "$device" == "desktop" ]]; then extra=(--preset=desktop); fi
+              node /tmp/dgi-lighthouse/node_modules/lighthouse/cli/index.js "$url" \
+                --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" \
+                --only-categories=performance,accessibility,best-practices,seo \
+                --output=json --output-path="test-results/lighthouse/$slug-$device.json" \
+                --quiet "${extra[@]}"
+            done
+          done
+      - name: Report lab measurements and explicit index-block status
+        run: |
+          node --input-type=module <<'JS'
+          import {readFileSync,readdirSync,writeFileSync} from "node:fs";
+          const rows=[];
+          for(const file of readdirSync("test-results/lighthouse").filter(f=>f.endsWith(".json"))){
+            const report=JSON.parse(readFileSync("test-results/lighthouse/"+file,"utf8"));
+            const categories=Object.fromEntries(Object.entries(report.categories).map(([k,v])=>[k,Math.round((v.score||0)*100)]));
+            const a=report.audits;
+            const row={file,url:report.finalDisplayedUrl,performance:categories.performance,accessibility:categories.accessibility,bestPractices:categories["best-practices"],seo:categories.seo,
+              lcpMs:Math.round(a["largest-contentful-paint"]?.numericValue||0),cls:a["cumulative-layout-shift"]?.numericValue||0,
+              indexingBlocked:(a["is-crawlable"]?.score===0)};
+            rows.push(row);console.log("LIGHTHOUSE",JSON.stringify(row));
+          }
+          writeFileSync("test-results/lighthouse-summary.json",JSON.stringify(rows,null,2));
+          console.log("Lighthouse completed:",rows.length,"synthetic runs. SEO scores reflect intentional noindex; lab LCP/CLS are not field CWV.");
+          if(rows.length!==8)process.exitCode=1;
+          JS
+      - name: Preserve all reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dgi-lighthouse-8-lab-reports
+          path: |
+            test-results/lighthouse/
+            test-results/lighthouse-summary.json
+          retention-days: 30
