@@ -70,6 +70,8 @@ export function PageShell({ children, variant = "default" }: Readonly<{ children
             <Link href="/normativnye-akty">Нормативные акты</Link>
             <Link href="/zayavlenie-v-dgi-moskvy">Обращения</Link>
             <Link href="/sudebnaya-praktika-dgi">Судебные дела</Link>
+            <a href="mailto:admin@dgi-pravo.ru">Почта редакции: admin@dgi-pravo.ru</a>
+            <span className="footer-email-note">Адрес независимого справочного проекта, не Департамента городского имущества Москвы.</span>
           </div>
         </div>
       </footer>
