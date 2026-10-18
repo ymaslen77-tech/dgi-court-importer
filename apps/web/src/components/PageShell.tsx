@@ -28,7 +28,7 @@ const thematicNavigation = [
   { href: "/funkcii-dgi", label: "Функции ДГИ" },
   { href: "/normativnye-akty", label: "Нормативные акты" },
   { href: "/gosuslugi-dgi", label: "Госуслуги" },
-  ...(!siteIsLive ? [{ href: "/reestr-gosuslug-dgi", label: "Реестр услуг" }, { href: "/osvobodivshayasya-komnata-v-kommunalnoy-kvartire", label: "Коммунальные квартиры" }] : []),
+  ...(!siteIsLive ? [{ href: "/reestr-gosuslug-dgi", label: "Реестр услуг" }, { href: "/osvobodivshayasya-komnata-v-kommunalnoy-kvartire", label: "Коммунальные квартиры" }, { href: "/specializirovannyy-zhilishchnyy-fond", label: "Спецжилфонд" }] : []),
 ];
 
 export function PageShell({ children, variant = "default" }: Readonly<{ children: React.ReactNode; variant?: "default" | "home" | "thematic" }>) {
