@@ -1,0 +1,17 @@
+name: DGI domain HTTPS verification
+on:
+  push:
+    branches: [test/domain-https-check-20261018]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  domain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/check-domain-https.mjs
