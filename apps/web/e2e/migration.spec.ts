@@ -86,21 +86,28 @@ test("original question remains accessible as a disclosure heading",async ({page
 });
 
 
-test("homepage banner content starts directly under the header",async ({page})=>{
+test("homepage legal-review notice is between the header and the original hero",async ({page})=>{
   await page.goto("/");
   const geometry=await page.evaluate(()=>{
     const header=document.querySelector(".site--home .site-header");
+    const notice=document.querySelector(".site--home .legal-review-strip");
     const main=document.querySelector(".site--home #main-content");
     const hero=main?.querySelector(":scope > .hero");
     const eyebrow=hero?.querySelector(".hero-eyebrow");
-    if(!header||!main||!hero||!eyebrow) return null;
+    if(!header||!notice||!main||!hero||!eyebrow) return null;
     return {
+      noticeAfterHeader:notice.previousElementSibling===header,
+      mainAfterNotice:main.previousElementSibling===notice,
       mainFirstSection:hero===main.querySelector("section"),
-      gap:Math.round(hero.getBoundingClientRect().top-header.getBoundingClientRect().bottom),
-      eyebrowGap:Math.round(eyebrow.getBoundingClientRect().top-header.getBoundingClientRect().bottom),
+      gap:Math.round(hero.getBoundingClientRect().top-notice.getBoundingClientRect().bottom),
+      eyebrowGap:Math.round(eyebrow.getBoundingClientRect().top-notice.getBoundingClientRect().bottom),
+      noticeHeight:Math.round(notice.getBoundingClientRect().height),
     };
   });
   expect(geometry).not.toBeNull();
+  expect(geometry?.noticeAfterHeader).toBe(true);
+  expect(geometry?.mainAfterNotice).toBe(true);
+  expect(geometry?.noticeHeight).toBeGreaterThan(30);
   expect(geometry?.mainFirstSection).toBe(true);
   expect(geometry?.gap).toBeGreaterThanOrEqual(-2);
   expect(geometry?.gap).toBeLessThanOrEqual(2);
