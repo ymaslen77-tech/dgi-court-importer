@@ -6,6 +6,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: { userAgent: "*", allow: "/" },
     sitemap: new URL("/sitemap.xml", siteOrigin).toString(),
   } : {
-    rules: { userAgent: "*", disallow: "/" },
+    // Ownership verification may be fetched while all editorial pages remain closed.
+    rules: { userAgent: "*", allow: "/yandex_6ade8e55ebfc38d1.html", disallow: "/" },
   };
 }
