@@ -58,6 +58,28 @@
       ],
       "currentConsolidatedEditionVerified": false,
       "publicationApproved": false
+    },
+    {
+      "id": "692-pp-historical-text",
+      "status": "official_moscow_hosted_historical_regulation_located",
+      "act": "Постановление Правительства Москвы от 27.10.2015 № 692-ПП",
+      "url": "https://www.mos.ru/upload/content/files/69bb625cd994fc161c79162d45864fd8/AdministrativniireglamentPerevodjilogovnejiloe.pdf",
+      "sourceSection": "Текст постановления, приложение 1 — регламент; приложения 2–4 — связанные процедуры и формы",
+      "effectiveFrom": "2015-12-01",
+      "appliesTo": [
+        "692-ПП (перевод жилого/нежилого помещения)"
+      ],
+      "confirmedFacts": [
+        "Официально размещённый PDF включает само постановление № 692-ПП и приложения 1–4.",
+        "Приложение 1 описывает административную процедуру перевода, а связанные приложения затрагивают взаимодействие ведомств и акт о завершении работ."
+      ],
+      "notConfirmed": [
+        "Все изменения 2024–2026 годов",
+        "Текущая редакция каждого приложения",
+        "Действующие в октябре 2026 сроки, полный перечень согласий и документов, основания отказа"
+      ],
+      "currentConsolidatedEditionVerified": false,
+      "publicationApproved": false
     }
   ],
   "serviceChecks": [
