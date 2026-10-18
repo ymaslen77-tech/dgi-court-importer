@@ -1,0 +1,25 @@
+name: Legacy platform retirement guard
+on:
+  push:
+    branches: [chore/retire-webflow-runtime-20261018, main]
+    paths:
+      - ".github/workflows/**"
+  pull_request:
+    paths:
+      - ".github/workflows/**"
+permissions:
+  contents: read
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Require workflows to be free of legacy CMS writes
+        run: |
+          set -euo pipefail
+          if grep -REn --exclude='legacy-runtime-guard.yml' 'WEBFLOW_TOKEN|UPLOAD_NEWS|UPLOAD_ENABLED|--upload|api\.webflow\.com' .github/workflows; then
+            echo "Old CMS write path is forbidden in CI workflows"
+            exit 1
+          fi
+          echo "No legacy CMS runtime write path in GitHub Actions"
