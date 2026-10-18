@@ -1,0 +1,26 @@
+name: Read-only RSS importer tests
+on:
+  pull_request:
+    paths:
+      - "news_importer.py"
+      - "tests/test_news_importer.py"
+      - ".github/workflows/news-rss-test.yml"
+  push:
+    branches: [main]
+    paths:
+      - "news_importer.py"
+      - "tests/test_news_importer.py"
+      - ".github/workflows/news-rss-test.yml"
+permissions:
+  contents: read
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Read-only news importer tests
+        run: python -m unittest discover -s tests -p "test_news_importer.py" -v
