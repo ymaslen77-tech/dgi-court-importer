@@ -5,6 +5,7 @@ on:
     branches:
       - feature/nextjs-webflow-migration
       - feature/dgi-offline-completion
+      - main
     paths:
       - "apps/web/**"
       - "apps/cms/**"

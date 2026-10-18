@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - feature/dgi-offline-completion
+      - main
     paths:
       - "apps/web/**"
       - "migration/**"
