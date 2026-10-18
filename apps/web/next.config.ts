@@ -18,6 +18,15 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   output: "standalone",
+  // The apex domain is canonical; redirect www without changing DNS/MX.
+  async redirects() {
+    return [{
+      source: "/:path*",
+      has: [{ type: "host" as const, value: "www.dgi-pravo.ru" }],
+      destination: "https://dgi-pravo.ru/:path*",
+      permanent: true,
+    }];
+  },
   async headers() {
     // Shared baseline for preview and public pages. CSP needs measured
     // Next.js nonce and media integrations before it can be enforced.
