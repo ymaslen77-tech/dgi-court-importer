@@ -103,6 +103,46 @@
       ],
       "currentConsolidatedEditionVerified": false,
       "publicationApproved": false
+    },
+    {
+      "id": "132-pp-2019-primary-and-2895-pp-2022-amendment",
+      "status": "original_and_specific_amendment_officially_located",
+      "act": "Постановление Правительства Москвы от 01.03.2019 №132-ПП и изменяющее постановление от 20.12.2022 №2895-ПП",
+      "url": "https://www.mos.ru/upload/documents/docs/132-PP%282%29.pdf",
+      "amendingActUrl": "https://www.mos.ru/upload/documents/docs/2895-PP-uyt4c.pdf",
+      "appliesTo": [
+        "132-ПП (архивные права на жилищный фонд до 31.01.1998)",
+        "521-ПП"
+      ],
+      "confirmedFacts": [
+        "№132-ПП регулирует хранение и предоставление сведений и правоустанавливающих документов о зарегистрированных до 31.01.1998 правах на московский жилищный фонд.",
+        "Официальное постановление №2895-ПП 2022 года содержит изменения одновременно к №521-ПП и №132-ПП."
+      ],
+      "notConfirmed": [
+        "Полная действующая редакция №132-ПП на 18.10.2026, включая последующие поправки",
+        "Текущий исчерпывающий перечень выдаваемых документов, категорий получателей, сроков и каналов обращения"
+      ],
+      "currentConsolidatedEditionVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "519-pp-2017-exchange-regulation",
+      "status": "moscow_official_regulation_pdf_located",
+      "act": "Приложение 3 к постановлению Правительства Москвы от 08.08.2017 №519-ПП — согласие на обмен жилыми помещениями по соцнайму",
+      "url": "https://www.mos.ru/upload/documents/oiv/administrativnyy_reglament%2811%29.pdf",
+      "appliesTo": [
+        "519-ПП (приложение 3, обмен по соцнайму)"
+      ],
+      "confirmedFacts": [
+        "Официальный PDF содержит административный регламент государственной услуги о согласии на обмен помещениями, находящимися в собственности Москвы и занимаемыми по договорам социального найма.",
+        "В документе отдельно упомянуты заявление, правовые основания услуги и образец договора обмена."
+      ],
+      "notConfirmed": [
+        "Отсутствие последующих изменений после публикации PDF и действующая редакция на 18.10.2026",
+        "Актуальные условия согласия, документы, основания приостановления и отказа, сроки, способ обращения"
+      ],
+      "currentConsolidatedEditionVerified": false,
+      "publicationApproved": false
     }
   ],
   "serviceChecks": [
@@ -121,7 +161,7 @@
       "groundsForRefusalVerified": false,
       "appealVerified": false,
       "publicationApproved": false,
-      "confirmedAmendmentEvidence": null
+      "confirmedAmendmentEvidence": "132-pp-2019-primary-and-2895-pp-2022-amendment"
     },
     {
       "id": "premises-status",
@@ -189,7 +229,7 @@
       "groundsForRefusalVerified": false,
       "appealVerified": false,
       "publicationApproved": false,
-      "confirmedAmendmentEvidence": null
+      "confirmedAmendmentEvidence": "519-pp-2017-exchange-regulation"
     },
     {
       "id": "land-lease-amendment",
