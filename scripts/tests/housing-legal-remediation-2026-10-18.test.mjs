@@ -40,17 +40,18 @@ test("2026-10-18 gap register enumerates current drafts without increasing appro
  }
 });
 test("separate primary-source amendment evidence is not declared a complete current regulation",()=>{
- assert.equal(map.officialEvidence.length,2);
+ assert.equal(map.officialEvidence.length,3);
  const docs=Object.fromEntries(map.officialEvidence.map(x=>[x.id,x]));
  assert.match(docs["820-pp-2026"].act,/820-ПП/);
  assert.equal(docs["820-pp-2026"].effectiveFrom,"2026-04-15");
  assert.ok(docs["820-pp-2026"].appliesTo.some(x=>x.includes("приложение 6")));
  assert.ok(docs["1095-pp-2023"].appliesTo.some(x=>x.includes("1285-ПП")));
+ assert.ok(docs["692-pp-historical-text"].appliesTo.some(x=>x.includes("692-ПП")));
  for(const s of map.officialEvidence){
   assert.equal(s.currentConsolidatedEditionVerified,false);
   assert.equal(s.publicationApproved,false);
   assert.ok(s.notConfirmed.length>=2);
-  assert.equal(new URL(s.url).hostname,"vestnikmoscow.mos.ru");
+  assert.ok(["vestnikmoscow.mos.ru","www.mos.ru"].includes(new URL(s.url).hostname));
  }
  const service=services.services.find(x=>x.id==="housing-needs-registration");
  const ev=service.verifiedAmendmentEvidence;
