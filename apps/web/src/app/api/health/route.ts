@@ -1,0 +1,5 @@
+import { NextResponse } from "next/server";
+
+export function GET() {
+  return NextResponse.json({ status: "ok", component: "web", version: 1 });
+}

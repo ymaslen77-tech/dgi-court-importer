@@ -1,0 +1,44 @@
+{
+  "checkedOn": "2026-10-15",
+  "status": "research_only",
+  "publicationApproved": false,
+  "scope": "Outstanding P2 administrative subjects; no user-facing routes authorized",
+  "items": [
+    {
+      "id": "specialized-housing-orphans",
+      "topic": "Специализированный жилищный фонд: предоставление жилья детям-сиротам и лицам из их числа",
+      "reason": "Официальные программные материалы Москвы упоминают ДГИ и специализированный фонд, но не дают проверенной действующей индивидуальной услуги и полной нормативной процедуры.",
+      "officialLead": "https://www.mos.ru/upload/documents/oiv/tekst_gp.pdf",
+      "authorityPending": true,
+      "procedurePending": true,
+      "notAServiceAssertion": true
+    },
+    {
+      "id": "preliminary-land-approval",
+      "topic": "Предварительное согласование предоставления земельного участка",
+      "reason": "Идентифицировано направление земельных услуг ДГИ, но действующий нормативный регламент, заявители и условия предоставления не сверены по консолидированному тексту.",
+      "officialLead": "https://www.mos.ru/dgi/",
+      "authorityPending": true,
+      "procedurePending": true,
+      "notAServiceAssertion": true
+    },
+    {
+      "id": "cadastral-valuation-review",
+      "topic": "Государственная кадастровая оценка, ошибки ЕГРН и установление стоимости",
+      "reason": "Нужно разграничить компетенцию Росреестра, профильного оценочного учреждения и судебный порядок; нельзя выдавать все варианты за услуги ДГИ.",
+      "officialLead": "https://rosreestr.gov.ru/",
+      "authorityPending": true,
+      "procedurePending": true,
+      "notAServiceAssertion": true
+    },
+    {
+      "id": "land-use-change",
+      "topic": "Изменение вида разрешённого использования участка до изменения аренды",
+      "reason": "Официальная инструкция к изменению аренды земли указывает предшествующую отдельную процедуру, но её действующий регламент и обязательность по каждому виду изменений не подтверждены.",
+      "officialLead": "https://www.mos.ru/upload/documents/files/602/Instrykciya37%285%29.pdf",
+      "authorityPending": true,
+      "procedurePending": true,
+      "notAServiceAssertion": true
+    }
+  ]
+}

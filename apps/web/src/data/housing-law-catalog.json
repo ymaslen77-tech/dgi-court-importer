@@ -1,0 +1,389 @@
+{
+  "checkedOn": "2026-10-15",
+  "jurisdiction": "Москва",
+  "status": "editorial_draft",
+  "notice": "Это реестр редакционных ориентиров, не юридическое удостоверение действующих редакций. Даты из вторичных справочных систем указаны для поиска официального сводного текста. Переход по PDF ведёт на исторические источники и не подтверждает применимые сроки.",
+  "laws": [
+    {
+      "id": "housing-code",
+      "title": "Жилищный кодекс РФ № 188-ФЗ",
+      "subject": "Социальный наём, жилищный учёт, ЖКУ, управление МКД и капремонт",
+      "jurisdiction": "federal",
+      "sourceStatus": "historical_pdf",
+      "sourceUrl": "https://www.mos.ru/upload/documents/oiv/29122004-_-188_fz%281%29.pdf",
+      "related": [
+        "izmenenie-dogovora-sotsnayma",
+        "subsidiya-na-oplatu-zhku-moskva"
+      ],
+      "currentVersionVerified": false,
+      "approved": false,
+      "revisionResearch": {
+        "observedOn": "2026-10-14",
+        "editionDate": "04.08.2026",
+        "secondaryReference": "https://www.consultant.ru/law/podborki/zhk_rf_kapitalnyj_remont/",
+        "researchNote": "Справочная база указывает изменения, вступившие в силу 01.09.2026; требуется сверить отдельные статьи и дальнейшие поправки.",
+        "officialCurrentTextChecked": false
+      },
+      "sourceScope": "historical_reference"
+    },
+    {
+      "id": "moscow-29",
+      "title": "Закон Москвы от 14.06.2006 № 29",
+      "subject": "Жилищный учёт, предоставление жилья и помощь Москвы в его приобретении",
+      "jurisdiction": "moscow",
+      "sourceStatus": "primary_historical",
+      "sourceUrl": "https://www.mos.ru/upload/documents/oiv/zakon_goroda_moskvy_ot_14062006_29.pdf",
+      "related": [
+        "pereregistratsiya-zhilishchnyy-uchet",
+        "subsidiya-na-priobretenie-zhilya-moskva"
+      ],
+      "currentVersionVerified": false,
+      "approved": false,
+      "revisionResearch": null,
+      "sourceScope": "historical_reference"
+    },
+    {
+      "id": "moscow-7",
+      "title": "Закон Москвы от 25.01.2006 № 7",
+      "subject": "Признание малоимущими в целях постановки на жилищный учёт",
+      "jurisdiction": "moscow",
+      "sourceStatus": "link_not_verified",
+      "sourceUrl": "https://www.mos.ru/upload/documents/files/7751/ZakongMoskviot25012006N7%28redot28122016%29.pdf",
+      "related": [
+        "priznanie-maloimushchim-dlya-zhilishchnogo-ucheta"
+      ],
+      "currentVersionVerified": false,
+      "approved": false,
+      "revisionResearch": null,
+      "sourceScope": "historical_reference"
+    },
+    {
+      "id": "moscow-21",
+      "title": "Закон Москвы от 31.05.2006 № 21",
+      "subject": "Гарантии при переселении и освобождении помещений",
+      "jurisdiction": "moscow",
+      "sourceStatus": "historical_pdf",
+      "sourceUrl": "https://www.mos.ru/upload/documents/oiv/ob_obespechenii_zhilishchnykh_prav_grazhdan_pri_pereselenii_i_osvobozhdenii_zhilykh_pomeshcheniy_zhilykh_domov_v_gorode_moskve.pdf",
+      "related": [
+        "renovatsiya-po-adresu-moskva"
+      ],
+      "currentVersionVerified": false,
+      "approved": false,
+      "revisionResearch": null,
+      "sourceScope": "historical_reference"
+    },
+    {
+      "id": "moscow-2",
+      "title": "Закон Москвы от 27.01.2010 № 2",
+      "subject": "Основы жилищной политики города Москвы",
+      "jurisdiction": "moscow",
+      "sourceStatus": "historical_pdf",
+      "sourceUrl": "https://www.mos.ru/upload/content/files/3d0d00970eea8faff8160ee318a3c45e/14Zakong_Moskviot27_01_2010N2%28red_ot15_02_2023%29Osno.pdf",
+      "related": [
+        "subsidiya-na-priobretenie-zhilya-moskva"
+      ],
+      "currentVersionVerified": false,
+      "approved": false,
+      "revisionResearch": null,
+      "sourceScope": "historical_reference"
+    },
+    {
+      "id": "moscow-14",
+      "title": "Закон Москвы от 17.05.2017 № 14",
+      "subject": "Дополнительные гарантии участникам реновации",
+      "jurisdiction": "moscow",
+      "sourceStatus": "historical_pdf",
+      "sourceUrl": "https://www.mos.ru/upload/content/files/15af077500dcc5a1547bf728abf25669/15Zakong_Moskviot17_05_2017N14Odopolnitelnihgaranti.pdf",
+      "related": [
+        "renovatsiya-po-adresu-moskva"
+      ],
+      "currentVersionVerified": false,
+      "approved": false,
+      "revisionResearch": null,
+      "sourceScope": "historical_reference"
+    },
+    {
+      "id": "508-pp",
+      "title": "Постановление Москвы № 508-ПП от 25.10.2011",
+      "subject": "Согласование переустройства и перепланировки помещений",
+      "jurisdiction": "moscow",
+      "sourceStatus": "historical_pdf",
+      "sourceUrl": "https://www.mos.ru/upload/documents/files/6678/ppm_ot_25102011_508_pp.pdf",
+      "related": [
+        "dokumenty-na-kvartiru"
+      ],
+      "currentVersionVerified": false,
+      "approved": false,
+      "revisionResearch": null,
+      "sourceScope": "historical_reference"
+    },
+    {
+      "id": "832-pp",
+      "title": "Постановление Москвы № 832-ПП от 29.12.2014",
+      "subject": "Региональная программа капремонта многоквартирных домов",
+      "jurisdiction": "moscow",
+      "sourceStatus": "historical_pdf",
+      "sourceUrl": "https://www.mos.ru/upload/documents/oiv/832_pp%284%29.pdf",
+      "related": [
+        "kapremont-mkd-moskva"
+      ],
+      "currentVersionVerified": false,
+      "approved": false,
+      "revisionResearch": null,
+      "sourceScope": "historical_reference"
+    },
+    {
+      "id": "47-rf",
+      "title": "Постановление Правительства РФ № 47 от 28.01.2006",
+      "subject": "Признание помещений пригодными, непригодными и домов аварийными",
+      "jurisdiction": "federal",
+      "sourceStatus": "official_text_needed",
+      "sourceUrl": null,
+      "related": [
+        "avariynoe-zhile-moskva"
+      ],
+      "currentVersionVerified": false,
+      "approved": false,
+      "revisionResearch": {
+        "observedOn": "2026-10-14",
+        "editionDate": "20.06.2026",
+        "secondaryReference": "https://www.consultant.ru/document/cons_doc_LAW_58136/",
+        "researchNote": "Постановление РФ № 771 от 20.06.2026 изменило положения, вступление указано с 01.09.2026. Проверить фактическое содержание положений.",
+        "officialCurrentTextChecked": false
+      },
+      "sourceScope": "not_located"
+    },
+    {
+      "id": "354-rf",
+      "title": "Постановление Правительства РФ № 354 от 06.05.2011",
+      "subject": "Правила предоставления коммунальных услуг",
+      "jurisdiction": "federal",
+      "sourceStatus": "official_text_needed",
+      "sourceUrl": null,
+      "related": [
+        "pereraschet-zhku-moskva"
+      ],
+      "currentVersionVerified": false,
+      "approved": false,
+      "revisionResearch": {
+        "observedOn": "2026-10-14",
+        "editionDate": "19.12.2025",
+        "secondaryReference": "https://www.consultant.ru/document/cons_doc_LAW_114247/",
+        "researchNote": "В справочном тексте указана редакция 19.12.2025; требуется проверить, не изменялась ли после этого.",
+        "officialCurrentTextChecked": false
+      },
+      "sourceScope": "not_located"
+    },
+    {
+      "id": "491-rf",
+      "title": "Постановление Правительства РФ № 491 от 13.08.2006",
+      "subject": "Содержание общего имущества собственников МКД",
+      "jurisdiction": "federal",
+      "sourceStatus": "official_text_needed",
+      "sourceUrl": null,
+      "related": [
+        "proverka-upravlyayushchey-kompanii"
+      ],
+      "currentVersionVerified": false,
+      "approved": false,
+      "revisionResearch": {
+        "observedOn": "2026-10-14",
+        "editionDate": "26.09.2026",
+        "secondaryReference": "https://www.consultant.ru/document/cons_doc_LAW_62293/",
+        "researchNote": "Постановление РФ № 1242 от 26.09.2026 добавило положения об объектах микрогенерации к общему имуществу; требуется сверить официальный опубликованный текст.",
+        "officialCurrentTextChecked": false
+      },
+      "sourceScope": "not_located"
+    },
+    {
+      "id": "290-rf",
+      "title": "Постановление Правительства РФ № 290 от 03.04.2013",
+      "subject": "Минимальный перечень работ и услуг по содержанию МКД",
+      "jurisdiction": "federal",
+      "sourceStatus": "official_text_needed",
+      "sourceUrl": null,
+      "related": [
+        "zhaloba-v-moszhilinspekciyu"
+      ],
+      "currentVersionVerified": false,
+      "approved": false,
+      "revisionResearch": {
+        "observedOn": "2026-10-14",
+        "editionDate": "07.03.2025",
+        "secondaryReference": "https://www.consultant.ru/document/cons_doc_LAW_144804/",
+        "researchNote": "В справочной базе указана редакция 07.03.2025; проверить историю изменений после этой даты.",
+        "officialCurrentTextChecked": false
+      },
+      "sourceScope": "not_located"
+    },
+    {
+      "id": "761-rf",
+      "title": "Постановление Правительства РФ № 761 от 14.12.2005",
+      "subject": "Порядок предоставления субсидий на оплату жилого помещения и коммунальных услуг",
+      "jurisdiction": "federal",
+      "sourceStatus": "official_text_needed",
+      "sourceUrl": null,
+      "related": [
+        "subsidiya-na-oplatu-zhku-moskva"
+      ],
+      "currentVersionVerified": false,
+      "approved": false,
+      "revisionResearch": {
+        "observedOn": "2026-10-14",
+        "editionDate": "22.06.2024",
+        "secondaryReference": "https://www.consultant.ru/document/cons_doc_LAW_45158/",
+        "researchNote": "Справочная база указывает редакцию 22.06.2024; проверить изменения, вступление в силу и московские правила 2026 года.",
+        "officialCurrentTextChecked": false
+      },
+      "sourceScope": "not_located"
+    },
+    {
+      "id": "111-pp",
+      "title": "Постановление Москвы № 111-ПП от 27.03.2012",
+      "subject": "Административный регламент предоставления субсидий на оплату ЖКУ",
+      "jurisdiction": "moscow",
+      "sourceStatus": "primary_historical",
+      "sourceUrl": "https://www.mos.ru/upload/content/files/d8fca445f3b983500e6a5ac0792fc3fd/24PostanovleniePravitelstvaMoskviot27_03_2012N111-PP%28r.pdf",
+      "related": [
+        "subsidiya-na-oplatu-zhku-moskva"
+      ],
+      "currentVersionVerified": false,
+      "approved": false,
+      "revisionResearch": {
+        "observedOn": "2026-10-14",
+        "editionDate": "18.08.2026",
+        "secondaryReference": "https://www.consultant.ru/law/review/reg/rlawc/mcw2026-08-31.html",
+        "researchNote": "По справочному обзору появилась редакция 18.08.2026. Файл 2023 года не подтверждает действующие сроки, состав документов или полномочия.",
+        "officialCurrentTextChecked": false
+      },
+      "sourceScope": "historical_reference"
+    },
+    {
+      "id": "521-pp",
+      "title": "Постановление Москвы № 521-ПП от 10.09.2014",
+      "subject": "Регламенты жилищных услуг ДГИ; приложение 5 — приватизация и деприватизация. Приложение 14 прежней редакции утратило силу.",
+      "jurisdiction": "moscow",
+      "sourceStatus": "primary_historical",
+      "sourceUrl": "https://www.mos.ru/upload/content/files/2a0ff0f6550542ed5ae4f7f149350111/AdministrativniireglamentkPrilojeniu1.pdf",
+      "related": [
+        "deprivatizatsiya-kvartiry-moskva"
+      ],
+      "currentVersionVerified": false,
+      "approved": false,
+      "revisionResearch": {
+        "observedOn": "2026-10-14",
+        "editionDate": "05.05.2026",
+        "secondaryReference": "https://www.consultant.ru/law/podborki/procedura_privatizacii/",
+        "researchNote": "Опубликованный текст приложения 5 содержит редакцию от 23.12.2022. Приложение 14 в прежней структуре утратило силу; правовую актуальность на 2026 год нельзя устанавливать по старой PDF. Ориентир справочной редакции 521-ПП — 05.05.2026, без сверки каждого приложения.",
+        "officialCurrentTextChecked": false
+      },
+      "sourceScope": "appendix_5_historical_2022",
+      "confirmedAmendment": {
+        "act": "Постановление Москвы № 820-ПП от 25.03.2026",
+        "officialPublication": "https://vestnikmoscow.mos.ru/wp-content/uploads/2026/03/zhurnal-vestnik-moskvy-%E2%84%96-18-1.pdf",
+        "effectiveDate": "2026-04-15",
+        "scope": "Изменения приложения 6 к 521-ПП: электронная форма заявления о жилищном учёте и внесении изменений в учётное дело; предоставление затребованных при приостановлении оригиналов через МФЦ. Постановление 820-ПП также изменяет 362-ПП, 219-ПП и 1105-ПП.",
+        "currentConsolidatedEditionChecked": false,
+        "publicationApproved": false,
+        "relatedAffectedActs": [
+          "362-ПП от 06.06.2006",
+          "219-ПП от 23.04.2014",
+          "1105-ПП от 21.07.2021"
+        ]
+      }
+    },
+    {
+      "id": "dgi-286",
+      "title": "Приказ ДГИ Москвы № 286 от 21.08.2024",
+      "subject": "Порядок перерегистрации лиц, состоящих на жилищном учёте",
+      "jurisdiction": "moscow",
+      "sourceStatus": "primary_historical",
+      "sourceUrl": "https://www.mos.ru/upload/content/files/2c7e35924e244c59dfe270088f191922/PRIKAH286ot21082024.pdf",
+      "related": [
+        "pereregistratsiya-zhilishchnyy-uchet"
+      ],
+      "currentVersionVerified": false,
+      "approved": false,
+      "revisionResearch": null,
+      "sourceScope": "historical_reference"
+    },
+    {
+      "id": "132-pp",
+      "title": "Постановление Москвы № 132-ПП от 01.03.2019",
+      "subject": "Особенности выдачи документов о зарегистрированных до 31 января 1998 года правах на жильё в Москве; учитывать последующие изменения",
+      "jurisdiction": "moscow",
+      "sourceStatus": "primary_historical",
+      "sourceUrl": "https://www.mos.ru/upload/documents/docs/132-PP%282%29.pdf",
+      "related": [
+        "arhivnye-prava-na-zhile-do-1998",
+        "dokumenty-na-kvartiru"
+      ],
+      "currentVersionVerified": false,
+      "approved": false,
+      "revisionResearch": null,
+      "sourceScope": "historical_reference",
+      "confirmedAmendment": {
+        "act": "Постановление Москвы № 2895-ПП от 20.12.2022",
+        "officialPublication": "https://www.mos.ru/upload/documents/docs/2895-PP-uyt4c.pdf",
+        "effectiveDate": null,
+        "scope": "Изменяет 521-ПП и 132-ПП; не удостоверяет редакцию, действующую в 2026 году.",
+        "currentConsolidatedEditionChecked": false,
+        "publicationApproved": false
+      }
+    },
+    {
+      "id": "692-pp",
+      "title": "Постановление Москвы № 692-ПП от 27.10.2015",
+      "subject": "Государственная услуга перевода жилых и нежилых помещений; согласование статуса помещения и взаимодействие с другими ведомствами",
+      "jurisdiction": "moscow",
+      "sourceStatus": "primary_historical",
+      "sourceUrl": "https://www.mos.ru/upload/content/files/69bb625cd994fc161c79162d45864fd8/AdministrativniireglamentPerevodjilogovnejiloe.pdf",
+      "related": [
+        "perevod-zhilogo-pomeshcheniya-v-nezhiloe",
+        "pereplanirovka-kvartiry-moskva"
+      ],
+      "currentVersionVerified": false,
+      "approved": false,
+      "revisionResearch": null,
+      "sourceScope": "historical_reference",
+      "additionalSourceEvidence": {
+        "officialUrl": "https://www.mos.ru/upload/content/files/1e49025f03239cc73bdc66282b8fe9f2/PostanovleniePravitelstvaMoskviot27102015N692-PP%28redakciyaot07052024923-PP%29.pdf",
+        "editionEvidence": "Официально размещенная копия с изменениями по 07.05.2024 № 923-ПП",
+        "current2026Verified": false,
+        "allAnnexesCurrentVerified": false
+      }
+    },
+    {
+      "id": "99-pp",
+      "title": "Постановление Москвы № 99-ПП от 20.02.2013",
+      "subject": "Положение о Департаменте городского имущества Москвы, его полномочия и компетенция; опубликованная редакция требует обновления",
+      "jurisdiction": "moscow",
+      "sourceStatus": "primary_historical",
+      "sourceUrl": "https://www.mos.ru/upload/content/files/1_PolojenieoDGI.pdf",
+      "related": [
+        "funkcii-dgi",
+        "gosuslugi-dgi"
+      ],
+      "currentVersionVerified": false,
+      "approved": false,
+      "revisionResearch": null,
+      "sourceScope": "historical_reference"
+    },
+    {
+      "id": "519-pp",
+      "title": "Постановление Москвы № 519-ПП от 08.08.2017",
+      "subject": "Административный регламент принятия решения о согласии на обмен городских жилых помещений, занимаемых по договорам социального найма; опубликовано приложение 3",
+      "jurisdiction": "moscow",
+      "sourceStatus": "primary_historical",
+      "sourceUrl": "https://www.mos.ru/upload/documents/oiv/administrativnyy_reglament%2811%29.pdf",
+      "related": [
+        "obmen-kvartir-po-sotsialnomu-naymu-moskva",
+        "socialnyj-naem"
+      ],
+      "currentVersionVerified": false,
+      "approved": false,
+      "revisionResearch": null,
+      "sourceScope": "historical_reference"
+    }
+  ]
+}

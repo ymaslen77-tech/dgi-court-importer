@@ -1,0 +1,28 @@
+{
+  "name": "dgi-housing-platform",
+  "private": true,
+  "packageManager": "pnpm@10.0.0",
+  "scripts": {
+    "dev": "pnpm --filter @dgi/web dev",
+    "build": "pnpm --filter @dgi/web build",
+    "typecheck": "pnpm --filter @dgi/web typecheck",
+    "test": "pnpm --filter @dgi/web test && pnpm test:migration",
+    "test:migration": "node --test scripts/tests/*.test.mjs",
+    "migration:dry-run": "node scripts/import-snapshots-to-db.mjs --dry-run",
+    "migration:apply": "node scripts/import-snapshots-to-db.mjs --apply",
+    "migration:cms:dry-run": "node scripts/import-cms-inventory.mjs --dry-run",
+    "migration:cms:apply": "node scripts/import-cms-inventory.mjs --apply",
+    "migration:cms:source-audit": "node scripts/audit-webflow-exports.mjs",
+    "local:acceptance": "node scripts/local-acceptance.mjs",
+    "local:verify-db": "node scripts/verify-local-site.mjs",
+    "release:audit": "node scripts/release-readiness.mjs",
+    "release:require-ready": "node scripts/release-readiness.mjs --require-ready",
+    "staging:preflight": "node scripts/staging-preflight.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "pg": "^8.16.3"
+  }
+}

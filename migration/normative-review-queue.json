@@ -1,0 +1,56 @@
+{
+  "reviewDate": "2026-10-14",
+  "overallStatus": "NOT_APPROVED",
+  "policy": "Research identifies later amendments but does not certify a current consolidated legal text. No automated publishing.",
+  "documents": [
+    {
+      "slug": "regulation-199-pp",
+      "source": "https://www.mos.ru/upload/documents/files/2650/4InformacionniimaterialnaPK_199-PP.pdf",
+      "observedSource": "Справочный материал об истории изменений",
+      "finding": "Найдены сведения об изменении постановления 199-ПП от 15.05.2012 постановлением Москвы от 12.03.2026 № 549-ПП. Webflow PDF — справочный материал и не доказывает содержание действующей сводной редакции или всех приложений.",
+      "evidence": "https://www.consultant.ru/law/review/reg/rlawc/mcw2026-03-23.html",
+      "status": "primary_current_text_required",
+      "observedAmendment": "2026-03-12, 549-ПП",
+      "additionalEvidence": [
+        "https://pressa.ru/files/issue/private/vestnik-moskvyi/2026/15-2026/raw_issue/vestnik-moskvyi-2026-15-2026.pdf"
+      ]
+    },
+    {
+      "slug": "regulation-521-pp",
+      "source": "https://www.mos.ru/upload/documents/oiv/10092014-_-521_pp%281%29.pdf",
+      "observedSource": "Редакция размещённого файла не установлена",
+      "finding": "Официальный Вестник Москвы содержит изменение постановления 521-ПП от 10.09.2014 постановлением 820-ПП от 25.03.2026 (приложение 6, заявление о жилищном учёте). Исторический PDF Webflow не подтверждает всех действующих приложений или последующих поправок.",
+      "evidence": "https://vestnikmoscow.mos.ru/wp-content/uploads/2026/03/zhurnal-vestnik-moskvy-%E2%84%96-18-1.pdf",
+      "status": "primary_current_text_required",
+      "observedAmendment": "2026-03-25, 820-ПП (изменения действуют с 2026-04-15)",
+      "additionalEvidence": [
+        "https://www.consultant.ru/law/review/reg/rlawc/mcw2026-04-06.html"
+      ]
+    },
+    {
+      "slug": "regulation-99-pp",
+      "source": "https://www.mos.ru/upload/content/files/1_PolojenieoDGI.pdf",
+      "observedSource": "PDF с редакцией от 02.08.2022",
+      "finding": "Справочная сводная редакция 99-ПП от 20.02.2013 включает изменения постановлением 1088-ПП от 17.04.2026; прежний PDF mos.ru соответствует 02.08.2022 и не может быть выдан за действующую редакцию. До одобрения требуется сверить официальный текст 1088-ПП и последующие изменения.",
+      "evidence": "https://meganorm.ru/mega_doc/dop_fire_update_01052026/0/postanovlenie_devyatogo_arbitrazhnogo_apellyatsionnogo_suda_63386/0/postanovlenie_pravitelstva_moskvy_ot_20_02_2013_N_99-pp_red.html",
+      "status": "primary_current_text_required",
+      "observedAmendment": "2026-04-17, 1088-ПП (по сводной справочной редакции)",
+      "additionalEvidence": [
+        "https://www.mos.ru/upload/content/files/1_PolojenieoDGI.pdf"
+      ]
+    },
+    {
+      "slug": "regulation-546-pp",
+      "source": "https://www.mos.ru/upload/documents/oiv/pp_m_546_15_11_2011_r15.pdf",
+      "observedSource": "Размещённая редакция 2015 года",
+      "finding": "Найдены сведения об изменениях постановления 546-ПП от 15.11.2011 постановлением Москвы № 1418-ПП от 21.05.2026. Размещённая на Webflow редакция 2015 года и другой PDF mos.ru 2025 года устарели относительно этих поправок. Требуется официальный консолидированный текст с приложениями.",
+      "evidence": "https://base.garant.ru/414303136/",
+      "status": "primary_current_text_required",
+      "observedAmendment": "2026-05-21, 1418-ПП",
+      "additionalEvidence": [
+        "https://www.consultant.ru/law/review/reg/rlawc/mcw2026-06-08.html",
+        "https://www.mos.ru/upload/documents/files/6497/4PPMot15_11_2011N546-PPOpredostavleniigosydarstvennihimynicipalnihyslyg.pdf"
+      ]
+    }
+  ]
+}
