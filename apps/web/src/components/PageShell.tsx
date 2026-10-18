@@ -59,6 +59,14 @@ export function PageShell({ children, variant = "default" }: Readonly<{ children
           <span>Ознакомьтесь с официальными источниками перед обращением</span>
         </div>
       </div>}
+      {!siteIsLive && (
+        <aside className="legal-review-strip" aria-label="Статус юридической проверки материалов">
+          <div className="container legal-review-strip-inner">
+            <strong>Независимый справочный проект. Правовые материалы проходят проверку актуальности.</strong>
+            <span>Это не официальный сайт ДГИ Москвы. Сроки, перечни документов и действующие правила уточняйте на <a href="https://www.mos.ru/dgi/" target="_blank" rel="noopener noreferrer">официальном сайте ведомства</a>.</span>
+          </div>
+        </aside>
+      )}
       <main id="main-content">{children}</main>
       <footer className="footer">
         <div className="container footer-grid">
