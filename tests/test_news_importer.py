@@ -10,7 +10,7 @@ class NewsImporterTests(unittest.TestCase):
         self.assertFalse(allowed_article("https://www.garant.ru@evil.example/news/1"))
 
     def test_feed_parsing_filter_and_dates(self):
-        xml=b"""<rss><channel>
+        xml="""<rss><channel>
         <item><title>New apartment law: квартира и собственник</title>
           <link>https://www.garant.ru/news/2263304/?tracking=abc</link>
           <pubDate>Tue, 06 Oct 2026 17:15:00 +0300</pubDate></item>
@@ -18,7 +18,7 @@ class NewsImporterTests(unittest.TestCase):
           <link>https://www.garant.ru/news/999/</link></item>
         <item><title>Untrusted link</title>
           <link>https://evil.example/news/1</link></item>
-        </channel></rss>"""
+        </channel></rss>""".encode("utf-8")
         items=parse_feed(xml)
         self.assertEqual(len(items),2)
         self.assertTrue(is_relevant(items[0]))
