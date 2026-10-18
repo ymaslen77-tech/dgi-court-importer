@@ -1,18 +1,13 @@
-name: Housing-law news — RSS candidates (draft only)
+name: Housing-law news research — read-only
 on:
   schedule:
-    # 09:15 Moscow time = 06:15 UTC. Platform schedule may be delayed.
     - cron: '15 6 * * *'
   workflow_dispatch:
     inputs:
       limit:
-        description: 'Maximum new candidates from this scan (1-50)'
+        description: 'Maximum research candidates (1-50)'
         type: number
         default: 15
-      upload:
-        description: 'Stage as drafts in Webflow (never publish)'
-        type: boolean
-        default: false
 permissions:
   contents: read
 jobs:
@@ -20,9 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      WEBFLOW_TOKEN: ${{ secrets.WEBFLOW_TOKEN }}
       NEWS_LIMIT: ${{ github.event.inputs.limit || '15' }}
-      UPLOAD_NEWS: ${{ github.event_name == 'schedule' || inputs.upload == true }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -32,17 +25,5 @@ jobs:
         run: |
           python -m pip install -r requirements.txt
           python -m unittest discover -s tests -v
-      - name: Verify secret for write-enabled run
-        shell: bash
-        run: |
-          if [ "$UPLOAD_NEWS" = "true" ]; then
-            test -n "$WEBFLOW_TOKEN" || { echo 'Missing WEBFLOW_TOKEN'; exit 1; }
-          fi
-      - name: Find RSS news and stage candidates only
-        shell: bash
-        run: |
-          args=(--limit "$NEWS_LIMIT")
-          if [ "$UPLOAD_NEWS" = "true" ]; then
-            args+=(--upload)
-          fi
-          python news_importer.py "${args[@]}"
+      - name: Read-only RSS research, never upload to old CMS
+        run: python news_importer.py --limit "$NEWS_LIMIT"
