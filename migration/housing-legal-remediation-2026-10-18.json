@@ -1,0 +1,599 @@
+{
+  "generatedOn": "2026-10-18",
+  "scope": "Москва, собственно жилищное право плюс смежные направления; только исследовательская юридическая инвентаризация",
+  "message": "Наличие первичного документа не доказывает его полную действующую редакцию. Никаких сроков, выплат или оснований отказа без консолидированного текста. Не выдавать ссылки на общий портал за найденный закон.",
+  "completionStatus": "not_approved",
+  "publicReleaseAllowed": false,
+  "counts": {
+    "legislationExisting": 20,
+    "legislationCurrentEditionVerified": 0,
+    "servicesExisting": 7,
+    "servicesProcedureVerified": 0,
+    "editorialGuides": 18,
+    "editorialGuidesAccepted": 0
+  },
+  "officialEvidence": [
+    {
+      "id": "820-pp-2026",
+      "status": "official_amendment_text_located",
+      "act": "Постановление Правительства Москвы от 25.03.2026 № 820-ПП",
+      "url": "https://vestnikmoscow.mos.ru/wp-content/uploads/2026/03/zhurnal-vestnik-moskvy-%E2%84%96-18-1.pdf",
+      "sourceSection": "Вестник Москвы № 18, печатные страницы 68–79",
+      "effectiveFrom": "2026-04-15",
+      "appliesTo": [
+        "362-ПП",
+        "219-ПП",
+        "521-ПП (приложение 6)",
+        "1105-ПП"
+      ],
+      "confirmedFacts": [
+        "Акт изменяет приложение 6 к 521-ПП о жилищном учёте и изменении учётного дела.",
+        "В изменениях к приложению 6 подтверждены интерактивная форма обращения и уточнение набора сведений/документов.",
+        "Изменения затрагивают также порядок подтверждения отдельных доходов, семейных обстоятельств и сведений межведомственного обмена."
+      ],
+      "notConfirmed": [
+        "Отсутствие последующих поправок после 25.03.2026",
+        "Полная действующая консолидированная редакция 521-ПП и всех приложений",
+        "Универсальные сроки услуги, полный перечень документов и оснований отказа на 18.10.2026"
+      ],
+      "currentConsolidatedEditionVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "1095-pp-2023",
+      "status": "official_amendment_text_located",
+      "act": "Постановление Правительства Москвы от 13.06.2023 № 1095-ПП",
+      "url": "https://vestnikmoscow.mos.ru/wp-content/uploads/2023/06/zhurnal-vestnik-moskvy-%E2%84%96-34.pdf",
+      "sourceSection": "Вестник Москвы № 34, печатные страницы 19–28",
+      "appliesTo": [
+        "1285-ПП (коммунальные квартиры)"
+      ],
+      "confirmedFacts": [
+        "Акт изменяет 1285-ПП от 18.10.2018 о предоставлении и выкупе освободившихся комнат и городских долей в коммунальных квартирах.",
+        "Наличие поправок 2023 года подтверждает, что исходная редакция 2018 года сама по себе недостаточна для правовой инструкции."
+      ],
+      "notConfirmed": [
+        "Наличие или отсутствие изменений после 13.06.2023",
+        "Действующий регламент, состав заявителей, сроки и условия по всем приложениям"
+      ],
+      "currentConsolidatedEditionVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "692-pp-historical-text",
+      "status": "official_moscow_hosted_historical_regulation_located",
+      "act": "Постановление Правительства Москвы от 27.10.2015 № 692-ПП",
+      "url": "https://www.mos.ru/upload/content/files/69bb625cd994fc161c79162d45864fd8/AdministrativniireglamentPerevodjilogovnejiloe.pdf",
+      "sourceSection": "Текст постановления, приложение 1 — регламент; приложения 2–4 — связанные процедуры и формы",
+      "effectiveFrom": "2015-12-01",
+      "appliesTo": [
+        "692-ПП (перевод жилого/нежилого помещения)"
+      ],
+      "confirmedFacts": [
+        "Официально размещённый PDF включает само постановление № 692-ПП и приложения 1–4.",
+        "Приложение 1 описывает административную процедуру перевода, а связанные приложения затрагивают взаимодействие ведомств и акт о завершении работ."
+      ],
+      "notConfirmed": [
+        "Все изменения 2024–2026 годов",
+        "Текущая редакция каждого приложения",
+        "Действующие в октябре 2026 сроки, полный перечень согласий и документов, основания отказа"
+      ],
+      "currentConsolidatedEditionVerified": false,
+      "publicationApproved": false
+    }
+  ],
+  "serviceChecks": [
+    {
+      "id": "archive-1998",
+      "title": "Информация и документы о правах на жилищный фонд, зарегистрированных до 31.01.1998",
+      "status": "current_regulation_not_verified",
+      "source": "https://www.mos.ru/upload/documents/docs/132-PP%282%29.pdf",
+      "guideSlug": "arhivnye-prava-na-zhile-do-1998",
+      "missing": "Проверить консолидированную редакцию 132-ПП и регламента 521-ПП; точные категории заявителей, виды справок, документы, канал и срок.",
+      "applicantTypesVerified": false,
+      "latestRegulationVerified": false,
+      "exhaustiveDocumentsVerified": false,
+      "filingChannelVerified": false,
+      "exactDeadlineVerified": false,
+      "groundsForRefusalVerified": false,
+      "appealVerified": false,
+      "publicationApproved": false,
+      "confirmedAmendmentEvidence": null
+    },
+    {
+      "id": "premises-status",
+      "title": "Перевод жилого (нежилого) помещения в нежилое (жилое) помещение",
+      "status": "current_regulation_not_verified",
+      "source": "https://www.mos.ru/upload/content/files/69bb625cd994fc161c79162d45864fd8/AdministrativniireglamentPerevodjilogovnejiloe.pdf",
+      "guideSlug": "perevod-zhilogo-pomeshcheniya-v-nezhiloe",
+      "missing": "Сверить действующие изменения 692-ПП; требования к доступу, общему имуществу, согласия, формы, сроки, результат и обжалование.",
+      "applicantTypesVerified": false,
+      "latestRegulationVerified": false,
+      "exhaustiveDocumentsVerified": false,
+      "filingChannelVerified": false,
+      "exactDeadlineVerified": false,
+      "groundsForRefusalVerified": false,
+      "appealVerified": false,
+      "publicationApproved": false,
+      "confirmedAmendmentEvidence": null
+    },
+    {
+      "id": "city-social-rent",
+      "title": "Предоставление жилья города Москвы по договору социального найма",
+      "status": "current_regulation_not_verified",
+      "source": "https://www.mos.ru/upload/documents/oiv/10092014-_-521_pp%281%29.pdf",
+      "guideSlug": "predostavlenie-zhilya-po-sotsnaymu-moskva",
+      "missing": "Определить конкретный действующий регламент в 521-ПП, категорию заявителей, исчерпывающий перечень документов, порядок предоставления и решения.",
+      "applicantTypesVerified": false,
+      "latestRegulationVerified": false,
+      "exhaustiveDocumentsVerified": false,
+      "filingChannelVerified": false,
+      "exactDeadlineVerified": false,
+      "groundsForRefusalVerified": false,
+      "appealVerified": false,
+      "publicationApproved": false,
+      "confirmedAmendmentEvidence": null
+    },
+    {
+      "id": "privatization",
+      "title": "Заключение договора передачи жилых помещений в собственность граждан или города Москвы (приватизация и деприватизация)",
+      "status": "current_regulation_not_verified",
+      "source": "https://www.mos.ru/upload/content/files/2a0ff0f6550542ed5ae4f7f149350111/AdministrativniireglamentkPrilojeniu1.pdf",
+      "guideSlug": "deprivatizatsiya-kvartiry-moskva",
+      "missing": "Подтвердить нынешнее название услуги и состав приложения 5 к 521-ПП после изменений; не ссылаться на утратившее силу приложение 14.",
+      "applicantTypesVerified": false,
+      "latestRegulationVerified": false,
+      "exhaustiveDocumentsVerified": false,
+      "filingChannelVerified": false,
+      "exactDeadlineVerified": false,
+      "groundsForRefusalVerified": false,
+      "appealVerified": false,
+      "publicationApproved": false,
+      "confirmedAmendmentEvidence": null
+    },
+    {
+      "id": "social-rent-exchange",
+      "title": "Принятие решения о согласии на обмен жилыми помещениями города Москвы по договорам социального найма",
+      "status": "current_regulation_not_verified",
+      "source": "https://www.mos.ru/upload/documents/oiv/administrativnyy_reglament%2811%29.pdf",
+      "guideSlug": "obmen-kvartir-po-sotsialnomu-naymu-moskva",
+      "missing": "Сверить актуальную редакцию приложения 3 к 519-ПП, согласия сторон и опеки, действующие документы, канал, сроки и основания отказа.",
+      "applicantTypesVerified": false,
+      "latestRegulationVerified": false,
+      "exhaustiveDocumentsVerified": false,
+      "filingChannelVerified": false,
+      "exactDeadlineVerified": false,
+      "groundsForRefusalVerified": false,
+      "appealVerified": false,
+      "publicationApproved": false,
+      "confirmedAmendmentEvidence": null
+    },
+    {
+      "id": "land-lease-amendment",
+      "title": "Дополнительное соглашение об изменении договора аренды земельного участка",
+      "status": "current_regulation_not_verified",
+      "source": "https://www.mos.ru/upload/documents/files/602/Instrykciya37%285%29.pdf",
+      "guideSlug": "izmenenie-arendy-zemelnogo-uchastka-moskva",
+      "missing": "Получить и подтвердить точный действующий нормативный регламент, изменения, перечень документов, компетенцию, канал, сроки и результат.",
+      "applicantTypesVerified": false,
+      "latestRegulationVerified": false,
+      "exhaustiveDocumentsVerified": false,
+      "filingChannelVerified": false,
+      "exactDeadlineVerified": false,
+      "groundsForRefusalVerified": false,
+      "appealVerified": false,
+      "publicationApproved": false,
+      "confirmedAmendmentEvidence": null
+    },
+    {
+      "id": "housing-needs-registration",
+      "title": "Рассмотрение запроса (заявления) о принятии на учёт в качестве нуждающихся в жилых помещениях и о внесении изменений в учётное дело",
+      "status": "current_regulation_not_verified",
+      "source": "https://vestnikmoscow.mos.ru/wp-content/uploads/2026/03/zhurnal-vestnik-moskvy-%E2%84%96-18-1.pdf",
+      "guideSlug": "zhilishchnyj-uchet",
+      "missing": "По опубликованному 820-ПП подтвердить все последующие изменения приложения 6, консолидированный регламент, виды учёта, исчерпывающий комплект сведений, сроки, причины отказа, способы обжалования и все формы.",
+      "applicantTypesVerified": false,
+      "latestRegulationVerified": false,
+      "exhaustiveDocumentsVerified": false,
+      "filingChannelVerified": false,
+      "exactDeadlineVerified": false,
+      "groundsForRefusalVerified": false,
+      "appealVerified": false,
+      "publicationApproved": false,
+      "confirmedAmendmentEvidence": "820-pp-2026"
+    }
+  ],
+  "actChecks": [
+    {
+      "id": "housing-code",
+      "title": "Жилищный кодекс РФ № 188-ФЗ",
+      "officialResearchLocation": "https://www.mos.ru/upload/documents/oiv/29122004-_-188_fz%281%29.pdf",
+      "existingDocumentStatus": "historical_pdf",
+      "currentConsolidatedEditionVerified": false,
+      "allAmendmentsVerified": false,
+      "allAnnexesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "moscow-29",
+      "title": "Закон Москвы от 14.06.2006 № 29",
+      "officialResearchLocation": "https://www.mos.ru/upload/documents/oiv/zakon_goroda_moskvy_ot_14062006_29.pdf",
+      "existingDocumentStatus": "primary_historical",
+      "currentConsolidatedEditionVerified": false,
+      "allAmendmentsVerified": false,
+      "allAnnexesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "moscow-7",
+      "title": "Закон Москвы от 25.01.2006 № 7",
+      "officialResearchLocation": "https://www.mos.ru/upload/documents/files/7751/ZakongMoskviot25012006N7%28redot28122016%29.pdf",
+      "existingDocumentStatus": "link_not_verified",
+      "currentConsolidatedEditionVerified": false,
+      "allAmendmentsVerified": false,
+      "allAnnexesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "moscow-21",
+      "title": "Закон Москвы от 31.05.2006 № 21",
+      "officialResearchLocation": "https://www.mos.ru/upload/documents/oiv/ob_obespechenii_zhilishchnykh_prav_grazhdan_pri_pereselenii_i_osvobozhdenii_zhilykh_pomeshcheniy_zhilykh_domov_v_gorode_moskve.pdf",
+      "existingDocumentStatus": "historical_pdf",
+      "currentConsolidatedEditionVerified": false,
+      "allAmendmentsVerified": false,
+      "allAnnexesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "moscow-2",
+      "title": "Закон Москвы от 27.01.2010 № 2",
+      "officialResearchLocation": "https://www.mos.ru/upload/content/files/3d0d00970eea8faff8160ee318a3c45e/14Zakong_Moskviot27_01_2010N2%28red_ot15_02_2023%29Osno.pdf",
+      "existingDocumentStatus": "historical_pdf",
+      "currentConsolidatedEditionVerified": false,
+      "allAmendmentsVerified": false,
+      "allAnnexesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "moscow-14",
+      "title": "Закон Москвы от 17.05.2017 № 14",
+      "officialResearchLocation": "https://www.mos.ru/upload/content/files/15af077500dcc5a1547bf728abf25669/15Zakong_Moskviot17_05_2017N14Odopolnitelnihgaranti.pdf",
+      "existingDocumentStatus": "historical_pdf",
+      "currentConsolidatedEditionVerified": false,
+      "allAmendmentsVerified": false,
+      "allAnnexesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "508-pp",
+      "title": "Постановление Москвы № 508-ПП от 25.10.2011",
+      "officialResearchLocation": "https://www.mos.ru/upload/documents/files/6678/ppm_ot_25102011_508_pp.pdf",
+      "existingDocumentStatus": "historical_pdf",
+      "currentConsolidatedEditionVerified": false,
+      "allAmendmentsVerified": false,
+      "allAnnexesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "832-pp",
+      "title": "Постановление Москвы № 832-ПП от 29.12.2014",
+      "officialResearchLocation": "https://www.mos.ru/upload/documents/oiv/832_pp%284%29.pdf",
+      "existingDocumentStatus": "historical_pdf",
+      "currentConsolidatedEditionVerified": false,
+      "allAmendmentsVerified": false,
+      "allAnnexesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "47-rf",
+      "title": "Постановление Правительства РФ № 47 от 28.01.2006",
+      "officialResearchLocation": "https://publication.pravo.gov.ru/search",
+      "existingDocumentStatus": "official_text_needed",
+      "currentConsolidatedEditionVerified": false,
+      "allAmendmentsVerified": false,
+      "allAnnexesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "354-rf",
+      "title": "Постановление Правительства РФ № 354 от 06.05.2011",
+      "officialResearchLocation": "https://publication.pravo.gov.ru/search",
+      "existingDocumentStatus": "official_text_needed",
+      "currentConsolidatedEditionVerified": false,
+      "allAmendmentsVerified": false,
+      "allAnnexesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "491-rf",
+      "title": "Постановление Правительства РФ № 491 от 13.08.2006",
+      "officialResearchLocation": "https://publication.pravo.gov.ru/search",
+      "existingDocumentStatus": "official_text_needed",
+      "currentConsolidatedEditionVerified": false,
+      "allAmendmentsVerified": false,
+      "allAnnexesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "290-rf",
+      "title": "Постановление Правительства РФ № 290 от 03.04.2013",
+      "officialResearchLocation": "https://publication.pravo.gov.ru/search",
+      "existingDocumentStatus": "official_text_needed",
+      "currentConsolidatedEditionVerified": false,
+      "allAmendmentsVerified": false,
+      "allAnnexesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "761-rf",
+      "title": "Постановление Правительства РФ № 761 от 14.12.2005",
+      "officialResearchLocation": "https://publication.pravo.gov.ru/search",
+      "existingDocumentStatus": "official_text_needed",
+      "currentConsolidatedEditionVerified": false,
+      "allAmendmentsVerified": false,
+      "allAnnexesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "111-pp",
+      "title": "Постановление Москвы № 111-ПП от 27.03.2012",
+      "officialResearchLocation": "https://www.mos.ru/upload/content/files/d8fca445f3b983500e6a5ac0792fc3fd/24PostanovleniePravitelstvaMoskviot27_03_2012N111-PP%28r.pdf",
+      "existingDocumentStatus": "primary_historical",
+      "currentConsolidatedEditionVerified": false,
+      "allAmendmentsVerified": false,
+      "allAnnexesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "521-pp",
+      "title": "Постановление Москвы № 521-ПП от 10.09.2014",
+      "officialResearchLocation": "https://www.mos.ru/upload/content/files/2a0ff0f6550542ed5ae4f7f149350111/AdministrativniireglamentkPrilojeniu1.pdf",
+      "existingDocumentStatus": "primary_historical",
+      "currentConsolidatedEditionVerified": false,
+      "allAmendmentsVerified": false,
+      "allAnnexesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "dgi-286",
+      "title": "Приказ ДГИ Москвы № 286 от 21.08.2024",
+      "officialResearchLocation": "https://www.mos.ru/upload/content/files/2c7e35924e244c59dfe270088f191922/PRIKAH286ot21082024.pdf",
+      "existingDocumentStatus": "primary_historical",
+      "currentConsolidatedEditionVerified": false,
+      "allAmendmentsVerified": false,
+      "allAnnexesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "132-pp",
+      "title": "Постановление Москвы № 132-ПП от 01.03.2019",
+      "officialResearchLocation": "https://www.mos.ru/upload/documents/docs/132-PP%282%29.pdf",
+      "existingDocumentStatus": "primary_historical",
+      "currentConsolidatedEditionVerified": false,
+      "allAmendmentsVerified": false,
+      "allAnnexesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "692-pp",
+      "title": "Постановление Москвы № 692-ПП от 27.10.2015",
+      "officialResearchLocation": "https://www.mos.ru/upload/content/files/69bb625cd994fc161c79162d45864fd8/AdministrativniireglamentPerevodjilogovnejiloe.pdf",
+      "existingDocumentStatus": "primary_historical",
+      "currentConsolidatedEditionVerified": false,
+      "allAmendmentsVerified": false,
+      "allAnnexesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "99-pp",
+      "title": "Постановление Москвы № 99-ПП от 20.02.2013",
+      "officialResearchLocation": "https://www.mos.ru/upload/content/files/1_PolojenieoDGI.pdf",
+      "existingDocumentStatus": "primary_historical",
+      "currentConsolidatedEditionVerified": false,
+      "allAmendmentsVerified": false,
+      "allAnnexesVerified": false,
+      "publicationApproved": false
+    },
+    {
+      "id": "519-pp",
+      "title": "Постановление Москвы № 519-ПП от 08.08.2017",
+      "officialResearchLocation": "https://www.mos.ru/upload/documents/oiv/administrativnyy_reglament%2811%29.pdf",
+      "existingDocumentStatus": "primary_historical",
+      "currentConsolidatedEditionVerified": false,
+      "allAmendmentsVerified": false,
+      "allAnnexesVerified": false,
+      "publicationApproved": false
+    }
+  ],
+  "missingOrIncompleteTopics": [
+    {
+      "id": "specialized-fund",
+      "title": "Специализированный жилищный фонд: служебное жильё, общежития, маневренный фонд",
+      "coverage": "not_a_standalone_guide",
+      "priority": "P1",
+      "legalLead": "ЖК РФ, раздел IV; отдельные постановления и ведомственные полномочия по конкретному фонду",
+      "officialLead": "https://pravo.gov.ru/",
+      "evidenceStatus": "official_research_lead_not_a_verified_2026_procedure",
+      "nextStep": "Компетентный наймодатель, категория фонда, договор, право проживать, основания выселения, актуальный порядок",
+      "targetSlug": "specializirovannyy-zhilishchnyy-fond",
+      "publicationApproved": false,
+      "legalSignoff": false
+    },
+    {
+      "id": "orphans",
+      "title": "Предоставление жилья детям-сиротам и лицам из их числа",
+      "coverage": "not_a_standalone_guide",
+      "priority": "P1",
+      "legalLead": "Федеральный закон №159-ФЗ, региональное регулирование и административные процедуры",
+      "officialLead": "https://www.mos.ru/dgi/",
+      "evidenceStatus": "official_research_lead_not_a_verified_2026_procedure",
+      "nextStep": "Проверить категорию получателя, орган, очередь/список, процедуру, документы, действующий срок",
+      "targetSlug": "zhilyo-detyam-sirotam-moskva",
+      "publicationApproved": false,
+      "legalSignoff": false
+    },
+    {
+      "id": "communal-rooms",
+      "title": "Освободившиеся комнаты и доли города в коммунальных квартирах",
+      "coverage": "no_standalone_guide",
+      "priority": "P1",
+      "legalLead": "1285-ПП и официально опубликованные изменения 1095-ПП от 13.06.2023",
+      "officialLead": "https://vestnikmoscow.mos.ru/wp-content/uploads/2023/06/zhurnal-vestnik-moskvy-%E2%84%96-34.pdf",
+      "evidenceStatus": "official_research_lead_not_a_verified_2026_procedure",
+      "nextStep": "Получить сводную редакцию 1285-ПП, все приложения, правила цены, категорий и обжалования",
+      "targetSlug": "osvobodivshayasya-komnata-v-kommunalnoy-kvartire",
+      "publicationApproved": false,
+      "legalSignoff": false
+    },
+    {
+      "id": "city-commercial-tenancy",
+      "title": "Коммерческий наём жилья города Москвы и прекращение договора",
+      "coverage": "not_a_standalone_guide",
+      "priority": "P2",
+      "legalLead": "ЖК РФ/ГК РФ и московские акты по конкретной форме найма",
+      "officialLead": "https://www.mos.ru/dgi/",
+      "evidenceStatus": "official_research_lead_not_a_verified_2026_procedure",
+      "nextStep": "Найти действующие акты для применимого вида фонда, договор, категорию, цену, срок, отказ и продление",
+      "targetSlug": "kommercheskiy-naym-gorodskogo-zhilya",
+      "publicationApproved": false,
+      "legalSignoff": false
+    },
+    {
+      "id": "city-buyout",
+      "title": "Выкуп жилья и городских долей на отдельных основаниях",
+      "coverage": "only_indirect_mentions",
+      "priority": "P2",
+      "legalLead": "Закон Москвы №29, постановления об отдельных видах продажи и выкупа",
+      "officialLead": "https://www.mos.ru/dgi/",
+      "evidenceStatus": "official_research_lead_not_a_verified_2026_procedure",
+      "nextStep": "Разграничить торги, льготный выкуп, выкуп комнаты и иные формы и критерии",
+      "targetSlug": "vykup-gorodskogo-zhilya-moskva",
+      "publicationApproved": false,
+      "legalSignoff": false
+    },
+    {
+      "id": "special-housing-support",
+      "title": "Иные формы сертификатов и городской жилищной поддержки",
+      "coverage": "partial",
+      "priority": "P2",
+      "legalLead": "Федеральные и городские жилищные программы; применимость по категории заявителя",
+      "officialLead": "https://www.mos.ru/dgi/",
+      "evidenceStatus": "official_research_lead_not_a_verified_2026_procedure",
+      "nextStep": "Получить полный действующий перечень мер, отличия помощи в покупке от субсидии на ЖКУ",
+      "targetSlug": "zhilishchnye-programmy-moskvy",
+      "publicationApproved": false,
+      "legalSignoff": false
+    },
+    {
+      "id": "social-rent-disputes",
+      "title": "Социальный наём: вселение, член семьи, прекращение, временное отсутствие, выселение",
+      "coverage": "partial",
+      "priority": "P1",
+      "legalLead": "ЖК РФ, главы 7–8",
+      "officialLead": "https://pravo.gov.ru/",
+      "evidenceStatus": "official_research_lead_not_a_verified_2026_procedure",
+      "nextStep": "Развести каждое основание в самостоятельный маршрут, подтвердить судебный порядок и доказательства",
+      "targetSlug": "socialnyj-naem",
+      "publicationApproved": false,
+      "legalSignoff": false
+    },
+    {
+      "id": "renovation-expropriation",
+      "title": "Реновация, аварийность и изъятие: три самостоятельных юридических режима",
+      "coverage": "partial",
+      "priority": "P1",
+      "legalLead": "Статья 32 ЖК РФ, постановление РФ №47, московские нормы о реновации",
+      "officialLead": "https://pravo.gov.ru/",
+      "evidenceStatus": "official_research_lead_not_a_verified_2026_procedure",
+      "nextStep": "Сверить действующие поправки, компенсацию, экспертизы, договор и обязанности сторон",
+      "targetSlug": "renovaciya-pereselenie",
+      "publicationApproved": false,
+      "legalSignoff": false
+    },
+    {
+      "id": "hoa-cooperatives",
+      "title": "ТСЖ, ЖСК, жилищные кооперативы: создание, управление, отчётность, споры",
+      "coverage": "only_related",
+      "priority": "P2",
+      "legalLead": "ЖК РФ, раздел VI и положения об управлении МКД",
+      "officialLead": "https://pravo.gov.ru/",
+      "evidenceStatus": "official_research_lead_not_a_verified_2026_procedure",
+      "nextStep": "Роли правления/собрания, протоколы, финансы, контроль, судебные споры",
+      "targetSlug": "tszh-zhsk-moskva",
+      "publicationApproved": false,
+      "legalSignoff": false
+    },
+    {
+      "id": "utilities-caprepair",
+      "title": "ЖКУ, общее имущество, приборы учёта и капитальный ремонт: сложные случаи",
+      "coverage": "partial",
+      "priority": "P1",
+      "legalLead": "Правила РФ №354, №491, №290 и нормы ЖК РФ",
+      "officialLead": "https://pravo.gov.ru/",
+      "evidenceStatus": "official_research_lead_not_a_verified_2026_procedure",
+      "nextStep": "Проверить редакции актов и отраслевые требования, отделить управление от ДГИ",
+      "targetSlug": "pereraschet-zhku-moskva",
+      "publicationApproved": false,
+      "legalSignoff": false
+    },
+    {
+      "id": "private-lease",
+      "title": "Частный наём жилья у физических лиц",
+      "coverage": "not_a_standalone_guide",
+      "priority": "P2",
+      "legalLead": "ГК РФ, глава 35; ЖК РФ в применимой части",
+      "officialLead": "https://pravo.gov.ru/",
+      "evidenceStatus": "official_research_lead_not_a_verified_2026_procedure",
+      "nextStep": "Разграничить частный и социальный наём, требования к договору, обеспечительный платёж и выселение",
+      "targetSlug": "naem-kvartiry-u-chastnogo-sobstvennika",
+      "publicationApproved": false,
+      "legalSignoff": false
+    },
+    {
+      "id": "shared-construction",
+      "title": "Долевое строительство и недостатки нового жилья",
+      "coverage": "not_a_standalone_guide",
+      "priority": "P2",
+      "legalLead": "Федеральный закон №214-ФЗ, ГК РФ, потребительские нормы в применимой части",
+      "officialLead": "https://pravo.gov.ru/",
+      "evidenceStatus": "official_research_lead_not_a_verified_2026_procedure",
+      "nextStep": "Проверить действующие изменения, сроки, гарантийные требования и компетенцию органа; не выдавать за услугу ДГИ",
+      "targetSlug": "dolevoe-stroitelstvo-zashchita-prav",
+      "publicationApproved": false,
+      "legalSignoff": false
+    },
+    {
+      "id": "housing-services-inventory",
+      "title": "Полный перечень московских жилищных услуг и реестров ДГИ",
+      "coverage": "partial",
+      "priority": "P0",
+      "legalLead": "Текущий реестр содержит 7 исследовательских процедур; нормативные источники отдельных услуг",
+      "officialLead": "https://www.mos.ru/dgi/",
+      "evidenceStatus": "official_research_lead_not_a_verified_2026_procedure",
+      "nextStep": "Установить официальный исчерпывающий актуальный перечень услуг, ведомство, действующие регламенты и подуслуги",
+      "targetSlug": "reestr-gosuslug-dgi",
+      "publicationApproved": false,
+      "legalSignoff": false
+    },
+    {
+      "id": "court-jurisprudence",
+      "title": "Полнотекстовые решения судов и цепочки инстанций",
+      "coverage": "partial",
+      "priority": "P1",
+      "legalLead": "Официальные судебные карточки и индивидуальные судебные акты",
+      "officialLead": "https://www.mos-gorsud.ru/",
+      "evidenceStatus": "official_research_lead_not_a_verified_2026_procedure",
+      "nextStep": "Найти мотивировки, подтвердить УИД, апелляции/кассации, обезличивание и обновления",
+      "targetSlug": "sudebnaya-praktika-dgi",
+      "publicationApproved": false,
+      "legalSignoff": false
+    }
+  ],
+  "acceptanceCriteria": [
+    "Для каждого акта — исходная официальная публикация и все последующие изменяющие акты с датами действия",
+    "Для каждой услуги — действующий регламент и приложения, заявитель, комплект документов, способ подачи, сроки, основания отказа, обжалование",
+    "Для каждого материала — соответствие утверждений первичным нормам, проверка редакции на дату публикации и ответственное юридическое подтверждение",
+    "Для судебных актов — индивидуальная официальная ссылка, УИД, мотивировка, все инстанции и обезличивание",
+    "Никакое повышение статуса приёмки нельзя делать на основании одного источника поправок или успешного CI"
+  ]
+}

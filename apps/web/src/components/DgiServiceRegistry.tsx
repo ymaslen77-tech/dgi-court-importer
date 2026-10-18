@@ -20,6 +20,15 @@ export function DgiServiceRegistry() {
         <p><strong>Компетентный орган по опубликованным документам:</strong> {item.authority}</p>
         <p><strong>Нормативное основание для сверки:</strong> {item.law}</p>
         <p className="housing-law-status">Действующая редакция и регламент не подтверждены</p>
+        {"verifiedAmendmentEvidence" in item && item.verifiedAmendmentEvidence && (
+          <div className="housing-law-source-evidence">
+            <h3>Что подтверждено официальной публикацией</h3>
+            <p><strong>{item.verifiedAmendmentEvidence.act}</strong>. {item.verifiedAmendmentEvidence.confirmedScope}</p>
+            <p><strong>Дата вступления изменений в силу:</strong> {item.verifiedAmendmentEvidence.confirmedEffectiveFrom}.</p>
+            <p><strong>Ограничение проверки:</strong> {item.verifiedAmendmentEvidence.caveat}</p>
+            <a href={item.verifiedAmendmentEvidence.publishedSource} target="_blank" rel="noopener noreferrer">Официальная публикация изменений ↗</a>
+          </div>
+        )}
         <p><strong>Что ещё необходимо проверить:</strong> {item.remaining}</p>
         <nav className="housing-related" aria-label={`Ссылки к услуге: ${item.title}`}>
           {(findHousingGuide(item.guideSlug) || getMigratedPage(item.guideSlug)) && <Link href={`/${item.guideSlug}`}>Правовое руководство →</Link>}
