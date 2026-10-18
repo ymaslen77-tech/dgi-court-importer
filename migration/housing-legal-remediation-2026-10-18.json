@@ -80,6 +80,29 @@
       ],
       "currentConsolidatedEditionVerified": false,
       "publicationApproved": false
+    },
+    {
+      "id": "759-pp-2026-communal",
+      "status": "official_full_amendment_text_verified",
+      "act": "Постановление Правительства Москвы от 24.03.2026 №759-ПП, пункт 7",
+      "url": "https://vestnikmoscow.mos.ru/wp-content/uploads/2026/03/zhurnal-vestnik-moskvy-%E2%84%96-18-1.pdf",
+      "sourceSection": "Вестник Москвы №18, страницы 17–21, пункт 7, изменения 1285-ПП и приложений",
+      "appliesTo": [
+        "1285-ПП (освободившиеся комнаты в коммунальных квартирах)"
+      ],
+      "confirmedFacts": [
+        "Пункты 7.1–7.2 меняют отдельные условия предоставления и описание учитываемого состава семьи.",
+        "Пункт 7.7 закрепляет возможность отзыва заявления до подписания договора социального найма комнаты.",
+        "Пункты 7.11, 7.24, 7.29 и 7.41 изменяют сроки разных пунктов и разных приложений; они не составляют одного общего срока.",
+        "Пункты 7.14–7.15 уточняют основания для отказа, в том числе связанные с изменением юридически значимых обстоятельств."
+      ],
+      "notConfirmed": [
+        "Сводная действующая редакция 1285-ПП с поправками позднее 24.03.2026",
+        "Нормативные тексты 1235-ПП от 05.05.2026 и 2624-ПП от 28.09.2026 и их вступление в силу по первичным официальным публикациям",
+        "Единые сроки или исчерпывающие документы для всех категорий обращения"
+      ],
+      "currentConsolidatedEditionVerified": false,
+      "publicationApproved": false
     }
   ],
   "serviceChecks": [
@@ -435,15 +458,17 @@
     {
       "id": "communal-rooms",
       "title": "Освободившиеся комнаты и доли города в коммунальных квартирах",
-      "coverage": "no_standalone_guide",
+      "coverage": "partial_primary_source_beta_guidance",
       "priority": "P1",
       "legalLead": "1285-ПП и официально опубликованные изменения 1095-ПП от 13.06.2023",
       "officialLead": "https://vestnikmoscow.mos.ru/wp-content/uploads/2023/06/zhurnal-vestnik-moskvy-%E2%84%96-34.pdf",
       "evidenceStatus": "official_research_lead_not_a_verified_2026_procedure",
-      "nextStep": "Получить сводную редакцию 1285-ПП, все приложения, правила цены, категорий и обжалования",
+      "nextStep": "Опубликован отдельный beta-маршрут с точными пунктами 759-ПП и правовым предупреждением. Получить официальные тексты 1235-ПП, 2624-ПП и все приложения 1285-ПП, восстановить консолидированную редакцию, только затем утверждать документы, сроки и основания обращения.",
       "targetSlug": "osvobodivshayasya-komnata-v-kommunalnoy-kvartire",
       "publicationApproved": false,
-      "legalSignoff": false
+      "legalSignoff": false,
+      "primaryResearchSlug": "osvobodivshayasya-komnata-v-kommunalnoy-kvartire",
+      "source820And759OverlapCaution": "820-ПП относится к постановке на жилищный учёт, 759-ПП — к коммунальным комнатам; общие условия из разных процедур не переносить автоматически."
     },
     {
       "id": "city-commercial-tenancy",
@@ -595,5 +620,12 @@
     "Для каждого материала — соответствие утверждений первичным нормам, проверка редакции на дату публикации и ответственное юридическое подтверждение",
     "Для судебных актов — индивидуальная официальная ссылка, УИД, мотивировка, все инстанции и обезличивание",
     "Никакое повышение статуса приёмки нельзя делать на основании одного источника поправок или успешного CI"
-  ]
+  ],
+  "constitutionalCourtResearchLead": {
+    "act": "Постановление Конституционного Суда РФ №20-П от 23.04.2024",
+    "officialPublication": "https://publication.pravo.gov.ru/document/0001202404240001",
+    "appliesTo": "статья 59 ЖК РФ и вопросы проживания по особому иному договору найма",
+    "consolidatedAndCaseSpecificReviewPending": true,
+    "publicationApproved": false
+  }
 }
