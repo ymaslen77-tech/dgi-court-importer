@@ -8,6 +8,7 @@ import { isThematicSlug } from "@/data/themes";
 import { findHousingGuide, HousingGuideArticle } from "@/components/HousingGuide";
 import { HousingLawCatalog, housingLawCatalogSlug, housingLawCatalogTitle } from "@/components/HousingLawCatalog";
 import { DgiServiceRegistry, dgiServiceRegistrySlug, dgiServiceRegistryTitle } from "@/components/DgiServiceRegistry";
+import { factualSocialMetadata } from "@/data/seo-social";
 
 type Props = { params: Promise<{ slug: string[] }> };
 
@@ -33,28 +34,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     if (!siteIsLive && slug === dgiServiceRegistrySlug) return {
       title: { absolute: dgiServiceRegistryTitle },
       description: "Реестр официально документированных услуг ДГИ с отметкой о необходимости актуализации регламентов.",
+      ...factualSocialMetadata(slug, dgiServiceRegistryTitle, "Реестр официально документированных услуг ДГИ с отметкой о необходимости актуализации регламентов."),
       robots: { index: false, follow: false },
     };
     if (!siteIsLive && slug === housingLawCatalogSlug) return {
       title: { absolute: housingLawCatalogTitle },
       description: "Перечень актов жилищного законодательства Москвы с указанием непроверенных редакций.",
+      ...factualSocialMetadata(slug, housingLawCatalogTitle, "Перечень актов жилищного законодательства Москвы с указанием непроверенных редакций."),
       robots: { index: false, follow: false },
     };
     const guide = !siteIsLive && findHousingGuide(slug);
-    return guide ? { title: { absolute: guide.title }, description: guide.summary, robots: { index: false, follow: false } } : {};
+    return guide ? { title: { absolute: guide.title }, description: guide.summary, ...factualSocialMetadata(slug, guide.title, guide.summary), robots: { index: false, follow: false } } : {};
   }
   return {
     title: { absolute: page.seoTitle },
     description: page.description,
-    openGraph: {
-      type: "article",
-      locale: "ru_RU",
-      siteName: "Единая справочная служба Москвы — жилищные вопросы",
-      title: page.seoTitle,
-      description: page.description,
-      url: `https://dgi-pravo.ru/${slug}`,
-    },
-    twitter: { card: "summary", title: page.seoTitle, description: page.description },
+    ...factualSocialMetadata(slug, page.seoTitle, page.description),
     alternates: canIndexPage(page) ? { canonical: canonicalUrl(page) } : undefined,
     robots: canIndexPage(page) ? { index: true, follow: true } : { index: false, follow: false },
   };
