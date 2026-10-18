@@ -75,6 +75,7 @@ export function PageShell({ children, variant = "default" }: Readonly<{ children
             <p>Независимый справочно-правовой ресурс по жилищным вопросам. Перед подачей документов проверяйте действующие правила и официальные источники.</p>
           </div>
           <div className="footer-links">
+            <Link href="/o-proekte">О проекте и проверке источников</Link>
             <Link href="/normativnye-akty">Нормативные акты</Link>
             <Link href="/zayavlenie-v-dgi-moskvy">Обращения</Link>
             <Link href="/sudebnaya-praktika-dgi">Судебные дела</Link>
