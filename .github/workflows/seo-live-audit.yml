@@ -1,0 +1,34 @@
+name: DGI live SEO audit — Google and Yandex essentials
+on:
+  workflow_dispatch:
+  push:
+    branches: [seo/official-google-yandex-audit-20261018]
+    paths:
+      - "scripts/seo-live-audit.mjs"
+      - ".github/workflows/seo-live-audit.yml"
+  pull_request:
+    paths:
+      - "scripts/seo-live-audit.mjs"
+      - ".github/workflows/seo-live-audit.yml"
+  schedule:
+    - cron: "35 6 * * 1"
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Read-only audit across DGI public pages
+        run: node scripts/seo-live-audit.mjs
+      - name: Save structured diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dgi-live-seo-diagnostics
+          path: test-results/seo-live-audit.json
+          retention-days: 30
