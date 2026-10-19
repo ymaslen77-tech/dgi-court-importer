@@ -1,0 +1,12 @@
+const site="https://dgi-pravo.ru";
+const filename="yandex_6ade8e55ebfc38d1.html";
+const full=`${site}/${filename}`;
+const proof=await fetch(full,{signal:AbortSignal.timeout(15000),headers:{"user-agent":"DGI-ownership-monitor/1.0"}});
+const html=await proof.text();
+const valid=proof.status===200 && html.includes("<body>Verification: 6ade8e55ebfc38d1</body>");
+console.log(JSON.stringify({url:full,status:proof.status,correctFile:valid}));
+const robot=await fetch(`${site}/robots.txt`,{signal:AbortSignal.timeout(15000)});
+const rules=await robot.text();
+const allowed=robot.status===200 && (rules.includes("Allow: /"+filename)||!rules.includes("Disallow: /"));
+console.log(JSON.stringify({url:`${site}/robots.txt`,status:robot.status,verificationCrawlAllowed:allowed}));
+if(!valid||!allowed)process.exitCode=1;
