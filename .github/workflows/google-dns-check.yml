@@ -1,17 +1,22 @@
-name: DGI Google TXT DNS verification
+name: DGI Search Console and Webmaster ownership check
 on:
+  schedule:
+    - cron: "21 7 * * 1"
+  workflow_dispatch:
   push:
     branches: [ops/check-google-dns-20261019]
-  workflow_dispatch:
 permissions:
   contents: read
 jobs:
-  dns:
+  ownership:
     runs-on: ubuntu-latest
-    timeout-minutes: 3
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: node scripts/check-google-dns.mjs
+      - name: Check Google domain TXT via independent DNS resolvers
+        run: node scripts/check-google-dns.mjs
+      - name: Check Yandex verification on public HTTPS domain
+        run: node scripts/check-yandex-verification.mjs
