@@ -11,6 +11,7 @@ import os
 import re
 import sys
 import urllib.parse
+import zipfile
 from pathlib import Path
 
 import ijson
@@ -94,13 +95,56 @@ def normalize(row,source):
         "verification":"case_metadata_only","act_reviewed":False,
     }
 
+# Court open-data API URLs ending in /json/ can return a ZIP archive. Do not
+# infer the response format from the URL or load hundreds of MB into RAM.
+MAX_JSON_MEMBER_BYTES = 20 * 1024 * 1024 * 1024
+MAX_ARCHIVE_RATIO = 200
+JSON_SUFFIXES = (".json", ".jsonl", ".ndjson")
+
+def _stream_array(open_file):
+    with open_file() as stream:
+        try:
+            root = next((prefix for prefix, event, _ in ijson.parse(stream)
+                         if event == "start_array" and prefix in
+                         ("", "data", "items", "records", "result", "Data", "Items")), None)
+        except ijson.JSONError as exc:
+            raise ValueError("Dataset content is not valid JSON; inspect official export format") from exc
+    if root is None:
+        raise ValueError("Unexpected official dataset JSON root (no supported case array)")
+    with open_file() as stream:
+        yield from ijson.items(stream, (root + ".item") if root else "item")
+
 def stream_json(path):
-    with open(path,"rb") as f:
-        root=next((prefix for prefix,event,_ in ijson.parse(f)
-                   if event=="start_array" and prefix in ("","data","items","records","result","Data","Items")),None)
-    if root is None: raise ValueError("Unexpected official dataset JSON structure")
-    with open(path,"rb") as f:
-        yield from ijson.items(f,(root+".item") if root else "item")
+    path = Path(path)
+    with path.open("rb") as source:
+        signature = source.read(4)
+    if signature != b"PK\\x03\\x04":
+        yield from _stream_array(lambda: path.open("rb"))
+        return
+    try:
+        with zipfile.ZipFile(path) as archive:
+            # Open members directly; never extract filenames to disk.
+            members = [member for member in archive.infolist()
+                       if not member.is_dir() and
+                       member.filename.lower().endswith(JSON_SUFFIXES)]
+            if not members:
+                suffixes = sorted(set(Path(m.filename).suffix.lower()
+                                      for m in archive.infolist() if not m.is_dir()))
+                raise ValueError("Official ZIP contains no JSON members; file types: " +
+                                 ", ".join(suffixes[:10]))
+            # One logical official export per URL. Multiple JSON members may
+            # represent different datasets: fail closed rather than mix them.
+            if len(members) != 1:
+                raise ValueError(f"Expected one official dataset JSON member; found {len(members)}")
+            member = members[0]
+            if member.file_size > MAX_JSON_MEMBER_BYTES or (
+                member.file_size > 0 and
+                member.file_size > max(1, member.compress_size) * MAX_ARCHIVE_RATIO
+            ):
+                raise ValueError("Official ZIP member exceeds uncompressed-size or ratio limit")
+            yield from _stream_array(lambda: archive.open(member, "r"))
+    except zipfile.BadZipFile as exc:
+        raise ValueError("Official dataset ZIP is malformed or truncated") from exc
 
 def merge_records(path,items,max_new):
     old={}
