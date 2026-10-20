@@ -83,15 +83,37 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          args=(--input /tmp/moscow-court-export.json --source-url "$COURT_DATASET_URL" --output data/court-catalog.jsonl --max-new "$MAX_NEW")
-          if [ "$WRITE_INDEX" = "true" ]; then args+=(--write); fi
+          # Persist vetted-schema metadata only to the ephemeral GitHub runner.
+          # Git commit/publishing remains disabled unless explicitly requested.
+          args=(--input /tmp/moscow-court-export.json --source-url "$COURT_DATASET_URL" --output data/court-catalog.jsonl --max-new "$MAX_NEW" --write)
           python court_catalog.py "${args[@]}" | tee court-index-report.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("data/court-catalog.jsonl")
+          required={"id","court","number","uid","instance_group","category","topics","dgi_party","official_case_url","dataset","verification","act_reviewed"}
+          count=0
+          for line in p.open(encoding="utf-8"):
+              obj=json.loads(line)
+              assert set(obj)==required, "Unexpected field in candidate metadata index"
+              assert obj["verification"]=="case_metadata_only" and obj["act_reviewed"] is False
+              assert "participants" not in obj and "parties" not in obj
+              count+=1
+          print("Unpublished, metadata-only candidate index rows:",count)
+          PY
       - name: Retain human-readable run report
         uses: actions/upload-artifact@v4
         with:
           name: court-index-report
           path: court-index-report.json
           retention-days: 30
+      - name: Keep candidate-only review artifact without publishing
+        uses: actions/upload-artifact@v4
+        with:
+          name: moscow-housing-court-candidates-for-legal-review
+          path: data/court-catalog.jsonl
+          if-no-files-found: error
+          retention-days: 14
       - name: Commit only normalized source-linked metadata
         if: env.WRITE_INDEX == 'true'
         shell: bash
