@@ -40,7 +40,7 @@ test("2026-10-18 gap register enumerates current drafts without increasing appro
  }
 });
 test("separate primary-source amendment evidence is not declared a complete current regulation",()=>{
- assert.equal(map.officialEvidence.length,6);
+ assert.equal(map.officialEvidence.length,7);
  const docs=Object.fromEntries(map.officialEvidence.map(x=>[x.id,x]));
  assert.match(docs["820-pp-2026"].act,/820-ПП/);
  assert.equal(docs["820-pp-2026"].effectiveFrom,"2026-04-15");
@@ -50,6 +50,11 @@ test("separate primary-source amendment evidence is not declared a complete curr
  assert.ok(docs["759-pp-2026-communal"].appliesTo.some(x=>x.includes("1285-ПП")));
  assert.ok(docs["132-pp-2019-primary-and-2895-pp-2022-amendment"].appliesTo.includes("521-ПП"));
  assert.ok(docs["519-pp-2017-exchange-regulation"].appliesTo[0].includes("519-ПП"));
+ assert.ok(docs["1324-pp-2026-habitability-prefecture"].appliesTo.some(x=>x.includes("1072-ПП")));
+ assert.match(docs["1324-pp-2026-habitability-prefecture"].jurisdictionNote,/префектуры/);
+ const statusTopic=map.missingOrIncompleteTopics.find(x=>x.id==="renovation-expropriation");
+ assert.deepEqual(statusTopic.subtopicsRequiringIndependentReview.map(x=>x.id),["housing-unfit-recognition","garden-house-status"]);
+ assert.ok(statusTopic.subtopicsRequiringIndependentReview.every(x=>x.status==="official_amendment_only_no_consolidated_procedure"));
  for(const s of map.officialEvidence){
   assert.equal(s.currentConsolidatedEditionVerified,false);
   assert.equal(s.publicationApproved,false);
