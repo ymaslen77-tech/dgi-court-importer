@@ -22,7 +22,8 @@ jobs:
     env:
       COURT_DATASET_URL: ${{ vars.COURT_DATASET_URL }}
       MAX_NEW: ${{ github.event.inputs.max_new || '2500' }}
-      WRITE_INDEX: ${{ github.event_name == 'schedule' || inputs.write_catalog == true }}
+      # Scheduled scans must never modify main without a supervised approval.
+      WRITE_INDEX: ${{ github.event_name == 'workflow_dispatch' && inputs.write_catalog == true }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -50,7 +51,7 @@ jobs:
           python - <<'PY'
           import os, urllib.request
           url=os.environ["COURT_DATASET_URL"]
-          req=urllib.request.Request(url,headers={"User-Agent":"MoscowHousingLegalCatalog/1.0 (+https://dgimos.webflow.io/)"})
+          req=urllib.request.Request(url,headers={"User-Agent":"MoscowHousingLegalCatalog/1.0 (+https://dgi-pravo.ru/)"})
           total=0
           with urllib.request.urlopen(req,timeout=180) as response, open("/tmp/moscow-court-export.json","wb") as dst:
               while True:
@@ -60,6 +61,23 @@ jobs:
                   if total>1_100_000_000: raise SystemExit("Export exceeds safety size cap")
                   dst.write(chunk)
           print(f"Official dataset bytes: {total}")
+          PY
+      - name: Inspect downloaded export format without extracting
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import zipfile
+          p=Path("/tmp/moscow-court-export.json")
+          with p.open("rb") as f: magic=f.read(4)
+          if magic==b"PK\\x03\\x04":
+              with zipfile.ZipFile(p) as z:
+                  members=[m for m in z.infolist() if not m.is_dir()]
+                  print("Official export: ZIP; members=",len(members))
+                  for m in members[:12]:
+                      print("Member:",m.filename[:120],"compressed:",m.compress_size,"bytes:",m.file_size)
+          else:
+              print("Official export: plain document, signature=",magic.hex())
           PY
       - name: Extract only topical case metadata; never outcomes or identities
         shell: bash
