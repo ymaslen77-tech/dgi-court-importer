@@ -70,7 +70,7 @@ jobs:
           import zipfile
           p=Path("/tmp/moscow-court-export.json")
           with p.open("rb") as f: magic=f.read(4)
-          if magic==b"PK\\x03\\x04":
+          if magic==b"PK\x03\x04":
               with zipfile.ZipFile(p) as z:
                   members=[m for m in z.infolist() if not m.is_dir()]
                   print("Official export: ZIP; members=",len(members))
