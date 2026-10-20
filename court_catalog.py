@@ -118,7 +118,7 @@ def stream_json(path):
     path = Path(path)
     with path.open("rb") as source:
         signature = source.read(4)
-    if signature != b"PK\\x03\\x04":
+    if signature != b"PK\x03\x04":
         yield from _stream_array(lambda: path.open("rb"))
         return
     try:
