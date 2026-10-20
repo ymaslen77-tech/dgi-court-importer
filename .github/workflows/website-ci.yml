@@ -65,6 +65,8 @@ jobs:
           }
       - name: Validate migration inventory
         run: pnpm test
+      - name: Report legal editorial and SEO release eligibility without changing statuses
+        run: node scripts/seo-release-eligibility.mjs
       - name: Validate staging preview
         run: pnpm migration:dry-run
       - name: Validate sanitized Webflow CMS archive

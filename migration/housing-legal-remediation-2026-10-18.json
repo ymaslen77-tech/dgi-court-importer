@@ -710,5 +710,26 @@
     "evidenceStatus": "official_publication_id_found_in_official_register_full_consolidated_code_not_approved",
     "currentEditionVerified": false,
     "publicationApproved": false
-  }
+  },
+  "sourceIdentityWarnings": [
+    {
+      "code": "same-number-different-act-521-pp",
+      "status": "verified_distinct_primary_documents",
+      "doNotMerge": true,
+      "targetAct": {
+        "number": "521-ПП",
+        "date": "2014-09-10",
+        "subject": "Административные регламенты жилищных услуг ДГИ",
+        "officialSource": "https://www.mos.ru/upload/documents/oiv/10092014-_-521_pp%281%29.pdf"
+      },
+      "distinctAct": {
+        "number": "521-ПП",
+        "date": "2026-03-11",
+        "subject": "Изменение приложения 1 к постановлению Москвы №152-ПП от 20.04.2012 об оценке заявок для технопарков и промышленных объектов",
+        "officialSource": "https://www.mos.ru/upload/documents/files/6587/521-PPot11marta2026g.pdf"
+      },
+      "rule": "При сверке поправок и сводных редакций ключ акта — орган + дата + номер + предмет; номер без даты не идентифицирует правовой акт.",
+      "publicationApproved": false
+    }
+  ]
 }

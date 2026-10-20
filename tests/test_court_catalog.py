@@ -1,6 +1,7 @@
 import json
 import tempfile
 import unittest
+import zipfile
 from pathlib import Path
 from court_catalog import normalize, merge_records, stream_json, write_index, court_url
 
@@ -65,6 +66,49 @@ class CatalogTests(unittest.TestCase):
             dest.write_text(json.dumps({"data":[row]},ensure_ascii=False),encoding="utf-8")
             records=list(stream_json(dest))
         self.assertEqual(len(records),1)
+
+    def test_stream_zip_with_single_json_member(self):
+        row={"courtName":"Суд","number":"2-200/2026","category":"Жилищные споры",
+             "url":CASE_URL}
+        with tempfile.TemporaryDirectory() as tmp:
+            archive=Path(tmp)/"official.json"
+            with zipfile.ZipFile(archive,"w",compression=zipfile.ZIP_DEFLATED) as z:
+                z.writestr("export/data.json",json.dumps({"data":[row]},ensure_ascii=False))
+            found=list(stream_json(archive))
+        self.assertEqual(len(found),1)
+        self.assertEqual(found[0]["number"],"2-200/2026")
+
+    def test_reject_ambiguous_zip_json_members(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            archive=Path(tmp)/"cases.json"
+            with zipfile.ZipFile(archive,"w") as z:
+                z.writestr("one.json",'{"data":[]}')
+                z.writestr("two.json",'{"data":[]}')
+            with self.assertRaisesRegex(ValueError,"Expected one official dataset"):
+                list(stream_json(archive))
+
+    def test_reject_archive_without_json_member(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            archive=Path(tmp)/"cases.json"
+            with zipfile.ZipFile(archive,"w") as z:
+                z.writestr("readme.csv","case;court")
+            with self.assertRaisesRegex(ValueError,"no JSON members"):
+                list(stream_json(archive))
+
+    def test_zip_members_never_extracted_to_disk(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            archive=Path(tmp)/"court.zip"
+            with zipfile.ZipFile(archive,"w") as z:
+                z.writestr("../../case.json",'{"data":[]}')
+            self.assertEqual(list(stream_json(archive)),[])
+            self.assertFalse((Path(tmp)/"case.json").exists())
+
+    def test_plain_non_json_reports_structured_error(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            archive=Path(tmp)/"case.json"
+            archive.write_text("<html>not json</html>",encoding="utf-8")
+            with self.assertRaisesRegex(ValueError,"not valid JSON"):
+                list(stream_json(archive))
 
 if __name__=="__main__":
     unittest.main()
