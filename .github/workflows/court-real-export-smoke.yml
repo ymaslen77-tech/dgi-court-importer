@@ -46,7 +46,7 @@ jobs:
           import zipfile
           p=Path("/tmp/official-export.bin")
           with p.open("rb") as f: magic=f.read(4)
-          print("ZIP signature:", magic==b"PK\\x03\\x04")
+          print("ZIP signature:", magic==b"PK\x03\x04")
           if zipfile.is_zipfile(p):
               with zipfile.ZipFile(p) as z:
                   members=[m for m in z.infolist() if not m.is_dir()]
