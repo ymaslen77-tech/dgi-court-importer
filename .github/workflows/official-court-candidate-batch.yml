@@ -19,25 +19,34 @@ jobs:
         with:
           python-version: "3.12"
       - run: python -m pip install ijson
-      - name: Download official export to ephemeral runner
+      - name: Download official export with bounded retries; fail on invalid archive
         shell: bash
         run: |
           python - <<'PY'
-          import os,urllib.request
+          import os
           from importer import dataset_url
           url=os.getenv("COURT_DATASET_URL","")
           if not dataset_url(url) or "/opendata/" not in url:
               raise SystemExit("Missing/invalid official dataset URL")
-          req=urllib.request.Request(url,headers={"User-Agent":"DGI-Official-Court-Research/1.0 (+https://dgi-pravo.ru/)"})
-          total=0
-          with urllib.request.urlopen(req,timeout=180) as response,open("/tmp/dgi-court-source.zip","wb") as dst:
-              while True:
-                  buf=response.read(1024*1024)
-                  if not buf: break
-                  total+=len(buf)
-                  if total>1_100_000_000: raise SystemExit("Source exceeds cap")
-                  dst.write(buf)
-          print("Official source byte count:",total)
+          PY
+          curl --fail --location --silent --show-error --retry 2 --retry-delay 15 \
+            --retry-all-errors --connect-timeout 45 --max-time 900 \
+            --speed-limit 1024 --speed-time 120 \
+            --user-agent "DGI-Official-Court-Research/1.0 (+https://dgi-pravo.ru/)" \
+            --output /tmp/dgi-court-source.zip "$COURT_DATASET_URL"
+          python - <<'PY'
+          from pathlib import Path
+          import zipfile
+          p=Path("/tmp/dgi-court-source.zip")
+          size=p.stat().st_size
+          if size>1_100_000_000 or size<1000 or not zipfile.is_zipfile(p):
+              raise SystemExit("Downloaded official source exceeds safety cap or is not a ZIP archive")
+          with zipfile.ZipFile(p) as z:
+              members=[x for x in z.infolist() if not x.is_dir()]
+              if len(members)!=1 or not members[0].filename.lower().endswith(".json"):
+                  raise SystemExit("Unexpected ZIP schema; no candidate import")
+              print("Official source bytes:",size)
+              print("JSON member uncompressed bytes:",members[0].file_size)
           PY
       - name: Parse only candidate metadata; never publish
         shell: bash
