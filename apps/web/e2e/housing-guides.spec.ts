@@ -80,6 +80,9 @@ test("catalog explains eight reference-only revision dates without asserting leg
  await page.goto("/spravochnik-zhilishchnogo-zakonodatelstva-moskvy");
  await expect(page.locator(".housing-law-revision")).toHaveCount(8);
  await expect(page.locator(".housing-law-amendment")).toHaveCount(2);
+ await expect(page.locator(".housing-law-official-snapshot")).toHaveCount(1);
+ await expect(page.locator('[id="housing-code"]')).toContainText("ЖК РФ с изменениями на 2 мая 2026 года");
+ await expect(page.locator('[id="housing-code"]')).toContainText("не удостоверение действующей редакции");
  await expect(page.locator('[id="521-pp"]')).toContainText("820-ПП");
  await expect(page.locator('[id="132-pp"]')).toContainText("2895-ПП");
  await expect(page.locator('[id="521-pp"]')).toContainText("05.05.2026");
