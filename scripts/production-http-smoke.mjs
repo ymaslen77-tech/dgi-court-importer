@@ -1,7 +1,7 @@
 // Public Vercel production smoke test. Read-only, no credentials or CMS writes.
 import { writeFileSync, mkdirSync } from "node:fs";
 // Audit the user-facing custom domain, not the internal Vercel alias.
-const base = (process.env.DGI_PUBLIC_ORIGIN || "https://dgi-pravo.ru").replace(/\\/$/, "");
+const base = (process.env.DGI_PUBLIC_ORIGIN || "https://dgi-pravo.ru").replace(/\/$/, "");
 const target = new URL(base);
 if (target.protocol !== "https:" || target.username || target.password || target.port ||
     target.search || target.hash || target.pathname !== "/" ||
