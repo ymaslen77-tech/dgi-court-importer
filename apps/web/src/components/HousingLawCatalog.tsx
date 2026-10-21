@@ -28,7 +28,7 @@ export function HousingLawCatalog() {
          <p><a href={law.confirmedAmendment.officialPublication} rel="noopener noreferrer" target="_blank">Официальная публикация изменения ↗</a></p>
          <p>Это не подтверждение действующей консолидированной редакции. Итоговая юридическая проверка не выполнена.</p>
        </div>}
-       {"officialSnapshot" in law && law.officialSnapshot && <div className="housing-law-amendment">
+       {"officialSnapshot" in law && law.officialSnapshot && <div className="housing-law-official-snapshot">
          <p><strong>Официально размещённая редакция:</strong> {law.officialSnapshot.title}.</p>
          <p>{law.officialSnapshot.warning}</p>
          <p><a href={law.officialSnapshot.url} target="_blank" rel="noopener noreferrer">Открыть текст на сайте Москвы ↗</a></p>
