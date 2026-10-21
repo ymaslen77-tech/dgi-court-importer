@@ -1,0 +1,88 @@
+name: One-time official court candidate batch — review only
+on:
+  push:
+    branches: [release/legal-source-court-batch-20261021]
+    paths:
+      - ".github/workflows/official-court-candidate-batch.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  official-candidates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 95
+    env:
+      COURT_DATASET_URL: ${{ vars.COURT_DATASET_URL }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install ijson
+      - name: Download official export with bounded retries; fail on invalid archive
+        shell: bash
+        run: |
+          python - <<'PY'
+          import os
+          from importer import dataset_url
+          url=os.getenv("COURT_DATASET_URL","")
+          if not dataset_url(url) or "/opendata/" not in url:
+              raise SystemExit("Missing/invalid official dataset URL")
+          PY
+          curl --fail --location --silent --show-error --retry 2 --retry-delay 15 \
+            --retry-all-errors --connect-timeout 45 --max-time 900 \
+            --speed-limit 1024 --speed-time 120 \
+            --user-agent "DGI-Official-Court-Research/1.0 (+https://dgi-pravo.ru/)" \
+            --output /tmp/dgi-court-source.zip "$COURT_DATASET_URL"
+          python - <<'PY'
+          from pathlib import Path
+          import zipfile
+          p=Path("/tmp/dgi-court-source.zip")
+          size=p.stat().st_size
+          if size>1_100_000_000 or size<1000 or not zipfile.is_zipfile(p):
+              raise SystemExit("Downloaded official source exceeds safety cap or is not a ZIP archive")
+          with zipfile.ZipFile(p) as z:
+              members=[x for x in z.infolist() if not x.is_dir()]
+              if len(members)!=1 or not members[0].filename.lower().endswith(".json"):
+                  raise SystemExit("Unexpected ZIP schema; no candidate import")
+              print("Official source bytes:",size)
+              print("JSON member uncompressed bytes:",members[0].file_size)
+          PY
+      - name: Parse only candidate metadata; never publish
+        shell: bash
+        run: |
+          python court_catalog.py --input /tmp/dgi-court-source.zip --source-url "$COURT_DATASET_URL" --output /tmp/dgi-court-review-candidates.jsonl --max-new 2500 --write > /tmp/dgi-court-source-run-report.json
+          python - <<'PY'
+          import collections,json
+          from pathlib import Path
+          p=Path("/tmp/dgi-court-review-candidates.jsonl")
+          mandatory={"id","court","number","uid","instance_group","category","topics","dgi_party","official_case_url","dataset","verification","act_reviewed"}
+          topic_counts=collections.Counter()
+          dgi_count=0
+          total=0
+          for line in p.open(encoding="utf-8"):
+              record=json.loads(line)
+              if set(record)!=mandatory: raise SystemExit("Candidate schema unexpectedly contains extra fields")
+              if record["act_reviewed"] is not False or record["verification"]!="case_metadata_only":
+                  raise SystemExit("A candidate was falsely marked as verified")
+              if not record["official_case_url"].startswith("https://"):
+                  raise SystemExit("Missing official case URL")
+              dgi_count+=int(record["dgi_party"])
+              topic_counts.update(record["topics"])
+              total+=1
+          if total<100: raise SystemExit("Too few candidate records, do not accept export")
+          report={"records":total,"dgi_party_metadata_matches":dgi_count,"topic_counts":dict(topic_counts.most_common()),"all_documents_act_reviewed":False,"source":"official_court_open_data","publication":False}
+          out=Path("/tmp/dgi-court-safe-report.json")
+          out.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+          print("SAFE REPORT (no case identities):",out.read_text(encoding="utf-8"))
+          PY
+      - name: Retain candidate-only research artifacts for 14 days
+        uses: actions/upload-artifact@v4
+        with:
+          name: dgi-official-court-metadata-review-batch
+          path: |
+            /tmp/dgi-court-review-candidates.jsonl
+            /tmp/dgi-court-safe-report.json
+            /tmp/dgi-court-source-run-report.json
+          if-no-files-found: error
+          retention-days: 14

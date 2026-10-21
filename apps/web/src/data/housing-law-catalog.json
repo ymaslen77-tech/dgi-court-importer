@@ -24,7 +24,16 @@
         "researchNote": "Справочная база указывает изменения, вступившие в силу 01.09.2026; требуется сверить отдельные статьи и дальнейшие поправки.",
         "officialCurrentTextChecked": false
       },
-      "sourceScope": "historical_reference"
+      "sourceScope": "historical_reference",
+      "officialSnapshot": {
+        "title": "ЖК РФ с изменениями на 2 мая 2026 года",
+        "editionAsOf": "2026-05-02",
+        "reviewedOn": "2026-10-21",
+        "host": "www.mos.ru",
+        "url": "https://www.mos.ru/upload/documents/files/6377/Kodeksot29_12_2004N188-FZJilishniikodeksRossiiskoiFederacii%28sizmeneniyamina2maya2026_Tekst.pdf",
+        "fullCurrentEditionVerified": false,
+        "warning": "Это официально размещённый срез текста по состоянию на 02.05.2026, а не удостоверение действующей редакции на октябрь 2026 года. Наличие более поздних поправок требует отдельной сверки."
+      }
     },
     {
       "id": "moscow-29",

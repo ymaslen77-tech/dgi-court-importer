@@ -169,6 +169,27 @@
       ],
       "currentConsolidatedEditionVerified": false,
       "publicationApproved": false
+    },
+    {
+      "id": "housing-code-official-moscow-mirror-2026-05-02",
+      "status": "official_city_hosted_consolidated_snapshot_not_current",
+      "act": "Жилищный кодекс Российской Федерации от 29.12.2004 № 188-ФЗ, сводный справочный текст с изменениями на 02.05.2026",
+      "url": "https://www.mos.ru/upload/documents/files/6377/Kodeksot29_12_2004N188-FZJilishniikodeksRossiiskoiFederacii%28sizmeneniyamina2maya2026_Tekst.pdf",
+      "sourceSection": "PDF, размещённый на портале Москвы: «Жилищный кодекс Российской Федерации (с изменениями на 2 мая 2026 года)»; раздел III, ст. 49–52, и другие статьи",
+      "appliesTo": [
+        "ЖК РФ №188-ФЗ (официально размещённый сводный срез на 02.05.2026)"
+      ],
+      "confirmedFacts": [
+        "Портал Москвы размещает текст ЖК РФ, обозначенный как редакция с изменениями на 02.05.2026.",
+        "В опубликованном тексте ст. 52 предусмотрено принятие на учёт нуждающихся и представление документов, подтверждающих право на учёт, с исключением документов, получаемых органом по межведомственным запросам."
+      ],
+      "notConfirmed": [
+        "Что этот сводный PDF отражает изменения после 02.05.2026, включая отмеченную в справочных системах редакцию августа 2026",
+        "Все поправки, официальные даты вступления в силу и весь действующий текст ЖК РФ по состоянию на 21.10.2026",
+        "Региональные критерии признания нуждаемости и актуальная редакция московского приложения 6 к 521-ПП"
+      ],
+      "currentConsolidatedEditionVerified": false,
+      "publicationApproved": false
     }
   ],
   "serviceChecks": [
@@ -301,7 +322,15 @@
       "currentConsolidatedEditionVerified": false,
       "allAmendmentsVerified": false,
       "allAnnexesVerified": false,
-      "publicationApproved": false
+      "publicationApproved": false,
+      "additionalOfficialConsolidationSnapshot": {
+        "url": "https://www.mos.ru/upload/documents/files/6377/Kodeksot29_12_2004N188-FZJilishniikodeksRossiiskoiFederacii%28sizmeneniyamina2maya2026_Tekst.pdf",
+        "sourceHost": "www.mos.ru",
+        "editionAsOf": "2026-05-02",
+        "sourceDocumentVerified": true,
+        "currentAsOf20261021": false,
+        "note": "Официально размещённый городской сводный текст подтверждает редакцию только до 02.05.2026, но не отменяет необходимости проверить последующие изменения и даты их вступления. В каталоге также имеется справочная ссылка на редакцию августа 2026, которая сама по себе не является официальной полной сверкой."
+      }
     },
     {
       "id": "moscow-29",
@@ -775,5 +804,6 @@
       "rule": "При сверке поправок и сводных редакций ключ акта — орган + дата + номер + предмет; номер без даты не идентифицирует правовой акт.",
       "publicationApproved": false
     }
-  ]
+  ],
+  "legalResearchLastReviewedOn": "2026-10-21"
 }
