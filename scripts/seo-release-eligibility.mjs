@@ -6,11 +6,40 @@ import {fileURLToPath} from "node:url";
 import {resolve} from "node:path";
 
 const read=(p)=>JSON.parse(readFileSync(new URL("../"+p,import.meta.url),"utf8"));
+
+const legalSourceHosts=new Set(["www.mos.ru","mos.ru","vestnikmoscow.mos.ru","publication.pravo.gov.ru","pravo.gov.ru"]);
+function realIsoDate(value) {
+ if(typeof value!=="string"||!/^\d{4}-\d{2}-\d{2}$/.test(value))return false;
+ const date=new Date(value+"T00:00:00Z");
+ return Number.isFinite(date.valueOf())&&date.toISOString().slice(0,10)===value;
+}
+// These fields are *attestations*, not a machine determination that the law is current.
+// An editorial boolean alone cannot ever be interpreted as a legally checked source.
+export function hasDocumentedLegalSignoff(item) {
+ const review=item?.legalSignoff;
+ if(!review||review.approved!==true||
+    !realIsoDate(review.reviewedOn)||!realIsoDate(review.editionCheckedThrough)||
+    review.editionCheckedThrough>review.reviewedOn||
+    typeof review.reviewedBy!=="string"||review.reviewedBy.trim().length<3||
+    typeof review.reasonedFinding!=="string"||review.reasonedFinding.trim().length<40||
+    review.allMaterialAmendmentsChecked!==true||
+    review.fullTextAndAnnexesChecked!==true)return false;
+ try {
+  const url=new URL(review.officialDocumentUrl);
+  const path=decodeURIComponent(url.pathname).toLowerCase();
+  return url.protocol==="https:"&&!url.username&&!url.password&&!url.port&&!url.hash&&
+    legalSourceHosts.has(url.hostname.toLowerCase())&&
+    path.length>12&&path!=="/dgi/"&&path!=="/"&&
+    (path.includes("/upload/")||path.startsWith("/document/")||
+     path.startsWith("/documents/")||path.endsWith(".pdf"));
+ }catch{return false;}
+}
+
 export function summarizeEligibility({pages,acts,services,guides,remediation}){
-  const approvedPages=pages.filter(x=>x.editoriallyApproved===true);
-  const approvedActs=acts.laws.filter(x=>x.currentVersionVerified===true && x.publicationApproved===true);
-  const approvedServices=services.services.filter(x=>x.procedureVerified===true && x.currentRevisionVerified===true && x.publicationApproved===true);
-  const approvedGuides=guides.guides.filter(x=>x.stage==="approved" && x.publicationApproved===true);
+  const approvedPages=pages.filter(x=>x.editoriallyApproved===true && hasDocumentedLegalSignoff(x));
+  const approvedActs=acts.laws.filter(x=>x.currentVersionVerified===true && x.publicationApproved===true && hasDocumentedLegalSignoff(x));
+  const approvedServices=services.services.filter(x=>x.procedureVerified===true && x.currentRevisionVerified===true && x.publicationApproved===true && hasDocumentedLegalSignoff(x));
+  const approvedGuides=guides.guides.filter(x=>x.stage==="approved" && x.publicationApproved===true && hasDocumentedLegalSignoff(x));
   const warnings=remediation.sourceIdentityWarnings||[];
   const actIds=new Set(remediation.actChecks.map(x=>x.id));
   const serviceIds=new Set(remediation.serviceChecks.map(x=>x.id));
@@ -20,7 +49,13 @@ export function summarizeEligibility({pages,acts,services,guides,remediation}){
     throw new Error("Service source/reconciliation count drift: manual legal review required");
   if(warnings.some(x=>x.doNotMerge!==true || x.publicationApproved!==false))
     throw new Error("Same-number official acts are wrongly marked merged/approved");
+  const unprovenApprovals=[...pages.filter(x=>x.editoriallyApproved===true),
+    ...acts.laws.filter(x=>x.currentVersionVerified===true&&x.publicationApproved===true),
+    ...services.services.filter(x=>x.procedureVerified===true&&x.currentRevisionVerified===true&&x.publicationApproved===true),
+    ...guides.guides.filter(x=>x.stage==="approved"&&x.publicationApproved===true)]
+    .filter(x=>!hasDocumentedLegalSignoff(x));
   const blockers=[
+    ...(unprovenApprovals.length?[{type:"boolean_approval_without_legal_evidence",count:unprovenApprovals.length}]:[]),
     ...(approvedPages.length!==pages.length?[{type:"unapproved_static_pages",count:pages.length-approvedPages.length}]:[]),
     ...(approvedActs.length!==acts.laws.length?[{type:"unverified_full_current_law_editions",count:acts.laws.length-approvedActs.length}]:[]),
     ...(approvedServices.length!==services.services.length?[{type:"unverified_service_regulations",count:services.services.length-approvedServices.length}]:[]),

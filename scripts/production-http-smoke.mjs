@@ -1,6 +1,13 @@
 // Public Vercel production smoke test. Read-only, no credentials or CMS writes.
 import { writeFileSync, mkdirSync } from "node:fs";
-const base = "https://dgi-housing-preview.vercel.app";
+// Audit the user-facing custom domain, not the internal Vercel alias.
+const base = (process.env.DGI_PUBLIC_ORIGIN || "https://dgi-pravo.ru").replace(/\/$/, "");
+const target = new URL(base);
+if (target.protocol !== "https:" || target.username || target.password || target.port ||
+    target.search || target.hash || target.pathname !== "/" ||
+    !["dgi-pravo.ru", "www.dgi-pravo.ru"].includes(target.hostname)) {
+  throw new Error("DGI_PUBLIC_ORIGIN must be https://dgi-pravo.ru (or www), without path or credentials");
+}
 const routes = ["/","/kontakty-dgi","/gosuslugi-dgi","/normativnye-akty","/sudebnaya-praktika-dgi","/robots.txt","/sitemap.xml"];
 const results = [];
 const sleep = ms => new Promise(resolve => setTimeout(resolve,ms));
@@ -15,6 +22,7 @@ for(const path of routes){
    const robots=response.headers.get("x-robots-tag")||"";
    const issues=[];
    if(response.status!==200) issues.push("HTTP "+response.status);
+   if(!["dgi-pravo.ru","www.dgi-pravo.ru"].includes(new URL(response.url).hostname)) issues.push("Unexpected redirect outside public DGI domain");
    if(path.endsWith(".txt")){
      if(!html.toLowerCase().includes("disallow: /"))issues.push("robots must block indexing in unapproved release");
    }else if(path.endsWith(".xml")){
