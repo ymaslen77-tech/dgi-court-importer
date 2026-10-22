@@ -1,6 +1,11 @@
 name: VPS SSH access check
 
 on:
+  push:
+    branches:
+      - infra/secure-vps-ssh-check
+    paths:
+      - .github/workflows/vps-ssh-access-check.yml
   workflow_dispatch:
 
 permissions:
