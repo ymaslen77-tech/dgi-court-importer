@@ -1,0 +1,23 @@
+# Coolify staging Dockerfile. Production release gates must be explicitly accepted.
+FROM node:22-bookworm-slim AS builder
+WORKDIR /app
+RUN npm install -g pnpm@10.0.0
+COPY . .
+RUN pnpm install --frozen-lockfile
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV SITE_CUTOVER=false
+ENV SITE_RELEASE_APPROVED=no
+RUN pnpm --filter @dgi/web build
+
+FROM node:22-bookworm-slim
+WORKDIR /app
+RUN npm install -g pnpm@10.0.0
+COPY --from=builder --chown=node:node /app /app
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV SITE_CUTOVER=false
+ENV SITE_RELEASE_APPROVED=no
+ENV PORT=3000
+USER node
+EXPOSE 3000
+CMD ["pnpm", "--filter", "@dgi/web", "start"]
