@@ -42,6 +42,7 @@ test("new guide previews never enter production or live sitemap",()=>{
  const article=readFileSync(new URL("../../apps/web/src/components/MigratedArticle.tsx",import.meta.url),"utf8");
  assert.ok(route.includes("!siteIsLive && findHousingGuide(slug)"));
  assert.ok(route.includes("index: false, follow: false"));
- assert.ok(article.includes("!siteIsLive && <HousingSupplement page={page} />"));
+ assert.ok(article.includes("!siteIsLive && hasHousingSupplement(page.slug)"));
+ assert.ok(article.includes("<HousingSupplement page={page} />"));
  assert.ok(!sitemap.includes("housingGuides"));
 });
