@@ -3,6 +3,7 @@ name: Next.js migration checks
 on:
   push:
     branches:
+      - infra/coolify-russian-vps
       - feature/nextjs-webflow-migration
       - feature/dgi-offline-completion
       - main
