@@ -3,6 +3,8 @@ import type { ReactNode } from "react";
 import type { MigratedBlock, MigratedPage } from "@/data/pages";
 import legacyAnchors from "@/data/legacy-anchors.json";
 import { SeoMarkup } from "./SeoMarkup";
+import { HousingSupplement, hasHousingSupplement } from "./HousingGuide";
+import { siteIsLive } from "@/data/pages";
 
 function safeHref(href?: string) {
   if (!href) return undefined;
@@ -110,6 +112,7 @@ export function MigratedArticle({ page, home = false, afterHero }: {
       <div className="container content-layout">
         <article className="article">
           <ArticleReadingFlow blocks={body} slug={page.slug} />
+          {!siteIsLive && hasHousingSupplement(page.slug) && <details className="article-faq legal-steps"><summary><span>Подробный порядок действий и документы</span><span className="faq-indicator" aria-hidden="true">+</span></summary><HousingSupplement page={page} /></details>}
         </article>
         <aside className="article-aside">
           <nav className="aside-panel" aria-label="По теме">
