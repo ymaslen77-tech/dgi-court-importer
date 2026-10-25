@@ -404,3 +404,171 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", Ari
 .legal-review-strip span{font-size:13px;line-height:1.5}
 .legal-review-strip a{color:#684700;text-decoration:underline;font-weight:700}
 @media(max-width:640px){.legal-review-strip-inner{padding-block:11px}.legal-review-strip strong{font-size:13px}.legal-review-strip span{font-size:12px}}
+
+
+/* 2026-10-25: Consistent, readable public legal catalogue.
+   These overrides replace the imported screenshot-reconstruction layout. */
+.site .topbar,
+.site--home .topbar,
+.site--thematic .topbar {
+  display: block;
+  background: #ba182b;
+  color: #fff;
+  padding: 12px 0;
+  font-size: clamp(12px, 1.3vw, 15px);
+  font-weight: 750;
+  letter-spacing: .008em;
+  line-height: 1.5;
+  text-transform: none;
+}
+.site .site-header,
+.site--thematic .site-header {
+  background: #141414;
+  color: #fff;
+  border: 0;
+  border-bottom: 2px solid #b71928;
+}
+.site .header-wrap,
+.site--home .header-wrap,
+.site--thematic .header-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 60px;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px 26px;
+  padding-block: 13px;
+}
+.site .brand,
+.site--thematic .site-header .brand {
+  display: flex;
+  max-width: none;
+  color: #fff;
+  text-decoration: none;
+}
+.site .brand-text { font-size: 13px; letter-spacing: 0; font-weight: 700; line-height: 1.4; }
+.site .main-nav,
+.site--home .main-nav,
+.site--thematic .main-nav {
+  display: flex;
+  flex: 1 1 580px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px 19px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.65;
+}
+.site .main-nav a { color: #f5f5f5; }
+.site .main-nav a:hover, .site .main-nav a:focus-visible { color: #ff9da9; }
+.site .hero--thematic,
+.site--thematic .hero--thematic {
+  background: #fff;
+  color: #222;
+  padding: 27px 0 22px;
+  border-bottom: 1px solid #e6e6e6;
+}
+.site .hero--thematic h1,
+.site--thematic .hero--thematic h1 {
+  color: #222;
+  max-width: 980px;
+  font-size: clamp(28px, 3.5vw, 42px);
+  font-weight: 750;
+  line-height: 1.2;
+  letter-spacing: -.025em;
+  margin: 0 0 13px;
+}
+.site .hero--thematic .hero-lead {
+  font-size: clamp(15px, 1.55vw, 17px);
+  color: #575757;
+  max-width: 930px;
+  line-height: 1.65;
+  margin: 0;
+}
+.site .breadcrumb {
+  color: #666;
+  font-size: 12px;
+  margin-bottom: 15px;
+  gap: 9px;
+}
+.site .breadcrumb a { color: #ad2432; }
+.site .article-section, .site--thematic .article-section {
+  padding: 30px 0 76px;
+}
+.site .content-layout {
+  grid-template-columns: minmax(0, 1fr) 245px;
+  gap: clamp(22px, 3vw, 50px);
+}
+.site .article .article-h2 {
+  font-size: clamp(22px, 2.3vw, 29px);
+  margin: 28px 0 12px;
+  line-height: 1.34;
+  font-weight: 750;
+}
+.site .article .article-h3 {
+  font-size: clamp(17px, 1.8vw, 20px);
+  margin: 23px 0 9px;
+  font-weight: 690;
+}
+.site .article .article-h3--label {
+  color: #a52131;
+  font-size: 14px;
+  font-weight: 760;
+  text-transform: none;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+}
+.site .article-p { font-size: 15px; line-height: 1.7; margin-bottom: 13px; color: #484848; }
+.site .article-action { margin: 10px 0 15px; }
+.site .article-action a { font-size: 14px; line-height: 1.6; }
+.site .article-faq { border-radius: 6px; margin: 11px 0; }
+.site .article-faq summary { padding: 14px 17px; font-size: 16px; font-weight: 700; }
+.site .article-faq-answer { padding: 14px 17px; }
+.site .aside-panel {
+  color: #242424;
+  background: #f7f7f7;
+  border-top: 3px solid var(--red);
+  padding: 17px 19px;
+}
+.site .aside-label { color: #a71e30; font-size: 12px; margin: 0 0 10px; text-transform: none; letter-spacing: 0; }
+.site .aside-panel a { border-top-color: #dedede; font-size: 13px; padding: 10px 0; }
+.site .aside-panel a:hover { color: #a91c30; }
+.site .footer { padding: 42px 0; }
+.site .footer-grid { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 30px; }
+.site .footer p { line-height: 1.65; margin: 12px 0; }
+.site .footer-disclaimer { color: #bcbcbc; }
+.site .footer-links { gap: 11px; }
+.site .footer-links a { text-decoration: underline; text-underline-offset: 3px; }
+.home-intro { background: #f7f7f7; padding: clamp(35px, 5vw, 66px) 0; border-bottom: 1px solid #e6e6e6; }
+.home-intro h1 { font-size: clamp(34px, 5vw, 56px); font-weight: 780; letter-spacing: -.035em; line-height: 1.12; margin: 0 0 15px; max-width: 900px; }
+.home-intro p { font-size: clamp(16px, 1.75vw, 19px); line-height: 1.65; color: #515151; max-width: 800px; margin: 0; }
+.home-intro-link { display: inline-block; padding: 12px 19px; margin-top: 25px; background: var(--red); color: #fff; text-decoration: none; font-weight: 700; font-size: 14px; }
+.site .topic-section { background: #fff; padding: 43px 0 55px; }
+.site .section-title { font-size: clamp(25px, 3vw, 36px); font-weight: 760; margin: 0 0 20px; }
+.site .topic-grid { gap: 12px; }
+.site .topic-card { min-height: 160px; padding: 19px 21px; border-top-width: 3px; }
+.site .topic-card h3 { font-size: 20px; margin: 0 0 9px; }
+.site .topic-card p { font-size: 14px; line-height: 1.55; margin: 0 0 12px; }
+.site .topic-more { padding-top: 10px; text-transform: none; letter-spacing: 0; }
+.home-task-section { padding: 38px 0 66px; background: #f7f7f7; }
+.home-task-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.home-task-link { display: grid; grid-template-columns: 1fr auto; gap: 5px 15px; padding: 18px 20px; border: 1px solid #dedede; background: #fff; text-decoration: none; }
+.home-task-link strong { font-size: 17px; }
+.home-task-link span:nth-child(2) { color: #666; font-size: 13px; line-height: 1.5; grid-column: 1; }
+.home-task-link span:last-child { color: #aa2434; grid-column: 2; grid-row: 1 / span 2; align-self: center; font-size: 20px; }
+.home-task-link:hover { border-color: #bf2739; }
+@media(max-width: 980px) {
+  .site .content-layout { grid-template-columns: 1fr; }
+  .site .article-aside { position: static; }
+  .site .main-nav { justify-content: flex-start; flex-basis: 100%; }
+}
+@media(max-width: 680px) {
+  .site .header-wrap { gap: 10px; }
+  .site .main-nav { gap: 6px 15px; }
+  .site .hero--thematic { padding: 22px 0; }
+  .site .article-section { padding: 22px 0 45px; }
+  .site .topic-grid, .site .footer-grid, .home-task-grid { grid-template-columns: 1fr; }
+  .site .topic-card { min-height: 0; }
+  .home-intro { padding: 33px 0; }
+}
