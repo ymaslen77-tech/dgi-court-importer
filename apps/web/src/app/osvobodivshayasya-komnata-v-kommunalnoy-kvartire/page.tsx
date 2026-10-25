@@ -30,7 +30,6 @@ const facts = [
 export default function CommunalRoomPage() {
   if (siteIsLive) notFound();
   return <PageShell variant="thematic"><article className="container housing-guide housing-law-catalog">
-    <p className="housing-review-label">Первичная юридическая сверка · не утверждённый регламент</p>
     <h1>Освободившаяся комната в коммунальной квартире Москвы</h1>
     <p className="housing-guide-lead">Предоставление комнаты и её выкуп — разные процедуры. Возможность получить комнату зависит от статуса жилья, состава проживающих, категории заявителя и применимого приложения к московскому нормативному акту.</p>
     <section>
@@ -52,7 +51,7 @@ export default function CommunalRoomPage() {
       <li><a href={constitutional} target="_blank" rel="noopener noreferrer">Официальная публикация постановления Конституционного Суда №20-П от 23.04.2024 ↗</a></li>
       <li><a href="https://www.mos.ru/upload/documents/oiv/zakon_goroda_moskvy_ot_14062006_29.pdf" target="_blank" rel="noopener noreferrer">Закон Москвы №29: исторически размещённый текст, редакцию сверить ↗</a></li>
     </ul></section>
-    <p className="housing-editorial-foot">Эта страница содержит проверенные реквизиты отдельных решений и схему первичной проверки. Полная действующая редакция всех документов на 18.10.2026 не подтверждена; страница закрыта от индексации и не является обещанием результата госуслуги.</p>
+    <p className="housing-editorial-foot">Эта страница содержит проверенные реквизиты отдельных решений и схему первичной проверки. Полная действующая редакция всех документов на 18.10.2026 не подтверждена; материал не гарантирует результат обращения.</p>
     <nav className="housing-related" aria-label="Связанные жилищные темы"><Link href="/socialnyj-naem">Социальный наём →</Link><Link href="/zhilishchnyj-uchet">Жилищный учёт →</Link><Link href="/spory-s-dgi">Споры с ДГИ →</Link></nav>
   </article></PageShell>;
 }
