@@ -131,6 +131,7 @@ jobs:
           await db.query(readFileSync("db/migrations/0003_editorial_publication.sql", "utf8"));
           await db.query(readFileSync("db/migrations/0004_court_search.sql", "utf8"));
           await db.query(readFileSync("db/migrations/0005_court_fulltext_publication.sql", "utf8"));
+          await db.query(readFileSync("db/migrations/0006_verified_court_pdf_assets.sql", "utf8"));
           await db.end();
           JS
       - name: Test idempotent staging migration
