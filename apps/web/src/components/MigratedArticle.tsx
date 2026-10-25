@@ -112,6 +112,7 @@ export function MigratedArticle({ page, home = false, afterHero }: {
       <div className="container content-layout">
         <article className="article">
           <ArticleReadingFlow blocks={body} slug={page.slug} />
+          {!siteIsLive && page.slug === "normativnye-akty" && <p className="article-action"><Link href="/spravochnik-zhilishchnogo-zakonodatelstva-moskvy">Справочник жилищных законов и постановлений →</Link></p>}
           {!siteIsLive && hasHousingSupplement(page.slug) && <details className="article-faq legal-steps"><summary><span>Подробный порядок действий и документы</span><span className="faq-indicator" aria-hidden="true">+</span></summary><HousingSupplement page={page} /></details>}
         </article>
         <aside className="article-aside">
