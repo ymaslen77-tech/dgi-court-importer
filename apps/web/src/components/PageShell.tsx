@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { siteIsLive } from "@/data/pages";
 
 const navigation = [
   { href: "/", label: "Главная" },
@@ -9,6 +10,12 @@ const navigation = [
   { href: "/spory-s-dgi", label: "Споры с ДГИ" },
   { href: "/normativnye-akty", label: "Законы" },
   { href: "/sudebnaya-praktika-dgi", label: "Судебные дела" },
+];
+
+const previewOnlyLinks = [
+  ...(!siteIsLive ? [{ href: "/reestr-gosuslug-dgi", label: "Реестр услуг" },
+    { href: "/osvobodivshayasya-komnata-v-kommunalnoy-kvartire", label: "Коммунальные квартиры" },
+    { href: "/specializirovannyy-zhilishchnyy-fond", label: "Спецжилфонд" }] : []),
 ];
 
 export function PageShell({ children, variant = "default" }: Readonly<{
@@ -46,6 +53,7 @@ export function PageShell({ children, variant = "default" }: Readonly<{
             <Link href="/zayavlenie-v-dgi-moskvy">Заявление в ДГИ</Link>
             <Link href="/zhaloba-na-dgi-moskvy">Обжалование</Link>
             <Link href="/o-proekte">О проекте и источниках</Link>
+            {previewOnlyLinks.map((item) => <Link href={item.href} key={item.href}>{item.label}</Link>)}
             <a href="mailto:admin@dgi-pravo.ru">Редакция: admin@dgi-pravo.ru</a>
           </nav>
         </div>
