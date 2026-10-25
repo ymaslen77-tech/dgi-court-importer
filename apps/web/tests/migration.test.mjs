@@ -63,14 +63,14 @@ test("content routes render reviewed CMS pages, including new slugs", () => {
   assert.ok(!route.includes("const page = getMigratedPage(slug);"));
 });
 
-test("published Webflow court-case slugs have protected archival routes", () => {
+test("unverified archival court case links redirect to the verified-only search", () => {
   const cases=JSON.parse(readFileSync(new URL("../src/data/legacy-cases.json",import.meta.url),"utf8")).cases;
   assert.equal(cases.length,22);
   const route=readFileSync(new URL("../src/app/dgi-court-cases/[slug]/page.tsx",import.meta.url),"utf8");
-  assert.match(route,/legacyCases\.find/);
-  assert.match(route,/index:false,follow:false/);
-  assert.ok(!route.includes("entry.title"));
-  assert.ok(cases.every(c=>c.verifiedAct===false && /^[a-z0-9-]+$/.test(c.slug)));
+  assert.match(route,/redirect\("\/sudebnaya-praktika-dgi"\)/);
+  assert.match(route,/index: false, follow: false/);
+  assert.ok(!route.includes("legacyCases.find"));
+  assert.ok(cases.every(c=>c.verifiedAct===false));
 });
 
 test("production indexation requires independent release approval and HTTPS canonical", () => {
