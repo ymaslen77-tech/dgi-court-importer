@@ -54,8 +54,9 @@ test("legal editorial policy is visible site-wide without made-up credentials",(
  const shell=read("src/components/PageShell.tsx");
  const policy=read("src/app/o-proekte/page.tsx");
  assert.match(shell,/href="\/o-proekte"/);
- assert.match(policy,/не является сайтом Департамента городского имущества Москвы/);
+ assert.match(policy,/не официальный сайт ДГИ/);
  assert.match(policy,/pravo.gov.ru/);
- assert.match(policy,/вестник/i);
+ assert.match(policy,/vestnikmoscow.mos.ru/);
+ assert.match(shell,/Независимый информационно-правовой справочник/);
  assert.match(policy,/robots: \{ index: false, follow: false \}/);
 });
