@@ -1,12 +1,14 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { PageShell } from "@/components/PageShell";
+import { siteIsLive } from "@/data/pages";
 import { housingNewsBase, listHousingNews } from "@/data/housing-news";
 
 export const metadata: Metadata = {
   title: { absolute: "Новости недвижимости и жилищного права Москвы и Подмосковья" },
   description: "Новости о жилье, реновации, недвижимости и ЖКХ Москвы и Московской области с датами и ссылками на официальные источники.",
-  alternates: { canonical: "https://dgi-pravo.ru/novosti-zhilishchnogo-prava" },
+  alternates: siteIsLive ? { canonical: "https://dgi-pravo.ru/novosti-zhilishchnogo-prava" } : undefined,
+  robots: { index: siteIsLive, follow: siteIsLive },
 };
 const fmt = new Intl.DateTimeFormat("ru-RU", { day: "numeric", month: "long", year: "numeric", timeZone: "Europe/Moscow" });
 
