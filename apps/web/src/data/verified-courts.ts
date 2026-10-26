@@ -16,6 +16,8 @@ type Row = {
   pdf_sha256: string;
   excerpt: string;
   pdf_origin?: "site_rendered_copy" | "court_original";
+  outcome_verified: "applicant_granted";
+  outcome_evidence: string;
 };
 type CuratedVerifiedCase = Row & { full_text: string; full_text_sha256: string; source_checked: boolean; privacy_checked: boolean; };
 const curatedCases = curatedSnapshot as unknown as CuratedVerifiedCase[];
@@ -27,6 +29,7 @@ let pool: PgPool | undefined;
 
 export function verifiedCourtReadsEnabled(): boolean {
   return process.env.COURT_VERIFIED_PUBLIC_READS === "true" &&
+    process.env.COURT_POSITIVE_ONLY_DB_READS === "true" &&
     Boolean(process.env.DATABASE_URL);
 }
 function db(): PgPool {
@@ -63,6 +66,10 @@ const publicConditions = `
   AND d.privacy_checked_at IS NOT NULL
   AND d.reviewed_by IS NOT NULL AND length(btrim(d.reviewed_by))>=3
   AND d.published_at IS NOT NULL AND d.published_at<=now()
+  AND d.claimant_outcome = 'applicant_granted'
+  AND d.outcome_checked_at IS NOT NULL
+  AND d.outcome_evidence IS NOT NULL AND length(btrim(d.outcome_evidence)) >= 40
+  AND d.outcome_reviewed_by IS NOT NULL AND length(btrim(d.outcome_reviewed_by)) >= 3
   AND p.approved_at IS NOT NULL
   AND p.source_checked_at IS NOT NULL AND p.privacy_checked_at IS NOT NULL
   AND p.approved_by IS NOT NULL AND length(btrim(p.approved_by))>=3
@@ -73,6 +80,8 @@ export async function searchVerifiedCourtActs(q: string): Promise<VerifiedCase[]
   const terms = term.toLocaleLowerCase("ru").split(/\s+/).filter(Boolean);
   const curated = curatedCases.filter(row =>
     row.source_checked === true && row.privacy_checked === true &&
+    row.outcome_verified === "applicant_granted" &&
+    typeof row.outcome_evidence === "string" && row.outcome_evidence.length >= 40 &&
     /^[a-f0-9]{64}$/.test(row.pdf_sha256) &&
     /^[a-f0-9]{64}$/.test(row.full_text_sha256) &&
     isOfficialCourtUrl(row.official_url) &&
@@ -85,6 +94,7 @@ export async function searchVerifiedCourtActs(q: string): Promise<VerifiedCase[]
   const escaped = "%" + term.replace(/[\\%_]/g, "\\$&") + "%";
   const { rows } = await db().query<Row>(`
   SELECT d.slug, d.case_number, d.court_name, d.decision_date::text,
+         d.claimant_outcome AS outcome_verified,d.outcome_evidence,
          d.act_type, d.topic, d.official_url, p.official_pdf_url,
          p.pdf_sha256,
          CASE WHEN $1::text='' THEN left(d.topic,200)
@@ -106,6 +116,8 @@ export async function searchVerifiedCourtActs(q: string): Promise<VerifiedCase[]
   const databaseRows = rows.filter((row) =>
     /^[a-z0-9][a-z0-9-]{2,159}$/.test(row.slug) &&
     /^[a-f0-9]{64}$/.test(row.pdf_sha256) &&
+    row.outcome_verified === "applicant_granted" &&
+    (row.outcome_evidence?.length ?? 0) >= 40 &&
     isOfficialCourtUrl(row.official_url) &&
     isOfficialCourtUrl(row.official_pdf_url)
   );
@@ -118,7 +130,8 @@ export type VerifiedPdf = {
 export async function readVerifiedCourtPdf(slug: string): Promise<VerifiedPdf | null> {
   if (!/^[a-z0-9][a-z0-9-]{2,159}$/.test(slug)) return null;
   const curated = curatedCases.find(item => item.slug === slug && item.source_checked &&
-    item.privacy_checked && isOfficialCourtUrl(item.official_url));
+    item.privacy_checked && item.outcome_verified === "applicant_granted" &&
+    item.outcome_evidence?.length >= 40 && isOfficialCourtUrl(item.official_url));
   if (curated) {
     try {
       const bytes = await readFile(join(process.cwd(), "public", "court-pdf-copies", slug + ".pdf"));
