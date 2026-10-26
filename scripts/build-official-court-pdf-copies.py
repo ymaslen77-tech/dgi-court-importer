@@ -141,8 +141,13 @@ def fetch_act(item):
     if not content:
         raise ValueError("No complete operative part found for " + item["number"])
     body = max(content, key=len).replace("\r", "").strip()
-    if item["number"] not in body[:500] or item["date_label"] not in body[:700]:
-        raise ValueError("Court number/date do not agree with publication")
+    normalized_header = re.sub(r"\s+", " ", body[:1600])
+    if item["number"] not in normalized_header or item["date_label"] not in normalized_header:
+        raise ValueError(
+            "Court number/date mismatch " + item["number"] +
+            ": number=" + str(item["number"] in normalized_header) +
+            ", date=" + str(item["date_label"] in normalized_header)
+        )
     if item["judicial_uid"] and item["judicial_uid"] not in body[:500]:
         raise ValueError("Published act identifier mismatch")
     if "О П Р Е Д Е Л Е Н И Е" not in body[:600] and "ОПРЕДЕЛЕНИЕ" not in body[:600]:
