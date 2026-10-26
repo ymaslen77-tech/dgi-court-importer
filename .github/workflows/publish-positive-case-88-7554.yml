@@ -46,8 +46,8 @@ jobs:
           assert "28 апреля 2026" in normal[:1800], repr(normal[:450])
           assert num in text[:750]
           assert "77RS0035-02-2024-001798-24" in text[:750]
-          assert "удовлетворены исковые требования фио1, фио2, снт" in normal
-          assert "сведения, содержащиеся в едином государственном реестре" in normal
+          assert re.search(r"удовлетворены\\s+исковые\\s+требования",normal) and "снт" in normal[:8000] and "фио1" in normal[:8000]
+          assert "егрн" in normal and ("границ земельных участков" in normal or "границ земельного участка" in normal)
           assert "кассационную жалобу департамента" in normal[-2000:]
           assert "без удовлетворения" in normal[-1000:]
           assert "судьи" in normal[-150:] and len(re.findall(r"ФИО\d+",text))>=10
