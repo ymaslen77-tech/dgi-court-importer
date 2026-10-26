@@ -35,8 +35,8 @@ function ContentBlock({ block, slug }: { block: MigratedBlock; slug: string }) {
       const label = /^[А-ЯЁ\s.,!?—–:-]+$/u.test(originalLabel) && /[А-ЯЁ]{4}/u.test(originalLabel)
         ? originalLabel.toLocaleLowerCase("ru-RU")
           .replace(/^./u, ch => ch.toLocaleUpperCase("ru-RU"))
-          .replace(/\bдги\b/giu, "ДГИ").replace(/\bжкх\b/giu, "ЖКХ")
-          .replace(/\bегрн\b/giu, "ЕГРН")
+          .replace(/(?<!\p{L})дги(?!\p{L})/giu, "ДГИ").replace(/(?<!\p{L})жкх(?!\p{L})/giu, "ЖКХ")
+          .replace(/(?<!\p{L})егрн(?!\p{L})/giu, "ЕГРН")
         : originalLabel;
       return <p className="article-action">{href.startsWith("https://")
         ? <a href={href} target="_blank" rel="noopener noreferrer">{label} ↗</a>
