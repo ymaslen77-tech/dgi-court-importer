@@ -1,0 +1,74 @@
+name: Weekly full-site legal source inventory (read-only)
+on:
+  schedule:
+    # Mondays 05:25 UTC = 08:25 Moscow. GitHub cron is UTC.
+    - cron: "25 5 * * 1"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/weekly-legal-facts-audit.yml
+permissions:
+  contents: read
+concurrency:
+  group: dgi-weekly-legal-inventory
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout verified Russian VPS release content
+        uses: actions/checkout@v4
+        with:
+          repository: ymaslen77-tech/dgi-court-importer
+          ref: infra/coolify-russian-vps
+          persist-credentials: false
+      - name: Sanity-check machine-readable audit policy
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m json.tool config/weekly-legal-audit.json >/dev/null
+          python3 -m py_compile scripts/weekly_legal_audit.py
+          python3 - <<'PY'
+          import json
+          conf=json.load(open("config/weekly-legal-audit.json",encoding="utf8"))
+          assert conf["release_gate"]["evidence_required_for_each_material_change"]
+          assert conf["release_gate"]["never_mutate_official_court_full_text_or_evidence_PDFs"]
+          assert conf["release_gate"]["if_unverified"]["publish"] is False
+          assert "pravo.gov.ru" in str(conf["source_policy"]["first_priority"])
+          print("POLICY_GATES_OK")
+          PY
+      - name: Collect all-site evidence, citations and stale-source candidates
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/weekly_legal_audit.py --config config/weekly-legal-audit.json --output weekly-legal-audit-report.json
+          python3 - <<'PY'
+          import json,os
+          data=json.load(open("weekly-legal-audit-report.json",encoding="utf8"))
+          m=data["summary"]
+          message=[
+            "## Weekly read-only legal audit",
+            f"- Observed on: {data['generated_at_utc']}",
+            f"- Original page snapshots: {m['historical_snapshot_pages']}",
+            f"- Live URLs inspected: {m['live_urls_tested']}",
+            f"- Live URLs reachable: {m['live_http_200']}",
+            f"- External references: {m['external_urls_tested']}",
+            f"- Broken external references: {m['external_broken']}",
+            f"- Temporarily unavailable references: {m['external_unavailable']}",
+            "",
+            "A separate legal research review must validate the **effective legal text**. HTTP responses are not legal currency checks.",
+            "This workflow never edits or publishes legal information.",
+          ]
+          with open(os.environ["GITHUB_STEP_SUMMARY"],"a",encoding="utf8") as stream:
+            stream.write("\n".join(message)+"\n")
+          PY
+      - name: Preserve source audit evidence for scheduled legal reviewer
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: legal-weekly-evidence
+          path: weekly-legal-audit-report.json
+          if-no-files-found: warn
+          retention-days: 30
