@@ -22,8 +22,9 @@ ALTER TABLE court_act_documents
 CREATE OR REPLACE FUNCTION court_act_revoke_favorable_outcome()
 RETURNS trigger LANGUAGE plpgsql AS $$
 BEGIN
-  IF NEW.claimant_outcome IS DISTINCT FROM OLD.claimant_outcome OR
-     NEW.outcome_evidence IS DISTINCT FROM OLD.outcome_evidence THEN
+  IF OLD.status = 'published' AND (
+     NEW.claimant_outcome IS DISTINCT FROM OLD.claimant_outcome OR
+     NEW.outcome_evidence IS DISTINCT FROM OLD.outcome_evidence) THEN
     NEW.status := 'review';
     NEW.reviewed_by := NULL;
     NEW.published_at := NULL;
