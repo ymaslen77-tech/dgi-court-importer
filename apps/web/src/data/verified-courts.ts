@@ -16,8 +16,6 @@ type Row = {
   pdf_sha256: string;
   excerpt: string;
   pdf_origin?: "site_rendered_copy" | "court_original";
-  claimant_outcome?: "granted_full" | "granted_partial";
-  outcome_verified?: boolean;
   outcome_verified: "applicant_granted" | "applicant_partially_granted";
   outcome_evidence: string;
 };
@@ -81,7 +79,7 @@ export async function searchVerifiedCourtActs(q: string): Promise<VerifiedCase[]
   const term = validVerifiedSearch(q);
   const terms = term.toLocaleLowerCase("ru").split(/\s+/).filter(Boolean);
   const curated = curatedCases.filter(row =>
-    row.outcome_verified === true && row.claimant_outcome === "granted_full" &&
+    row.outcome_verified === "applicant_granted" &&
     row.source_checked === true && row.privacy_checked === true &&
     ["applicant_granted","applicant_partially_granted"].includes(row.outcome_verified) &&
     typeof row.outcome_evidence === "string" && row.outcome_evidence.length >= 40 &&
@@ -124,7 +122,7 @@ export async function searchVerifiedCourtActs(q: string): Promise<VerifiedCase[]
     isOfficialCourtUrl(row.official_url) &&
     isOfficialCourtUrl(row.official_pdf_url)
   );
-  return curated; // DB records require independent outcome-review fields before public inclusion.
+  return curated; // Database publication remains disabled until outcome audit is complete.
 }
 
 export type VerifiedPdf = {
@@ -132,8 +130,7 @@ export type VerifiedPdf = {
 };
 export async function readVerifiedCourtPdf(slug: string): Promise<VerifiedPdf | null> {
   if (!/^[a-z0-9][a-z0-9-]{2,159}$/.test(slug)) return null;
-  const curated = curatedCases.find(item => item.slug === slug && item.outcome_verified === true &&
-    item.claimant_outcome === "granted_full" && item.source_checked &&
+  const curated = curatedCases.find(item => item.slug === slug && item.outcome_verified === "applicant_granted" && item.source_checked &&
     item.privacy_checked && ["applicant_granted","applicant_partially_granted"].includes(item.outcome_verified) &&
     item.outcome_evidence?.length >= 40 && isOfficialCourtUrl(item.official_url));
   if (curated) {
@@ -143,22 +140,5 @@ export async function readVerifiedCourtPdf(slug: string): Promise<VerifiedPdf | 
     } catch { return null; }
   }
   return null; // No unpublished or not-outcome-reviewed database PDF is accessible.
-  /* const { rows } = await db().query<{
-    pdf_bytes: Buffer; pdf_sha256: string; official_pdf_url: string;
-    official_url: string;
-  }>(`
-    SELECT p.pdf_bytes,p.pdf_sha256,p.official_pdf_url,d.official_url
-      FROM court_act_documents d
-      JOIN court_act_pdf_assets p ON p.court_act_document_id=d.id
-     WHERE d.slug=$1 AND ${publicConditions} LIMIT 1
-  `, [slug]);
-  const pdf = rows[0];
-  if (!pdf || !isOfficialCourtUrl(pdf.official_pdf_url) ||
-    !isOfficialCourtUrl(pdf.official_url) ||
-    !Buffer.isBuffer(pdf.pdf_bytes)) return null;
-  return {
-    bytes: pdf.pdf_bytes,
-    sha256: pdf.pdf_sha256,
-    officialPdfUrl: pdf.official_pdf_url,
-  }; */
+
 }
