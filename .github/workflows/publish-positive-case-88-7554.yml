@@ -20,8 +20,10 @@ jobs:
           persist-credentials: true
       - run: |
           python3 -m pip install -q beautifulsoup4 lxml reportlab
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq poppler-utils fonts-dejavu-core >/dev/null
+          if ! command -v pdftotext >/dev/null || ! test -f /usr/share/fonts/truetype/dejavu/DejaVuSans.ttf; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq poppler-utils fonts-dejavu-core >/dev/null
+          fi
       - name: Retrieve court source and verify granted citizen and land-owner claims
         shell: bash
         run: |
@@ -37,9 +39,9 @@ jobs:
           soup=BeautifulSoup(UnicodeDammit(raw,is_html=True).unicode_markup,"lxml")
           nodes=soup.find_all(string=lambda s:s and num in str(s))
           contents=[n.parent.parent.get_text("\n",strip=True) for n in nodes if n.parent and n.parent.parent]
-          contents=[s for s in contents if 20000<len(s)<150000 and "определила" in s[-1900:].lower()]
+          contents=[s for s in contents if 20000<len(s)<150000 and "определила" in s[-1900:].lower() and num in s[:350] and "определение" in re.sub(r"\\s+","",s[:850]).lower()]
           assert len(contents)>0,"Cannot uniquely inspect full source"
-          text=max(contents,key=len)
+          text=min(contents,key=len)
           normal=re.sub(r"\s+"," ",text).lower()
           assert "28 апреля 2026" in normal[:1800], repr(normal[:450])
           assert num in text[:750]
