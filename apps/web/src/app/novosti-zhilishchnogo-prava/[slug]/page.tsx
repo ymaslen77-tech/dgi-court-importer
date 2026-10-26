@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { PageShell } from "@/components/PageShell";
+import { siteIsLive } from "@/data/pages";
 import { getHousingNews, housingNewsBase, listHousingNews } from "@/data/housing-news";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -14,7 +15,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: { absolute: article.title + " — Новости недвижимости Москвы и области" },
     description: article.summary,
-    alternates: { canonical: "https://dgi-pravo.ru" + housingNewsBase + "/" + slug },
+    alternates: siteIsLive ? { canonical: "https://dgi-pravo.ru" + housingNewsBase + "/" + slug } : undefined,
+    robots: { index: siteIsLive, follow: siteIsLive },
     openGraph: { type: "article", title: article.title, description: article.summary, publishedTime: article.publishedAt },
   };
 }
