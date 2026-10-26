@@ -1,0 +1,94 @@
+name: Publish positive DGI boundary decision 88-7554
+on:
+  push:
+    branches: [infra/coolify-russian-vps]
+    paths: [.github/workflows/publish-positive-case-88-7554.yml]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: dgi-positive-case-88-7554
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: infra/coolify-russian-vps
+          persist-credentials: true
+      - run: |
+          python3 -m pip install -q beautifulsoup4 lxml reportlab
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq poppler-utils fonts-dejavu-core >/dev/null
+      - name: Retrieve court source and verify granted citizen and land-owner claims
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import urllib.request,re,json,hashlib,pathlib,subprocess,importlib.util
+          from bs4 import BeautifulSoup
+          from bs4.dammit import UnicodeDammit
+          num="88-7554/2026"
+          slug="2kas-88-7554-2026-2026-04-28"
+          official_url="https://2kas.sudrf.ru/modules.php?case_id=17566547&case_uid=793bca3e-3b0a-4b0a-aef5-e13e1bbc0414&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1"
+          with urllib.request.urlopen(urllib.request.Request(official_url,headers={"User-Agent":"Mozilla/5.0"}),timeout=50) as r:raw=r.read(1000000)
+          soup=BeautifulSoup(UnicodeDammit(raw,is_html=True).unicode_markup,"lxml")
+          nodes=soup.find_all(string=lambda s:s and num in str(s))
+          contents=[n.parent.parent.get_text("\n",strip=True) for n in nodes if n.parent and n.parent.parent]
+          contents=[s for s in contents if 20000<len(s)<150000 and "определила" in s[-1900:].lower()]
+          assert len(contents)>0,"Cannot uniquely inspect full source"
+          text=max(contents,key=len)
+          normal=re.sub(r"\s+"," ",text).lower()
+          assert "28 апреля 2026 года" in normal[:750]
+          assert num in text[:750]
+          assert "77RS0035-02-2024-001798-24" in text[:750]
+          assert "удовлетворены исковые требования фио1, фио2, снт" in normal
+          assert "сведения, содержащиеся в едином государственном реестре" in normal
+          assert "кассационную жалобу департамента" in normal[-2000:]
+          assert "без удовлетворения" in normal[-1000:]
+          assert "судьи" in normal[-150:] and len(re.findall(r"ФИО\d+",text))>=10
+          item={"number":num,"court":"Второй кассационный суд общей юрисдикции"}
+          spec=importlib.util.spec_from_file_location("court_pdf", "scripts/build-official-court-pdf-copies.py")
+          mod=importlib.util.module_from_spec(spec);spec.loader.exec_module(mod)
+          pdf_path=pathlib.Path("apps/web/public/court-pdf-copies")/(slug+".pdf")
+          pdf_path.parent.mkdir(parents=True,exist_ok=True)
+          mod.build_pdf(pdf_path,item,text,official_url)
+          pdf=pdf_path.read_bytes()
+          assert pdf[:5]==b"%PDF-" and 14000<len(pdf)<15000000
+          exported=subprocess.run(["pdftotext",str(pdf_path),"-"],capture_output=True,text=True,check=True).stdout
+          for phrase in [num,"28 апреля 2026","Судьи"]:
+            assert phrase.lower() in exported.lower(),("Truncated PDF",phrase)
+          manifest_path=pathlib.Path("apps/web/src/data/verified-court-static.json")
+          cases=json.loads(manifest_path.read_text(encoding="utf8"))
+          assert all(x["outcome_verified"]=="applicant_granted" for x in cases)
+          row={
+            "slug":slug,"case_number":num,"court_name":item["court"],"decision_date":"2026-04-28",
+            "act_type":"ruling","topic":"Исправление ошибки ЕГРН и установление границ земельных участков",
+            "official_url":official_url,"official_pdf_url":official_url,
+            "pdf_origin":"site_rendered_copy","official_source_sha256":hashlib.sha256(raw).hexdigest(),
+            "full_text_sha256":hashlib.sha256(text.encode("utf8")).hexdigest(),
+            "full_text":text,
+            "excerpt":"Иск граждан и СНТ «Сосны» об исправлении сведений ЕГРН и установлении границ удовлетворён. Кассационная жалоба ДГИ отклонена.",
+            "pdf_sha256":hashlib.sha256(pdf).hexdigest(),
+            "source_checked":True,"privacy_checked":True,
+            "outcome_verified":"applicant_granted","outcome_reviewed_at":"2026-10-26",
+            "outcome_evidence":"Решением Троицкого районного суда удовлетворены исковые требования ФИО1, ФИО2 и СНТ «Сосны» об исправлении сведений ЕГРН; апелляция и кассация оставили судебное решение без изменения, жалоба ДГИ отклонена."
+          }
+          cases=[x for x in cases if x["slug"]!=slug]+[row]
+          cases.sort(key=lambda x:x["decision_date"],reverse=True)
+          manifest_path.write_text(json.dumps(cases,ensure_ascii=False,indent=2)+"\n",encoding="utf8")
+          print("VERIFIED_WIN",num,"text_chars",len(text),"pdf_bytes",len(pdf),"public_total",len(cases))
+          PY
+      - name: Commit approved and PDF-verified case to Russian VPS release source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add apps/web/src/data/verified-court-static.json apps/web/public/court-pdf-copies/2kas-88-7554-2026-2026-04-28.pdf
+          if git diff --cached --quiet; then echo 'No changed assets'; exit 0; fi
+          git commit -m "data(courts): add successful EGRN boundary case 88-7554/2026"
+          git pull --rebase origin infra/coolify-russian-vps
+          git push origin HEAD:infra/coolify-russian-vps
