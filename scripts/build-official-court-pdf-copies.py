@@ -122,14 +122,14 @@ def fetch_act(item):
     soup = BeautifulSoup(decoded, "lxml")
     nodes = soup.find_all(string=lambda t: t and (
         item["number"] in str(t) or
-        "ОПРЕДЕЛЕНИЕ" in re.sub(r"\\s+", "", str(t)).upper()
+        "ОПРЕДЕЛЕНИЕ" in re.sub(r"\s+", "", str(t)).upper()
     ))
     content = []
     for node in nodes:
         if not node.parent or not node.parent.parent:
             continue
         ancestor = node.parent.parent
-        t = ancestor.get_text("\\n", strip=True)
+        t = ancestor.get_text("\n", strip=True)
         if 6500 < len(t) < 150000 and item["number"] in t[:700]:
             content.append(t)
     content = list(dict.fromkeys(content))
