@@ -19,7 +19,7 @@ from pathlib import Path
 import re
 import sys
 from urllib.error import HTTPError, URLError
-from urllib.parse import urlsplit, urljoin
+from urllib.parse import urlsplit, urljoin, urlunsplit
 from urllib.request import Request, urlopen
 from xml.etree import ElementTree
 
@@ -121,6 +121,16 @@ def http_check(url, timeout=10, parse_html=False):
                 "source_links": sorted(link for link in parser.links
                     if urlsplit(link).scheme == "https" and
                     urlsplit(link).hostname != url_parts.hostname),
+                "internal_links": sorted({
+                    urlunsplit(("https", urlsplit(link).netloc,
+                                urlsplit(link).path or "/", "", ""))
+                    for link in parser.links
+                    if urlsplit(link).scheme == "https"
+                    and urlsplit(link).hostname == url_parts.hostname
+                    and not (urlsplit(link).path or "/").startswith(("/api/", "/_next/"))
+                    and not re.search(r"\.(?:pdf|xml|png|jpeg|jpg|webp|ico|svg|zip|css|js)$",
+                                      urlsplit(link).path or "", re.I)
+                }),
                 "temporal_claims": extract_claims(text, TEMPORAL, limit=16),
                 "legal_references": extract_claims(text, ACT_REF, limit=16),
             })
