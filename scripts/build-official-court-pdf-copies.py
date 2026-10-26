@@ -120,13 +120,19 @@ def fetch_act(item):
     if not decoded:
         raise ValueError("Court published HTML cannot be decoded")
     soup = BeautifulSoup(decoded, "lxml")
-    nodes = soup.find_all(string=lambda t: t and "Дело № " + item["number"] in str(t))
+    nodes = soup.find_all(string=lambda t: t and (
+        item["number"] in str(t) or
+        "ОПРЕДЕЛЕНИЕ" in re.sub(r"\\s+", "", str(t)).upper()
+    ))
     content = []
     for node in nodes:
+        if not node.parent or not node.parent.parent:
+            continue
         ancestor = node.parent.parent
-        t = ancestor.get_text("\n", strip=True)
-        if len(t) > 6500 and len(t) < 150000:
+        t = ancestor.get_text("\\n", strip=True)
+        if 6500 < len(t) < 150000 and item["number"] in t[:700]:
             content.append(t)
+    content = list(dict.fromkeys(content))
     if len(content) != 1:
         raise ValueError("Cannot uniquely locate full court-published act")
     body = content[0].replace("\r", "").strip()
