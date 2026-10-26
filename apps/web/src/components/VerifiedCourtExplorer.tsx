@@ -67,19 +67,19 @@ export function VerifiedCourtExplorer() {
     </form>
     <p className="results-count" role="status" aria-live="polite">
       {busy ? "Поиск…" : error ? error :
-        items.length ? `Найдено проверенных судебных актов: ${items.length}` :
+        items.length ? `Найдено положительных судебных актов: ${items.length}` :
         query.trim() ? "По вашему запросу проверенных решений пока нет." :
-        "Проверенные судебные акты пока не опубликованы."}
+        "Положительные судебные акты пока не опубликованы."}
     </p>
     {!busy && !error && items.length === 0 && <div className="verified-empty">
-      <p>На сайте отображаются только решения с проверенным официальным PDF и текстом. Карточки дел без судебных актов исключены.</p>
+      <p>В подборку входят только проверенные дела с положительным результатом для заявителя и полным судебным актом.</p>
       <a href="https://mos-gorsud.ru/search" target="_blank" rel="noopener noreferrer">
         Поиск на официальном портале московских судов ↗
       </a>
     </div>}
     {items.length > 0 && <div className="verified-case-grid">
       {items.map(item => <article className="verified-case" key={item.slug}>
-        <div className="verified-case-meta"><span>Подтверждённый судебный акт</span>
+        <div className="verified-case-meta"><span>Требования заявителя удовлетворены</span>
           <time dateTime={item.decision_date}>{item.decision_date}</time></div>
         <h2>{actNames[item.act_type] || "Судебный акт"} по делу № {item.case_number}</h2>
         <p>{item.court_name}</p>
