@@ -132,7 +132,8 @@ export type VerifiedPdf = {
 };
 export async function readVerifiedCourtPdf(slug: string): Promise<VerifiedPdf | null> {
   if (!/^[a-z0-9][a-z0-9-]{2,159}$/.test(slug)) return null;
-  const curated = curatedCases.find(item => item.slug === slug && item.source_checked &&
+  const curated = curatedCases.find(item => item.slug === slug && item.outcome_verified === true &&
+    item.claimant_outcome === "granted_full" && item.source_checked &&
     item.privacy_checked && ["applicant_granted","applicant_partially_granted"].includes(item.outcome_verified) &&
     item.outcome_evidence?.length >= 40 && isOfficialCourtUrl(item.official_url));
   if (curated) {
@@ -141,8 +142,8 @@ export async function readVerifiedCourtPdf(slug: string): Promise<VerifiedPdf | 
       return { bytes, sha256: curated.pdf_sha256, officialPdfUrl: curated.official_url };
     } catch { return null; }
   }
-  if (!verifiedCourtReadsEnabled()) return null;
-  const { rows } = await db().query<{
+  return null; // No unpublished or not-outcome-reviewed database PDF is accessible.
+  /* const { rows } = await db().query<{
     pdf_bytes: Buffer; pdf_sha256: string; official_pdf_url: string;
     official_url: string;
   }>(`
@@ -159,5 +160,5 @@ export async function readVerifiedCourtPdf(slug: string): Promise<VerifiedPdf | 
     bytes: pdf.pdf_bytes,
     sha256: pdf.pdf_sha256,
     officialPdfUrl: pdf.official_pdf_url,
-  };
+  }; */
 }
