@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": 1,
+  "name": "DGI housing law — weekly comprehensive legal verification",
+  "service": "https://dgi-pravo.ru",
+  "owner_repository": "ymaslen77-tech/dgi-court-importer",
+  "release_branch": "infra/coolify-russian-vps",
+  "schedule": {
+    "github_cron_utc": "25 5 * * 1",
+    "timezone_reference": "Europe/Moscow",
+    "agent_frequency": "weekly",
+    "description": "Monday legal audit; GitHub Actions performs evidence collection, separate scheduled reviewer verifies substance"
+  },
+  "inventory": {
+    "migrated_data_glob": "apps/web/src/data/pages-*.json",
+    "latest_editorial_content": "Published CMS content and production sitemap must also be checked; do not assume migrated JSON is the live source of truth",
+    "site_sitemap": "https://dgi-pravo.ru/sitemap.xml",
+    "site_paths": [
+      "/",
+      "/zhilishchnyj-uchet",
+      "/privatizaciya-zhilya",
+      "/socialnyj-naem",
+      "/renovaciya-pereselenie",
+      "/spory-s-dgi",
+      "/normativnye-akty",
+      "/sudebnaya-praktika-dgi",
+      "/novosti-zhilishchnogo-prava"
+    ],
+    "include_public_articles": true,
+    "include_public_legal_guides": true,
+    "include_news_legal_claims": true,
+    "include_court_case_summaries": true,
+    "include_legally_significant_generator_templates_if_present": true,
+    "skip_nonpublic_private_user_data": true
+  },
+  "source_policy": {
+    "first_priority": [
+      {
+        "host": "pravo.gov.ru",
+        "purpose": "official publication and consolidated current texts of federal and regional legislation"
+      },
+      {
+        "host": "publication.pravo.gov.ru",
+        "purpose": "official publication of enacted normative acts"
+      },
+      {
+        "host": "mos.ru",
+        "purpose": "Moscow government services, regulations and DGI"
+      },
+      {
+        "host": "mosreg.ru",
+        "purpose": "Moscow Oblast official legal and housing information"
+      },
+      {
+        "host": "sudrf.ru",
+        "purpose": "official judicial texts; preserve originals"
+      },
+      {
+        "host": "vsrf.ru",
+        "purpose": "Supreme Court published acts and explanations"
+      },
+      {
+        "host": "ksrf.ru",
+        "purpose": "Constitutional Court acts"
+      },
+      {
+        "host": "rosreestr.gov.ru",
+        "purpose": "real estate registry rules and services"
+      },
+      {
+        "host": "nalog.gov.ru",
+        "purpose": "current tax rules and services"
+      },
+      {
+        "host": "gosuslugi.ru",
+        "purpose": "government service procedures"
+      }
+    ],
+    "second_priority": [
+      "consultant.ru",
+      "garant.ru"
+    ],
+    "authority_rules": [
+      "Never treat a draft bill, proposal or press release as law in force",
+      "Verify effective date and later amendments, including transitional provisions",
+      "For municipal regulations verify current numbered version and responsible agency",
+      "If official site denies automatic access (403/429/timeout), mark verification incomplete; do not infer repeal",
+      "Use secondary systems for discovery and corroboration, never to override authoritative current official acts",
+      "Do not infer case outcome from cassation denial alone; inspect operative part and prior lower-court decisions"
+    ]
+  },
+  "review_scope": [
+    "statutory references, act numbers, article and paragraph references",
+    "effective dates, amendments, repeals, pending implementation and transition rules",
+    "filing and court deadlines, limitation periods, competent court and agency",
+    "state-service application channels, required attachments, fees, duties and eligibility",
+    "DGI housing register, privatization, social tenancies, renovation, eviction, expropriation, land and city property",
+    "Moscow and Moscow Oblast geographic applicability and jurisdiction",
+    "EGRN, cadastral valuation, inheritance, subsidies, housing payments, homeowners and apartment buildings",
+    "legal consequences, exceptions, vulnerable groups and procedural safeguards",
+    "claimant-favorable judicial practice summaries and PDF/source fidelity",
+    "all hyperlinks to normative acts, legal procedures and services",
+    "publication and SEO metadata, clarity, accessible headings and absence of empty sections"
+  ],
+  "new_content": {
+    "discover_targeted_changes": true,
+    "scope": [
+      "housing and real estate law",
+      "procedures of DGI Moscow",
+      "Moscow and Moscow Oblast property rules",
+      "relevant official court clarifications",
+      "government services and current application requirements"
+    ],
+    "only_with_primary_evidence": true,
+    "exclude_duplicates": true,
+    "preserve_url_structure_and_seo": true,
+    "do_not_invent_information": true
+  },
+  "release_gate": {
+    "allow_automatic_publication_only_for_verified_corrections": true,
+    "evidence_required_for_each_material_change": [
+      "source URL",
+      "original numbered act or official service",
+      "applicable and effective date",
+      "previous claim",
+      "updated claim and justification"
+    ],
+    "never_mutate_official_court_full_text_or_evidence_PDFs": true,
+    "never_publish_unapproved_CMS_drafts": true,
+    "keep_editing_and_deploy_tasks_separate": true,
+    "require_successful_typecheck_build_and_tests": true,
+    "require_live_HTTP_validation_of_affected_routes": true,
+    "if_unverified": {
+      "publish": false,
+      "record": "manual_review_needed"
+    },
+    "if_blocked": {
+      "publish": false,
+      "record": "source_unavailable"
+    },
+    "changelog_required": true
+  },
+  "monitoring": {
+    "http_timeout_seconds": 10,
+    "parallel_requests": 6,
+    "check_links": true,
+    "check_sitemap": true,
+    "collect_expiring_claims": true,
+    "max_urls": 5000,
+    "artifact_retention_days": 30
+  },
+  "boundaries": {
+    "news_pipeline_independent": true,
+    "court_import_pipeline_independent": true,
+    "do_not_rewrite_signed_acts": true,
+    "do_not_expose_private_records_or_secrets": true
+  }
+}
