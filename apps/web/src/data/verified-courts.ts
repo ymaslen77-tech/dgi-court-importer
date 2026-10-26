@@ -1,5 +1,8 @@
 import "server-only";
 import pg, { type Pool as PgPool } from "pg";
+import curatedSnapshot from "./verified-court-static.json";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 
 type Row = {
   slug: string;
@@ -12,7 +15,11 @@ type Row = {
   official_pdf_url: string;
   pdf_sha256: string;
   excerpt: string;
+  pdf_origin?: "site_rendered_copy" | "court_original";
 };
+type CuratedVerifiedCase = Row & { full_text: string; full_text_sha256: string; source_checked: boolean; privacy_checked: boolean; };
+const curatedCases = curatedSnapshot as unknown as CuratedVerifiedCase[];
+
 
 export type VerifiedCase = Row;
 const verifiedQueryMaxLength = 100;
@@ -62,8 +69,19 @@ const publicConditions = `
 `;
 
 export async function searchVerifiedCourtActs(q: string): Promise<VerifiedCase[]> {
-  if (!verifiedCourtReadsEnabled()) return [];
   const term = validVerifiedSearch(q);
+  const terms = term.toLocaleLowerCase("ru").split(/\s+/).filter(Boolean);
+  const curated = curatedCases.filter(row =>
+    row.source_checked === true && row.privacy_checked === true &&
+    /^[a-f0-9]{64}$/.test(row.pdf_sha256) &&
+    /^[a-f0-9]{64}$/.test(row.full_text_sha256) &&
+    isOfficialCourtUrl(row.official_url) &&
+    terms.every(word => [row.case_number, row.court_name, row.topic, row.full_text]
+      .join(" ").toLocaleLowerCase("ru").includes(word))
+  ).slice(0,40).map(({ full_text: _text, full_text_sha256: _sha, source_checked: _source,
+    privacy_checked: _privacy, ...summary }) => summary);
+  if (!verifiedCourtReadsEnabled()) return curated;
+
   const escaped = "%" + term.replace(/[\\%_]/g, "\\$&") + "%";
   const { rows } = await db().query<Row>(`
   SELECT d.slug, d.case_number, d.court_name, d.decision_date::text,
@@ -85,20 +103,29 @@ export async function searchVerifiedCourtActs(q: string): Promise<VerifiedCase[]
    ORDER BY d.decision_date DESC, d.slug
    LIMIT 40
   `, [term, escaped]);
-  return rows.filter((row) =>
+  const databaseRows = rows.filter((row) =>
     /^[a-z0-9][a-z0-9-]{2,159}$/.test(row.slug) &&
     /^[a-f0-9]{64}$/.test(row.pdf_sha256) &&
     isOfficialCourtUrl(row.official_url) &&
     isOfficialCourtUrl(row.official_pdf_url)
   );
+  return [...curated, ...databaseRows.filter(row => !curated.some(c => c.slug === row.slug))].slice(0,40);
 }
 
 export type VerifiedPdf = {
   bytes: Buffer; sha256: string; officialPdfUrl: string;
 };
 export async function readVerifiedCourtPdf(slug: string): Promise<VerifiedPdf | null> {
-  if (!verifiedCourtReadsEnabled() ||
-    !/^[a-z0-9][a-z0-9-]{2,159}$/.test(slug)) return null;
+  if (!/^[a-z0-9][a-z0-9-]{2,159}$/.test(slug)) return null;
+  const curated = curatedCases.find(item => item.slug === slug && item.source_checked &&
+    item.privacy_checked && isOfficialCourtUrl(item.official_url));
+  if (curated) {
+    try {
+      const bytes = await readFile(join(process.cwd(), "public", "court-pdf-copies", slug + ".pdf"));
+      return { bytes, sha256: curated.pdf_sha256, officialPdfUrl: curated.official_url };
+    } catch { return null; }
+  }
+  if (!verifiedCourtReadsEnabled()) return null;
   const { rows } = await db().query<{
     pdf_bytes: Buffer; pdf_sha256: string; official_pdf_url: string;
     official_url: string;
