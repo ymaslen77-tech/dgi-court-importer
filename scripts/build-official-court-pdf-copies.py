@@ -23,6 +23,22 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, KeepTogethe
 
 SOURCE_CASES = [
     {
+        "slug": "2kas-88-5408-2026-2026-02-17",
+        "number": "88-5408/2026",
+        "case_id": "17305748",
+        "uid": "96f7b227-ab66-44e5-a2e1-c6c160efc369",
+        "judicial_uid": "77RS0017-02-2024-014240-27",
+        "date": "2026-02-17",
+        "date_label": "17 февраля 2026",
+        "topic": "Наследование квартиры и удовлетворение иска против ДГИ",
+        "court": "Второй кассационный суд общей юрисдикции",
+        "act_type": "ruling",
+        "source_kind": "court_published_html",
+        "editorial_note": "Иск гражданина об установлении факта принятия наследства и признании права собственности удовлетворён; встречный иск ДГИ отклонён, кассационная жалоба ДГИ отклонена.",
+        "positive_outcome": "исковые требования ФИО1 удовлетворены",
+        "outcome_evidence": "Суд признал факт принятия наследства и право собственности гражданина на наследственное имущество, отказал во встречном иске ДГИ; апелляция и кассация сохранили положительный результат.",
+    },
+    {
         "slug": "2kas-88-12218-2026-2026-05-28",
         "number": "88-12218/2026",
         "case_id": "17922794",
@@ -122,7 +138,7 @@ def fetch_act(item):
         raise ValueError("Court decision act heading missing")
     if "о п р е д е л и л а:" not in body[-1300:].lower() and "определила:" not in body[-1300:].lower():
         raise ValueError("Court decision operative part missing")
-    if not re.search(r"Председательствующ[а-я]*\s*\nСудьи\s*$", body):
+    if not re.search(r"Председательствующ[а-я]*\s*\nСудьи(?:\s*\nМотивированное определение составлено[^\n]*)?\s*$", body):
         raise ValueError("Court signature/footer missing; possibly truncated")
     # Reject claimant-losing decisions even if the formal case page exists.
     normalized_body = re.sub(r"\s+", " ", body)
