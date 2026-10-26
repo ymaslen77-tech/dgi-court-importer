@@ -23,20 +23,6 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, KeepTogethe
 
 SOURCE_CASES = [
     {
-        "slug": "2kas-88-724-2026-2026-01-20",
-        "number": "88-724/2026",
-        "case_id": "16814499",
-        "uid": "ac88b1a2-d389-48f4-a7b2-2438745b8596",
-        "judicial_uid": "77RS0005-02-2022-002119-37",
-        "date": "2026-01-20",
-        "date_label": "20 января 2026",
-        "topic": "Выморочное жильё, наследование и право собственности",
-        "court": "Второй кассационный суд общей юрисдикции",
-        "act_type": "ruling",
-        "source_kind": "court_published_html",
-        "editorial_note": "Кассационное определение по спору с ДГИ о правах на наследственное жилое имущество, действительности свидетельства и выселении. PDF является копией текста, опубликованного судом, а не подписанным судебным оригиналом.",
-    },
-    {
         "slug": "2kas-88-5020-2026-2026-02-17",
         "number": "88-5020/2026",
         "case_id": "17338162",
@@ -48,7 +34,9 @@ SOURCE_CASES = [
         "court": "Второй кассационный суд общей юрисдикции",
         "act_type": "ruling",
         "source_kind": "court_published_html",
-        "editorial_note": "Спор о признании права собственности на нежилое строение с участием ДГИ Москвы; опубликованное кассационное определение в обезличенном виде.",
+        "editorial_note": "Иск гражданина удовлетворён: признано право собственности на гараж. ДГИ обжаловал, кассация оставила решение в силе.",
+        "positive_outcome": "Исковые требования ФИО1 удовлетворены",
+        "outcome_evidence": "Суд признал право собственности на гараж, кассационная жалоба ДГИ отклонена.",
     },
     {
         "slug": "2kas-88-12184-2026-2026-04-28",
@@ -62,7 +50,9 @@ SOURCE_CASES = [
         "court": "Второй кассационный суд общей юрисдикции",
         "act_type": "ruling",
         "source_kind": "court_published_html",
-        "editorial_note": "Кассационное определение по спору о признании права собственности на квартиру с участием ДГИ Москвы; PDF-копия обезличенного текста судебного портала.",
+        "editorial_note": "Иск гражданина удовлетворён: право собственности на квартиру признано. Кассационная жалоба ДГИ отклонена.",
+        "positive_outcome": "Исковые требования ФИО1 удовлетворены",
+        "outcome_evidence": "Суд признал право собственности на квартиру; апелляция сохранила решение, жалоба ДГИ отклонена.",
     },
     {
         "slug": "2kas-88-14012-2026-2026-05-21",
@@ -76,7 +66,9 @@ SOURCE_CASES = [
         "court": "Второй кассационный суд общей юрисдикции",
         "act_type": "ruling",
         "source_kind": "court_published_html",
-        "editorial_note": "Кассационное определение по спору с ДГИ о приобретательной давности и признании права собственности на недвижимость. PDF — копия обезличенного текста суда.",
+        "editorial_note": "По иску к ДГИ после апелляционного пересмотра право собственности на часть жилого дома признано за наследниками истца. Кассация не изменила результат.",
+        "positive_outcome": "За наследниками истца признано право собственности",
+        "outcome_evidence": "Апелляционное определение признало право собственности наследников на часть дома; кассация оставила это определение в силе.",
     },
 ]
 
@@ -116,6 +108,12 @@ def fetch_act(item):
         raise ValueError("Court decision operative part missing")
     if not re.search(r"Председательствующ[а-я]*\s*\nСудьи\s*$", body):
         raise ValueError("Court signature/footer missing; possibly truncated")
+    # Reject claimant-losing decisions even if the formal case page exists.
+    if item["positive_outcome"] not in body or not re.search(
+        r"(иск(?:овые)? требования ФИО\\d+ удовлетворен|признано право собственности|за ФИО\\d+[^.]{0,120}признано право)",
+        body, re.IGNORECASE
+    ):
+        raise ValueError("No explicit favorable original relief for private claimant")
     # The court's own anonymization is present; no unredacted parties may
     # be added from the case card. Individual counsel and judges are official.
     if len(re.findall(r"\bФИО\d+\b", body)) < 7 or len(body) < 7500:
@@ -177,6 +175,9 @@ def main():
             full_text_sha256=hashlib.sha256(text.encode("utf8")).hexdigest(),
             full_text=text, excerpt=item["editorial_note"],
             pdf_sha256="", source_checked=True, privacy_checked=True,
+            outcome_verified="applicant_granted",
+            outcome_reviewed_at="2026-10-26",
+            outcome_evidence=item["outcome_evidence"],
         )
         if not args.dry_run:
             pdf_file=dest/(item["slug"]+".pdf")
