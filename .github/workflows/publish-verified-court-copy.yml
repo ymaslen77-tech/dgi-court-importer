@@ -32,8 +32,8 @@ jobs:
           python3 - <<'PY'
           import json,pathlib,subprocess,hashlib
           cases=json.loads(pathlib.Path("apps/web/src/data/verified-court-static.json").read_text())
-          expected={"88-5020/2026","88-12184/2026","88-14012/2026","88-12218/2026"}
-          assert len(cases)==4
+          expected={"88-5020/2026","88-12184/2026","88-14012/2026","88-12218/2026","88-5408/2026"}
+          assert len(cases)==5
           assert {c["case_number"] for c in cases} == expected
           for case in cases:
             assert 7500 < len(case["full_text"]) < 90000
