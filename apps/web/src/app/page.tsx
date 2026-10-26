@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { PageShell } from "@/components/PageShell";
 import { canIndexPage, canonicalUrl, getMigratedPage, siteIsLive } from "@/data/pages";
 import { getPublishedEditorialPage } from "@/data/published";
+import { housingNewsBase, listHousingNews } from "@/data/housing-news";
 
 const topics = [
   { title: "Жилищный учёт", href: "/zhilishchnyj-uchet", detail: "Очередь, постановка и снятие с учёта" },
@@ -46,6 +47,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function HomePage() {
   const page = (await getPublishedEditorialPage("")) ?? (!siteIsLive ? getMigratedPage("") : undefined);
   if (!page) notFound();
+  const news = listHousingNews().slice(0, 3);
   return <PageShell variant="home">
     <section className="home-intro">
       <div className="container">
@@ -75,6 +77,13 @@ export default async function HomePage() {
           </Link>)}
         </div>
       </div>
+    </section>
+    <section className="container home-news-section">
+      <div className="home-news-heading"><h2 className="section-title">Новости жилья и недвижимости</h2><Link href={housingNewsBase}>Все новости →</Link></div>
+      {news.length ? <div className="housing-news-grid">{news.map(item => <article className="housing-news-card" key={item.slug}>
+        <span className="housing-news-meta">{item.region} · {new Date(item.publishedAt).toLocaleDateString("ru-RU",{ timeZone:"Europe/Moscow" })}</span>
+        <h3><Link href={housingNewsBase + "/" + item.slug}>{item.title}</Link></h3><p>{item.summary}</p>
+      </article>)}</div> : <p>Проверенные материалы готовятся к публикации. <Link href={housingNewsBase}>Перейти в раздел новостей →</Link></p>}
     </section>
   </PageShell>;
 }
