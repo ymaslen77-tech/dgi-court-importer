@@ -86,7 +86,7 @@ export function VerifiedCourtExplorer() {
         <p className="verified-case-topic">{item.topic}</p>
         {query.trim() && item.excerpt && <p className="verified-excerpt">{item.excerpt}</p>}
         <div className="verified-case-actions">
-          <button type="button" onClick={() => setActive(item)}>Открыть решение PDF</button>
+          <button type="button" onClick={() => setActive(item)}>Открыть PDF решения</button>
           <a href={item.official_url} target="_blank" rel="noopener noreferrer">
             Источник ↗
           </a>
@@ -98,9 +98,9 @@ export function VerifiedCourtExplorer() {
       <div className="court-pdf-dialog" role="dialog" aria-modal="true"
         aria-label={`Судебный акт по делу № ${active.case_number}`}>
         <header className="court-pdf-header">
-          <div><strong>Дело № {active.case_number}</strong><span>{active.court_name}</span></div>
+          <div><strong>Дело № {active.case_number}</strong><span>{active.court_name}</span>{active.pdf_origin === "site_rendered_copy" && <span>PDF-копия текста, опубликованного судом. Не заверенный судом оригинал.</span>}</div>
           <div className="court-pdf-actions">
-            <a href={active.official_pdf_url} target="_blank" rel="noopener noreferrer">Оригинал на сайте суда ↗</a>
+            <a href={active.official_pdf_url} target="_blank" rel="noopener noreferrer">Официальный текст суда ↗</a>
             <button type="button" ref={dialogClose} onClick={() => setActive(null)}
               aria-label="Закрыть PDF">Закрыть ✕</button>
           </div>
