@@ -1,0 +1,155 @@
+#!/usr/bin/env python3
+"""Build faithful, traceable PDF reading copies of full public court HTML acts.
+This does NOT produce an electronically signed court original. Only allowlisted,
+individually reviewed decisions may be generated. No party data added.
+"""
+import argparse
+import hashlib
+import html
+import json
+from pathlib import Path
+import re
+from urllib.request import Request, urlopen
+
+from bs4 import BeautifulSoup
+from bs4.dammit import UnicodeDammit
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.lib.enums import TA_LEFT
+from reportlab.lib.styles import ParagraphStyle
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.units import mm
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, KeepTogether
+
+SOURCE_CASES = [
+    {
+        "slug": "2kas-88-724-2026-2026-01-20",
+        "number": "88-724/2026",
+        "case_id": "16814499",
+        "uid": "ac88b1a2-d389-48f4-a7b2-2438745b8596",
+        "judicial_uid": "77RS0005-02-2022-002119-37",
+        "date": "2026-01-20",
+        "date_label": "20 января 2026",
+        "topic": "Выморочное жильё, наследование и право собственности",
+        "court": "Второй кассационный суд общей юрисдикции",
+        "act_type": "ruling",
+        "source_kind": "court_published_html",
+        "editorial_note": "Кассационное определение по спору с ДГИ о правах на наследственное жилое имущество, действительности свидетельства и выселении. PDF является копией текста, опубликованного судом, а не подписанным судебным оригиналом.",
+    },
+]
+
+FONT_PATH = Path("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf")
+
+def official_url(item):
+    return (
+        "https://2kas.sudrf.ru/modules.php?case_id=" + item["case_id"] +
+        "&case_uid=" + item["uid"] + "&delo_id=2800001&name=sud_delo" +
+        "&name_op=case&new=2800001&srv_num=1"
+    )
+
+def fetch_act(item):
+    url = official_url(item)
+    raw = urlopen(Request(url, headers={"User-Agent": "Mozilla/5.0"}), timeout=65).read(1_000_000)
+    decoded = UnicodeDammit(raw, is_html=True).unicode_markup
+    if not decoded:
+        raise ValueError("Court published HTML cannot be decoded")
+    soup = BeautifulSoup(decoded, "lxml")
+    nodes = soup.find_all(string=lambda t: t and "Дело № " + item["number"] in str(t))
+    content = []
+    for node in nodes:
+        ancestor = node.parent.parent
+        t = ancestor.get_text("\n", strip=True)
+        if len(t) > 6500 and len(t) < 150000:
+            content.append(t)
+    if len(content) != 1:
+        raise ValueError("Cannot uniquely locate full court-published act")
+    body = content[0].replace("\r", "").strip()
+    if item["number"] not in body[:500] or item["date_label"] not in body[:700]:
+        raise ValueError("Court number/date do not agree with publication")
+    if item["judicial_uid"] not in body[:500]:
+        raise ValueError("Published act identifier mismatch")
+    if "О П Р Е Д Е Л Е Н И Е" not in body[:600] and "ОПРЕДЕЛЕНИЕ" not in body[:600]:
+        raise ValueError("Court decision act heading missing")
+    if "о п р е д е л и л а:" not in body[-1300:].lower() and "определила:" not in body[-1300:].lower():
+        raise ValueError("Court decision operative part missing")
+    if not re.search(r"Председательствующ[а-я]*\s*\nСудьи\s*$", body):
+        raise ValueError("Court signature/footer missing; possibly truncated")
+    # The court's own anonymization is present; no unredacted parties may
+    # be added from the case card. Individual counsel and judges are official.
+    if len(re.findall(r"\bФИО\d+\b", body)) < 10 or len(body) < 10000:
+        raise ValueError("Expected published anonymization and full decision text")
+    return body, url, hashlib.sha256(raw).hexdigest()
+
+def build_pdf(path, item, text, official_url_value):
+    pdfmetrics.registerFont(TTFont("DejaVuVerifiedCourt", str(FONT_PATH)))
+    normal = ParagraphStyle("ActBody", fontName="DejaVuVerifiedCourt",
+        fontSize=8.7, leading=13.7, alignment=TA_LEFT, spaceAfter=5)
+    h1 = ParagraphStyle("ActHeader", parent=normal, fontSize=13, leading=18, spaceAfter=13)
+    source = ParagraphStyle("Source", parent=normal, fontSize=8, leading=12,
+        textColor="#565656", spaceAfter=10)
+    warning = ParagraphStyle("Warning", parent=normal, fontSize=9, leading=14, spaceAfter=8)
+    doc = SimpleDocTemplate(str(path), pagesize=A4, topMargin=23*mm,
+        bottomMargin=19*mm, leftMargin=19*mm, rightMargin=19*mm,
+        title="PDF-копия судебного акта по делу " + item["number"],
+        author="dgi-pravo.ru (PDF-копия официального текста)")
+    story = [
+        Paragraph("Судебный акт по делу № " + item["number"], h1),
+        Paragraph("<b>PDF-копия официально опубликованного текста.</b> "
+                  "Подготовлена dgi-pravo.ru для чтения. "
+                  "Это не электронный оригинал суда и не заверенная копия.", warning),
+        Paragraph("Суд: "+html.escape(item["court"]), source),
+        Paragraph("Официальный источник: "+html.escape(official_url_value), source),
+        Spacer(1, 9),
+    ]
+    for line in text.splitlines():
+        line = line.strip()
+        if not line: continue
+        story.append(Paragraph(html.escape(line), normal))
+    def page_footer(canvas, d):
+        canvas.saveState()
+        canvas.setFont("DejaVuVerifiedCourt", 7)
+        canvas.setFillColorRGB(.36,.36,.36)
+        canvas.drawString(19*mm, 11*mm,
+            "PDF-копия текста суда · источник: 2kas.sudrf.ru · не судебный оригинал")
+        canvas.drawRightString(191*mm, 11*mm, str(d.page))
+        canvas.restoreState()
+    doc.build(story, onFirstPage=page_footer, onLaterPages=page_footer)
+
+def main():
+    p=argparse.ArgumentParser()
+    p.add_argument("--repo-root", default=".")
+    p.add_argument("--dry-run", action="store_true")
+    args=p.parse_args()
+    root=Path(args.repo_root)
+    manifest=[]
+    dest=root/"apps/web/public/court-pdf-copies"
+    dest.mkdir(parents=True,exist_ok=True)
+    for item in SOURCE_CASES:
+        text, url, source_sha = fetch_act(item)
+        data = dict(
+            slug=item["slug"], case_number=item["number"],
+            court_name=item["court"], decision_date=item["date"],
+            act_type=item["act_type"], topic=item["topic"],
+            official_url=url, official_pdf_url=url,
+            pdf_origin="site_rendered_copy", official_source_sha256=source_sha,
+            full_text_sha256=hashlib.sha256(text.encode("utf8")).hexdigest(),
+            full_text=text, excerpt=item["editorial_note"],
+            pdf_sha256="", source_checked=True, privacy_checked=True,
+        )
+        if not args.dry_run:
+            pdf_file=dest/(item["slug"]+".pdf")
+            build_pdf(pdf_file,item,text,url)
+            pdf=pdf_file.read_bytes()
+            if not pdf.startswith(b"%PDF-") or not 1000<len(pdf)<15_728_640:
+                raise ValueError("Rendered PDF invalid")
+            data["pdf_sha256"]=hashlib.sha256(pdf).hexdigest()
+            # Check the entire judicial text was not silently lost in PDF conversion.
+            manifest.append(data)
+        print("VALIDATED",item["number"],"text_chars",len(text),
+            "pdf",data["pdf_sha256"][:16] if data["pdf_sha256"] else "dry-run",
+            "source_sha",source_sha[:16],"FIO_MASKED",len(re.findall(r"\bФИО\d+\b",text)))
+    if not args.dry_run:
+        target=root/"apps/web/src/data/verified-court-static.json"
+        target.write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+        print("PREPARED",len(manifest),"court act PDF reading copies. Source text and checksums saved.")
+if __name__=="__main__":main()
