@@ -1,0 +1,87 @@
+name: Publish separately verified positive DGI court decision 88-5408
+on:
+  workflow_dispatch:
+  push:
+    branches: [infra/coolify-russian-vps]
+    paths: [.github/workflows/publish-positive-case-88-5408.yml]
+permissions:
+  contents: write
+concurrency:
+  group: dgi-positive-case-88-5408
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: infra/coolify-russian-vps
+          persist-credentials: true
+      - run: |
+          python3 -m pip install -q beautifulsoup4 lxml reportlab
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq poppler-utils fonts-dejavu-core >/dev/null
+      - name: Verify official full text and exact favorable outcome then prepare on-site PDF
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import importlib.util,json,pathlib,hashlib,re,subprocess
+          path=pathlib.Path("scripts/build-official-court-pdf-copies.py")
+          spec=importlib.util.spec_from_file_location("court_build",path)
+          mod=importlib.util.module_from_spec(spec)
+          spec.loader.exec_module(mod)
+          item=next(x for x in mod.SOURCE_CASES if x["number"]=="88-5408/2026")
+          text,url,sha=mod.fetch_act(item)
+          normalized=re.sub(r"\s+"," ",text).lower()
+          assert "исковые требования фио1 удовлетворены" in normalized
+          assert "отказано в удовлетворении встречного иска" in normalized or "в удовлетворении встречного иска" in normalized
+          assert "кассационную жалобу департамента" in normalized or "кассационную жалобу дги" in normalized
+          assert len(text)>9500 and text.rstrip().endswith("Судьи")
+          assert len(re.findall(r"ФИО\d+",text))>=10
+          slug=item["slug"]
+          pdf_path=pathlib.Path("apps/web/public/court-pdf-copies")/(slug+".pdf")
+          pdf_path.parent.mkdir(parents=True,exist_ok=True)
+          mod.build_pdf(pdf_path,item,text,url)
+          pdf=pdf_path.read_bytes()
+          assert pdf[:5]==b"%PDF-" and len(pdf)>12000
+          pdf_sha=hashlib.sha256(pdf).hexdigest()
+          extracted=subprocess.run(["pdftotext",str(pdf_path),"-"],capture_output=True,text=True,check=True).stdout
+          assert "88-5408/2026" in extracted and "Судьи" in extracted
+          manifest_path=pathlib.Path("apps/web/src/data/verified-court-static.json")
+          manifest=json.loads(manifest_path.read_text(encoding="utf8"))
+          assert len({x["slug"] for x in manifest})==len(manifest)
+          assert all(x["outcome_verified"]=="applicant_granted" for x in manifest)
+          row={
+            "slug":slug,"case_number":item["number"],"court_name":item["court"],"decision_date":item["date"],
+            "act_type":item["act_type"],"topic":item["topic"],"official_url":url,
+            "official_pdf_url":url,"pdf_origin":"site_rendered_copy",
+            "official_source_sha256":sha,
+            "full_text_sha256":hashlib.sha256(text.encode("utf8")).hexdigest(),
+            "full_text":text,"excerpt":item["editorial_note"],"pdf_sha256":pdf_sha,
+            "source_checked":True,"privacy_checked":True,
+            "outcome_verified":"applicant_granted","outcome_reviewed_at":"2026-10-26",
+            "outcome_evidence":item["outcome_evidence"],
+          }
+          manifest=[x for x in manifest if x["slug"]!=slug]
+          manifest.append(row)
+          manifest.sort(key=lambda x:x["decision_date"],reverse=True)
+          manifest_path.write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+"\n",encoding="utf8")
+          print("PUBLISHABLE",item["number"],"chars",len(text),"pdf_bytes",len(pdf),
+                "pdf_sha256",pdf_sha,"approved_total",len(manifest))
+          PY
+      - name: Commit verified original-text PDF copy and search index
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add apps/web/src/data/verified-court-static.json apps/web/public/court-pdf-copies/2kas-88-5408-2026-2026-02-17.pdf
+          if git diff --cached --quiet; then
+            echo "Already added"
+            exit 0
+          fi
+          git commit -m 'data(courts): publish claimant-winning inheritance case 88-5408/2026'
+          git pull --rebase origin infra/coolify-russian-vps
+          git push origin HEAD:infra/coolify-russian-vps
