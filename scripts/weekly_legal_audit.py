@@ -265,17 +265,33 @@ def audit(config):
     timeout = monitoring["http_timeout_seconds"]
     workers = monitoring["parallel_requests"]
     snapshots, source_links = load_local_pages(config)
+    published_news, published_courts, publication_urls, publication_sources = load_structured_publications(base)
+    source_links.update(publication_sources)
     sitemap, sitemap_status = sitemap_urls(config, timeout)
     explicit = {base + p for p in config["inventory"]["site_paths"]}
-    # Check the canonical live inventory (including CMS pages, news and cases)
-    # plus every original snapshot slug. Inactive drafts may return 404 and are
-    # reported separately, not treated as regressions in public content.
+    # Crawl three levels of public links. The fallback inventory still works
+    # when robots/noindex causes an empty sitemap.
     local_urls = {base + ("/" + p["slug"].lstrip("/") if p["slug"] != "/" else "/") for p in snapshots}
-    targets = sorted(set(sitemap) | explicit | local_urls)
+    frontier = set(sitemap) | explicit | local_urls | publication_urls
+    visited = {}
+    max_urls = monitoring["max_urls"]
     def inspect(url):
         return http_check(url, timeout=timeout, parse_html=True)
-    with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as pool:
-        live_pages = list(pool.map(inspect, targets))
+    for depth in range(3):
+        pending = sorted(frontier - visited.keys())
+        if not pending:
+            break
+        if len(visited) + len(pending) > max_urls:
+            raise RuntimeError("Live site inventory exceeded max_urls")
+        with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as pool:
+            fetched = list(pool.map(inspect, pending))
+        visited.update(zip(pending, fetched))
+        discovered = set()
+        for page in fetched:
+            if page.get("status") == "ok":
+                discovered.update(page.get("internal_links", []))
+        frontier = {url for url in discovered if url.startswith(base + "/")}
+    live_pages = [visited[url] for url in sorted(visited)]
     public = [p for p in live_pages if p["status"] == "ok"]
     for page in public:
         source_links.update(link for link in page.get("source_links", [])
@@ -291,6 +307,8 @@ def audit(config):
         "sitemap": sitemap_status,
         "summary": {
             "historical_snapshot_pages": len(snapshots),
+            "structured_news_articles": len(published_news),
+            "structured_court_summaries": len(published_courts),
             "live_urls_tested": len(live_pages),
             "live_http_200": len(public),
             "live_unavailable": sum(p["status"] == "unavailable" for p in live_pages),
@@ -301,6 +319,8 @@ def audit(config):
             "external_unavailable": sum(p["status"] == "unavailable" for p in links)
         },
         "snapshot_inventory": snapshots,
+        "structured_news_inventory": published_news,
+        "court_summary_inventory": published_courts,
         "live_pages": live_pages,
         "external_links": links,
         "editorial_instructions": [
