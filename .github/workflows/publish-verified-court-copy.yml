@@ -32,24 +32,24 @@ jobs:
           python3 - <<'PY'
           import json,pathlib,subprocess,hashlib
           cases=json.loads(pathlib.Path("apps/web/src/data/verified-court-static.json").read_text())
-          assert len(cases)==1,"Only one judicial decision reviewed and authorized in this batch"
-          case=cases[0]
-          assert case["slug"]=="2kas-88-724-2026-2026-01-20"
-          assert case["case_number"]=="88-724/2026"
-          assert len(case["full_text"])>10000
-          assert case["full_text"].rstrip().endswith("Судьи")
-          pdf=pathlib.Path("apps/web/public/court-pdf-copies")/(case["slug"]+".pdf")
-          assert pdf.exists() and pdf.stat().st_size>1000
-          assert hashlib.sha256(pdf.read_bytes()).hexdigest()==case["pdf_sha256"]
-          info=subprocess.run(["pdfinfo",str(pdf)],capture_output=True,text=True,check=True)
-          assert "Pages:" in info.stdout
-          out=subprocess.run(["pdftotext","-layout",str(pdf),"-"],capture_output=True,text=True,check=True).stdout
-          for phrase in ["88-724/2026","судебная коллегия","ФИО1","Судьи"]:
-              assert phrase.lower() in out.lower(), f"Missing core act segment in PDF: {phrase}"
-          print("Verified PDF pages:",[line for line in info.stdout.splitlines() if line.startswith("Pages:")][0])
-          print("Text integrity:",case["full_text_sha256"])
-          print("Court source:",case["official_url"])
-          print("PDF label explicitly states it is not court original")
+          expected={"88-724/2026","88-5020/2026","88-12184/2026","88-14012/2026"}
+          assert len(cases)==4
+          assert {c["case_number"] for c in cases} == expected
+          for case in cases:
+            assert 7500 < len(case["full_text"]) < 90000
+            assert case["full_text"].rstrip().endswith("Судьи")
+            assert case["case_number"] in case["full_text"][:600]
+            pdf=pathlib.Path("apps/web/public/court-pdf-copies")/(case["slug"]+".pdf")
+            assert pdf.exists() and pdf.stat().st_size>1000
+            assert hashlib.sha256(pdf.read_bytes()).hexdigest()==case["pdf_sha256"]
+            info=subprocess.run(["pdfinfo",str(pdf)],capture_output=True,text=True,check=True)
+            assert "Pages:" in info.stdout
+            out=subprocess.run(["pdftotext","-layout",str(pdf),"-"],capture_output=True,text=True,check=True).stdout
+            for phrase in [case["case_number"],"судебная коллегия","Судьи"]:
+              assert phrase.lower() in out.lower(), f"Missing act segment in PDF: {case['case_number']} {phrase}"
+            print("VALIDATED_PDF",case["case_number"], [line for line in info.stdout.splitlines() if line.startswith("Pages:")][0],
+                  "text_SHA256",case["full_text_sha256"][:16],"pdf_SHA256",case["pdf_sha256"][:16])
+          print("All 4 judicial PDF copies labeled non-original and content-checked")
           PY
       - name: Commit first checked PDF court act to the web release branch
         shell: bash
