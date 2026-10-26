@@ -94,7 +94,17 @@ function groupSections(blocks: MigratedBlock[], slug: string): { intro: Migrated
     } else if (current) current.blocks.push(block);
     else intro.push(block);
   }
-  return { intro, sections };
+  // Imported Webflow snapshots contain empty promotional headings, sometimes
+  // followed immediately by another h2. They must not appear as fake sections
+  // or clickable items. Require real explanatory text or a valid source link.
+  // Nested h3/h4 alone do not count as a usable answer.
+  const populated = sections.filter(section =>
+    section.blocks.some(block =>
+      (block.kind === "p" && block.text.trim().length > 0) ||
+      (block.kind === "link" && Boolean(safeHref(block.href)))
+    )
+  );
+  return { intro, sections: populated };
 }
 
 export function MigratedArticle({ page, home = false, afterHero }: {
