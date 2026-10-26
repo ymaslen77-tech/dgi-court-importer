@@ -274,6 +274,15 @@ def main():
     print("LEGAL_WEEKLY_REPORT", destination)
     print("SUMMARY", json.dumps(report["summary"], ensure_ascii=False))
     print("SITEMAP", json.dumps(report["sitemap"], ensure_ascii=False))
+    problems=[{"url":row.get("url"),"status":row.get("status"),
+               "code":row.get("http_code"),"error_class":row.get("error_class")}
+              for row in report["live_pages"] if row.get("status") != "ok"]
+    print("UNREACHABLE_PUBLIC_PAGE_SAMPLE",json.dumps(problems[:15],ensure_ascii=False))
+    print("POTENTIAL_PRIMARY_SOURCE_ERRORS",json.dumps([
+        {"url":row.get("url"),"status":row.get("status"),
+         "code":row.get("http_code"),"error_class":row.get("error_class")}
+        for row in report["external_links"] if row.get("status") != "ok"
+    ][:12],ensure_ascii=False))
     print("NEXT_STEP: independent legal review required; no source-only inference, no automatic changes from HTTP statuses")
     # Only structural inventory failure blocks the CI collector. Website access
     # failures are reported as inconclusive and do not trigger bogus legal edits.
