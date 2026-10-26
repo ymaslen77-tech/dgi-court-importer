@@ -11,6 +11,7 @@ const navigation = [
   { href: "/spory-s-dgi", label: "Споры с ДГИ" },
   { href: "/normativnye-akty", label: "Законы" },
   { href: "/sudebnaya-praktika-dgi", label: "Судебные дела" },
+  { href: "/novosti-zhilishchnogo-prava", label: "Новости" },
 ];
 
 const previewOnlyLinks = [
