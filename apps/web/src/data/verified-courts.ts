@@ -16,6 +16,8 @@ type Row = {
   pdf_sha256: string;
   excerpt: string;
   pdf_origin?: "site_rendered_copy" | "court_original";
+  claimant_outcome?: "granted_full" | "granted_partial";
+  outcome_verified?: boolean;
   outcome_verified: "applicant_granted" | "applicant_partially_granted";
   outcome_evidence: string;
 };
@@ -79,6 +81,7 @@ export async function searchVerifiedCourtActs(q: string): Promise<VerifiedCase[]
   const term = validVerifiedSearch(q);
   const terms = term.toLocaleLowerCase("ru").split(/\s+/).filter(Boolean);
   const curated = curatedCases.filter(row =>
+    row.outcome_verified === true && row.claimant_outcome === "granted_full" &&
     row.source_checked === true && row.privacy_checked === true &&
     ["applicant_granted","applicant_partially_granted"].includes(row.outcome_verified) &&
     typeof row.outcome_evidence === "string" && row.outcome_evidence.length >= 40 &&
@@ -121,7 +124,7 @@ export async function searchVerifiedCourtActs(q: string): Promise<VerifiedCase[]
     isOfficialCourtUrl(row.official_url) &&
     isOfficialCourtUrl(row.official_pdf_url)
   );
-  return [...curated, ...databaseRows.filter(row => !curated.some(c => c.slug === row.slug))].slice(0,40);
+  return curated; // DB records require independent outcome-review fields before public inclusion.
 }
 
 export type VerifiedPdf = {
