@@ -35,7 +35,7 @@ SOURCE_CASES = [
         "act_type": "ruling",
         "source_kind": "court_published_html",
         "editorial_note": "Иск гражданина удовлетворён: признано право собственности на гараж. ДГИ обжаловал, кассация оставила решение в силе.",
-        "positive_outcome": "Исковые требования ФИО1 удовлетворены",
+        "positive_outcome": "исковые требования ФИО1 удовлетворены",
         "outcome_evidence": "Суд признал право собственности на гараж, кассационная жалоба ДГИ отклонена.",
     },
     {
@@ -67,7 +67,7 @@ SOURCE_CASES = [
         "act_type": "ruling",
         "source_kind": "court_published_html",
         "editorial_note": "По иску к ДГИ после апелляционного пересмотра право собственности на часть жилого дома признано за наследниками истца. Кассация не изменила результат.",
-        "positive_outcome": "За наследниками истца признано право собственности",
+        "positive_outcome": "признано право собственности на часть жилого дома",
         "outcome_evidence": "Апелляционное определение признало право собственности наследников на часть дома; кассация оставила это определение в силе.",
     },
 ]
@@ -110,7 +110,7 @@ def fetch_act(item):
         raise ValueError("Court signature/footer missing; possibly truncated")
     # Reject claimant-losing decisions even if the formal case page exists.
     if item["positive_outcome"] not in body or not re.search(
-        r"(иск(?:овые)? требования ФИО\\d+ удовлетворен|признано право собственности|за ФИО\\d+[^.]{0,120}признано право)",
+        r"(исковые требования ФИО\d+ удовлетворены|признано право собственности|за ФИО\d+[^.]{0,120}признано право)",
         body, re.IGNORECASE
     ):
         raise ValueError("No explicit favorable original relief for private claimant")
