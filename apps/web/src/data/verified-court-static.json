@@ -16,9 +16,11 @@
     "pdf_sha256": "4269680996e8759fc486fc0b8d887fe421b5f83cf39dd9d5139327fa097592cd",
     "source_checked": true,
     "privacy_checked": true,
-    "outcome_verified": "applicant_granted",
+    "outcome_verified": true,
     "outcome_reviewed_at": "2026-10-26",
-    "outcome_evidence": "Суд удовлетворил иск граждан о признании права собственности на гаражные боксы; апелляция оставила решение в силе, кассационная жалоба ДГИ отклонена."
+    "outcome_evidence": "Суд удовлетворил иск граждан о признании права собственности на гаражные боксы; апелляция оставила решение в силе, кассационная жалоба ДГИ отклонена.",
+    "claimant_outcome": "granted_full",
+    "outcome_label": "Иск гражданина удовлетворён; кассационная жалоба ДГИ отклонена"
   },
   {
     "slug": "2kas-88-5020-2026-2026-02-17",
@@ -37,9 +39,11 @@
     "pdf_sha256": "877edfd0396ad37c430480036d60a70e9c0c4bfe84717aa190da9de753df5a69",
     "source_checked": true,
     "privacy_checked": true,
-    "outcome_verified": "applicant_granted",
+    "outcome_verified": true,
     "outcome_reviewed_at": "2026-10-26",
-    "outcome_evidence": "Суд признал право собственности на гараж, кассационная жалоба ДГИ отклонена."
+    "outcome_evidence": "Суд признал право собственности на гараж, кассационная жалоба ДГИ отклонена.",
+    "claimant_outcome": "granted_full",
+    "outcome_label": "Иск гражданина удовлетворён; кассационная жалоба ДГИ отклонена"
   },
   {
     "slug": "2kas-88-12184-2026-2026-04-28",
@@ -58,9 +62,11 @@
     "pdf_sha256": "0e385670311ae7a7ce5a995c3e8b9f8915ca70fd0a43bebe16eb62927a61aafa",
     "source_checked": true,
     "privacy_checked": true,
-    "outcome_verified": "applicant_granted",
+    "outcome_verified": true,
     "outcome_reviewed_at": "2026-10-26",
-    "outcome_evidence": "Суд признал право собственности на квартиру; апелляция сохранила решение, жалоба ДГИ отклонена."
+    "outcome_evidence": "Суд признал право собственности на квартиру; апелляция сохранила решение, жалоба ДГИ отклонена.",
+    "claimant_outcome": "granted_full",
+    "outcome_label": "Иск гражданина удовлетворён; кассационная жалоба ДГИ отклонена"
   },
   {
     "slug": "2kas-88-14012-2026-2026-05-21",
@@ -79,8 +85,10 @@
     "pdf_sha256": "62110876daf7b993bccd9952dfe7e7fd292a69213308fb86273fabd8289e2496",
     "source_checked": true,
     "privacy_checked": true,
-    "outcome_verified": "applicant_granted",
+    "outcome_verified": false,
     "outcome_reviewed_at": "2026-10-26",
-    "outcome_evidence": "Апелляционное определение признало право собственности наследников на часть дома; кассация оставила это определение в силе."
+    "outcome_evidence": "Апелляционное определение признало право собственности наследников на часть дома; кассация оставила это определение в силе.",
+    "claimant_outcome": "granted_partial",
+    "outcome_label": "Часть требований удовлетворена, часть отклонена; исключено из каталога полной положительной практики"
   }
 ]
