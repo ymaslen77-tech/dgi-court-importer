@@ -23,6 +23,22 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, KeepTogethe
 
 SOURCE_CASES = [
     {
+        "slug": "2kas-88-12218-2026-2026-05-28",
+        "number": "88-12218/2026",
+        "case_id": "17922794",
+        "uid": "e7b0d6f3-6f17-4210-a204-0530f61ee1e6",
+        "judicial_uid": "",
+        "date": "2026-05-28",
+        "date_label": "28 мая 2026",
+        "topic": "Признание права собственности на гаражные боксы в споре с ДГИ",
+        "court": "Второй кассационный суд общей юрисдикции",
+        "act_type": "ruling",
+        "source_kind": "court_published_html",
+        "editorial_note": "Иск граждан к ДГИ Москвы и кооперативу о праве собственности на гаражные боксы удовлетворён; кассационная жалоба ДГИ отклонена.",
+        "positive_outcome": "исковые требования удовлетворены",
+        "outcome_evidence": "Суд удовлетворил иск граждан о признании права собственности на гаражные боксы; апелляция оставила решение в силе, кассационная жалоба ДГИ отклонена.",
+    },
+    {
         "slug": "2kas-88-5020-2026-2026-02-17",
         "number": "88-5020/2026",
         "case_id": "17338162",
@@ -100,7 +116,7 @@ def fetch_act(item):
     body = content[0].replace("\r", "").strip()
     if item["number"] not in body[:500] or item["date_label"] not in body[:700]:
         raise ValueError("Court number/date do not agree with publication")
-    if item["judicial_uid"] not in body[:500]:
+    if item["judicial_uid"] and item["judicial_uid"] not in body[:500]:
         raise ValueError("Published act identifier mismatch")
     if "О П Р Е Д Е Л Е Н И Е" not in body[:600] and "ОПРЕДЕЛЕНИЕ" not in body[:600]:
         raise ValueError("Court decision act heading missing")
@@ -110,7 +126,7 @@ def fetch_act(item):
         raise ValueError("Court signature/footer missing; possibly truncated")
     # Reject claimant-losing decisions even if the formal case page exists.
     if item["positive_outcome"] not in body or not re.search(
-        r"(исковые требования ФИО\d+ удовлетворены|признано право собственности|за ФИО\d+[^.]{0,120}признано право)",
+        r"(исковые требования (?:ФИО\d+ )?удовлетворены|признано (?:за ФИО\d+ )?право собственности|за ФИО\d+[^.]{0,120}признано право)",
         body, re.IGNORECASE
     ):
         raise ValueError("No explicit favorable original relief for private claimant")
