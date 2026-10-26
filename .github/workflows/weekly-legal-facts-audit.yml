@@ -72,3 +72,4 @@ jobs:
           path: weekly-legal-audit-report.json
           if-no-files-found: warn
           retention-days: 30
+# Execution verified on 2026-10-26; a later audit script adds URL access diagnostics.
