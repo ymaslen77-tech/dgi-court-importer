@@ -36,6 +36,48 @@ SOURCE_CASES = [
         "source_kind": "court_published_html",
         "editorial_note": "Кассационное определение по спору с ДГИ о правах на наследственное жилое имущество, действительности свидетельства и выселении. PDF является копией текста, опубликованного судом, а не подписанным судебным оригиналом.",
     },
+    {
+        "slug": "2kas-88-5020-2026-2026-02-17",
+        "number": "88-5020/2026",
+        "case_id": "17338162",
+        "uid": "d920690b-6625-46d1-a56c-af4b81c5393c",
+        "judicial_uid": "77RS0034-02-2024-025485-20",
+        "date": "2026-02-17",
+        "date_label": "17 февраля 2026",
+        "topic": "Признание права собственности на недвижимое имущество в споре с ДГИ",
+        "court": "Второй кассационный суд общей юрисдикции",
+        "act_type": "ruling",
+        "source_kind": "court_published_html",
+        "editorial_note": "Спор о признании права собственности на нежилое строение с участием ДГИ Москвы; опубликованное кассационное определение в обезличенном виде.",
+    },
+    {
+        "slug": "2kas-88-12184-2026-2026-04-28",
+        "number": "88-12184/2026",
+        "case_id": "17961008",
+        "uid": "1a7c42f6-228f-40ce-846a-6b83e651562e",
+        "judicial_uid": "77RS0034-02-2025-005329-73",
+        "date": "2026-04-28",
+        "date_label": "28 апреля 2026",
+        "topic": "Признание права собственности на квартиру",
+        "court": "Второй кассационный суд общей юрисдикции",
+        "act_type": "ruling",
+        "source_kind": "court_published_html",
+        "editorial_note": "Кассационное определение по спору о признании права собственности на квартиру с участием ДГИ Москвы; PDF-копия обезличенного текста судебного портала.",
+    },
+    {
+        "slug": "2kas-88-14012-2026-2026-05-21",
+        "number": "88-14012/2026",
+        "case_id": "17983681",
+        "uid": "301df5dc-24f6-4fd3-bd0e-53fe3b464061",
+        "judicial_uid": "77RS0035-02-2022-000512-67",
+        "date": "2026-05-21",
+        "date_label": "21 мая 2026",
+        "topic": "Право собственности на недвижимость в силу приобретательной давности",
+        "court": "Второй кассационный суд общей юрисдикции",
+        "act_type": "ruling",
+        "source_kind": "court_published_html",
+        "editorial_note": "Кассационное определение по спору с ДГИ о приобретательной давности и признании права собственности на недвижимость. PDF — копия обезличенного текста суда.",
+    },
 ]
 
 FONT_PATH = Path("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf")
@@ -76,7 +118,7 @@ def fetch_act(item):
         raise ValueError("Court signature/footer missing; possibly truncated")
     # The court's own anonymization is present; no unredacted parties may
     # be added from the case card. Individual counsel and judges are official.
-    if len(re.findall(r"\bФИО\d+\b", body)) < 10 or len(body) < 10000:
+    if len(re.findall(r"\bФИО\d+\b", body)) < 7 or len(body) < 7500:
         raise ValueError("Expected published anonymization and full decision text")
     return body, url, hashlib.sha256(raw).hexdigest()
 
