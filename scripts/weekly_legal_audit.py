@@ -216,7 +216,7 @@ def audit(config):
     # Check the canonical live inventory (including CMS pages, news and cases)
     # plus every original snapshot slug. Inactive drafts may return 404 and are
     # reported separately, not treated as regressions in public content.
-    local_urls = {base + (p["slug"] if p["slug"] != "/" else "/") for p in snapshots}
+    local_urls = {base + ("/" + p["slug"].lstrip("/") if p["slug"] != "/" else "/") for p in snapshots}
     targets = sorted(set(sitemap) | explicit | local_urls)
     def inspect(url):
         return http_check(url, timeout=timeout, parse_html=True)
