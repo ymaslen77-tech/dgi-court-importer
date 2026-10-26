@@ -125,7 +125,7 @@ def fetch_act(item):
     if not re.search(r"Председательствующ[а-я]*\s*\nСудьи\s*$", body):
         raise ValueError("Court signature/footer missing; possibly truncated")
     # Reject claimant-losing decisions even if the formal case page exists.
-    if item["positive_outcome"] not in body or not re.search(
+    if item["positive_outcome"].lower() not in body.lower() or not re.search(
         r"(исковые требования (?:ФИО\d+ )?удовлетворены|признано (?:за ФИО\d+ )?право собственности|за ФИО\d+[^.]{0,120}признано право)",
         body, re.IGNORECASE
     ):
