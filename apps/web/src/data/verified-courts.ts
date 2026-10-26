@@ -16,7 +16,7 @@ type Row = {
   pdf_sha256: string;
   excerpt: string;
   pdf_origin?: "site_rendered_copy" | "court_original";
-  outcome_verified: "applicant_granted";
+  outcome_verified: "applicant_granted" | "applicant_partially_granted";
   outcome_evidence: string;
 };
 type CuratedVerifiedCase = Row & { full_text: string; full_text_sha256: string; source_checked: boolean; privacy_checked: boolean; };
@@ -66,7 +66,7 @@ const publicConditions = `
   AND d.privacy_checked_at IS NOT NULL
   AND d.reviewed_by IS NOT NULL AND length(btrim(d.reviewed_by))>=3
   AND d.published_at IS NOT NULL AND d.published_at<=now()
-  AND d.claimant_outcome = 'applicant_granted'
+  AND d.claimant_outcome IN ('applicant_granted','applicant_partially_granted')
   AND d.outcome_checked_at IS NOT NULL
   AND d.outcome_evidence IS NOT NULL AND length(btrim(d.outcome_evidence)) >= 40
   AND d.outcome_reviewed_by IS NOT NULL AND length(btrim(d.outcome_reviewed_by)) >= 3
@@ -80,7 +80,7 @@ export async function searchVerifiedCourtActs(q: string): Promise<VerifiedCase[]
   const terms = term.toLocaleLowerCase("ru").split(/\s+/).filter(Boolean);
   const curated = curatedCases.filter(row =>
     row.source_checked === true && row.privacy_checked === true &&
-    row.outcome_verified === "applicant_granted" &&
+    ["applicant_granted","applicant_partially_granted"].includes(row.outcome_verified) &&
     typeof row.outcome_evidence === "string" && row.outcome_evidence.length >= 40 &&
     /^[a-f0-9]{64}$/.test(row.pdf_sha256) &&
     /^[a-f0-9]{64}$/.test(row.full_text_sha256) &&
@@ -130,7 +130,7 @@ export type VerifiedPdf = {
 export async function readVerifiedCourtPdf(slug: string): Promise<VerifiedPdf | null> {
   if (!/^[a-z0-9][a-z0-9-]{2,159}$/.test(slug)) return null;
   const curated = curatedCases.find(item => item.slug === slug && item.source_checked &&
-    item.privacy_checked && item.outcome_verified === "applicant_granted" &&
+    item.privacy_checked && ["applicant_granted","applicant_partially_granted"].includes(item.outcome_verified) &&
     item.outcome_evidence?.length >= 40 && isOfficialCourtUrl(item.official_url));
   if (curated) {
     try {
