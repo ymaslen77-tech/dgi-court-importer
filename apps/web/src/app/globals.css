@@ -619,3 +619,35 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", Ari
   .court-pdf-header { flex-direction: column; align-items: stretch; }
   .court-pdf-actions { justify-content: space-between; }
 }
+
+
+/* Official dgi-pravo.ru mark: compact and consistent across screen sizes. */
+.site .brand {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 11px;
+  min-width: 0;
+  max-width: 290px;
+  text-decoration: none;
+}
+.site .brand-logo {
+  display: block;
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  flex: 0 0 46px;
+}
+.site .brand-text {
+  display: block;
+  max-width: 205px;
+  font-size: 14px;
+  line-height: 1.35;
+  font-weight: 750;
+  letter-spacing: 0;
+}
+@media (max-width: 680px) {
+  .site .brand-logo { width: 39px; height: 39px; flex-basis: 39px; }
+  .site .brand-text { font-size: 12px; max-width: 200px; }
+  .site .brand { gap: 9px; }
+}
