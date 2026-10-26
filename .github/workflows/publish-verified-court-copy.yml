@@ -32,13 +32,15 @@ jobs:
           python3 - <<'PY'
           import json,pathlib,subprocess,hashlib
           cases=json.loads(pathlib.Path("apps/web/src/data/verified-court-static.json").read_text())
-          expected={"88-724/2026","88-5020/2026","88-12184/2026","88-14012/2026"}
-          assert len(cases)==4
+          expected={"88-5020/2026","88-12184/2026","88-14012/2026"}
+          assert len(cases)==3
           assert {c["case_number"] for c in cases} == expected
           for case in cases:
             assert 7500 < len(case["full_text"]) < 90000
             assert case["full_text"].rstrip().endswith("Судьи")
             assert case["case_number"] in case["full_text"][:600]
+            assert case["outcome_verified"]=="applicant_granted"
+            assert len(case["outcome_evidence"]) >= 40
             pdf=pathlib.Path("apps/web/public/court-pdf-copies")/(case["slug"]+".pdf")
             assert pdf.exists() and pdf.stat().st_size>1000
             assert hashlib.sha256(pdf.read_bytes()).hexdigest()==case["pdf_sha256"]
@@ -49,7 +51,7 @@ jobs:
               assert phrase.lower() in out.lower(), f"Missing act segment in PDF: {case['case_number']} {phrase}"
             print("VALIDATED_PDF",case["case_number"], [line for line in info.stdout.splitlines() if line.startswith("Pages:")][0],
                   "text_SHA256",case["full_text_sha256"][:16],"pdf_SHA256",case["pdf_sha256"][:16])
-          print("All 4 judicial PDF copies labeled non-original and content-checked")
+          print("Only applicant-favorable judicial PDF copies checked")
           PY
       - name: Commit first checked PDF court act to the web release branch
         shell: bash
