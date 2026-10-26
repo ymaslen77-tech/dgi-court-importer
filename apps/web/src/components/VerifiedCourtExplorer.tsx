@@ -79,11 +79,12 @@ export function VerifiedCourtExplorer() {
     </div>}
     {items.length > 0 && <div className="verified-case-grid">
       {items.map(item => <article className="verified-case" key={item.slug}>
-        <div className="verified-case-meta"><span>Требования заявителя удовлетворены</span>
+        <div className="verified-case-meta"><span>{item.outcome_verified === "applicant_partially_granted" ? "Требования удовлетворены частично" : "Требования удовлетворены"}</span>
           <time dateTime={item.decision_date}>{item.decision_date}</time></div>
         <h2>{actNames[item.act_type] || "Судебный акт"} по делу № {item.case_number}</h2>
         <p>{item.court_name}</p>
         <p className="verified-case-topic">{item.topic}</p>
+        <p className="verified-outcome-summary">{item.outcome_evidence}</p>
         {query.trim() && item.excerpt && <p className="verified-excerpt">{item.excerpt}</p>}
         <div className="verified-case-actions">
           <button type="button" onClick={() => setActive(item)}>Открыть PDF решения</button>
