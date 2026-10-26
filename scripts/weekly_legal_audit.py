@@ -188,6 +188,50 @@ def load_local_pages(config):
     return pages, source_links
 
 
+def load_structured_publications(base):
+    """Inventory editorial news and immutable official-case summaries without changing them."""
+    news_file = Path("apps/web/src/data/housing-news.json")
+    cases_file = Path("apps/web/src/data/verified-court-static.json")
+    news, cases, urls, sources = [], [], set(), set()
+    if news_file.exists():
+        for item in json.loads(news_file.read_text(encoding="utf8")):
+            slug = item.get("slug", "")
+            if not re.fullmatch(r"[a-z0-9-]{12,125}", slug):
+                continue
+            url = base + "/novosti-zhilishchnogo-prava/" + slug
+            source = item.get("sourceUrl", "")
+            if source.startswith("https://"):
+                sources.add(source)
+            texts = [p for section in item.get("sections", [])
+                     for p in section.get("paragraphs", []) if isinstance(p, str)]
+            body = " ".join(texts)
+            news.append({
+                "url": url, "title": item.get("title"), "source_url": source,
+                "source_published_at": item.get("sourcePublishedAt"),
+                "content_sha256": hashlib.sha256(body.encode("utf8")).hexdigest(),
+                "temporal_claims": extract_claims(body, TEMPORAL),
+                "legal_references": extract_claims(body, ACT_REF)
+            })
+            urls.add(url)
+    if cases_file.exists():
+        for item in json.loads(cases_file.read_text(encoding="utf8")):
+            source = item.get("official_url", "")
+            if source.startswith("https://"):
+                sources.add(source)
+            cases.append({
+                "case_number": item.get("case_number"),
+                "date": item.get("decision_date"),
+                "outcome_verified": item.get("outcome_verified"),
+                "source_url": source,
+                "full_text_sha256": item.get("full_text_sha256"),
+                "pdf_sha256": item.get("pdf_sha256"),
+                "outcome_evidence": item.get("outcome_evidence"),
+                "source_checked": item.get("source_checked"),
+                "privacy_checked": item.get("privacy_checked")
+            })
+    return news, cases, urls, sources
+
+
 def sitemap_urls(config, timeout):
     root_url = config["inventory"]["site_sitemap"]
     try:
