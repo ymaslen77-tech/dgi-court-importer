@@ -133,9 +133,14 @@ def fetch_act(item):
         if 6500 < len(t) < 150000 and item["number"] in t[:700]:
             content.append(t)
     content = list(dict.fromkeys(content))
-    if len(content) != 1:
-        raise ValueError("Cannot uniquely locate full court-published act")
-    body = content[0].replace("\r", "").strip()
+    if not content:
+        raise ValueError("No full official court act candidate for " + item["number"])
+    content = [c for c in content if
+        ("определила:" in c[-1600:].lower() or
+         "о п р е д е л и л а:" in c[-1600:].lower())]
+    if not content:
+        raise ValueError("No complete operative part found for " + item["number"])
+    body = max(content, key=len).replace("\r", "").strip()
     if item["number"] not in body[:500] or item["date_label"] not in body[:700]:
         raise ValueError("Court number/date do not agree with publication")
     if item["judicial_uid"] and item["judicial_uid"] not in body[:500]:
