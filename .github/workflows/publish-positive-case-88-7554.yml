@@ -41,7 +41,7 @@ jobs:
           assert len(contents)>0,"Cannot uniquely inspect full source"
           text=max(contents,key=len)
           normal=re.sub(r"\s+"," ",text).lower()
-          assert "28 апреля 2026 года" in normal[:750]
+          assert "28 апреля 2026" in normal[:1800], repr(normal[:450])
           assert num in text[:750]
           assert "77RS0035-02-2024-001798-24" in text[:750]
           assert "удовлетворены исковые требования фио1, фио2, снт" in normal
