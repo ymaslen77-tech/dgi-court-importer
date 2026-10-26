@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { siteIsLive } from "@/data/pages";
 
 const navigation = [
@@ -30,7 +31,8 @@ export function PageShell({ children, variant = "default" }: Readonly<{
       </div></div>
       <header className="site-header">
         <div className="container header-wrap">
-          <Link href="/" className="brand" aria-label="На главную">
+          <Link href="/" className="brand" aria-label="На главную — Жилищный справочник Москвы">
+            <Image src="/brand/dgi-logo.svg" alt="" width={46} height={46} className="brand-logo" priority />
             <span className="brand-text">Жилищный справочник Москвы</span>
           </Link>
           <nav className="main-nav" aria-label="Основные разделы">
