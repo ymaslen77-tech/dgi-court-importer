@@ -39,7 +39,7 @@ jobs:
           soup=BeautifulSoup(UnicodeDammit(raw,is_html=True).unicode_markup,"lxml")
           nodes=soup.find_all(string=lambda s:s and num in str(s))
           contents=[n.parent.parent.get_text("\n",strip=True) for n in nodes if n.parent and n.parent.parent]
-          contents=[s for s in contents if 20000<len(s)<150000 and "определила" in s[-1900:].lower() and num in s[:350] and "определение" in re.sub(r"\\s+","",s[:850]).lower()]
+          contents=[s for s in contents if 20000<len(s)<150000 and "определила" in s[-1900:].lower() and num in s[:350] and "определение" in re.sub(r"\s+","",s[:850]).lower()]
           assert len(contents)>0,"Cannot uniquely inspect full source"
           text=min(contents,key=len)
           normal=re.sub(r"\s+"," ",text).lower()
