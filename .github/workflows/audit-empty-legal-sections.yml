@@ -1,0 +1,44 @@
+name: Audit all legal pages for empty headings and readability
+on:
+  push:
+    branches: [infra/coolify-russian-vps]
+    paths: [.github/workflows/audit-empty-legal-sections.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    env:
+      CI: "true"
+      SITE_CUTOVER: "false"
+      SITE_RELEASE_APPROVED: "no"
+      CMS_PUBLIC_READS: "false"
+      COURT_DB_READS: "false"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: infra/coolify-russian-vps
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: pnpm install --frozen-lockfile
+      - name: Typecheck
+        run: pnpm --filter @dgi/web typecheck
+      - name: Build preview
+        run: pnpm --filter @dgi/web build
+      - name: Install Chromium
+        run: pnpm --filter @dgi/web exec playwright install --with-deps chromium
+      - name: Check source pages and mobile styles
+        run: pnpm --filter @dgi/web exec playwright test e2e/empty-sections.spec.ts --workers=2
+      - name: Save failures
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: content-qa-failures
+          path: apps/web/test-results/
+          retention-days: 7
