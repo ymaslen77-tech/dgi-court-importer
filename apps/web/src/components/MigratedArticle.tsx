@@ -29,7 +29,15 @@ function ContentBlock({ block, slug }: { block: MigratedBlock; slug: string }) {
     case "link": {
       const href = safeHref(block.href);
       if (!href) return null;
-      const label = block.text.replace(/\s*[↗→]\s*$/u, "").trim();
+      const originalLabel = block.text.replace(/\\s*[↗→]\\s*$/u, "").trim();
+      // Imported legacy CTA text often SHOUTS in uppercase; keep abbreviations
+      // such as ДГИ, ЖКХ, ЕГРН, МОС.РУ and readable sentence case.
+      const label = /^[А-ЯЁ\\s.,!?—–:-]+$/u.test(originalLabel) && /[А-ЯЁ]{4}/u.test(originalLabel)
+        ? originalLabel.toLocaleLowerCase("ru-RU")
+          .replace(/^./u, ch => ch.toLocaleUpperCase("ru-RU"))
+          .replace(/\\bдги\\b/giu, "ДГИ").replace(/\\bжкх\\b/giu, "ЖКХ")
+          .replace(/\\bегрн\\b/giu, "ЕГРН")
+        : originalLabel;
       return <p className="article-action">{href.startsWith("https://")
         ? <a href={href} target="_blank" rel="noopener noreferrer">{label} ↗</a>
         : <Link href={href}>{label} →</Link>}</p>;
