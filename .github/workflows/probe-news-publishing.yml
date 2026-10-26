@@ -25,7 +25,11 @@ jobs:
             "https://mosreg.ru/sobytiya/novosti?tags_ids=15175",
             "https://mosreg.ru/sobytiya/novosti/organy/ministerstvo-zhilischno-kommunalnogo-hozyayst?page=1",
             "https://social.mosreg.ru/news/index",
-            "https://tender.mos.ru/press-center/"
+            "https://tender.mos.ru/press-center/",
+            "https://stroi.mos.ru/news",
+            "https://krt.mos.ru/news/",
+            "https://www.mos.ru/news/",
+            "https://www.garant.ru/news/"
           ]
           for url in pages:
             try:
@@ -47,8 +51,12 @@ jobs:
             data=json.dumps({'model':'openai/gpt-4.1-mini','messages':[{'role':'user','content':'Ответь одним словом: ГОТОВО'}],'max_tokens':40}).encode())
           try:
             with urllib.request.urlopen(req,timeout=20) as r:
-              body=json.load(r)
-              print('MODEL_AVAILABLE',r.status,'has_choice',bool(body.get('choices')))
-          except urllib.error.HTTPError as e: print('MODEL_UNAVAILABLE','HTTP',e.code)
+              raw=r.read(3000)
+              print('MODEL_RESPONSE',r.status,'content_type',r.headers.get('Content-Type'),'first_chars',repr(raw[:170]))
+              try:
+                body=json.loads(raw)
+                print('MODEL_AVAILABLE',bool(body.get('choices')))
+              except Exception: print('MODEL_NONJSON')
+          except urllib.error.HTTPError as e: print('MODEL_UNAVAILABLE','HTTP',e.code,'first_chars',repr(e.read(150)))
           except Exception as e:print('MODEL_UNAVAILABLE',type(e).__name__)
           PY
