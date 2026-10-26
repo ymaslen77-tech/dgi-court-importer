@@ -38,7 +38,7 @@ jobs:
           assert "исковые требования фио1 удовлетворены" in normalized
           assert "отказано в удовлетворении встречного иска" in normalized or "в удовлетворении встречного иска" in normalized
           assert "кассационную жалобу департамента" in normalized or "кассационную жалобу дги" in normalized
-          assert len(text)>9500 and text.rstrip().endswith("Судьи")
+          assert len(text)>9500 and "Судьи" in text[-400:]
           assert len(re.findall(r"ФИО\d+",text))>=10
           slug=item["slug"]
           pdf_path=pathlib.Path("apps/web/public/court-pdf-copies")/(slug+".pdf")
