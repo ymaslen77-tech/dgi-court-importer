@@ -130,7 +130,8 @@ def fetch_act(item):
             continue
         ancestor = node.parent.parent
         t = ancestor.get_text("\n", strip=True)
-        if 6500 < len(t) < 150000 and item["number"] in t[:700]:
+        if (6500 < len(t) < 150000 and item["number"] in t[:1000] and
+            item["date_label"] in re.sub(r"\s+", " ", t[:1600])):
             content.append(t)
     content = list(dict.fromkeys(content))
     if not content:
