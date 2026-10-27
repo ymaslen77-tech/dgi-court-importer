@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "version": 1,
+  "version": 2,
   "name": "DGI housing law — weekly comprehensive legal verification",
   "service": "https://dgi-pravo.ru",
   "owner_repository": "ymaslen77-tech/dgi-court-importer",
@@ -132,13 +132,22 @@
     "require_live_HTTP_validation_of_affected_routes": true,
     "if_unverified": {
       "publish": false,
-      "record": "manual_review_needed"
+      "record": "official_evidence_not_verified",
+      "notify_owner": "only_for_unresolved_blocker"
     },
     "if_blocked": {
       "publish": false,
-      "record": "source_unavailable"
+      "record": "source_unavailable",
+      "notify_owner": "only_for_unresolved_blocker"
     },
-    "changelog_required": true
+    "changelog_required": true,
+    "no_routine_owner_approval": true,
+    "evidence_manifest": "legal-evidence/changes.json",
+    "require_exact_claim_diff_evidence": true,
+    "require_accessible_official_text_excerpt": true,
+    "require_effective_date_and_amendment_history": true,
+    "require_claim_supported_by_authoritative_text": true,
+    "require_no_ambiguous_or_conflicting_official_sources": true
   },
   "monitoring": {
     "http_timeout_seconds": 10,
