@@ -1,4 +1,4 @@
-"""No manual intervention needed for verified fact-only news; legal route edits require owner."""
+"""Verify fail-closed automated DGI source policy: legal changes need evidence, not routine owner review."""
 import copy
 import datetime
 import sys
@@ -25,7 +25,7 @@ class ClassificationTests(unittest.TestCase):
         self.assertEqual(assess_news([old],[new])[0],"manual")
     def test_legal_procedure_change_requires_owner(self):
         entry=article();entry["title"]="Вступает в силу новая редакция порядка подачи заявлений в Москве"
-        self.assertEqual(assess_news([],[entry])[0],"manual")
+        self.assertEqual(assess_news([],[entry])[0],"evidence_required")
     def test_more_than_five_news_blocked(self):
         items=[article(slug="moskva-imushchestvo-test-news-"+str(i),url="https://tender.mos.ru/news/x-"+str(i)) for i in range(6)]
         self.assertEqual(assess_news([],items)[0],"invalid")
@@ -35,11 +35,13 @@ class ClassificationTests(unittest.TestCase):
     def test_duplicate_source_blocked(self):
         rows=[article(),article(slug="moskva-imushchestvo-test-another-news")]
         self.assertEqual(assess_news([],rows)[0],"invalid")
-    def test_legal_route_changes_need_manual_review(self):
-        self.assertEqual(classify(["apps/web/src/data/pages-0.json"],"fake","fake")[0],"manual")
-        self.assertEqual(classify(["apps/web/src/data/housing-guides.json"],"fake","fake")[0],"manual")
+    def test_legal_route_changes_need_automated_evidence(self):
+        self.assertEqual(classify(["apps/web/src/data/pages-0.json"],"fake","fake")[0],"evidence_required")
+        self.assertEqual(classify(["apps/web/src/data/housing-guides.json"],"fake","fake")[0],"evidence_required")
     def test_court_metadata_cannot_autopublish(self):
         self.assertEqual(classify(["data/court-catalog.jsonl"],"fake","fake")[0],"research_only")
+    def test_rewritten_news_never_becomes_auto_candidate(self):
+        self.assertEqual(classify(["apps/web/src/data/housing-news.json"],"invalid","invalid")[0],"blocked")
     def test_normalized_headline(self):
         self.assertEqual(normalized_title(" ЗАКОН!  2026 "), "закон 2026")
 
