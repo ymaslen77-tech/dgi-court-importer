@@ -54,6 +54,20 @@ jobs:
           gh run download "$previous" --repo "$GH_REPO" -n dgi-weekly-seo-report -D /tmp/previous-seo
           python3 scripts/seo_compare_reports.py --previous /tmp/previous-seo/weekly-seo.json \
             --current test-results/weekly-seo.json --output test-results/seo-regressions.json
+      - name: Flag newly-added or removed sitemap routes for human review
+        if: always()
+        id: drift
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          p=Path("test-results/seo-regressions.json")
+          j=json.loads(p.read_text()) if p.exists() else {}
+          value=str(bool(j.get("release_review_required"))).lower()
+          with open(os.environ["GITHUB_OUTPUT"],"a") as f: f.write("review="+value+"\n")
+          print("SITEMAP_CHANGE_REVIEW_REQUIRED",value)
+          PY
       - name: Save full report
         if: always()
         uses: actions/upload-artifact@v4
@@ -65,7 +79,7 @@ jobs:
           if-no-files-found: warn
           retention-days: 30
       - name: Create or update SEO incident
-        if: steps.seo.outcome == 'failure' || steps.compare.outcome == 'failure'
+        if: steps.seo.outcome == 'failure' || steps.compare.outcome == 'failure' || steps.drift.outputs.review == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
