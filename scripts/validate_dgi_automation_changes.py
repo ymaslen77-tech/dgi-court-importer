@@ -91,7 +91,7 @@ def assess_news(old,new):
         prose=" ".join([x["title"],x["summary"]]+[
             p for s in x["sections"] for p in s["paragraphs"]])
         if LEGAL_SIGNAL.search(prose):
-            return "manual","New story contains potential changes to law, deadlines or legal procedures"
+            return "evidence_required","Potential legal change needs primary-source evidence"
     return "auto_candidate","Fact-only official-source news, require independent source and CI checks"
 
 def classify(files,base,head):
@@ -104,15 +104,16 @@ def classify(files,base,head):
         elif path=="data/court-catalog.jsonl":
             result,reason="research_only","Court metadata candidate index is NEVER a verified judicial act"
         elif LEGAL_FILES.fullmatch(path):
-            result,reason="manual","Legal page, sitewide metadata or route requires owner review (except independently validated redirect link-only bot PR)"
+            result,reason="evidence_required","Legal content must pass per-claim official-source verification"
         elif path.startswith(("config/","scripts/",".github/")):
-            result,reason="manual","Deployment policy or pipeline code requires maintainer approval"
+            result,reason="ci_required","Automation/pipeline code needs passing CI and controlled release"
         else:
-            result,reason="manual","Uncategorized production code or data"
+            result,reason="ci_required","Other code requires CI and controlled release"
         categories.append(result)
         notes.append({"file":path,"category":result,"reason":reason})
     if "invalid" in categories:return "invalid",notes
-    if "manual" in categories:return "manual",notes
+    if "evidence_required" in categories:return "evidence_required",notes
+    if "ci_required" in categories:return "ci_required",notes
     if "research_only" in categories:return "research_only",notes
     return "auto_candidate",notes
 
@@ -126,11 +127,18 @@ def main():
     result,notes=classify(files,args.base,args.head)
     obj={"classification":result,"changed_files":notes,
          "automatic_publication_confirmed":False,
-         "legal_owner_review_required":result=="manual",
+         "legal_owner_review_required":False,
+         "source_verification_required":result=="evidence_required",
          "reason":"This classifier is not an official-source verification or a deployment approval"}
     p=Path(args.report);p.parent.mkdir(parents=True,exist_ok=True)
     p.write_text(json.dumps(obj,ensure_ascii=False,indent=2)+"\\n",encoding="utf8")
     print("DGI_CHANGE_CLASSIFICATION",result,json.dumps(notes,ensure_ascii=False))
-    if result=="invalid":sys.exit(1)
+    if result in ("invalid","research_only"):
+        sys.exit(1)
+    if result=="evidence_required":
+        # Requires exact per-claim official-source text before the PR can pass CI.
+        script=Path(__file__).with_name("validate_official_legal_changes.py")
+        subprocess.run([sys.executable,str(script),"--base",args.base,
+                        "--head",args.head],check=True)
 
 if __name__=="__main__":main()
