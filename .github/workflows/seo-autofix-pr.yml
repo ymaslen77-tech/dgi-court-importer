@@ -57,6 +57,14 @@ jobs:
           assert all(re.fullmatch(r"apps/web/src/data/pages-[0-5]\.json",n) for n in names)
           print("SOURCE_ONLY_ALLOWLIST_OK",names)
           PY
+      - uses: pnpm/action-setup@v4
+        if: steps.patch.outputs.changed != '0'
+        with:
+          run_install: false
+      - uses: actions/setup-node@v4
+        if: steps.patch.outputs.changed != '0'
+        with:
+          node-version: '22'
       - name: Validate proposed source change in offline Next.js build
         if: steps.patch.outputs.changed != '0'
         working-directory: site
@@ -65,7 +73,6 @@ jobs:
           SITE_RELEASE_APPROVED: "no"
           NEXT_TELEMETRY_DISABLED: "1"
         run: |
-          corepack enable
           pnpm install --frozen-lockfile
           pnpm --filter @dgi/web typecheck
           pnpm --filter @dgi/web build
