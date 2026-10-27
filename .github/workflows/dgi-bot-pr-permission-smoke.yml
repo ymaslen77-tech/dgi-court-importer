@@ -1,0 +1,47 @@
+name: DGI GitHub Actions PR permission smoke (isolated)
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/dgi-bot-pr-permission-smoke.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  isolated-pr-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - name: Test bot branch creation and PR API without touching production
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="automation/dgi-bot-permission-base-$GITHUB_RUN_ID"
+          head="automation/dgi-bot-permission-head-$GITHUB_RUN_ID"
+          pr=""
+          cleanup() {
+            if [[ -n "$pr" ]]; then
+              gh pr close "$pr" --repo "$GH_REPO" --comment "Automatic GitHub bot-permission smoke passed; closed without merge or deploy." || true
+            fi
+            gh api -X DELETE "repos/$GH_REPO/git/refs/heads/$head" >/dev/null 2>&1 || true
+            gh api -X DELETE "repos/$GH_REPO/git/refs/heads/$base" >/dev/null 2>&1 || true
+          }
+          trap cleanup EXIT
+          source_sha="$(gh api "repos/$GH_REPO/git/ref/heads/infra/coolify-russian-vps" --jq '.object.sha')"
+          [[ "$source_sha" =~ ^[a-f0-9]{40}$ ]] || exit 1
+          gh api -X POST "repos/$GH_REPO/git/refs" -f "ref=refs/heads/$base" -f "sha=$source_sha" >/dev/null
+          gh api -X POST "repos/$GH_REPO/git/refs" -f "ref=refs/heads/$head" -f "sha=$source_sha" >/dev/null
+          data="$(printf '# Isolated permission smoke\nRun: %s\nNo application code changes.\n' "$GITHUB_RUN_ID" | base64 -w0)"
+          gh api -X PUT "repos/$GH_REPO/contents/docs/dgi-actions-permission-smoke-$GITHUB_RUN_ID.md" \
+            -f message="test: isolated GitHub PR permission" -f "content=$data" -f "branch=$head" >/dev/null
+          pr="$(gh pr create --repo "$GH_REPO" --base "$base" --head "$head" \
+            --title "test: isolated GitHub Actions PR permission $GITHUB_RUN_ID" \
+            --body "Automated smoke only. Scratch base/head; NEVER merge into VPS branch.")"
+          [[ "$pr" == https://github.com/*/pull/* ]] || exit 1
+          printf 'GITHUB_BOT_PR_CREATE_VERIFIED %s\n' "$pr"
+          echo "### PR permission verified" >> "$GITHUB_STEP_SUMMARY"
+          echo "GitHub Actions successfully created a PR in scratch branches; cleanup closes without merging." >> "$GITHUB_STEP_SUMMARY"
