@@ -21,19 +21,6 @@ on:
       - "pnpm-workspace.yaml"
       - ".github/workflows/website-ci.yml"
   pull_request:
-    paths:
-      - "apps/web/**"
-      - "apps/cms/**"
-      - "db/**"
-      - "scripts/**"
-      - "docker-compose.yml"
-      - "deploy/staging/**"
-      - ".dockerignore"
-      - ".env.example"
-      - "scripts/export-webflow.mjs"
-      - "package.json"
-      - "pnpm-workspace.yaml"
-      - ".github/workflows/website-ci.yml"
 
 permissions:
   contents: read
