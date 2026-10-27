@@ -1,0 +1,26 @@
+name: DGI safe SEO PR engine unit tests
+on:
+  push:
+    branches: [main]
+    paths:
+      - scripts/propose_seo_fixes.py
+      - scripts/tests/test_propose_seo_fixes.py
+      - .github/workflows/seo-autofix-unit-tests.yml
+  pull_request:
+    paths:
+      - scripts/propose_seo_fixes.py
+      - scripts/tests/test_propose_seo_fixes.py
+      - .github/workflows/seo-autofix-unit-tests.yml
+permissions:
+  contents: read
+jobs:
+  seo-autofix-policy-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify Python syntax
+        run: |
+          python3 -m py_compile scripts/propose_seo_fixes.py scripts/tests/test_propose_seo_fixes.py
+      - name: Test safe link-only patch proposals and fail-closed behavior
+        run: python3 -m unittest discover -s scripts/tests -p 'test_propose_seo_fixes.py' -v
