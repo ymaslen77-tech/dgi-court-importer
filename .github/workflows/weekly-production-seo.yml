@@ -62,3 +62,5 @@ jobs:
       - name: Fail if confirmed SEO defects exist
         if: steps.seo.outcome == 'failure'
         run: exit 1
+
+# Integration check: downstream SEO fix PR workflow reacts only to audited, verified link candidates.
