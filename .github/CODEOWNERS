@@ -1,0 +1,16 @@
+# DGI: legal and sitewide changes need owner's explicit approval.
+# Technical news entries in housing-news.json and verified 301/308 link repairs
+# are deliberately NOT listed here: safe automation can process them with CI.
+# This file is effective only if GitHub branch ruleset requires Code Owner review.
+
+/apps/web/src/app/ @ymaslen77-tech
+/apps/web/src/data/pages.ts @ymaslen77-tech
+/apps/web/src/data/housing-guides.json @ymaslen77-tech
+/apps/web/src/data/housing-law* @ymaslen77-tech
+/apps/web/src/data/housing-news.ts @ymaslen77-tech
+/apps/web/src/data/court-fulltext.ts @ymaslen77-tech
+/apps/web/src/data/pages-*.json @ymaslen77-tech
+/config/ @ymaslen77-tech
+/scripts/ @ymaslen77-tech
+/.github/workflows/ @ymaslen77-tech
+/.github/CODEOWNERS @ymaslen77-tech
