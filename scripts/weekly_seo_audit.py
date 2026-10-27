@@ -144,7 +144,7 @@ def permanent_redirect(url):
         return None
 redirect_candidates=[]
 with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
-    for finding in pool.map(permanent_redirect, sorted(links)[:250]):
+    for finding in pool.map(permanent_redirect, sorted(links)[:250] if urls else []):
         if finding: redirect_candidates.append(finding)
 result=dict(generated_at=datetime.datetime.now(datetime.timezone.utc).isoformat(),site=origin,stats=dict(sitemap_urls=len(urls),html_pages=len(pages),internal_links=len(links),external_links=len(external),permanent_redirects=len(redirect_candidates),errors=len(issues),warnings=len(warnings)),errors=issues,warnings=warnings,sitemap_urls=sorted(urls),pages=pages,safe_redirect_candidates=redirect_candidates)
 Path("test-results").mkdir(exist_ok=True)
