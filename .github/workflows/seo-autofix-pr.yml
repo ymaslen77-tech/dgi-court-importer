@@ -1,0 +1,172 @@
+name: DGI prepare safe SEO repair pull request
+on:
+  workflow_run:
+    workflows: ["DGI weekly production SEO quality gate"]
+    types: [completed]
+permissions:
+  contents: read
+concurrency:
+  group: dgi-seo-pr-${{ github.event.workflow_run.id }}
+  cancel-in-progress: false
+jobs:
+  prepare:
+    if: github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.head_repository.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    outputs:
+      changed: ${{ steps.patch.outputs.changed }}
+      source_sha: ${{ steps.patch.outputs.source_sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          path: policy
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: infra/coolify-russian-vps
+          path: site
+          persist-credentials: false
+      - name: Download fresh audit report from completed weekly run
+        uses: actions/download-artifact@v4
+        with:
+          name: dgi-weekly-seo-report
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+          path: evidence
+      - name: Run autofix safety tests
+        run: python3 -m unittest discover -s policy/scripts/tests -p 'test_propose_seo_fixes.py' -v
+      - name: Propose verified source-only redirects
+        id: patch
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "source_sha=$(git -C site rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          python3 policy/scripts/propose_seo_fixes.py \
+            --report evidence/weekly-seo.json --repository site --output proposed-seo-changes.json
+          count="$(python3 -c 'import json; print(len(json.load(open("proposed-seo-changes.json"))["changes"]))')"
+          echo "changed=$count" >> "$GITHUB_OUTPUT"
+          if [[ "$count" == 0 ]]; then echo "No verified source-only SEO link fixes. No pull request."; exit 0; fi
+          python3 - <<'PY'
+          import json,re,subprocess
+          plan=json.load(open("proposed-seo-changes.json"))
+          names=subprocess.check_output(["git","-C","site","diff","--name-only"],text=True).splitlines()
+          expected=sorted({x["file"] for x in plan["changes"]})
+          assert sorted(names)==expected and names
+          assert all(re.fullmatch(r"apps/web/src/data/pages-[0-5]\.json",n) for n in names)
+          print("SOURCE_ONLY_ALLOWLIST_OK",names)
+          PY
+      - name: Validate proposed source change in offline Next.js build
+        if: steps.patch.outputs.changed != '0'
+        working-directory: site
+        env:
+          SITE_CUTOVER: "false"
+          SITE_RELEASE_APPROVED: "no"
+          NEXT_TELEMETRY_DISABLED: "1"
+        run: |
+          corepack enable
+          pnpm install --frozen-lockfile
+          pnpm --filter @dgi/web typecheck
+          pnpm --filter @dgi/web build
+      - name: Create restricted patch artifact
+        if: steps.patch.outputs.changed != '0'
+        run: |
+          python3 - <<'PY'
+          import json,re,zipfile
+          from pathlib import Path
+          plan=json.load(open("proposed-seo-changes.json"))
+          files=sorted(set(item["file"] for item in plan["changes"]))
+          with zipfile.ZipFile("verified-seo-patch.zip","w",compression=zipfile.ZIP_DEFLATED) as archive:
+              for file in files:
+                  assert re.fullmatch(r"apps/web/src/data/pages-[0-5]\.json",file)
+                  archive.write(Path("site")/file,arcname=file)
+              archive.write("proposed-seo-changes.json",arcname="proposed-seo-changes.json")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: steps.patch.outputs.changed != '0'
+        with:
+          name: verified-seo-patch
+          path: verified-seo-patch.zip
+          retention-days: 7
+  propose_pr:
+    needs: prepare
+    if: needs.prepare.outputs.changed != '0' && needs.prepare.outputs.changed != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.prepare.outputs.source_sha }}
+          path: site
+          persist-credentials: true
+      - uses: actions/download-artifact@v4
+        with:
+          name: verified-seo-patch
+      - name: Re-validate patch without executing source repository code
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import copy,json,re,zipfile
+          from pathlib import Path
+          with zipfile.ZipFile("verified-seo-patch.zip") as archive:
+              files=set(archive.namelist())
+              plans=json.loads(archive.read("proposed-seo-changes.json"))
+              expected=set(x["file"] for x in plans["changes"])
+              if files!={*expected,"proposed-seo-changes.json"}:raise RuntimeError("Unexpected patch contents")
+              if not expected or len(plans["changes"])>20:raise RuntimeError("Patch limit violated")
+              for name in expected:
+                  if not re.fullmatch(r"apps/web/src/data/pages-[0-5]\.json",name):raise RuntimeError("Non-allowlisted file")
+                  current=json.loads((Path("site")/name).read_text(encoding="utf8"))
+                  patched=json.loads(archive.read(name))
+                  if len(current)!=len(patched):raise RuntimeError("Page count modified")
+                  differences=[]
+                  for oldpage,newpage in zip(current,patched):
+                      oldcopy=copy.deepcopy(oldpage);newcopy=copy.deepcopy(newpage)
+                      if len(oldcopy.get("blocks",[]))!=len(newcopy.get("blocks",[])):raise RuntimeError("Block count modified")
+                      for a,b in zip(oldcopy.get("blocks",[]),newcopy.get("blocks",[])):
+                          old_href=a.pop("href",None);new_href=b.pop("href",None)
+                          if a!=b:raise RuntimeError("A legal text or metadata field changed")
+                          if old_href!=new_href:
+                              if a.get("kind")!="link":raise RuntimeError("Changed a non-link block")
+                              differences.append((oldpage["slug"],old_href,new_href))
+                      if oldcopy!=newcopy:raise RuntimeError("A page property changed")
+                  permitted={(x["page"].removeprefix("https://dgi-pravo.ru/"),x["old"],x["new"]) for x in plans["changes"] if x["file"]==name}
+                  if set(differences)!=permitted:raise RuntimeError("Patch differs from review plan")
+                  (Path("site")/name).write_bytes(archive.read(name))
+          print("ALL_CHANGES_ARE_REVIEWABLE_LINK_HREF_ONLY")
+          PY
+      - name: Open draft PR without merging or deploying
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+        shell: bash
+        working-directory: site
+        run: |
+          set -euo pipefail
+          branch="automation/dgi-seo-redirects-$RUN_ID"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git checkout -b "$branch"
+          git add -- apps/web/src/data/pages-*.json
+          git diff --cached --quiet && { echo "No eligible changes"; exit 0; }
+          git commit -m "Propose verified same-origin permanent redirect fixes"
+          git push origin "HEAD:refs/heads/$branch"
+          cat > ../pr-body.md <<EOF
+          Automated SEO maintenance proposal from audit run $RUN_ID.
+
+          - Changes: only href targets of existing link blocks on public pages.
+          - Evidence: live HTTP 301/308 redirect to a canonical page in production sitemap.
+          - No legal statements, page text, canonical slugs, database, or court PDFs modified.
+          - Offline Next.js build and source-change allowlist passed.
+          - Editorial review and CI are required. This PR must not auto-merge.
+          - Production: separately approved Coolify release after deployment controls are verified.
+
+          Audit: https://github.com/$GH_REPO/actions/runs/$RUN_ID
+          EOF
+          gh pr create --repo "$GH_REPO" --base infra/coolify-russian-vps --head "$branch" \
+            --draft --title "SEO: verified internal redirect link repairs" --body-file ../pr-body.md
