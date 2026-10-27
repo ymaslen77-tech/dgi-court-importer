@@ -45,12 +45,16 @@ if sitemap["status"]==200:
             if internal(url): urls.add(normalize(url))
             elif url.endswith(".xml"): warn("external_sitemap_reference",url,"review sitemap index")
     except ET.ParseError as e: issue("invalid_sitemap",origin+"/sitemap.xml",e)
+if not urls: issue("empty_or_unreadable_sitemap",origin+"/sitemap.xml","No published canonical URLs found; check site release/indexability settings")
 if len(urls)>settings["max_pages"]: issue("sitemap_limit",origin,len(urls))
 slugs=set()
 for filename in glob.glob(settings["editorial_glob"]):
     for p in json.loads(Path(filename).read_text()):
         slug=p.get("slug")
         if isinstance(slug,str): slugs.add(plain_path(slug))
+if not slugs: issue("source_inventory_missing",origin,"No editorial source routes found")
+for route in sorted(slugs):
+    if normalize(route) not in urls: warn("editorial_route_missing_from_sitemap",route,"Check whether route is published; never add unpublished drafts automatically")
 targets={normalize(x) for x in urls}|{normalize(plain_path(x)) for x in settings["seed_paths"]}|{normalize(u) for u in slugs}
 targets=set(sorted(targets)[:settings["max_pages"]])
 with concurrent.futures.ThreadPoolExecutor(max_workers=settings["workers"]) as pool:
