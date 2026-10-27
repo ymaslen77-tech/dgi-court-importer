@@ -43,6 +43,11 @@ jobs:
         run: |
           set -euo pipefail
           echo "source_sha=$(git -C site rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          if ! python3 -c 'import json; assert len(json.load(open("evidence/weekly-seo.json"))["sitemap_urls"]) > 0'; then
+            echo "changed=0" >> "$GITHUB_OUTPUT"
+            echo "No published sitemap: bot deliberately refuses to guess redirects or change indexability."
+            exit 0
+          fi
           python3 policy/scripts/propose_seo_fixes.py \
             --report evidence/weekly-seo.json --repository site --output proposed-seo-changes.json
           count="$(python3 -c 'import json; print(len(json.load(open("proposed-seo-changes.json"))["changes"]))')"
