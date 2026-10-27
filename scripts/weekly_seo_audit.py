@@ -59,7 +59,7 @@ targets={normalize(x) for x in urls}|{normalize(plain_path(x)) for x in settings
 targets=set(sorted(targets)[:settings["max_pages"]])
 with concurrent.futures.ThreadPoolExecutor(max_workers=settings["workers"]) as pool:
     responses=dict(zip(sorted(targets),pool.map(get,sorted(targets))))
-pages=[]; links=set(); external=set(); anchors={}
+pages=[]; links=set(); external=set(); anchors={}; link_pages={}
 for url,res in responses.items():
     if res["status"]!=200:
         issue("page_http",url,res["status"]);continue
@@ -93,6 +93,7 @@ for url,res in responses.items():
         target=normalize(resolved)
         if internal(resolved):
             links.add(target)
+            link_pages.setdefault(target,set()).add(url)
             if p.fragment and target==normalize(url) and urllib.parse.unquote(p.fragment) not in anchors[url]:issue("broken_fragment",url,href)
         else:external.add(target)
     if url in urls and (not title or len(h1)!=1):issue("sitemap_low_quality",url,"Missing title or H1")
@@ -138,7 +139,7 @@ def permanent_redirect(url):
         if src.scheme!="https" or dst.scheme!="https" or src.hostname!=host or dst.hostname!=host or dst.query or dst.fragment: return None
         dst_url=normalize(destination)
         if dst_url==normalize(url) or dst_url not in urls: return None
-        return dict(old=normalize(url),new=dst_url,status=e.code)
+        return dict(old=normalize(url),new=dst_url,status=e.code,observed_on=sorted(link_pages.get(normalize(url),set())))
     except Exception:
         return None
 redirect_candidates=[]
