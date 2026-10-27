@@ -7,6 +7,9 @@ on:
     paths:
       - config/dgi-automation-approval-policy.json
       - scripts/validate_dgi_automation_changes.py
+      - scripts/validate_official_legal_changes.py
+      - scripts/tests/test_validate_official_legal_changes.py
+      - legal-evidence/**
       - scripts/tests/test_validate_dgi_automation_changes.py
       - .github/workflows/dgi-content-approval-gate.yml
   workflow_dispatch:
@@ -25,8 +28,9 @@ jobs:
       - name: Validate the exact approved-versus-automatic policy
         run: |
           python3 -m json.tool config/dgi-automation-approval-policy.json >/dev/null
-          python3 -m py_compile scripts/validate_dgi_automation_changes.py
+          python3 -m py_compile scripts/validate_dgi_automation_changes.py scripts/validate_official_legal_changes.py
           python3 -m unittest discover -s scripts/tests -p 'test_validate_dgi_automation_changes.py' -v
+          python3 -m unittest discover -s scripts/tests -p 'test_validate_official_legal_changes.py' -v
       - name: Classify PR diff before any automated publishing
         if: github.event_name == 'pull_request'
         env:
@@ -40,7 +44,7 @@ jobs:
           with open(os.environ["GITHUB_STEP_SUMMARY"],"a") as f:
               f.write("## DGI automation classification\\n\\n")
               f.write("Change category: **"+x["classification"]+"**\\n\\n")
-              f.write("This is not legal approval, verified court-outcome proof or permission to bypass code reviews.\\n")
+              f.write("Every normative change is blocked unless exact official claim evidence is verified. Passing is not a guarantee of legal interpretation.\\n")
           PY
       - uses: actions/upload-artifact@v4
         if: always() && github.event_name == 'pull_request'
