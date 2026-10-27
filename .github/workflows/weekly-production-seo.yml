@@ -9,6 +9,7 @@ on:
       - .github/workflows/weekly-production-seo.yml
 permissions:
   contents: read
+  actions: read
   issues: write
 concurrency:
   group: dgi-production-weekly-seo
@@ -32,16 +33,39 @@ jobs:
           python3 -m json.tool config/weekly-seo-audit.json >/dev/null
           python3 -m py_compile scripts/weekly_seo_audit.py
           python3 scripts/weekly_seo_audit.py
+      - name: Compare sitemap and metadata against previous complete audit
+        id: compare
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s scripts/tests -p 'test_seo_compare_reports.py' -v
+          previous="$(gh run list --repo "$GH_REPO" --workflow weekly-production-seo.yml --limit 12 --json databaseId,status \
+            | jq -r --argjson current "$GITHUB_RUN_ID" '[.[] | select(.status == "completed" and .databaseId != $current)][0].databaseId // empty')"
+          if [[ -z "$previous" ]]; then
+            echo '{"status":"no_previous_run","release_review_required":false,"automatic_publication_allowed":false}' > test-results/seo-regressions.json
+            echo "No baseline run: fresh inventory stored for next week."
+            exit 0
+          fi
+          mkdir -p /tmp/previous-seo
+          gh run download "$previous" --repo "$GH_REPO" -n dgi-weekly-seo-report -D /tmp/previous-seo
+          python3 scripts/seo_compare_reports.py --previous /tmp/previous-seo/weekly-seo.json \
+            --current test-results/weekly-seo.json --output test-results/seo-regressions.json
       - name: Save full report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: dgi-weekly-seo-report
-          path: test-results/weekly-seo.json
+          path: |
+            test-results/weekly-seo.json
+            test-results/seo-regressions.json
           if-no-files-found: warn
           retention-days: 30
       - name: Create or update SEO incident
-        if: steps.seo.outcome == 'failure'
+        if: steps.seo.outcome == 'failure' || steps.compare.outcome == 'failure'
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
