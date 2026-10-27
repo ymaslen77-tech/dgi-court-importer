@@ -1,7 +1,7 @@
-# DGI: legal and sitewide changes need owner's explicit approval.
+# DGI maintainers (informational); routine manual approval is NOT required.
 # Technical news entries in housing-news.json and verified 301/308 link repairs
 # are deliberately NOT listed here: safe automation can process them with CI.
-# This file is effective only if GitHub branch ruleset requires Code Owner review.
+# Branch ruleset must NOT require Code Owner reviews; automated official-source validation and CI control releases.
 
 /apps/web/src/app/ @ymaslen77-tech
 /apps/web/src/data/pages.ts @ymaslen77-tech
