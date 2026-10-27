@@ -79,7 +79,7 @@ def legal_diffs(old,new,path):
     changes=[]
     for a,b in zip(old,new):
         slug=a.get("slug")
-        if not slug or slug != b.get("slug") or len(a.get("blocks",[]))!=len(b.get("blocks",[])):
+        if not isinstance(slug,str) or slug != b.get("slug") or len(a.get("blocks",[]))!=len(b.get("blocks",[])):
             raise ValueError("Legal page slug or block structure changed")
         if {k:v for k,v in a.items() if k!="blocks"}!={k:v for k,v in b.items() if k!="blocks"}:
             raise ValueError("Legal metadata or page structure changed")
@@ -132,7 +132,7 @@ def assess(base,head,changed_files,manifest,fetcher=official_excerpt_visible):
             effective=dt.date.fromisoformat(row["effective_date"])
         except (ValueError,TypeError,KeyError):
             raise ValueError("Invalid checked/effective date")
-        if checked.tzinfo is None or abs((now-checked).total_seconds()) > MAX_SOURCE_AGE_DAYS*86400:
+        if checked.tzinfo is None or not (0 <= (now-checked).total_seconds() <= MAX_SOURCE_AGE_DAYS*86400):
             raise ValueError("Official source verification is missing/stale")
         if effective>now.date():
             raise ValueError("Future act cannot be described as currently effective")
