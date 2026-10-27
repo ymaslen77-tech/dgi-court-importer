@@ -120,7 +120,32 @@ for url,r in zip(external_list,outside):
     elif r["status"]>=400 or not r["status"]:warn("external_link_unavailable",url,r["status"])
 for url in sorted(urls):
     if url in responses and responses[url]["status"] in (404,410):issue("dead_sitemap_url",url,responses[url]["status"])
-result=dict(generated_at=datetime.datetime.now(datetime.timezone.utc).isoformat(),site=origin,stats=dict(sitemap_urls=len(urls),html_pages=len(pages),internal_links=len(links),external_links=len(external),errors=len(issues),warnings=len(warnings)),errors=issues,warnings=warnings,sitemap_urls=sorted(urls),pages=pages)
+# Only same-origin, one-hop *permanent* redirects are eligible for an autofix PR.
+# The audit never edits live pages or CMS material.
+class RefuseRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return None
+no_redirect=urllib.request.build_opener(RefuseRedirect)
+def permanent_redirect(url):
+    if urllib.parse.urlsplit(url).query: return None
+    try:
+        req=urllib.request.Request(url,method="HEAD",headers={"User-Agent":"DGI-Weekly-SEO-Quality/1.0"})
+        no_redirect.open(req,timeout=settings["timeout_seconds"]).close()
+    except urllib.error.HTTPError as e:
+        if e.code not in (301,308): return None
+        destination=urllib.parse.urljoin(url,e.headers.get("Location",""))
+        src=urllib.parse.urlsplit(url);dst=urllib.parse.urlsplit(destination)
+        if src.scheme!="https" or dst.scheme!="https" or src.hostname!=host or dst.hostname!=host or dst.query or dst.fragment: return None
+        dst_url=normalize(destination)
+        if dst_url==normalize(url) or dst_url not in urls: return None
+        return dict(old=normalize(url),new=dst_url,status=e.code)
+    except Exception:
+        return None
+redirect_candidates=[]
+with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
+    for finding in pool.map(permanent_redirect, sorted(links)[:250]):
+        if finding: redirect_candidates.append(finding)
+result=dict(generated_at=datetime.datetime.now(datetime.timezone.utc).isoformat(),site=origin,stats=dict(sitemap_urls=len(urls),html_pages=len(pages),internal_links=len(links),external_links=len(external),permanent_redirects=len(redirect_candidates),errors=len(issues),warnings=len(warnings)),errors=issues,warnings=warnings,sitemap_urls=sorted(urls),pages=pages,safe_redirect_candidates=redirect_candidates)
 Path("test-results").mkdir(exist_ok=True)
 Path("test-results/weekly-seo.json").write_text(json.dumps(result,ensure_ascii=False,indent=2))
 with open(os.environ.get("GITHUB_STEP_SUMMARY","/dev/null"),"a") as f:
