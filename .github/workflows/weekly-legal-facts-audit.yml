@@ -10,6 +10,7 @@ on:
       - .github/workflows/weekly-legal-facts-audit.yml
 permissions:
   contents: read
+  issues: write
 concurrency:
   group: dgi-weekly-legal-inventory
   cancel-in-progress: false
@@ -63,6 +64,31 @@ jobs:
           ]
           with open(os.environ["GITHUB_STEP_SUMMARY"],"a",encoding="utf8") as stream:
             stream.write("\n".join(message)+"\n")
+          PY
+      - name: Raise issue when live evidence collection detects problems
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json,os,subprocess
+          from pathlib import Path
+          path=Path("weekly-legal-audit-report.json")
+          if not path.exists(): findings=["No report generated; legal evidence collection failed"]
+          else:
+            data=json.loads(path.read_text(encoding="utf8"))
+            s=data.get("summary",{})
+            findings=[f"{k}: {s.get(k)}" for k in ("live_unavailable","live_broken_or_inactive","external_broken","external_unavailable") if s.get(k,0)>0]
+            if data.get("sitemap",{}).get("status")!="ok":findings.append("sitemap inventory unavailable or invalid")
+          if not findings:quit()
+          title="DGI: weekly legal evidence needs review"
+          body="Automated checks require verification. These results are leads, NOT proof that the law changed. Compare every claim against the effective official act before proposing or releasing changes.\n\n"+"\n".join("- "+x for x in findings)+"\n\nAudit: "+os.environ["GITHUB_SERVER_URL"]+"/"+os.environ["GITHUB_REPOSITORY"]+"/actions/runs/"+os.environ["GITHUB_RUN_ID"]
+          q=subprocess.run(["gh","issue","list","--state","open","--search",title,"--json","number,title"],capture_output=True,text=True,check=True)
+          row=next((r for r in json.loads(q.stdout) if r["title"]==title),None)
+          if row:subprocess.run(["gh","issue","comment",str(row["number"]),"--body",body],check=True)
+          else:subprocess.run(["gh","issue","create","--title",title,"--body",body],check=True)
           PY
       - name: Preserve source audit evidence for scheduled legal reviewer
         if: always()
