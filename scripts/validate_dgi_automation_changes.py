@@ -26,8 +26,8 @@ LEGAL_SIGNAL = re.compile(
 )
 ALLOWED_HOSTS = ("mos.ru", "mosreg.ru", "pravo.gov.ru", "publication.pravo.gov.ru")
 LEGAL_FILES = re.compile(
-    r"^apps/web/(?:src/data/(?:pages-[0-5]\\.json|housing-guides\\.json|"
-    r"housing-law[^/]*\\.json)|src/app/.*|src/data/pages\\.ts)$"
+    r"^apps/web/(?:src/data/(?:pages-[0-5]\.json|housing-guides\.json|"
+    r"housing-law[^/]*\.json)|src/app/.*|src/data/pages\\.ts)$"
 )
 def command(*args):
     return subprocess.check_output(args, text=True, stderr=subprocess.PIPE)
@@ -37,7 +37,7 @@ def load_at(revision, path):
     except subprocess.CalledProcessError:
         return []
 def normalized_title(v):
-    return re.sub(r"\\W+"," ",unicodedata.normalize("NFC",v).casefold()).strip()
+    return re.sub(r"\W+"," ",unicodedata.normalize("NFC",v).casefold()).strip()
 def normalized_url(url):
     p=urlsplit(url)
     if p.scheme!="https" or p.username or p.password or p.port:
