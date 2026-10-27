@@ -10,8 +10,6 @@ on:
     paths:
       - "scripts/seo-live-audit.mjs"
       - ".github/workflows/seo-live-audit.yml"
-  schedule:
-    - cron: "35 6 * * 1"
 permissions:
   contents: read
 jobs:
