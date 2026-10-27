@@ -112,6 +112,7 @@ def classify(files,base,head):
         categories.append(result)
         notes.append({"file":path,"category":result,"reason":reason})
     if "invalid" in categories:return "invalid",notes
+    if "manual" in categories:return "blocked",notes
     if "evidence_required" in categories:return "evidence_required",notes
     if "ci_required" in categories:return "ci_required",notes
     if "research_only" in categories:return "research_only",notes
@@ -133,8 +134,10 @@ def main():
     p=Path(args.report);p.parent.mkdir(parents=True,exist_ok=True)
     p.write_text(json.dumps(obj,ensure_ascii=False,indent=2)+"\\n",encoding="utf8")
     print("DGI_CHANGE_CLASSIFICATION",result,json.dumps(notes,ensure_ascii=False))
-    if result in ("invalid","research_only"):
+    if result in ("invalid","research_only","blocked"):
         sys.exit(1)
+    if result=="evidence_required" and NEWS in files:
+        raise ValueError("Normative claims in news require a separately verified legal-content pipeline; do not publish uncertain claims")
     if result=="evidence_required":
         # Requires exact per-claim official-source text before the PR can pass CI.
         script=Path(__file__).with_name("validate_official_legal_changes.py")
