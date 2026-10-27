@@ -8,7 +8,7 @@ const pages=Array.from({length:6},(_,i)=>JSON.parse(
   readFileSync(resolve(process.cwd(),`src/data/pages-${i}.json`),"utf8")
 )).flat() as Array<{slug:string,title:string}>;
 
-test("approved URL inventory is internally consistent",()=>{
+test("historical URL inventory is internally consistent",()=>{
   expect(pages).toHaveLength(33);
   const slugs=pages.map(p=>p.slug);
   expect(new Set(slugs).size).toBe(slugs.length);
@@ -20,7 +20,7 @@ test("restricted staging does not leak sitemaps or unreviewed drafts",async({req
     request.get("/housing-law-news/not-published")
   ]);
   expect(robots.status()).toBe(200);
-  expect(await robots.text()).toMatch(/Disallow:\\s*\\//i);
+  expect(await robots.text()).toContain("Disallow: /");
   expect(sitemap.status()).toBe(200);
   expect(await sitemap.text()).not.toContain("<loc>");
   expect(draft.status()).toBe(404);
