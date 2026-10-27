@@ -132,7 +132,7 @@ def main():
          "source_verification_required":result=="evidence_required",
          "reason":"This classifier is not an official-source verification or a deployment approval"}
     p=Path(args.report);p.parent.mkdir(parents=True,exist_ok=True)
-    p.write_text(json.dumps(obj,ensure_ascii=False,indent=2)+"\\n",encoding="utf8")
+    p.write_text(json.dumps(obj,ensure_ascii=False,indent=2)+"\n",encoding="utf8")
     print("DGI_CHANGE_CLASSIFICATION",result,json.dumps(notes,ensure_ascii=False))
     if result in ("invalid","research_only","blocked"):
         sys.exit(1)
