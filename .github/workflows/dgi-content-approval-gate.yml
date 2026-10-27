@@ -25,19 +25,27 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - name: Validate the exact approved-versus-automatic policy
+          path: site
+      - uses: actions/checkout@v4
+        with:
+          ref: infra/coolify-russian-vps
+          persist-credentials: false
+          path: policy
+      - name: Validate current protected-branch policy, not PR-supplied scripts
         run: |
-          python3 -m json.tool config/dgi-automation-approval-policy.json >/dev/null
-          python3 -m py_compile scripts/validate_dgi_automation_changes.py scripts/validate_official_legal_changes.py
-          python3 -m unittest discover -s scripts/tests -p 'test_validate_dgi_automation_changes.py' -v
-          python3 -m unittest discover -s scripts/tests -p 'test_validate_official_legal_changes.py' -v
+          python3 -m json.tool policy/config/dgi-automation-approval-policy.json >/dev/null
+          python3 -m py_compile policy/scripts/validate_dgi_automation_changes.py policy/scripts/validate_official_legal_changes.py
+          python3 -m unittest discover -s policy/scripts/tests -p 'test_validate_dgi_automation_changes.py' -v
+          python3 -m unittest discover -s policy/scripts/tests -p 'test_validate_official_legal_changes.py' -v
       - name: Classify PR diff before any automated publishing
         if: github.event_name == 'pull_request'
+        working-directory: site
         env:
           BASE_BRANCH: ${{ github.base_ref }}
         run: |
           set -euo pipefail
-          python3 scripts/validate_dgi_automation_changes.py --base "origin/$BASE_BRANCH" --head HEAD
+          git fetch origin "$BASE_BRANCH"
+          python3 ../policy/scripts/validate_dgi_automation_changes.py --base "origin/$BASE_BRANCH" --head HEAD
           python3 - <<'PY'
           import json,os
           x=json.load(open("test-results/dgi-approval-classification.json"))
@@ -50,6 +58,6 @@ jobs:
         if: always() && github.event_name == 'pull_request'
         with:
           name: dgi-publication-classification
-          path: test-results/dgi-approval-classification.json
+          path: site/test-results/dgi-approval-classification.json
           if-no-files-found: warn
           retention-days: 14
