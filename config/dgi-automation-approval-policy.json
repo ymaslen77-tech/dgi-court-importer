@@ -1,30 +1,28 @@
 {
-  "version": 2,
+  "version": 3,
   "project": "dgi-pravo.ru",
   "effective_at": "2026-10-27",
   "decision_model": {
-    "auto_publish": [
-      "verified_non_normative_housing_news",
-      "source_verified_positive_court_decisions_without_sensitive_data",
-      "low_risk_reversible_technical_seo_fixes"
+    "automatic_with_verified_evidence": [
+      "fact_checked_official_housing_news",
+      "confirmed_positive_and_privacy_checked_public_court_acts",
+      "low_risk_reversible_technical_seo_fixes",
+      "exact_source_backed_changes_to_law_and_legal_procedures"
     ],
-    "owner_approval_required": [
-      "effective_law_or_regulation_changed",
-      "legal_advice_or_action_route_changed",
-      "filing_deadline_or_state_fee_changed",
-      "eligibility_or_exceptions_changed",
-      "jurisdiction_or_government_process_changed",
-      "any_sitewide_release_and_indexability_change",
-      "uncertain_or_conflicting_primary_sources"
-    ],
-    "never_auto_publish": [
+    "publication_blocked_until_resolved": [
+      "no_current_authoritative_primary_source",
+      "official_document_unavailable_or_only_a_search_result",
+      "ambiguous_effective_date_revision_or_transitional_rule",
+      "source_excerpt_not_observable_on_official_source",
+      "contradictory_official_sources_or_legal_interpretation",
       "unverified_judicial_case_metadata",
-      "draft_or_withdrawn_laws_as_current",
-      "unredacted_sensitive_court_documents",
-      "fabricated_or_inferred_judicial_outcomes",
-      "unreviewed_editorial_pages",
-      "changes_to_official_judgments_or_signed_pdf_evidence"
-    ]
+      "privacy_or_rights_to_republish_not_verified",
+      "draft_or_withdrawn_law_presented_as_effective",
+      "missing_signed_or_original_judicial_text",
+      "newly_indexable_pages_without_editorial_validation",
+      "failing_ci_or_unverified_production_deployment"
+    ],
+    "human_review_policy": "No routine owner approvals. Pause the individual unsafe change and report the blocker; never invent verification or bypass existing CMS/DB access controls."
   },
   "automatic_news": {
     "source_file": "apps/web/src/data/housing-news.json",
@@ -43,9 +41,10 @@
       "normalized_title"
     ],
     "max_age_days": 7,
-    "block_if_legal_rule_is_changed": true,
+    "block_if_legal_rule_is_changed": false,
     "require_ci_build": true,
-    "require_live_verification": true
+    "require_live_verification": true,
+    "legal_rule_change_requires": "verified legal change evidence and legal-source gate; otherwise publish no normative assertion"
   },
   "automatic_courts": {
     "public_page": "/sudebnaya-praktika-dgi",
@@ -71,29 +70,10 @@
     "automatic_fixes": [
       "verified_intra_site_permanent_301_or_308_link_replacement"
     ],
-    "needs_owner_approval": [
-      "indexability_robots_noindex_canonical_sitewide_release",
-      "bulk_removal_or_redirect",
-      "legal_page_copy_changes"
-    ],
+    "needs_owner_approval": [],
     "never_hide_findings": true,
-    "require_ci_and_live_verification": true
-  },
-  "manual_legal_review": {
-    "format": [
-      "affected_live_url",
-      "current_exact_statement",
-      "suggested_replacement_text",
-      "official_primary_source_url",
-      "act_number_and_date",
-      "effective_date",
-      "revision_and_transitional_rules",
-      "why_change_is_required",
-      "consequences_if_unmodified",
-      "verification_status"
-    ],
-    "publish_only_after": "explicit owner approval to specific change",
-    "if_no_approval": "keep_current_content_and_open_review_task"
+    "require_ci_and_live_verification": true,
+    "requires_release_eligibility_for_indexability": true
   },
   "deploy": {
     "target": "Russian VPS Coolify",
@@ -101,6 +81,51 @@
     "require_successful_ci": true,
     "require_exact_commit_verification": true,
     "require_live_smoke": true,
-    "do_not_bypass_unapproved_legal_content_gate": true
+    "do_not_bypass_unapproved_legal_content_gate": true,
+    "no_routine_owner_review": true,
+    "requires_branch_protection_with_required_ci": true,
+    "require_source_evidence_before_legal_release": true
+  },
+  "automatic_legal_review": {
+    "automated": true,
+    "evidence_path": "legal-evidence/changes.json",
+    "required_per_changed_claim": [
+      "affected_file",
+      "current_exact_statement",
+      "replacement_exact_statement",
+      "official_primary_source_url",
+      "official_source_excerpt",
+      "act_number_and_date",
+      "effective_date",
+      "legal_reason_and_scope",
+      "transitional_rules_checked",
+      "amendment_history_checked",
+      "source_checked_at"
+    ],
+    "acceptable_official_sources": [
+      "pravo.gov.ru",
+      "publication.pravo.gov.ru",
+      "mos.ru",
+      "mosreg.ru",
+      "vsrf.ru",
+      "ksrf.ru",
+      "sudrf.ru",
+      "rosreestr.gov.ru",
+      "nalog.gov.ru",
+      "gosuslugi.ru"
+    ],
+    "secondary_sources_for_discovery_only": [
+      "consultant.ru",
+      "garant.ru"
+    ],
+    "reject_if_source_unreachable": true,
+    "reject_if_exact_official_quote_unverifiable": true,
+    "reject_if_claim_exceeds_supported_legal_conclusion": true,
+    "never_publish_if_conflicting_or_ambiguous": true,
+    "never_fake_cms_or_court_approval_fields": true,
+    "require_diff_content_is_exactly_documented": true,
+    "require_successful_ci_before_release": true,
+    "require_live_page_and_source_confirmation_after_release": true,
+    "human_review_required": false
   }
 }
