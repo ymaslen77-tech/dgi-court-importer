@@ -5,6 +5,7 @@ on:
     types: [completed]
 permissions:
   contents: read
+  actions: read
 concurrency:
   group: dgi-seo-pr-${{ github.event.workflow_run.id }}
   cancel-in-progress: false
