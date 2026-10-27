@@ -1,0 +1,106 @@
+{
+  "version": 2,
+  "project": "dgi-pravo.ru",
+  "effective_at": "2026-10-27",
+  "decision_model": {
+    "auto_publish": [
+      "verified_non_normative_housing_news",
+      "source_verified_positive_court_decisions_without_sensitive_data",
+      "low_risk_reversible_technical_seo_fixes"
+    ],
+    "owner_approval_required": [
+      "effective_law_or_regulation_changed",
+      "legal_advice_or_action_route_changed",
+      "filing_deadline_or_state_fee_changed",
+      "eligibility_or_exceptions_changed",
+      "jurisdiction_or_government_process_changed",
+      "any_sitewide_release_and_indexability_change",
+      "uncertain_or_conflicting_primary_sources"
+    ],
+    "never_auto_publish": [
+      "unverified_judicial_case_metadata",
+      "draft_or_withdrawn_laws_as_current",
+      "unredacted_sensitive_court_documents",
+      "fabricated_or_inferred_judicial_outcomes",
+      "unreviewed_editorial_pages",
+      "changes_to_official_judgments_or_signed_pdf_evidence"
+    ]
+  },
+  "automatic_news": {
+    "source_file": "apps/web/src/data/housing-news.json",
+    "max_new_per_run": 5,
+    "official_source_hosts": [
+      "mos.ru",
+      "mosreg.ru",
+      "tender.mos.ru",
+      "publication.pravo.gov.ru",
+      "pravo.gov.ru"
+    ],
+    "require_primary_source": true,
+    "duplicate_detection": [
+      "slug",
+      "sourceUrl",
+      "normalized_title"
+    ],
+    "max_age_days": 7,
+    "block_if_legal_rule_is_changed": true,
+    "require_ci_build": true,
+    "require_live_verification": true
+  },
+  "automatic_courts": {
+    "public_page": "/sudebnaya-praktika-dgi",
+    "source_verification": "individual complete official judgment, not metadata",
+    "allow_only": "materially favorable result for individual against DGI which remains effective in reviewed appeal history",
+    "requires": [
+      "exact_official_act_url",
+      "full_operational_text_and_outcome",
+      "number_court_date_instance_match",
+      "privacy_and_rights_to_publish_pass",
+      "document_hash",
+      "no_duplicates",
+      "no_known_reversal",
+      "existing_database_publication_constraints_pass",
+      "working_live_document_link"
+    ],
+    "if_uncertain": "draft_only",
+    "never_set_approval_fields_fictitiously": true,
+    "require_ci_and_deploy_verification": true
+  },
+  "automatic_seo": {
+    "cadence": "weekly",
+    "automatic_fixes": [
+      "verified_intra_site_permanent_301_or_308_link_replacement"
+    ],
+    "needs_owner_approval": [
+      "indexability_robots_noindex_canonical_sitewide_release",
+      "bulk_removal_or_redirect",
+      "legal_page_copy_changes"
+    ],
+    "never_hide_findings": true,
+    "require_ci_and_live_verification": true
+  },
+  "manual_legal_review": {
+    "format": [
+      "affected_live_url",
+      "current_exact_statement",
+      "suggested_replacement_text",
+      "official_primary_source_url",
+      "act_number_and_date",
+      "effective_date",
+      "revision_and_transitional_rules",
+      "why_change_is_required",
+      "consequences_if_unmodified",
+      "verification_status"
+    ],
+    "publish_only_after": "explicit owner approval to specific change",
+    "if_no_approval": "keep_current_content_and_open_review_task"
+  },
+  "deploy": {
+    "target": "Russian VPS Coolify",
+    "production_branch": "infra/coolify-russian-vps",
+    "require_successful_ci": true,
+    "require_exact_commit_verification": true,
+    "require_live_smoke": true,
+    "do_not_bypass_unapproved_legal_content_gate": true
+  }
+}
