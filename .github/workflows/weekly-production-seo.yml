@@ -1,0 +1,64 @@
+name: DGI weekly production SEO quality gate
+on:
+  schedule:
+    - cron: "35 6 * * 1"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/weekly-production-seo.yml
+permissions:
+  contents: read
+  issues: write
+concurrency:
+  group: dgi-production-weekly-seo
+  cancel-in-progress: false
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ymaslen77-tech/dgi-court-importer
+          ref: infra/coolify-russian-vps
+          persist-credentials: false
+      - name: Install HTML parser
+        run: python3 -m pip install --user beautifulsoup4==4.14.2
+      - name: Check config and scan all live pages, sitemap and links
+        id: seo
+        continue-on-error: true
+        run: |
+          python3 -m json.tool config/weekly-seo-audit.json >/dev/null
+          python3 -m py_compile scripts/weekly_seo_audit.py
+          python3 scripts/weekly_seo_audit.py
+      - name: Save full report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dgi-weekly-seo-report
+          path: test-results/weekly-seo.json
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Create or update SEO incident
+        if: steps.seo.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json,os,subprocess
+          from pathlib import Path
+          f=Path("test-results/weekly-seo.json")
+          stats=json.loads(f.read_text())["stats"] if f.exists() else {"error":"audit did not produce a report"}
+          title="DGI: weekly production SEO regression detected"
+          body="SEO audit detected problems. Inspect current Actions artifacts before changing URLs, redirects, metadata or legal content.\n\n"+json.dumps(stats,ensure_ascii=False,indent=2)+"\n\n"+os.environ["GITHUB_SERVER_URL"]+"/"+os.environ["GITHUB_REPOSITORY"]+"/actions/runs/"+os.environ["GITHUB_RUN_ID"]
+          q=subprocess.run(["gh","issue","list","--state","open","--search",title,"--json","number,title"],capture_output=True,text=True,check=True)
+          existing=next((row for row in json.loads(q.stdout) if row["title"]==title),None)
+          if existing:subprocess.run(["gh","issue","comment",str(existing["number"]),"--body",body],check=True)
+          else:subprocess.run(["gh","issue","create","--title",title,"--body",body],check=True)
+          PY
+      - name: Fail if confirmed SEO defects exist
+        if: steps.seo.outcome == 'failure'
+        run: exit 1
