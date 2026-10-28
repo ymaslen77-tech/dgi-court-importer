@@ -1,29 +1,28 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "as_of": "2026-10-28",
-  "purpose": "Research and release-preparation register only; never direct-publication evidence",
+  "purpose": "Prepare all officially published court acts involving DGI, regardless of success, refusal, mixed result or remand",
   "source_policy": "config/dgi-automation-approval-policy.json",
   "publication_source": "apps/web/src/data/verified-court-static.json",
-  "current_curated_count": 6,
-  "limit_per_daily_release": 5,
+  "current_curated_count": 14,
+  "limit_per_daily_release": null,
   "auto_publish_from_this_file": false,
   "source_recheck_required": true,
   "required_remaining_gates": [
-    "complete official judicial act retrievable at submission time",
-    "exact court, date, citizen claim and dispositive relief in full text",
-    "reversal and appeal history checked",
-    "privacy and rights clearance",
-    "unique case and SHA-256 integrity",
-    "PDF reading copy explicitly labeled",
-    "protected automation branch PR and four required CI checks",
-    "authorized exact-SHA Coolify deployment and live search/PDF verification"
+    "reachable full official court act",
+    "number and court and court date present",
+    "DGI party evidenced",
+    "basic sensitive-identifier screen passed",
+    "non-duplicate source and case number",
+    "generated PDF reading copy SHA256",
+    "PR required CI passed",
+    "manual owner Coolify deploy"
   ],
   "counts": {
     "total": 24,
-    "curated": 6,
-    "excluded": 12,
-    "needs_individual_review": 6,
-    "new_source_discoveries": 4
+    "curated": 14,
+    "out_of_scope": 8,
+    "ready_for_source_import": 2
   },
   "items": [
     {
@@ -31,67 +30,73 @@
       "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17922794&case_uid=e7b0d6f3-6f17-4210-a204-0530f61ee1e6&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
       "origin": "existing_curated",
       "status": "already_curated",
-      "reason": "Already in the published-source static manifest; not a new candidate",
+      "reason": "Official act and PDF prepared in curated manifest; GitHub PR/CI and user Coolify deployment still required",
       "release_eligible": false,
       "needs_full_act_and_history_review": false,
-      "already_curated": true
+      "already_curated": true,
+      "needs_official_source_and_privacy_screen": false
     },
     {
       "case_number": "88-12184/2026",
       "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17961008&case_uid=1a7c42f6-228f-40ce-846a-6b83e651562e&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
       "origin": "existing_curated",
       "status": "already_curated",
-      "reason": "Already in the published-source static manifest; not a new candidate",
+      "reason": "Official act and PDF prepared in curated manifest; GitHub PR/CI and user Coolify deployment still required",
       "release_eligible": false,
       "needs_full_act_and_history_review": false,
-      "already_curated": true
+      "already_curated": true,
+      "needs_official_source_and_privacy_screen": false
     },
     {
       "case_number": "88-7554/2026",
       "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17566547&case_uid=793bca3e-3b0a-4b0a-aef5-e13e1bbc0414&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
       "origin": "existing_curated",
       "status": "already_curated",
-      "reason": "Already in the published-source static manifest; not a new candidate",
+      "reason": "Official act and PDF prepared in curated manifest; GitHub PR/CI and user Coolify deployment still required",
       "release_eligible": false,
       "needs_full_act_and_history_review": false,
-      "already_curated": true
+      "already_curated": true,
+      "needs_official_source_and_privacy_screen": false
     },
     {
       "case_number": "88-3117/2026",
       "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17178494&case_uid=dc226637-f874-4209-9766-6cc784ddb970&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
       "origin": "existing_curated",
       "status": "already_curated",
-      "reason": "Already in the published-source static manifest; not a new candidate",
+      "reason": "Official act and PDF prepared in curated manifest; GitHub PR/CI and user Coolify deployment still required",
       "release_eligible": false,
       "needs_full_act_and_history_review": false,
-      "already_curated": true
+      "already_curated": true,
+      "needs_official_source_and_privacy_screen": false
     },
     {
       "case_number": "88-5020/2026",
       "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17338162&case_uid=d920690b-6625-46d1-a56c-af4b81c5393c&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
       "origin": "existing_curated",
       "status": "already_curated",
-      "reason": "Already in the published-source static manifest; not a new candidate",
+      "reason": "Official act and PDF prepared in curated manifest; GitHub PR/CI and user Coolify deployment still required",
       "release_eligible": false,
       "needs_full_act_and_history_review": false,
-      "already_curated": true
+      "already_curated": true,
+      "needs_official_source_and_privacy_screen": false
     },
     {
       "case_number": "88-5408/2026",
       "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17305748&case_uid=96f7b227-ab66-44e5-a2e1-c6c160efc369&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
       "origin": "existing_curated",
       "status": "already_curated",
-      "reason": "Already in the published-source static manifest; not a new candidate",
+      "reason": "Official act and PDF prepared in curated manifest; GitHub PR/CI and user Coolify deployment still required",
       "release_eligible": false,
       "needs_full_act_and_history_review": false,
-      "already_curated": true
+      "already_curated": true,
+      "needs_official_source_and_privacy_screen": false
     },
     {
       "case_number": "88-522/2026",
       "official_url": "https://2kas.sudrf.ru/modules.php?case_id=16394117&case_uid=b70eb670-2495-47d3-ac01-f7c855a488b7&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
       "origin": "seed_candidate_metadata_only",
       "status": "out_of_scope",
-      "reason": "Official metadata do not establish DGI participation as a dispute party; not eligible without a fresh full-act review",
+      "reason": "DGI participation not established; no automatic import without direct full-text DGI evidence",
       "release_eligible": false,
       "needs_full_act_and_history_review": true,
       "already_curated": false
@@ -100,18 +105,19 @@
       "case_number": "88-724/2026",
       "official_url": "https://2kas.sudrf.ru/modules.php?case_id=16814499&case_uid=ac88b1a2-d389-48f4-a7b2-2438745b8596&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
       "origin": "seed_candidate_metadata_only",
-      "status": "excluded_prior_unfavorable_or_mixed",
-      "reason": "Previously excluded on claimant-outcome review; re-check entire operative part before any reversal",
+      "status": "already_curated",
+      "reason": "Official act and PDF prepared in curated manifest; GitHub PR/CI and user Coolify deployment still required",
       "release_eligible": false,
-      "needs_full_act_and_history_review": true,
-      "already_curated": false
+      "needs_full_act_and_history_review": false,
+      "already_curated": true,
+      "needs_official_source_and_privacy_screen": false
     },
     {
       "case_number": "88-5346/2026",
       "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17176454&case_uid=c9c23b36-acf0-47e7-9d87-31ab7e35b978&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
       "origin": "seed_candidate_metadata_only",
       "status": "out_of_scope",
-      "reason": "Official metadata do not establish DGI participation as a dispute party; not eligible without a fresh full-act review",
+      "reason": "DGI participation not established; no automatic import without direct full-text DGI evidence",
       "release_eligible": false,
       "needs_full_act_and_history_review": true,
       "already_curated": false
@@ -121,7 +127,7 @@
       "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17359295&case_uid=97a024d5-4f0f-499f-9897-64ce05241823&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
       "origin": "seed_candidate_metadata_only",
       "status": "out_of_scope",
-      "reason": "Official metadata do not establish DGI participation as a dispute party; not eligible without a fresh full-act review",
+      "reason": "DGI participation not established; no automatic import without direct full-text DGI evidence",
       "release_eligible": false,
       "needs_full_act_and_history_review": true,
       "already_curated": false
@@ -131,7 +137,7 @@
       "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17647935&case_uid=110e8180-c4b5-4124-baf0-a5d481ad7731&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
       "origin": "seed_candidate_metadata_only",
       "status": "out_of_scope",
-      "reason": "Official metadata do not establish DGI participation as a dispute party; not eligible without a fresh full-act review",
+      "reason": "DGI participation not established; no automatic import without direct full-text DGI evidence",
       "release_eligible": false,
       "needs_full_act_and_history_review": true,
       "already_curated": false
@@ -141,7 +147,7 @@
       "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17837672&case_uid=e8d07f94-628e-4e6a-9cc6-25a24deadb74&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
       "origin": "seed_candidate_metadata_only",
       "status": "out_of_scope",
-      "reason": "Official metadata do not establish DGI participation as a dispute party; not eligible without a fresh full-act review",
+      "reason": "DGI participation not established; no automatic import without direct full-text DGI evidence",
       "release_eligible": false,
       "needs_full_act_and_history_review": true,
       "already_curated": false
@@ -151,7 +157,7 @@
       "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17867073&case_uid=69bd7c6d-81ff-4c2a-af60-5b9376fac54a&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
       "origin": "seed_candidate_metadata_only",
       "status": "out_of_scope",
-      "reason": "Official metadata do not establish DGI participation as a dispute party; not eligible without a fresh full-act review",
+      "reason": "DGI participation not established; no automatic import without direct full-text DGI evidence",
       "release_eligible": false,
       "needs_full_act_and_history_review": true,
       "already_curated": false
@@ -161,7 +167,7 @@
       "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17936636&case_uid=b69692b2-5f96-4834-b438-31d6f57c96ee&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
       "origin": "seed_candidate_metadata_only",
       "status": "out_of_scope",
-      "reason": "Official metadata do not establish DGI participation as a dispute party; not eligible without a fresh full-act review",
+      "reason": "DGI participation not established; no automatic import without direct full-text DGI evidence",
       "release_eligible": false,
       "needs_full_act_and_history_review": true,
       "already_curated": false
@@ -170,48 +176,52 @@
       "case_number": "88-14012/2026",
       "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17983681&case_uid=301df5dc-24f6-4fd3-bd0e-53fe3b464061&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
       "origin": "seed_candidate_metadata_only",
-      "status": "excluded_mixed_result",
-      "reason": "Removed from positive-only catalog in prior commit 0f3f1696 because appeal outcome was mixed",
+      "status": "already_curated",
+      "reason": "Official act and PDF prepared in curated manifest; GitHub PR/CI and user Coolify deployment still required",
       "release_eligible": false,
-      "needs_full_act_and_history_review": true,
-      "already_curated": false
+      "needs_full_act_and_history_review": false,
+      "already_curated": true,
+      "needs_official_source_and_privacy_screen": false
     },
     {
       "case_number": "88-13792/2026",
       "official_url": "https://2kas.sudrf.ru/modules.php?case_id=18112633&case_uid=33f150cf-a0d4-409b-b603-c2be007615da&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
       "origin": "seed_candidate_metadata_only",
-      "status": "excluded_remand_no_final_relief",
-      "reason": "Official cassation record cancels appeal and remands for reconsideration, not a final win",
+      "status": "already_curated",
+      "reason": "Official act and PDF prepared in curated manifest; GitHub PR/CI and user Coolify deployment still required",
       "release_eligible": false,
-      "needs_full_act_and_history_review": true,
-      "already_curated": false
+      "needs_full_act_and_history_review": false,
+      "already_curated": true,
+      "needs_official_source_and_privacy_screen": false
     },
     {
       "case_number": "88-15278/2026",
       "official_url": "https://2kas.sudrf.ru/modules.php?case_id=18231736&case_uid=6e13d75c-0c64-41df-a31a-de1ddc2dfd31&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
       "origin": "seed_candidate_metadata_only",
-      "status": "requires_substantive_outcome_review",
-      "reason": "DGI is claimant; compensation and extra amount contested, not proof of a citizen claim granted against DGI",
+      "status": "already_curated",
+      "reason": "Official act and PDF prepared in curated manifest; GitHub PR/CI and user Coolify deployment still required",
       "release_eligible": false,
-      "needs_full_act_and_history_review": true,
-      "already_curated": false
+      "needs_full_act_and_history_review": false,
+      "already_curated": true,
+      "needs_official_source_and_privacy_screen": false
     },
     {
       "case_number": "88-15955/2026",
       "official_url": "https://2kas.sudrf.ru/modules.php?case_id=18372552&case_uid=fb0cc7d0-1a95-4734-99f2-84cbcf562e7f&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
       "origin": "seed_candidate_metadata_only",
-      "status": "requires_substantive_outcome_review",
-      "reason": "DGI is claimant in compulsory acquisition; owner compensation higher than proposed, but DGI claim granted; separate strict substantive review needed",
+      "status": "already_curated",
+      "reason": "Official act and PDF prepared in curated manifest; GitHub PR/CI and user Coolify deployment still required",
       "release_eligible": false,
-      "needs_full_act_and_history_review": true,
-      "already_curated": false
+      "needs_full_act_and_history_review": false,
+      "already_curated": true,
+      "needs_official_source_and_privacy_screen": false
     },
     {
       "case_number": "88-20266/2026",
       "official_url": "https://2kas.sudrf.ru/modules.php?case_id=18824679&case_uid=a0fd2cdb-5690-41fd-9117-15f513103ac9&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
       "origin": "seed_candidate_metadata_only",
       "status": "out_of_scope",
-      "reason": "Official metadata do not establish DGI participation as a dispute party; not eligible without a fresh full-act review",
+      "reason": "DGI participation not established; no automatic import without direct full-text DGI evidence",
       "release_eligible": false,
       "needs_full_act_and_history_review": true,
       "already_curated": false
@@ -220,51 +230,58 @@
       "case_number": "88-21277/2026",
       "official_url": "https://2kas.sudrf.ru/modules.php?case_id=18910390&case_uid=207aa87d-e20e-49ea-bd58-14f1bc1f49b7&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
       "origin": "seed_candidate_metadata_only",
-      "status": "excluded_dgi_claim_granted",
-      "reason": "Official case concerns DGI's successful claim for eviction; not a claimant win against DGI",
+      "status": "already_curated",
+      "reason": "Official act and PDF prepared in curated manifest; GitHub PR/CI and user Coolify deployment still required",
       "release_eligible": false,
-      "needs_full_act_and_history_review": true,
-      "already_curated": false
+      "needs_full_act_and_history_review": false,
+      "already_curated": true,
+      "needs_official_source_and_privacy_screen": false
     },
     {
       "case_number": "88-5641/2026",
       "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17406310&case_uid=f6c4daa1-eec5-46ac-a926-c2ca2ba8a75a&delo_id=2800001&n_c=1&name=sud_delo&name_op=case&new=2800001&srv_num=1",
-      "reason": "Citizen claim against DGI about EGRN/boundaries; exact dispositive outcome not yet independently verified",
+      "reason": "Official act and PDF prepared in curated manifest; GitHub PR/CI and user Coolify deployment still required",
       "origin": "new_official_source_discovery",
-      "status": "requires_full_act_outcome_review",
+      "status": "already_curated",
       "release_eligible": false,
-      "needs_full_act_and_history_review": true,
-      "already_curated": false
+      "needs_full_act_and_history_review": false,
+      "already_curated": true,
+      "needs_official_source_and_privacy_screen": false
     },
     {
       "case_number": "88-1737/2026",
       "official_url": "https://2kas.sudrf.ru/modules.php?case_id=16744768&case_uid=87460272-91d5-4830-8fb7-41ddb9df6a58&delo_id=2800001&n_c=1&name=sud_delo&name_op=case&new=2800001&srv_num=1",
-      "reason": "Citizen ownership/privatization claim against DGI; must check full text and cassation result",
+      "reason": "Outcome no longer a restriction; attempt official full-text retrieval and minimal source/privacy checks. Unavailable or identifying acts must be skipped.",
       "origin": "new_official_source_discovery",
-      "status": "requires_full_act_outcome_review",
+      "status": "ready_for_source_import",
       "release_eligible": false,
-      "needs_full_act_and_history_review": true,
-      "already_curated": false
+      "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
     },
     {
       "case_number": "88-10091/2026",
       "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17781445&case_uid=4aa05b22-620e-46a3-8090-bb99ba524bb2&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
-      "reason": "Inheritance claim by citizen against DGI; case has possible adverse appellate history; full disposition necessary",
+      "reason": "Official act and PDF prepared in curated manifest; GitHub PR/CI and user Coolify deployment still required",
       "origin": "new_official_source_discovery",
-      "status": "requires_full_act_outcome_review",
+      "status": "already_curated",
       "release_eligible": false,
-      "needs_full_act_and_history_review": true,
-      "already_curated": false
+      "needs_full_act_and_history_review": false,
+      "already_curated": true,
+      "needs_official_source_and_privacy_screen": false
     },
     {
       "case_number": "88-16812/2025",
       "official_url": "https://2kas.sudrf.ru/modules.php?case_type=0&delo_id=2800001&name=sud_delo&name_op=doc&new=2800001&number=15616142&srv_num=1&text_number=1",
-      "reason": "Citizen boundary-setting claim against DGI and DGI cassation denied; first-instance relief and later history require exact verification",
+      "reason": "Outcome no longer a restriction; attempt official full-text retrieval and minimal source/privacy checks. Unavailable or identifying acts must be skipped.",
       "origin": "new_official_source_discovery",
-      "status": "requires_full_act_outcome_review",
+      "status": "ready_for_source_import",
       "release_eligible": false,
-      "needs_full_act_and_history_review": true,
-      "already_curated": false
+      "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
     }
-  ]
+  ],
+  "release_condition": "Official full text + case/court/date + DGI + automated sensitive-data screen + unique case and source + PDF SHA256 + protected CI",
+  "policy": "config/dgi-automation-approval-policy.json"
 }

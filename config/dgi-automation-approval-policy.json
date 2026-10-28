@@ -1,11 +1,11 @@
 {
-  "version": 3,
+  "version": 4,
   "project": "dgi-pravo.ru",
   "effective_at": "2026-10-27",
   "decision_model": {
     "automatic_with_verified_evidence": [
       "fact_checked_official_housing_news",
-      "confirmed_positive_and_privacy_checked_public_court_acts",
+      "officially_published_DGI_court_acts_of_any_disposition_with_basic_privacy_screen",
       "low_risk_reversible_technical_seo_fixes",
       "exact_source_backed_changes_to_law_and_legal_procedures"
     ],
@@ -15,14 +15,14 @@
       "ambiguous_effective_date_revision_or_transitional_rule",
       "source_excerpt_not_observable_on_official_source",
       "contradictory_official_sources_or_legal_interpretation",
-      "unverified_judicial_case_metadata",
-      "privacy_or_rights_to_republish_not_verified",
       "draft_or_withdrawn_law_presented_as_effective",
       "missing_signed_or_original_judicial_text",
       "newly_indexable_pages_without_editorial_validation",
-      "failing_ci_or_unverified_production_deployment"
+      "failing_ci_or_unverified_production_deployment",
+      "court_case_only_metadata_without_retrievable_full_official_text",
+      "court_document_with_obvious_unredacted_sensitive_identifiers"
     ],
-    "human_review_policy": "No routine owner approvals. Pause the individual unsafe change and report the blocker; never invent verification or bypass existing CMS/DB access controls."
+    "human_review_policy": "No routine human approval or subjective merits gate for officially published DGI court acts. Accept every dispositive outcome. Block only missing official full text, incorrect court identifiers, evident sensitive data, duplication or failing CI; do not fabricate CMS/DB approval fields."
   },
   "automatic_news": {
     "source_file": "apps/web/src/data/housing-news.json",
@@ -48,22 +48,34 @@
   },
   "automatic_courts": {
     "public_page": "/sudebnaya-praktika-dgi",
-    "source_verification": "individual complete official judgment, not metadata",
-    "allow_only": "materially favorable result for individual against DGI which remains effective in reviewed appeal history",
-    "requires": [
-      "exact_official_act_url",
-      "full_operational_text_and_outcome",
-      "number_court_date_instance_match",
-      "privacy_and_rights_to_publish_pass",
-      "document_hash",
-      "no_duplicates",
-      "no_known_reversal",
-      "existing_database_publication_constraints_pass",
-      "working_live_document_link"
+    "selection": "officially_published_court_acts_involving_Moscow_DGI_of_any_outcome",
+    "allow_outcomes": [
+      "claim_granted",
+      "claim_denied",
+      "applicant_granted",
+      "applicant_partially_granted",
+      "mixed",
+      "remanded",
+      "not_classified"
     ],
-    "if_uncertain": "draft_only",
+    "source_verification": "official_full_text_retrievable_not_a_search_snippet; verify court_number_and_date",
+    "min_required": [
+      "exact_official_act_URL",
+      "published_full_judicial_text",
+      "case_number_court_and_date_correspond",
+      "DGI_mentioned_in_full_text",
+      "duplicate_case_and_source_URL_check",
+      "automated_screen_for_obvious_sensitive_identifiers",
+      "accurate_reading_PDF_copy_and_SHA256",
+      "protected_PR_and_required_CI"
+    ],
+    "when_outcome_unclear": "label_not_classified_and_link_full_official_text; never_guess_success_or_loss",
+    "court_act_status": "Do not claim entry into force, finality, no reversal, or legal precedent without evidence. Remands and dismissals may appear as regular source acts.",
+    "original_act_rights": "Official judicial acts are generally excluded from copyright protection under Russian Civil Code article 1259(6)(1); this does not remove privacy rules.",
     "never_set_approval_fields_fictitiously": true,
-    "require_ci_and_deploy_verification": true
+    "publication_path": "static_verified_court_manifest_only; do_not_override_database_CMS_permissions",
+    "deploy": "owner_manually_deploys_merged_branch_in_Coolify",
+    "count_live_only_after_owner_deploy_and_HTTP_PDF_check": true
   },
   "automatic_seo": {
     "cadence": "weekly",
@@ -84,7 +96,8 @@
     "do_not_bypass_unapproved_legal_content_gate": true,
     "no_routine_owner_review": true,
     "requires_branch_protection_with_required_ci": true,
-    "require_source_evidence_before_legal_release": true
+    "require_source_evidence_before_legal_release": true,
+    "publication_operator": "owner_manual_Coolify"
   },
   "automatic_legal_review": {
     "automated": true,
