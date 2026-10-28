@@ -57,7 +57,10 @@ def full_official_court_act(url,case_number):
     date_pattern=r"\b(\d{1,2})\s+("+"|".join(MONTHS)+r")\s+(20\d{2})\s*года\b"
     dates=list(re.finditer(date_pattern,normalized[:1800],re.I))
     if not dates:raise ValueError("Court judgment date not observed in header")
-    d=dates[0]
+    expected_year=int(case_number.split("/")[1])
+    matches=[match for match in dates if int(match.group(3))==expected_year]
+    if not matches:raise ValueError("Judicial act date not confirmed in same year as cassation case number")
+    d=matches[0]
     day,month,year=int(d.group(1)),MONTHS[d.group(2).lower()],int(d.group(3))
     date=datetime.date(year,month,day)
     if date>datetime.datetime.now(datetime.timezone.utc).date():
