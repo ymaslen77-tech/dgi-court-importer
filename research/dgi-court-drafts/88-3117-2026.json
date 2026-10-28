@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "status": "research_draft_not_publishable",
+  "case_number": "88-3117/2026",
+  "uid": "77RS0024-01-2019-007189-21",
+  "court": "Второй кассационный суд общей юрисдикции",
+  "instance": "cassation",
+  "decision_date": "2026-02-19",
+  "full_decision_prepared_date": "2026-03-04",
+  "first_instance": {
+    "court": "Симоновский районный суд города Москвы",
+    "case_number": "2-1561/2023",
+    "date": "2023-08-24"
+  },
+  "appeal": {
+    "court": "Московский городской суд",
+    "date": "2025-06-26"
+  },
+  "subject": "Признание незаключённым договора аренды земельного участка в отношении гражданина",
+  "claimant_role": "citizen (anonymized in judicial act as ФИО1)",
+  "respondent": "Департамент городского имущества города Москвы",
+  "official_source_url": "https://2kas.sudrf.ru/modules.php?case_id=17178494&case_uid=dc226637-f874-4209-9766-6cc784ddb970&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+  "source_research_date": "2026-10-28",
+  "observed_in_indexed_official_result": {
+    "case_number_and_date": true,
+    "first_instance_granted_substantive_relief": true,
+    "appeal_reported_as_unchanged": true,
+    "cassation_result_reported_as_unchanged": true,
+    "disclaimer": "These observations come from indexed excerpts of an official court page. They are NOT proof of a freshly downloaded, complete court act or an independently verified subsequent appeal history."
+  },
+  "required_checks": {
+    "complete_official_html_retrieved_in_current_run": false,
+    "full_act_boundaries_verified": false,
+    "exact_court_number_date_instance_verified_against_full_text": false,
+    "claimant_substantive_success_verified_against_full_text": false,
+    "later_reversal_checked": false,
+    "anonymization_independently_checked": false,
+    "rights_to_republish_checked": false,
+    "independent_legal_reviewer_confirmed": false,
+    "pdf_copy_built_and_sha256_verified": false,
+    "database_cms_publication_gates_passed": false,
+    "required_pr_checks_passed": false,
+    "coolify_release_verified": false,
+    "live_search_and_pdf_verified": false
+  },
+  "blockers": [
+    "Fresh full official HTML could not be downloaded and inspected in the current execution environment; search excerpts are insufficient.",
+    "Independent legal/privacy/republication-rights and later-appeal checks remain pending.",
+    "No approved publication through CMS/DB or protected-branch PR has occurred."
+  ],
+  "publications_allowed": false,
+  "public_catalogue_change": false
+}
