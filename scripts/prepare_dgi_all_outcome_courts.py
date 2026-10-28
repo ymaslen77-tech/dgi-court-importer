@@ -124,6 +124,25 @@ def run():
     if successes:
         entries.sort(key=lambda e:(e["decision_date"],e["case_number"]),reverse=True)
         CATALOG.write_text(json.dumps(entries,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+        imported={entry["case_number"] for entry in successes}
+        for item in q["items"]:
+            if item["case_number"] in imported:
+                item["status"]="already_curated"
+                item["reason"]="Official full judicial act and PDF prepared; protected PR and owner deploy are still required"
+                item["already_curated"]=True
+                item["needs_full_act_and_history_review"]=False
+                item["needs_official_source_and_privacy_screen"]=False
+        q["current_curated_count"]=len(entries)
+        q["counts"]={
+          "total":len(q["items"]),
+          "curated":sum(x["status"]=="already_curated" for x in q["items"]),
+          "out_of_scope":sum(x["status"]=="out_of_scope" for x in q["items"]),
+          "ready_for_source_import":sum(x["status"]=="ready_for_source_import" for x in q["items"]),
+        }
+        QUEUE.write_text(json.dumps(q,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+    elif REPORT.exists():
+        print("NO_NEW_ACTS; preserve latest successful import report")
+        return
     report={"as_of":datetime.datetime.now(datetime.timezone.utc).isoformat(),
        "source_queue":str(QUEUE.relative_to(ROOT)),
        "publication_stage":"prepared_automation_branch_not_merged_or_deployed",
