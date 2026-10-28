@@ -1,0 +1,76 @@
+name: Prepare DGI official court acts of all outcomes on automation branch
+on:
+  push:
+    branches: [automation/dgi-all-court-outcomes-20261028]
+    paths:
+      - scripts/prepare_dgi_all_outcome_courts.py
+      - .github/workflows/dgi-all-outcome-courts-prep.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: dgi-all-outcome-courts-prepare
+  cancel-in-progress: false
+jobs:
+  prepare:
+    name: prepare-all-outcome-official-courts
+    if: github.ref == 'refs/heads/automation/dgi-all-court-outcomes-20261028'
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: automation/dgi-all-court-outcomes-20261028
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install official text parsing and PDF tools
+        run: |
+          python3 -m pip install --disable-pip-version-check -q beautifulsoup4 lxml reportlab
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-dejavu-core poppler-utils >/dev/null
+      - name: Prepare official DGI court acts of any result (no deployment)
+        run: python3 scripts/prepare_dgi_all_outcome_courts.py
+      - name: Verify generated PDF copies match curated SHA256 and extraction
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,subprocess
+          repo=Path('.')
+          data=json.loads((repo/'apps/web/src/data/verified-court-static.json').read_text())
+          assert len({x['case_number'] for x in data})==len(data)
+          assert len({x['official_url'] for x in data})==len(data)
+          for row in data:
+              pdf=repo/'apps/web/public/court-pdf-copies'/ (row['slug']+'.pdf')
+              b=pdf.read_bytes()
+              assert b.startswith(b'%PDF-') and hashlib.sha256(b).hexdigest()==row['pdf_sha256'],row['slug']
+              assert hashlib.sha256(row['full_text'].encode()).hexdigest()==row['full_text_sha256'],row['slug']
+              if row.get('privacy_screen_passed'):
+                  text=subprocess.run(['pdftotext',str(pdf),'-'],capture_output=True,text=True,check=True).stdout
+                  assert row['case_number'] in text and len(text)>3500,row['slug']
+          print('ALL_OFFICIAL_PDF_SHA256_VALID',len(data))
+          PY
+      - name: Commit source-checked reading copies and import report ONLY on automation branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF_NAME" = 'automation/dgi-all-court-outcomes-20261028'
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add apps/web/src/data/verified-court-static.json apps/web/public/court-pdf-copies research/dgi-court-import-report-2026-10-28.json
+          git diff --cached --check
+          if git diff --cached --quiet; then echo 'No newly eligible official acts'; exit 0; fi
+          git commit -m 'data(courts): stage source-checked all-outcome DGI acts and PDF copies'
+          git push origin HEAD:automation/dgi-all-court-outcomes-20261028
+          echo 'Automation branch prepared; protected PR, CI and owner Coolify deployment still required'
+      - name: Save non-secret report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dgi-all-outcomes-prepared-report
+          path: research/dgi-court-import-report-2026-10-28.json
+          retention-days: 14
+          if-no-files-found: warn
