@@ -1,25 +1,26 @@
 {
   "version": 1,
   "project": "dgi-pravo.ru",
-  "purpose": "Единый ежедневный процесс проверки и публикации новостей и положительной судебной практики ДГИ",
+  "purpose": "Единый ежедневный процесс новостей и официальных судебных актов ДГИ с любым исходом",
   "policy_file": "config/dgi-automation-approval-policy.json",
   "cadence": "daily",
   "orchestrator": "one ChatGPT scheduled task; no separate court-publication schedule",
   "run_order": [
-    "load_current_policy_and_state",
-    "research_news_and_courts",
-    "verify_evidence_and_duplicates_independently",
-    "stage_only_eligible_changes_in_automation_branch",
-    "protected_pr_ci_and_automerge",
-    "authorized_coolify_release",
-    "verify_live_news_and_court_pdf_urls",
-    "report_actual_counts_and_blockers"
+    "load_current_policy_and_official_source_queue",
+    "research_news_and_all_outcome_court_acts",
+    "verify_official_full_text_identifiers_privacy_and_duplicate_sources",
+    "create_PDF_reading_copies_and_stage_source_only_items_in_automation_branch",
+    "protected_PR_CI_and_automerge",
+    "notify_owner_of_merge_and_exact_SHA_for_manual_Coolify_deploy",
+    "after_owner_deploy_verify_live_news_court_cards_and_PDF_URLs",
+    "report_prepared_versus_verified_live_counts"
   ],
   "publication_limits": {
     "new_housing_news_per_run": 5,
-    "new_verified_court_acts_per_run": 5,
+    "new_verified_court_acts_per_run": null,
     "verified_court_act_goal": 100,
-    "never_pad_counts": true
+    "never_pad_counts": true,
+    "court_acts_limitation": "no_outcome_or_daily_count_cap; only available official and screened documents"
   },
   "news": {
     "enabled": true,
@@ -50,21 +51,17 @@
     "pdf_copies_dir": "apps/web/public/court-pdf-copies",
     "server_code": "apps/web/src/data/verified-courts.ts",
     "route": "/api/courts/verified",
-    "reader_mode": "curated_static_only_until_existing_database_publication_gates_are_properly_operational",
+    "reader_mode": "curated_static_source_only; DB/CMS remain restricted",
     "existing_candidate_index": "data/court-catalog.jsonl",
     "candidate_index_is_never_publication_evidence": true,
     "require_each": [
-      "accessible_full_original_official_court_act_not_search_snippet_or_card",
-      "exact_official_act_URL_number_court_date_instance_and_full_operational_disposition",
-      "citizen_claim_against_DGI_materially_granted_in_full_or_part",
-      "appeal_and_cassation_history_checked_no_known_reversal",
-      "independent_verification_of_privacy_and_right_to_republish",
-      "verified_anonymization_and_no_sensitive_personal_data",
-      "duplicate_check_by_number_official_URL_case_UID_and_document_hash",
-      "complete_text_and_legibly_labeled_reading_PDF_copy_not_disguised_as_official_PDF",
-      "SHA256_of_full_text_and_PDF_and_matching_public_file",
-      "existing_CMS_DB_publication_access_controls_and_review_fields_legitimately_satisfied",
-      "live_search_card_and_PDF_HTTP_200_after_deploy"
+      "available_full_official_court_act_text",
+      "court_case_number_and_date_match",
+      "DGI_participation_identified",
+      "duplicate_check_by_number_and_official_URL",
+      "no_obvious_unredacted_sensitive_personal_identifiers",
+      "valid_labeled_PDF_reading_copy_and_SHA256",
+      "protected_PR_and_successful_CI"
     ],
     "never_fabricate": [
       "approved_by",
@@ -74,19 +71,30 @@
       "official_signature",
       "appeal_outcome"
     ],
-    "count_toward_goal_only_if": "live_verified_case_and_pdf_are_both_accessible",
-    "on_any_missing_proof": "keep_case_draft_only_and_record_exact_blocker; continue_with_other_candidates",
+    "count_toward_goal_only_if": "owner_manual_Coolify_deploy_completed_and_live_case_and_PDF_HTTP_200_verified",
+    "on_any_missing_proof": "hold_only_unavailable_source_or_mismatched_case_or_unredacted_sensitive_document; report_reason",
     "prepublication_queue": "research/dgi-court-publication-queue-2026-10-28.json",
     "prepublication_queue_validator": "scripts/validate_dgi_court_publication_queue.py",
     "prepublication_source_research_ci": ".github/workflows/dgi-court-publication-queue.yml",
     "prepublication_queue_is_not_authorization": true,
     "research_priorities": [
-      "exclude prior published cases by official URL and case identity",
-      "never label DGI plaintiff success, cassation remand or mixed rulings as citizen win",
-      "complete each independent official-act and privacy evidence gate",
-      "batch at most five new source-verified candidate acts per protected PR",
-      "leave blocked cases in research queue with reason and official URL"
-    ]
+      "do_not_exclude_unsuccessful_or_mixed_or_remanded_court_acts",
+      "include_only_cases_involving_DGI",
+      "never_infer_outcome_from_metadata; use_not_classified_if_uncertain",
+      "batch_every_source_available_case_without_daily_court_count_cap",
+      "leave_unavailable_or_obviously_identifying_documents_in_queue_with_reason"
+    ],
+    "allowed_outcomes": [
+      "applicant_granted",
+      "applicant_partially_granted",
+      "claim_granted",
+      "claim_denied",
+      "mixed",
+      "remanded",
+      "not_classified"
+    ],
+    "source_import_script": "scripts/prepare_dgi_all_outcome_courts.py",
+    "source_import_workflow": ".github/workflows/dgi-all-outcome-courts-prep.yml"
   },
   "release": {
     "repository": "ymaslen77-tech/dgi-court-importer",
@@ -103,10 +111,11 @@
     ],
     "merging": "authorized_auto_merge_only_after_all_required_final_SHA_checks",
     "infrastructure_repository": "ymaslen77-tech/vps-infrastructure",
-    "deploy": "authorized_explicit_Coolify_only_after_valid_merge_and_exact_commit_verification",
+    "deploy": "owner_manually_deploys_approved_merged_branch_via_Coolify",
     "verify_production_commit": true,
     "verify_every_new_news_URL_and_every_new_court_case_and_PDF_URL": true,
-    "if_unavailable": "do_not_bypass_ruleset_or_source_gates; report blocker_and_zero_unverified_live_publications"
+    "if_unavailable": "do_not_bypass_source_Privacy_CI_or_protected_PR; report_prepared_count_and_not_yet_live",
+    "owner_action_required": "owner_press_Deploy_after_PR_merged_and_exact_SHA_report"
   },
   "notification": {
     "one_daily_summary_for_both_tracks": true,
