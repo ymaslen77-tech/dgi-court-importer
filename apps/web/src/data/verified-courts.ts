@@ -71,6 +71,27 @@ export async function searchVerifiedCourtActs(q: string): Promise<VerifiedCase[]
   ).slice(0, 500).map(({ full_text: _text, full_text_sha256: _sha, source_checked: _source,
     privacy_checked: _legacyPrivacy, privacy_screen_passed: _privacyScreen, ...summary }) => summary);
 }
+// Public indexing is limited to the same source/privacy-gated static records
+// served by the existing court PDF and search endpoints. No CMS draft reads.
+export type PublicCourtCase = VerifiedCase & { full_text: string; full_text_sha256: string };
+export function getPublicCourtCase(slug: string): PublicCourtCase | undefined {
+  if (!/^[a-z0-9][a-z0-9-]{2,159}$/.test(slug)) return undefined;
+  const row = curatedCases.find(item => item.slug === slug && isOfficialPublishedCase(item));
+  if (!row) return undefined;
+  return {
+    slug: row.slug, case_number: row.case_number, court_name: row.court_name,
+    decision_date: row.decision_date, act_type: row.act_type, topic: row.topic,
+    official_url: row.official_url, official_pdf_url: row.official_pdf_url,
+    pdf_sha256: row.pdf_sha256, excerpt: row.excerpt, pdf_origin: row.pdf_origin,
+    outcome_verified: row.outcome_verified, outcome_evidence: row.outcome_evidence,
+    full_text: row.full_text, full_text_sha256: row.full_text_sha256,
+  };
+}
+export function listPublicCourtCaseSlugs(): Array<{ slug: string; decision_date: string }> {
+  return curatedCases.filter(isOfficialPublishedCase)
+    .map(row => ({ slug: row.slug, decision_date: row.decision_date }));
+}
+
 export type VerifiedPdf = { bytes: Buffer; sha256: string; officialPdfUrl: string };
 export async function readVerifiedCourtPdf(slug: string): Promise<VerifiedPdf | null> {
   if (!/^[a-z0-9][a-z0-9-]{2,159}$/.test(slug)) return null;
