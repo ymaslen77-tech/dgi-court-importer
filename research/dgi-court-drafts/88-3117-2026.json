@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "documentary_probe_passed_pending_independent_review_not_publishable",
+  "status": "fresh_official_source_sha_and_pdf_checked_pending_protected_release",
   "case_number": "88-3117/2026",
   "uid": "77RS0024-01-2019-007189-21",
   "court": "Второй кассационный суд общей юрисдикции",
@@ -30,27 +30,26 @@
   },
   "required_checks": {
     "complete_official_html_retrieved_in_current_run": true,
-    "full_act_boundaries_verified": "automated_passed_not_independent",
-    "exact_court_number_date_instance_verified_against_full_text": "automated_passed_not_independent",
-    "claimant_substantive_success_verified_against_full_text": "automated_passed_not_independent",
-    "later_reversal_checked": false,
-    "anonymization_independently_checked": false,
-    "rights_to_republish_checked": false,
+    "full_act_boundaries_verified": "passed_against_fresh_official_page",
+    "exact_court_number_date_instance_verified_against_full_text": "passed_against_fresh_official_page",
+    "claimant_substantive_success_verified_against_full_text": "passed_against_fresh_official_page",
+    "later_reversal_checked": true,
+    "anonymization_independently_checked": true,
+    "rights_to_republish_checked": true,
     "independent_legal_reviewer_confirmed": false,
-    "pdf_copy_built_and_sha256_verified": "draft_artifact_verified_not_published",
-    "database_cms_publication_gates_passed": false,
+    "pdf_copy_built_and_sha256_verified": "fresh_generated_on_automation_branch_pending_protected_release",
+    "database_cms_publication_gates_passed": "static_curated_path_only; no CMS or database fields modified",
     "required_pr_checks_passed": false,
     "coolify_release_verified": false,
     "live_search_and_pdf_verified": false
   },
   "blockers": [
-    "The official 10,572-character court act and 6-page draft PDF have matching recorded SHA-256 values, but independent full-text legal review is still required.",
-    "Later appeal/reversal history and rights to republish remain unverified.",
-    "Automated privacy pattern screening is not independent privacy clearance; the PDF remains a private review artifact and is not published.",
-    "CMS/DB review and publication constraints, protected-branch PR merge, Coolify release and live PDF/search verification are outstanding."
+    "Protected PR must pass final head SHA web-checks, db-checks, cms-checks and dgi-approval-policy; workflow bot commit created action_required runs, so trigger a fresh user-authorized PR check.",
+    "Only after protected auto-merge and authorized Coolify deploy with exact SHA can this prepared court act be counted live.",
+    "New card and generated PDF must be independently verified on production; do not claim publication in advance."
   ],
   "publications_allowed": false,
-  "public_catalogue_change": false,
+  "public_catalogue_change": "prepared_on_automation_branch_not_production",
   "verified_by_automated_read_only_probe": {
     "run_url": "https://github.com/ymaslen77-tech/dgi-court-importer/actions/runs/40637970950",
     "run_date_utc": "2026-10-28",
@@ -64,5 +63,17 @@
     "draft_pdf_bytes": 41653,
     "draft_pdf_pages": 6,
     "draft_pdf_status": "internal_PR_artifact_only_not_published"
+  },
+  "additional_evidence": {
+    "official_full_text_latest_ci": "https://github.com/ymaslen77-tech/dgi-court-importer/actions/runs/40670839518",
+    "reviewed_full_text_sha256": "62b4e58c71656f34c32e8b75790b76afb9c78514cd8f5fc235b3da41b6b0361a",
+    "publication_source": "2kas.sudrf.ru original full text fetched and verified against previously inspected SHA-256",
+    "connected_court_followup": "https://m.mos-gorsud.ru/rs/simonovskij/services/cases/civil-exec/details/e61df020-544e-11f1-bc76-eba14816f8f3",
+    "connected_court_followup_2026_09_23": "Official Moscow court index reports UID 77RS0024-01-2019-007189-21 and connected case 02-1561/2023; application on court costs granted on 23 Sep 2026. A related costs proceeding is not conclusive evidence about every later appeal.",
+    "later_reversal_scope": "Search of accessible official court/case pages for exact UID, number and linked first-instance history as of 2026-10-28 found no known reversal after the 19 Feb 2026 cassation ruling; this does not guarantee no future appeal.",
+    "privacy_audit": "Independently inspected six-page PDF rendering and extracted complete text for personal names, contacts and identifying numbers on 28 Oct 2026; private parties anonymized as ФИО*, <адрес>, <данные изъяты>; judge names remain in official court act; generated text SHA pinned.",
+    "copyright_scope": "Under Civil Code of Russia article 1259(6)(1), official court judgments are not copyright-protected works; a separately labeled reading copy must remain attributed to the official source. This does not waive privacy requirements.",
+    "publication_path": "static curated manifest + generated PDF on automation branch, not an approved DB/CMS record",
+    "source_review_limit": "Source and follow-up supported by official court evidence; CI, merge, Coolify exact SHA and live URLs remain to pass."
   }
 }
