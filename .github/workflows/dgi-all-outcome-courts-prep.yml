@@ -61,7 +61,8 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add apps/web/src/data/verified-court-static.json apps/web/public/court-pdf-copies research/dgi-court-import-report-2026-10-28.json
-          git diff --cached --check
+          # PDF reading copies are binary; whitespace checking applies to JSON only.
+          git diff --cached --check -- apps/web/src/data/verified-court-static.json research/dgi-court-import-report-2026-10-28.json
           if git diff --cached --quiet; then echo 'No newly eligible official acts'; exit 0; fi
           git commit -m 'data(courts): stage source-checked all-outcome DGI acts and PDF copies'
           git push origin HEAD:automation/dgi-all-court-outcomes-20261028
