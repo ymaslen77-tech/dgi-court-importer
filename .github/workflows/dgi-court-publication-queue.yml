@@ -1,0 +1,49 @@
+name: DGI court publication candidate preparation — research only
+on:
+  pull_request:
+    branches: [infra/coolify-russian-vps]
+    paths:
+      - research/dgi-court-publication-queue-2026-10-28.json
+      - scripts/validate_dgi_court_publication_queue.py
+      - .github/workflows/dgi-court-publication-queue.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: dgi-court-candidate-review-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  candidate-queue:
+    name: court-queue-safety
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Validate all existing and newly discovered candidates
+        run: python3 scripts/validate_dgi_court_publication_queue.py
+  official-source-probe:
+    name: court-source-research-only
+    needs: candidate-queue
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install parser
+        run: python3 -m pip install --disable-pip-version-check -q beautifulsoup4 lxml
+      - name: Probe only non-published candidate full court acts; never mark approved
+        run: python3 scripts/validate_dgi_court_publication_queue.py --probe --max 6
+      - name: Store restricted research summary only (no private names, raw acts or PDFs)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dgi-court-candidate-review-research-only
+          path: test-results/dgi-court-research-probe.json
+          retention-days: 14
+          if-no-files-found: warn

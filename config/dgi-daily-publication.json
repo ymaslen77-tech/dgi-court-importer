@@ -75,7 +75,18 @@
       "appeal_outcome"
     ],
     "count_toward_goal_only_if": "live_verified_case_and_pdf_are_both_accessible",
-    "on_any_missing_proof": "keep_case_draft_only_and_record_exact_blocker; continue_with_other_candidates"
+    "on_any_missing_proof": "keep_case_draft_only_and_record_exact_blocker; continue_with_other_candidates",
+    "prepublication_queue": "research/dgi-court-publication-queue-2026-10-28.json",
+    "prepublication_queue_validator": "scripts/validate_dgi_court_publication_queue.py",
+    "prepublication_source_research_ci": ".github/workflows/dgi-court-publication-queue.yml",
+    "prepublication_queue_is_not_authorization": true,
+    "research_priorities": [
+      "exclude prior published cases by official URL and case identity",
+      "never label DGI plaintiff success, cassation remand or mixed rulings as citizen win",
+      "complete each independent official-act and privacy evidence gate",
+      "batch at most five new source-verified candidate acts per protected PR",
+      "leave blocked cases in research queue with reason and official URL"
+    ]
   },
   "release": {
     "repository": "ymaslen77-tech/dgi-court-importer",
