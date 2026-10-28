@@ -19,7 +19,7 @@ test("production may index, but preview environment stays noindex and robots-dis
   assert.match(config,/X-Robots-Tag/);
   assert.match(config,/noindex, nofollow, noarchive/);
   assert.match(robots,/if \(!siteIsLive\)/);
-  assert.match(robots,/disallow:"\/"/); // preview robots is closed
+  assert.match(robots,/disallow:\s*"\/"/); // preview robots is closed
 });
 
 test("sitemap includes published news and full-text court pages with canonical production host", () => {
