@@ -1,0 +1,39 @@
+name: DGI 88-3117 official act research (no publication)
+on:
+  pull_request:
+    branches: [infra/coolify-russian-vps]
+    paths:
+      - research/dgi-court-drafts/88-3117-2026.json
+      - scripts/probe-dgi-88-3117-official.py
+      - .github/workflows/probe-dgi-88-3117-official.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  official-act-probe:
+    name: official-act-probe
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install official HTML parsing requirements
+        run: python -m pip install --disable-pip-version-check beautifulsoup4 lxml reportlab
+      - name: Install PDF text verification tools
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils fonts-dejavu-core >/dev/null
+      - name: Read and validate the full anonymized court act (never publish)
+        run: python3 scripts/probe-dgi-88-3117-official.py
+      - name: Keep non-personal documentary verification report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dgi-88-3117-official-source-probe
+          path: |
+            test-results/88-3117-source-probe.json
+            test-results/88-3117-DRAFT-not-court-original.pdf
+          if-no-files-found: warn
+          retention-days: 14
