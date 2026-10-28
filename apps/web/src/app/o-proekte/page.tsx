@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageShell } from "@/components/PageShell";
 import { factualSocialMetadata } from "@/data/seo-social";
+import { siteIsLive, siteOrigin } from "@/data/pages";
 
 const title = "О проекте и источниках";
 const description = "Независимый справочник по жилищным вопросам Москвы и ссылки на официальные правовые источники.";
@@ -8,7 +9,8 @@ export const metadata: Metadata = {
   title: { absolute: title + " | Жилищные вопросы Москвы" },
   description,
   ...factualSocialMetadata("o-proekte", title, description),
-  robots: { index: false, follow: false },
+  alternates: siteIsLive ? { canonical: new URL("/o-proekte", siteOrigin).toString() } : undefined,
+  robots: { index: siteIsLive, follow: siteIsLive },
 };
 
 export default function EditorialPolicyPage() {
