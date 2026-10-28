@@ -37,28 +37,32 @@
     "anonymization_independently_checked": false,
     "rights_to_republish_checked": false,
     "independent_legal_reviewer_confirmed": false,
-    "pdf_copy_built_and_sha256_verified": false,
+    "pdf_copy_built_and_sha256_verified": "draft_artifact_verified_not_published",
     "database_cms_publication_gates_passed": false,
     "required_pr_checks_passed": false,
     "coolify_release_verified": false,
     "live_search_and_pdf_verified": false
   },
   "blockers": [
-    "The official 10,572-character court text was fetched and hashed by a read-only CI probe, but independent full-text legal review is still required.",
+    "The official 10,572-character court act and 6-page draft PDF have matching recorded SHA-256 values, but independent full-text legal review is still required.",
     "Later appeal/reversal history and rights to republish remain unverified.",
-    "Automated privacy pattern screening is not independent privacy clearance; no PDF has been approved or published.",
+    "Automated privacy pattern screening is not independent privacy clearance; the PDF remains a private review artifact and is not published.",
     "CMS/DB review and publication constraints, protected-branch PR merge, Coolify release and live PDF/search verification are outstanding."
   ],
   "publications_allowed": false,
   "public_catalogue_change": false,
   "verified_by_automated_read_only_probe": {
-    "run_url": "https://github.com/ymaslen77-tech/dgi-court-importer/actions/runs/40637840676",
+    "run_url": "https://github.com/ymaslen77-tech/dgi-court-importer/actions/runs/40637970950",
     "run_date_utc": "2026-10-28",
     "official_html_sha256": "62d1234ce214dbd0d0067edfab79baa15cc25a8bb1ce55fc34e5f5e8ad640d15",
     "full_text_sha256": "62b4e58c71656f34c32e8b75790b76afb9c78514cd8f5fc235b3da41b6b0361a",
     "full_text_characters": 10572,
     "anonymization_marker_count": 25,
     "source_act_outcome_automatic_patterns": "passed",
-    "disclaimer": "These are machine-verifiable document checks, NOT independent legal, privacy, rights, appeal-finality or publication approvals."
+    "disclaimer": "These are machine-verifiable document checks, NOT independent legal, privacy, rights, appeal-finality or publication approvals.",
+    "draft_pdf_sha256": "88a3b7c6961bb53590dcac0b35d0b43ffe67f7e22be17b8aedb6c6b33f75c28e",
+    "draft_pdf_bytes": 41653,
+    "draft_pdf_pages": 6,
+    "draft_pdf_status": "internal_PR_artifact_only_not_published"
   }
 }
