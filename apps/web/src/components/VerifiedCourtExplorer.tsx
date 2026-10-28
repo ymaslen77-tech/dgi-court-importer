@@ -4,6 +4,15 @@ import { useEffect, useRef, useState } from "react";
 import type { VerifiedCase } from "@/data/verified-courts";
 
 type SearchResult = { items: VerifiedCase[] };
+const outcomeLabels: Record<string, string> = {
+  applicant_granted: "Требования гражданина удовлетворены",
+  applicant_partially_granted: "Требования удовлетворены частично",
+  claim_granted: "Иск удовлетворён",
+  claim_denied: "В иске отказано",
+  mixed: "Смешанный результат",
+  remanded: "Направлено на новое рассмотрение",
+  not_classified: "Исход — см. текст судебного акта",
+};
 const actNames: Record<string, string> = {
   decision: "Решение", ruling: "Определение", judgment: "Приговор",
   order: "Постановление", other: "Судебный акт",
@@ -67,19 +76,19 @@ export function VerifiedCourtExplorer() {
     </form>
     <p className="results-count" role="status" aria-live="polite">
       {busy ? "Поиск…" : error ? error :
-        items.length ? `Найдено положительных судебных актов: ${items.length}` :
-        query.trim() ? "По вашему запросу проверенных решений пока нет." :
-        "Положительные судебные акты пока не опубликованы."}
+        items.length ? `Найдено судебных актов: ${items.length}` :
+        query.trim() ? "По вашему запросу судебных актов пока нет." :
+        "Судебные акты пока не опубликованы."}
     </p>
     {!busy && !error && items.length === 0 && <div className="verified-empty">
-      <p>В подборку входят только проверенные дела с положительным результатом для заявителя и полным судебным актом.</p>
+      <p>В каталоге размещаются официально опубликованные судебные акты с различными исходами. PDF является копией для чтения, а не заверенным судом документом.</p>
       <a href="https://mos-gorsud.ru/search" target="_blank" rel="noopener noreferrer">
         Поиск на официальном портале московских судов ↗
       </a>
     </div>}
     {items.length > 0 && <div className="verified-case-grid">
       {items.map(item => <article className="verified-case" key={item.slug}>
-        <div className="verified-case-meta"><span>{item.outcome_verified === "applicant_partially_granted" ? "Требования удовлетворены частично" : "Требования удовлетворены"}</span>
+        <div className="verified-case-meta"><span>{outcomeLabels[item.outcome_verified] || outcomeLabels.not_classified}</span>
           <time dateTime={item.decision_date}>{item.decision_date}</time></div>
         <h2>{actNames[item.act_type] || "Судебный акт"} по делу № {item.case_number}</h2>
         <p>{item.court_name}</p>
