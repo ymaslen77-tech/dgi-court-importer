@@ -20,14 +20,19 @@ test("production site is gated by individual legal-editorial approval", () => {
   assert.ok(markup.includes("!canIndexPage(page)"));
 });
 
-test("unreviewed court archives never enter published sitemap", () => {
+test("draft and retired court archives stay out of sitemap while source-checked cases are discoverable", () => {
   const sitemap = read("apps/web/src/app/sitemap.ts");
   const courtIndex = read("apps/web/src/app/sudebnaya-praktika-dgi/page.tsx");
+  const detail = read("apps/web/src/app/sudebnaya-praktika-dgi/[slug]/page.tsx");
+  const adapter = read("apps/web/src/data/verified-courts.ts");
   assert.ok(sitemap.includes("listPublishedEditorialSlugs()"));
   assert.ok(!sitemap.includes("migratedPages"));
-  assert.ok(sitemap.includes('slug !== "sudebnaya-praktika-dgi"'));
-  assert.ok(sitemap.includes('!slug.startsWith("dgi-court-cases/")'));
-  assert.ok(courtIndex.includes("index: false, follow: false"));
+  assert.ok(sitemap.includes('slug.startsWith("dgi-court-cases/")'));
+  assert.ok(sitemap.includes("listPublicCourtCaseSlugs()"));
+  assert.ok(sitemap.includes("if (!siteIsLive) return []"));
+  assert.ok(courtIndex.includes("index: siteIsLive, follow: siteIsLive"));
+  assert.ok(detail.includes("getPublicCourtCase(slug)"));
+  assert.ok(adapter.includes("isOfficialPublishedCase(row)"));
 });
 
 test("migration branch permits private Vercel previews but not unapproved public content", () => {

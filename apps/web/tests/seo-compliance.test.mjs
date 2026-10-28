@@ -33,7 +33,7 @@ test("SEO social tags come from the actual page and never open legal drafts",()=
  assert.match(court,/factualSocialMetadata\("sudebnaya-praktika-dgi"/);
  assert.match(social,/new URL\(path, "https:\/\/dgi-pravo.ru"\)/);
  assert.match(routes,/canIndexPage\(page\)/);
- assert.match(root,/robots: \{ index: false, follow: false \}/);
+ assert.match(root,/robots: \{ index: siteIsLive, follow: siteIsLive \}/);
 });
 test("no unapproved legal page leaks into sitemap, canonical or rich results",()=>{
  const pagesConfig=read("src/data/pages.ts");
@@ -46,6 +46,8 @@ test("no unapproved legal page leaks into sitemap, canonical or rich results",()
  assert.match(pagesConfig,/editoriallyApproved === true/);
  assert.match(sitemap,/if \(!siteIsLive\) return \[\]/);
  assert.match(sitemap,/listPublishedEditorialSlugs/);
+ assert.match(sitemap,/listHousingNews/);
+ assert.match(sitemap,/listPublicCourtCaseSlugs/);
  assert.match(robots,/disallow: "\/"/);
  assert.match(config,/noindex, nofollow, noarchive/);
  assert.match(structured,/if \(!canIndexPage\(page\)\) return null/);
@@ -58,5 +60,5 @@ test("legal editorial policy is visible site-wide without made-up credentials",(
  assert.match(policy,/pravo.gov.ru/);
  assert.match(policy,/vestnikmoscow.mos.ru/);
  assert.match(shell,/Независимый информационно-правовой справочник/);
- assert.match(policy,/robots: \{ index: false, follow: false \}/);
+ assert.match(policy,/robots: \{ index: siteIsLive, follow: siteIsLive \}/);
 });

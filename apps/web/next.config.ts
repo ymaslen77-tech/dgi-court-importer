@@ -10,7 +10,11 @@ const releaseApproved = (() => {
       origin.protocol === "https:" && !origin.username && !origin.password &&
       !origin.port && origin.pathname === "/" && !origin.search && !origin.hash &&
       host !== "localhost" && host !== "127.0.0.1" &&
-      !host.endsWith(".webflow.io") && !host.endsWith(".webflow.com");
+      !host.endsWith(".webflow.io") && !host.endsWith(".webflow.com") &&
+      (host === "dgi-pravo.ru" ||
+        (process.env.CI === "true" &&
+          process.env.DATABASE_URL?.includes("housing_ci") &&
+          host === "example.org"));
   } catch { return false; }
 })();
 
