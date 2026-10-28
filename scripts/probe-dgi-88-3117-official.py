@@ -6,9 +6,11 @@ approval fields. A positive automated result is NOT independent legal,
 privacy, rights-to-republish or later-appeal approval.
 """
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
 import re
+import subprocess
 import sys
 import time
 from urllib.error import HTTPError, URLError
@@ -20,6 +22,7 @@ from bs4.dammit import UnicodeDammit
 
 DRAFT = Path("research/dgi-court-drafts/88-3117-2026.json")
 REPORT = Path("test-results/88-3117-source-probe.json")
+DRAFT_PDF = Path("test-results/88-3117-DRAFT-not-court-original.pdf")
 AGENT = "DGI-ReadOnly-Official-Act-Research/1.0"
 
 
@@ -125,7 +128,34 @@ def main():
         raw, body = get_official_act(record["official_source_url"])
         report["official_html_sha256"] = hashlib.sha256(raw).hexdigest()
         report.update(inspect(body, record))
-        report["status"] = "documentary_checks_passed_but_publication_blocked"
+        # Produce only an internal PR artifact for independent review. Never
+        # stage, commit, deploy or link this PDF from the production website.
+        builder_path = Path("scripts/build-official-court-pdf-copies.py")
+        spec = importlib.util.spec_from_file_location("dgi_pdf_builder", builder_path)
+        builder = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(builder)
+        builder.build_pdf(
+            DRAFT_PDF,
+            {"number": record["case_number"], "court": record["court"]},
+            body,
+            record["official_source_url"],
+        )
+        pdf = DRAFT_PDF.read_bytes()
+        if not pdf.startswith(b"%PDF-") or len(pdf) < 12000:
+            raise ValueError("draft PDF missing or incomplete")
+        extracted = subprocess.run(
+            ["pdftotext", "-layout", str(DRAFT_PDF), "-"],
+            check=True, capture_output=True, text=True,
+        ).stdout
+        if record["case_number"] not in extracted or "Судьи" not in extracted:
+            raise ValueError("draft PDF lacks official court act boundaries")
+        if len(compact(extracted)) < 0.88 * len(compact(body)):
+            raise ValueError("draft PDF omits significant official court text")
+        report["draft_pdf_sha256"] = hashlib.sha256(pdf).hexdigest()
+        report["draft_pdf_bytes"] = len(pdf)
+        report["draft_pdf_artifact_only"] = True
+        report["pdf_generated"] = True
+        report["status"] = "documentary_checks_passed_draft_pdf_prepared_publication_blocked"
         print("DOCUMENTARY_SOURCE_PROBE_OK", record["case_number"],
               "text_chars", report["full_text_characters"],
               "text_sha256", report["source_text_sha256"])
