@@ -22,7 +22,9 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install official HTML parsing requirements
-        run: python -m pip install --disable-pip-version-check beautifulsoup4 lxml
+        run: python -m pip install --disable-pip-version-check beautifulsoup4 lxml reportlab
+      - name: Install PDF text verification tools
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils fonts-dejavu-core >/dev/null
       - name: Read and validate the full anonymized court act (never publish)
         run: python3 scripts/probe-dgi-88-3117-official.py
       - name: Keep non-personal documentary verification report
@@ -30,6 +32,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: dgi-88-3117-official-source-probe
-          path: test-results/88-3117-source-probe.json
+          path: |
+            test-results/88-3117-source-probe.json
+            test-results/88-3117-DRAFT-not-court-original.pdf
           if-no-files-found: warn
           retention-days: 14
