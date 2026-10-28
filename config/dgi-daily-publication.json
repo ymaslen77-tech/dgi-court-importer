@@ -1,0 +1,113 @@
+{
+  "version": 1,
+  "project": "dgi-pravo.ru",
+  "purpose": "Единый ежедневный процесс проверки и публикации новостей и положительной судебной практики ДГИ",
+  "policy_file": "config/dgi-automation-approval-policy.json",
+  "cadence": "daily",
+  "orchestrator": "one ChatGPT scheduled task; no separate court-publication schedule",
+  "run_order": [
+    "load_current_policy_and_state",
+    "research_news_and_courts",
+    "verify_evidence_and_duplicates_independently",
+    "stage_only_eligible_changes_in_automation_branch",
+    "protected_pr_ci_and_automerge",
+    "authorized_coolify_release",
+    "verify_live_news_and_court_pdf_urls",
+    "report_actual_counts_and_blockers"
+  ],
+  "publication_limits": {
+    "new_housing_news_per_run": 5,
+    "new_verified_court_acts_per_run": 5,
+    "verified_court_act_goal": 100,
+    "never_pad_counts": true
+  },
+  "news": {
+    "enabled": true,
+    "data_file": "apps/web/src/data/housing-news.json",
+    "schema": "apps/web/src/data/housing-news.ts#HousingNewsArticle",
+    "base_url": "https://dgi-pravo.ru/novosti-zhilishchnogo-prava",
+    "preferred_age_hours": [
+      24,
+      72
+    ],
+    "max_age_days": 7,
+    "require_accessible_official_primary_source": true,
+    "verify": [
+      "source_URL_and_published_date",
+      "title_and_relevant_Moscow_or_Moscow_region_location",
+      "all_numbers_and_addresses",
+      "current_status_of_procedure_or_norm",
+      "unique_slug_sourceUrl_and_topic",
+      "original_three_to_five_readable_sections"
+    ],
+    "normative_claims_require": "official_current_act_exact_quote_effective_date_and_legal_evidence_gate",
+    "on_unverified_normative_claim": "omit_claim_or_article; never assert a press release is an effective law"
+  },
+  "courts": {
+    "enabled": true,
+    "public_url": "https://dgi-pravo.ru/sudebnaya-praktika-dgi",
+    "published_manifest": "apps/web/src/data/verified-court-static.json",
+    "pdf_copies_dir": "apps/web/public/court-pdf-copies",
+    "server_code": "apps/web/src/data/verified-courts.ts",
+    "route": "/api/courts/verified",
+    "reader_mode": "curated_static_only_until_existing_database_publication_gates_are_properly_operational",
+    "existing_candidate_index": "data/court-catalog.jsonl",
+    "candidate_index_is_never_publication_evidence": true,
+    "require_each": [
+      "accessible_full_original_official_court_act_not_search_snippet_or_card",
+      "exact_official_act_URL_number_court_date_instance_and_full_operational_disposition",
+      "citizen_claim_against_DGI_materially_granted_in_full_or_part",
+      "appeal_and_cassation_history_checked_no_known_reversal",
+      "independent_verification_of_privacy_and_right_to_republish",
+      "verified_anonymization_and_no_sensitive_personal_data",
+      "duplicate_check_by_number_official_URL_case_UID_and_document_hash",
+      "complete_text_and_legibly_labeled_reading_PDF_copy_not_disguised_as_official_PDF",
+      "SHA256_of_full_text_and_PDF_and_matching_public_file",
+      "existing_CMS_DB_publication_access_controls_and_review_fields_legitimately_satisfied",
+      "live_search_card_and_PDF_HTTP_200_after_deploy"
+    ],
+    "never_fabricate": [
+      "approved_by",
+      "reviewed_by",
+      "privacy_checked",
+      "published_at",
+      "official_signature",
+      "appeal_outcome"
+    ],
+    "count_toward_goal_only_if": "live_verified_case_and_pdf_are_both_accessible",
+    "on_any_missing_proof": "keep_case_draft_only_and_record_exact_blocker; continue_with_other_candidates"
+  },
+  "release": {
+    "repository": "ymaslen77-tech/dgi-court-importer",
+    "production_branch": "infra/coolify-russian-vps",
+    "prohibit_direct_push_to_production": true,
+    "development_branch_prefix": "automation/dgi-",
+    "required_ruleset": "DGI - Production Protection",
+    "required_ruleset_enforcement": "active",
+    "required_checks": [
+      "web-checks",
+      "db-checks",
+      "cms-checks",
+      "dgi-approval-policy"
+    ],
+    "merging": "authorized_auto_merge_only_after_all_required_final_SHA_checks",
+    "infrastructure_repository": "ymaslen77-tech/vps-infrastructure",
+    "deploy": "authorized_explicit_Coolify_only_after_valid_merge_and_exact_commit_verification",
+    "verify_production_commit": true,
+    "verify_every_new_news_URL_and_every_new_court_case_and_PDF_URL": true,
+    "if_unavailable": "do_not_bypass_ruleset_or_source_gates; report blocker_and_zero_unverified_live_publications"
+  },
+  "notification": {
+    "one_daily_summary_for_both_tracks": true,
+    "include": [
+      "date",
+      "news_newly_live_count_and_links",
+      "courts_newly_live_count_and_links",
+      "total_verified_courts_visible",
+      "checks_and_deploy_outcome",
+      "blocked_candidates_with_reasons"
+    ],
+    "never_call_draft_or_successful_CI_a_live_publication": true,
+    "no_routine_owner_approvals": true
+  }
+}
