@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { siteIsLive } from "@/data/pages";
 import "./globals.css";
 
 // Absolute production host for share previews. Does not enable indexing.
@@ -26,8 +27,9 @@ export const metadata: Metadata = {
     title: brand,
     description,
   },
-  // Noindex is still required until legal and editorial approval.
-  robots: { index: false, follow: false },
+  // Production pages may be indexed; drafts and staging remain closed.
+  // Each unpublished/preview-only route can still override this with noindex.
+  robots: { index: siteIsLive, follow: siteIsLive },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
