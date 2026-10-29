@@ -70,7 +70,7 @@ def full_official_court_act(url,case_number):
     # "Определение изготовлено 23 января 2025 года" is NOT that heading.
     header=re.search(r"(?im)^\s*О\s*П\s*Р\s*Е\s*Д\s*Е\s*Л\s*Е\s*Н\s*И\s*Е\s*$",body[:2800])
     if not header:raise ValueError("Official decision heading not located")
-    date_pattern=r"[«\"“]?\s*(\d{1,2})\s*[»\"”]?\s+("+"|".join(MONTHS)+r")\s+(20\d{2})\s*(?:года\b|г\\.)"
+    date_pattern=r"[«\"“]?\s*(\d{1,2})\s*[»\"”]?\s+("+"|".join(MONTHS)+r")\s+(20\d{2})\s*(?:года\b|г[.])"
     after_heading=re.sub(r"\s+"," ",body[header.end():header.end()+480])
     d=re.search(date_pattern,after_heading,re.I)
     if d and re.search(r"изготовлен[оа]?\s*$",after_heading[max(0,d.start()-45):d.start()],re.I):
