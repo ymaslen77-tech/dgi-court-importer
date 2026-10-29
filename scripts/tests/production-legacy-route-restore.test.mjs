@@ -22,10 +22,13 @@ test("all 33 existing editorial URLs can render regardless of CMS publication av
   assert.doesNotMatch(catchall,/!siteIsLive\s*\?\s*getMigratedPage/);
 });
 
-test("restored snapshots remain noindex unless independently approved; no sitemap leakage",()=>{
+test("existing 33 owner-released public snapshots can index, while CMS drafts remain restricted",()=>{
   assert.match(home,/canIndexPage\(page\)\s*\?\s*\{ index: true, follow: true \}\s*:\s*\{ index: false, follow: false \}/);
   assert.match(catchall,/canIndexPage\(page\)\s*\?\s*\{ index: true, follow: true \}\s*:\s*\{ index: false, follow: false \}/);
   assert.match(pages,/siteIsLive && page.editoriallyApproved === true/);
+  assert.match(pages,/ownerReleasedLegacySlugs.has\(page.slug\)/);
+  assert.match(pages,/getMigratedPage\(page.slug\) === page/);
+  assert.match(sitemap,/listOwnerReleasedLegacySlugs\(\)/);
   assert.match(sitemap,/listPublishedEditorialSlugs\(\)/);
   assert.doesNotMatch(sitemap,/migratedPages/);
 });
