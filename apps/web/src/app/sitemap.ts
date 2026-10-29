@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { siteIsLive, siteOrigin } from "@/data/pages";
+import { siteIsLive, siteOrigin, listOwnerReleasedLegacySlugs } from "@/data/pages";
 import { listPublishedEditorialSlugs } from "@/data/published";
 import { listPublishedCourtActSlugs, courtActBasePath } from "@/data/court-fulltext";
 import { listPublicCourtCaseSlugs } from "@/data/verified-courts";
@@ -14,6 +14,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   function add(path: string, options: Omit<MetadataRoute.Sitemap[number], "url"> = {}) {
     const url = new URL(path, siteOrigin).toString();
     entries.set(url, {url, ...options});
+  }
+
+  // Existing owner-released editorial routes are indexable even before they
+  // have corresponding approved CMS rows. This fixed legacy whitelist is not
+  // permission to expose draft CMS records, preview legal research or archives.
+  for (const slug of listOwnerReleasedLegacySlugs()) {
+    if (slug === "sudebnaya-praktika-dgi" ||
+        slug === housingNewsBase.slice(1)) continue; // dedicated public routes
+    add(slug ? "/" + slug : "/", {
+      changeFrequency: "monthly", priority: slug ? 0.7 : 1,
+    });
   }
 
   // Only CMS entries already approved for public release; no draft inventory.

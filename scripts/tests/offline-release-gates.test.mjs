@@ -4,13 +4,14 @@ import { test } from "node:test";
 
 const read = (name) => readFileSync(new URL("../../" + name, import.meta.url), "utf8");
 
-test("production site is gated by individual legal-editorial approval", () => {
+test("production legal publications are gated while existing owner-released routes stay indexable", () => {
   const pages = read("apps/web/src/data/pages.ts");
   const adapter = read("apps/web/src/data/published.ts");
   const home = read("apps/web/src/app/page.tsx");
   const detail = read("apps/web/src/app/[...slug]/page.tsx");
   const markup = read("apps/web/src/components/SeoMarkup.tsx");
   assert.ok(pages.includes("siteIsLive && page.editoriallyApproved === true"));
+  assert.ok(pages.includes("ownerReleasedLegacySlugs.has(page.slug)"));
   assert.ok(adapter.includes("editoriallyApproved: true"));
   assert.ok(adapter.includes("editorial_status = 'published'"));
   // Display fallback preserves legacy routes, but cannot grant indexing rights.
@@ -29,6 +30,7 @@ test("draft and retired court archives stay out of sitemap while source-checked 
   const detail = read("apps/web/src/app/sudebnaya-praktika-dgi/[slug]/page.tsx");
   const adapter = read("apps/web/src/data/verified-courts.ts");
   assert.ok(sitemap.includes("listPublishedEditorialSlugs()"));
+  assert.ok(sitemap.includes("listOwnerReleasedLegacySlugs()"));
   assert.ok(!sitemap.includes("migratedPages"));
   assert.ok(sitemap.includes('slug.startsWith("dgi-court-cases/")'));
   assert.ok(sitemap.includes("listPublicCourtCaseSlugs()"));
