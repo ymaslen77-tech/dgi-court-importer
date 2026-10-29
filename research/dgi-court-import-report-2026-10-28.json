@@ -1,83 +1,101 @@
 {
-  "as_of": "2026-10-28T18:09:50.838063+00:00",
+  "as_of": "2026-10-29T16:56:26.308740+00:00",
   "source_queue": "research/dgi-court-publication-queue-2026-10-28.json",
   "publication_stage": "prepared_automation_branch_not_merged_or_deployed",
   "source_checks": "official HTML full-text, case, date, DGI, basic privacy identifiers, duplicate, PDF hash",
   "outcome_policy": "ALL court outcomes allowed; undisclosed result honestly labeled not_classified",
-  "new_prepared_count": 8,
-  "skipped_count": 2,
+  "daily_verified_target": 10,
+  "daily_target_shortfall": 0,
+  "pending_candidates_checked": 15,
+  "remaining_curated_goal": 76,
+  "new_prepared_count": 10,
+  "skipped_count": 1,
   "prepared": [
     {
-      "case_number": "88-724/2026",
-      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=16814499&case_uid=ac88b1a2-d389-48f4-a7b2-2438745b8596&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
-      "slug": "2kas-88-724-2026-2026-01-20",
-      "date": "2026-01-20",
-      "pdf_sha256": "74e31656d2bcb0407caa7c3dc18f7f9b6e653f034e0b6f84f4993c7de584c7a1",
-      "text_sha256": "dc6f524eee5208047ce2fd05e8deeee7007d3f9503830ec3bbac857e9df51664"
+      "case_number": "88-10971/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17867073&case_uid=69bd7c6d-81ff-4c2a-af60-5b9376fac54a&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "slug": "2kas-88-10971-2026-2026-04-21",
+      "date": "2026-04-21",
+      "pdf_sha256": "a982a06fd880f09a3080db2cc99aba55a3fa85ed261be799f6fc09de74df1772",
+      "text_sha256": "502b111805d4b8b62952506f62f8cf019ec2309da707ea4691b64d17ee2b23f0"
     },
-    {
-      "case_number": "88-14012/2026",
-      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17983681&case_uid=301df5dc-24f6-4fd3-bd0e-53fe3b464061&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
-      "slug": "2kas-88-14012-2026-2026-05-21",
-      "date": "2026-05-21",
-      "pdf_sha256": "7687fae3e76b5349146f7c2d240172cf389de9e580d3245e7462230cb78a07fd",
-      "text_sha256": "a7c86a50b603806e6c4dbb98b3642678663bf7e28e7faf784a6f5b82f223f58b"
-    },
-    {
-      "case_number": "88-13792/2026",
-      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=18112633&case_uid=33f150cf-a0d4-409b-b603-c2be007615da&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
-      "slug": "2kas-88-13792-2026-2026-06-04",
-      "date": "2026-06-04",
-      "pdf_sha256": "fbbedebed5ab05025424d1cb283a018b8d654654e7b6ffe86ec794d958787fc9",
-      "text_sha256": "631a6730eac9a2e51d5797794ba51fa26b0d9bb34d3643763ed9261bc93038c9"
-    },
-    {
-      "case_number": "88-15278/2026",
-      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=18231736&case_uid=6e13d75c-0c64-41df-a31a-de1ddc2dfd31&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
-      "slug": "2kas-88-15278-2026-2026-06-23",
-      "date": "2026-06-23",
-      "pdf_sha256": "aec8c4c4ff3436dfbd2aa317ae04bd442bcca73f154bde394cb63393ad8f83f5",
-      "text_sha256": "f4d0af5157e69687322d889abd054eaff88a66cba7b576d2900e8c514e3a2758"
-    },
-    {
-      "case_number": "88-15955/2026",
-      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=18372552&case_uid=fb0cc7d0-1a95-4734-99f2-84cbcf562e7f&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
-      "slug": "2kas-88-15955-2026-2026-06-16",
-      "date": "2026-06-16",
-      "pdf_sha256": "546a188174b9f2b804fdd2ee5277a5c24678263fbd64c925ea7a1e949b16a72e",
-      "text_sha256": "ba7415022f1cd8703d92f5b9bdc07548af4b610eedba56da2bb712aa23e674bc"
-    },
-    {
-      "case_number": "88-21277/2026",
-      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=18910390&case_uid=207aa87d-e20e-49ea-bd58-14f1bc1f49b7&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
-      "slug": "2kas-88-21277-2026-2026-07-28",
-      "date": "2026-07-28",
-      "pdf_sha256": "7b761c19199ff4ab5d501ba15507205a593a3ec5bc194fb74eed89f54e7e05aa",
-      "text_sha256": "5729f70d063c77c1b3c15add5f9efa49c22718be7630d3f6413abcf877d921d4"
-    },
-    {
-      "case_number": "88-5641/2026",
-      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17406310&case_uid=f6c4daa1-eec5-46ac-a926-c2ca2ba8a75a&delo_id=2800001&n_c=1&name=sud_delo&name_op=case&new=2800001&srv_num=1",
-      "slug": "2kas-88-5641-2026-2026-03-19",
-      "date": "2026-03-19",
-      "pdf_sha256": "715bb47180e76de9ddf48d98f317c1fa3d629b0155f1b71b9af2610cd7e16c5b",
-      "text_sha256": "c0882f62a4dd8de6bdf50bdd2b33e07b42b3be82f9a730b2d3ab21db3274fa78"
-    },
-    {
-      "case_number": "88-10091/2026",
-      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17781445&case_uid=4aa05b22-620e-46a3-8090-bb99ba524bb2&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
-      "slug": "2kas-88-10091-2026-2026-04-22",
-      "date": "2026-04-22",
-      "pdf_sha256": "d87c29f6281ec51e2d21af57bc05e14dacf518604b8e12cb549fbec143103595",
-      "text_sha256": "9cf5026ec093167eaeb673b8a3d6eef89357e629cf4f6bc1e63a4003b2509145"
-    }
-  ],
-  "skipped": [
     {
       "case_number": "88-1737/2026",
       "official_url": "https://2kas.sudrf.ru/modules.php?case_id=16744768&case_uid=87460272-91d5-4830-8fb7-41ddb9df6a58&delo_id=2800001&n_c=1&name=sud_delo&name_op=case&new=2800001&srv_num=1",
-      "reason": "ValueError: Judicial act date not confirmed in same year as cassation case number"
+      "slug": "2kas-88-1737-2026-2026-01-15",
+      "date": "2026-01-15",
+      "pdf_sha256": "02243ca45208fa779097664cf7ef95db21cb931612f3b192666028e470075987",
+      "text_sha256": "164bf0cdd3612474c725519a28bef00182aaf064798656fac67106da88ef03ec",
+      "source_warnings": [
+        "official_full_text_preparation_date_disagrees_with_decision_heading: 23 января 2025 года"
+      ]
     },
+    {
+      "case_number": "88-746/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=16814463&case_uid=3790d85f-69e3-4791-98f5-4cb782a2be77&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "slug": "2kas-88-746-2026-2026-02-10",
+      "date": "2026-02-10",
+      "pdf_sha256": "8fa9ed4eafeeaa8a2799e0760c243d65b466dfcce09a93a9f9b3ed6804b28057",
+      "text_sha256": "a6108ff2d8ce99c51aa7343004f05ab6f69a48c3e6e6a9f92f7cb619ff09ec2b"
+    },
+    {
+      "case_number": "88-1993/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=16991105&case_uid=a7715db8-86f8-4953-9cb3-103211d213fd&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "slug": "2kas-88-1993-2026-2026-01-29",
+      "date": "2026-01-29",
+      "pdf_sha256": "b99d5b08d92d9906471681ba25e4a8e026b5e28497edc5cade93cfa0770662c4",
+      "text_sha256": "362b961790e86c3ffd753d376fd0b394e74e5b5792f4b5944384f55a2fbd76d8"
+    },
+    {
+      "case_number": "88-13304/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=18085592&case_uid=608b1ce5-c9d7-4c08-b0da-fa75da5fa20c&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "slug": "2kas-88-13304-2026-2026-05-14",
+      "date": "2026-05-14",
+      "pdf_sha256": "6dfdb166db63c5f6f17cf4dcf895b696637cada0604af588b5db3654b4f28e0a",
+      "text_sha256": "bf8e54f7d5a0b0288742a72621c6d644605749cb961dcd69fd92f65cd9e51fc1"
+    },
+    {
+      "case_number": "88-1354/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=16957427&case_uid=17eb6907-252a-4752-bcc5-5f692ba9a52d&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "slug": "2kas-88-1354-2026-2026-01-29",
+      "date": "2026-01-29",
+      "pdf_sha256": "7f3e839f4ce08d4e95b090b0610347266bcdf0ce1b079108bae58b770915d64c",
+      "text_sha256": "3509dd5adf3f7ebfbc05b17c88e0b51347899ab8003a8cc9159bcb6bedb92999"
+    },
+    {
+      "case_number": "88-10767/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17117746&case_uid=144cf666-db96-4411-9a06-0339d41314f4&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "slug": "2kas-88-10767-2026-2026-04-14",
+      "date": "2026-04-14",
+      "pdf_sha256": "03b44e54342bcf65decaa7dbafcf44b3192f73884ee9c0c94c9673473516b21e",
+      "text_sha256": "68975cee41802bb3e387a7cac4ea839fba115fa82d6e9a89d2f87963b93ebae8"
+    },
+    {
+      "case_number": "88-15869/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=18354463&case_uid=5bc95348-47a7-4253-b814-763e292b179f&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "slug": "2kas-88-15869-2026-2026-06-02",
+      "date": "2026-06-02",
+      "pdf_sha256": "33746af69033d6fe9fb8309817246853e8503c89b15944b30233f21a22baf67b",
+      "text_sha256": "f765dec430de4cd85c35fb97a1e36a20d78c69708a0f7e652f662dd6707c81f6"
+    },
+    {
+      "case_number": "88-8962/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17547055&case_uid=33c0eb0e-d7f3-451f-9ba2-295fca726ef9&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "slug": "2kas-88-8962-2026-2026-03-24",
+      "date": "2026-03-24",
+      "pdf_sha256": "499d07886fcae81ad02197a9fbde72912ebaf298f18cfffe4b96bbee24a97284",
+      "text_sha256": "58f212f8b3c62e2ea215fa4352ea1b9478b49c0d59d7a1caa630ecf6763a494a"
+    },
+    {
+      "case_number": "88-5425/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17346104&case_uid=1a7f8f1c-ad04-4549-96b2-e7a4f84a4d78&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "slug": "2kas-88-5425-2026-2026-02-26",
+      "date": "2026-02-26",
+      "pdf_sha256": "67b08337d187d8dbbbdac47e39c9358dcfb37a027b9eddefe186a7af0f523f70",
+      "text_sha256": "a4c8a66245562c8924529a911de6b2bf27132d68d6415a77c928741909740c02"
+    }
+  ],
+  "skipped": [
     {
       "case_number": "88-16812/2025",
       "official_url": "https://2kas.sudrf.ru/modules.php?case_type=0&delo_id=2800001&name=sud_delo&name_op=doc&new=2800001&number=15616142&srv_num=1&text_number=1",
