@@ -13,8 +13,11 @@ test("production site is gated by individual legal-editorial approval", () => {
   assert.ok(pages.includes("siteIsLive && page.editoriallyApproved === true"));
   assert.ok(adapter.includes("editoriallyApproved: true"));
   assert.ok(adapter.includes("editorial_status = 'published'"));
-  assert.ok(home.includes('!siteIsLive ? getMigratedPage("") : undefined'));
-  assert.ok(detail.includes("!siteIsLive ? getMigratedPage(slug) : undefined"));
+  // Display fallback preserves legacy routes, but cannot grant indexing rights.
+  assert.ok(home.includes('?? getMigratedPage("")'));
+  assert.ok(detail.includes("?? getMigratedPage(slug)"));
+  assert.ok(!home.includes('!siteIsLive ? getMigratedPage("") : undefined'));
+  assert.ok(!detail.includes("!siteIsLive ? getMigratedPage(slug) : undefined"));
   assert.ok(home.includes("canIndexPage(page)"));
   assert.ok(detail.includes("canIndexPage(page)"));
   assert.ok(markup.includes("!canIndexPage(page)"));
