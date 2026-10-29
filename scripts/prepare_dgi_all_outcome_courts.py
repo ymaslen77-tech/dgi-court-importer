@@ -83,8 +83,12 @@ def run():
     pdf=module(ROOT/"scripts/build-official-court-pdf-copies.py")
     PDFDIR.mkdir(parents=True,exist_ok=True)
     successes=[];skipped=[]
+    policy=json.loads((ROOT/"config/dgi-daily-publication.json").read_text(encoding="utf-8"))
+    daily_target=policy["publication_limits"]["new_verified_court_acts_per_run"]
+    if not isinstance(daily_target,int) or daily_target<1:raise ValueError("Invalid daily court target")
     pending=[x for x in q["items"] if x["status"]=="ready_for_source_import"]
     for row in pending:
+        if len(successes)>=daily_target:break
         number=row["case_number"];url=row["official_url"]
         rec={"case_number":number,"official_url":url}
         if not CASE_NUMBER.fullmatch(number) or number in existing_num or url in existing_urls:
@@ -142,13 +146,14 @@ def run():
         }
         QUEUE.write_text(json.dumps(q,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     elif REPORT.exists():
-        print("NO_NEW_ACTS; preserve latest successful import report")
-        return
+        print("NO_NEW_ACTS; report shortfall without altering curated manifest")
     report={"as_of":datetime.datetime.now(datetime.timezone.utc).isoformat(),
        "source_queue":str(QUEUE.relative_to(ROOT)),
        "publication_stage":"prepared_automation_branch_not_merged_or_deployed",
        "source_checks":"official HTML full-text, case, date, DGI, basic privacy identifiers, duplicate, PDF hash",
        "outcome_policy":"ALL court outcomes allowed; undisclosed result honestly labeled not_classified",
+       "daily_verified_target":daily_target,
+       "daily_target_shortfall":max(0,daily_target-len(successes)),
        "new_prepared_count":len(successes),
        "skipped_count":len(skipped),"prepared":successes,"skipped":skipped,
        "owner_must_deploy_after_protected_PR_CI":True}
