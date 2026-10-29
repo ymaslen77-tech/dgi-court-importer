@@ -78,7 +78,9 @@
     "never_set_approval_fields_fictitiously": true,
     "publication_path": "static_verified_court_manifest_only; do_not_override_database_CMS_permissions",
     "deploy": "owner_manually_deploys_merged_branch_in_Coolify",
-    "count_live_only_after_owner_deploy_and_HTTP_PDF_check": true
+    "count_live_only_after_owner_deploy_and_HTTP_PDF_check": true,
+    "daily_verified_target": 10,
+    "daily_target_enforcement": "best_effort; only source-verified acts count; report shortfall and retry; no fabricated PDFs or bypassed checks"
   },
   "automatic_seo": {
     "cadence": "weekly",

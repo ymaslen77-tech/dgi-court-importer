@@ -1,45 +1,62 @@
-name: Prepare DGI official court acts of all outcomes on automation branch
+name: DGI official court daily preparation (10 verified maximum)
 on:
   push:
-    branches: [automation/dgi-all-court-outcomes-20261028]
+    branches:
+      - 'automation/dgi-daily-*'
     paths:
-      - scripts/prepare_dgi_all_outcome_courts.py
-      - .github/workflows/dgi-all-outcome-courts-prep.yml
+      - 'research/dgi-daily-trigger-*.json'
+      - 'research/dgi-court-publication-queue-*.json'
+      - 'config/dgi-daily-publication.json'
+      - 'config/dgi-automation-approval-policy.json'
+      - 'scripts/prepare_dgi_all_outcome_courts.py'
+      - 'scripts/validate_dgi_court_publication_queue.py'
+      - 'scripts/tests/test_dgi_court_daily_preparation.py'
+      - '.github/workflows/dgi-all-outcome-courts-prep.yml'
   workflow_dispatch:
 permissions:
   contents: write
 concurrency:
-  group: dgi-all-outcome-courts-prepare
+  group: dgi-court-prep-${{ github.ref }}
   cancel-in-progress: false
 jobs:
   prepare:
-    name: prepare-all-outcome-official-courts
-    if: github.ref == 'refs/heads/automation/dgi-all-court-outcomes-20261028'
+    name: research-and-prepare-dgi-court-acts
+    if: startsWith(github.ref, 'refs/heads/automation/dgi-daily-')
     runs-on: ubuntu-latest
-    timeout-minutes: 18
+    timeout-minutes: 24
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: automation/dgi-all-court-outcomes-20261028
           persist-credentials: true
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install official text parsing and PDF tools
+      - name: Install official-source parser and PDF-copy tooling
         run: |
           python3 -m pip install --disable-pip-version-check -q beautifulsoup4 lxml reportlab
           sudo apt-get update -qq
           sudo apt-get install -y -qq fonts-dejavu-core poppler-utils >/dev/null
-      - name: Prepare official DGI court acts of any result (no deployment)
+      - name: Verify source queue and ten-act ceiling
+        run: |
+          python3 scripts/validate_dgi_court_publication_queue.py
+          python3 -m unittest discover -s scripts/tests -p 'test_dgi_court_daily_preparation.py' -v
+      - name: Prepare source-checked cases on disposable runner (no GitHub writes)
         run: python3 scripts/prepare_dgi_all_outcome_courts.py
-      - name: Verify generated PDF copies match curated SHA256 and extraction
+      - name: Verify post-import queue and all PDF reading copies
         shell: bash
         run: |
           set -euo pipefail
+          python3 scripts/validate_dgi_court_publication_queue.py
           python3 - <<'PY'
           from pathlib import Path
           import hashlib,json,subprocess
           repo=Path('.')
+          policy=json.loads((repo/'config/dgi-daily-publication.json').read_text())
+          report=json.loads((repo/'test-results/dgi-court-daily-status.json').read_text())
+          goal=policy['publication_limits']['new_verified_court_acts_per_run']
+          assert goal==10 and 0<=report['new_prepared_count']<=goal
+          assert report['daily_verified_target']==goal
+          assert report['daily_target_shortfall']==goal-report['new_prepared_count']
           data=json.loads((repo/'apps/web/src/data/verified-court-static.json').read_text())
           assert len({x['case_number'] for x in data})==len(data)
           assert len({x['official_url'] for x in data})==len(data)
@@ -51,27 +68,47 @@ jobs:
               if row.get('privacy_screen_passed'):
                   text=subprocess.run(['pdftotext',str(pdf),'-'],capture_output=True,text=True,check=True).stdout
                   assert row['case_number'] in text and len(text)>3500,row['slug']
-          print('ALL_OFFICIAL_PDF_SHA256_VALID',len(data))
+          print('COURT_PREPARATION_VALID',len(data),'new',report['new_prepared_count'],'shortfall',report['daily_target_shortfall'])
           PY
-      - name: Commit source-checked reading copies and import report ONLY on automation branch
+      - name: Commit generated full-text manifest and PDF copies ONLY to automation branch
         shell: bash
         run: |
           set -euo pipefail
-          test "$GITHUB_REF_NAME" = 'automation/dgi-all-court-outcomes-20261028'
+          case "$GITHUB_REF_NAME" in automation/dgi-daily-*) ;; *) echo 'Refusing protected branch push'; exit 1;; esac
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('test-results/dgi-court-daily-status.json').read_text())
+          assert d['daily_verified_target']==10 and 0<=d['new_prepared_count']<=10
+          assert d['new_prepared_count']==len(d['prepared'])
+          assert d['daily_target_shortfall']==10-d['new_prepared_count']
+          print('SOURCE_VERIFIED_NEW_PREPARED',d['new_prepared_count'])
+          PY
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add apps/web/src/data/verified-court-static.json apps/web/public/court-pdf-copies research/dgi-court-import-report-2026-10-28.json research/dgi-court-publication-queue-2026-10-28.json
-          # PDF reading copies are binary; whitespace checking applies to JSON only.
-          git diff --cached --check -- apps/web/src/data/verified-court-static.json research/dgi-court-import-report-2026-10-28.json research/dgi-court-publication-queue-2026-10-28.json
-          if git diff --cached --quiet; then echo 'No newly eligible official acts'; exit 0; fi
-          git commit -m 'data(courts): stage source-checked all-outcome DGI acts and PDF copies'
-          git push origin HEAD:automation/dgi-all-court-outcomes-20261028
-          echo 'Automation branch prepared; protected PR, CI and owner Coolify deployment still required'
-      - name: Save non-secret report
+          git add apps/web/src/data/verified-court-static.json apps/web/public/court-pdf-copies/ research/dgi-court-publication-queue-2026-10-28.json research/dgi-court-import-report-2026-10-28.json
+          git diff --cached --check -- apps/web/src/data/verified-court-static.json research/dgi-court-publication-queue-2026-10-28.json research/dgi-court-import-report-2026-10-28.json
+          if git diff --cached --quiet; then
+            echo 'No new source-verified court acts; preserving existing catalog and prior import report'
+            exit 0
+          fi
+          git commit -m 'data(courts): stage up to ten source-checked DGI acts and PDF copies'
+          git push origin "HEAD:$GITHUB_REF_NAME"
+          echo 'Only the automation branch was updated; PR CI must rerun on the final SHA before protected merge.'
+      - name: Save source-checked candidate package for protected PR
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: dgi-all-outcomes-prepared-report
-          path: research/dgi-court-import-report-2026-10-28.json
+          name: dgi-daily-court-preparation-${{ github.run_id }}
+          path: |
+            test-results/dgi-court-daily-status.json
+            research/dgi-court-import-report-2026-10-28.json
+            research/dgi-court-publication-queue-2026-10-28.json
+            apps/web/src/data/verified-court-static.json
+            apps/web/public/court-pdf-copies/*.pdf
           retention-days: 14
           if-no-files-found: warn
+      - name: Protect the production branch and publication workflow
+        run: |
+          echo 'Writes may target ONLY the automation branch; never protected production, no Coolify deployment.'
+          echo 'Only an automation/dgi-* PR with final-head CI may publish prepared content.'
