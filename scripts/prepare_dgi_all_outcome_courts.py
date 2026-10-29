@@ -33,7 +33,8 @@ def module(path):
 
 def full_official_court_act(url,case_number):
     p=urlsplit(url)
-    if p.scheme!="https" or p.hostname!="2kas.sudrf.ru" or p.path!="/modules.php":
+    if (p.scheme!="https" or p.hostname!="2kas.sudrf.ru" or p.path!="/modules.php" or
+        not any(part in p.query for part in ("name_op=case", "name_op=doc"))):
         raise ValueError("Official court URL not allowed")
     with urlopen(Request(url,headers={"User-Agent":"Mozilla/5.0 (DGI public court act index)"}),timeout=40) as r:
         if r.status!=200 or urlsplit(r.url).hostname!="2kas.sudrf.ru":
