@@ -2,7 +2,7 @@
 """Check DGI all-outcome source queue; this alone never publishes a case."""
 import argparse, datetime, hashlib, json, re
 from pathlib import Path
-from urllib.parse import urlsplit
+from urllib.parse import urlsplit, parse_qs
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError, URLError
 
@@ -15,15 +15,26 @@ STATES={"already_curated","out_of_scope","ready_for_source_import"}
 def official_url(value):
     try:
         p=urlsplit(value)
-        return (p.scheme=="https" and p.hostname=="2kas.sudrf.ru" and
-                p.path=="/modules.php" and "name=sud_delo" in p.query and
-                not p.username and not p.password and not p.port and len(value)<1900)
+        if (p.scheme!="https" or p.hostname!="2kas.sudrf.ru" or
+                p.path!="/modules.php" or p.username or p.password or p.port or
+                p.fragment or len(value)>=1900):
+            return False
+        q=parse_qs(p.query, strict_parsing=True)
+        return (q.get("name")==["sud_delo"] and
+                q.get("name_op") in (["case"],["doc"]) and
+                q.get("delo_id")==["2800001"] and
+                q.get("srv_num")==["1"] and
+                (q.get("case_id",[""])[0].isdigit() if q["name_op"]==["case"]
+                 else q.get("number",[""])[0].isdigit()))
     except (TypeError, ValueError):
         return False
 def validate():
     data=json.loads(QUEUE.read_text(encoding="utf-8"))
     assert data["schema_version"]==2 and data["auto_publish_from_this_file"] is False
-    assert data["limit_per_daily_release"] is None
+    policy=json.loads((ROOT/"config/dgi-daily-publication.json").read_text(encoding="utf-8"))
+    target=policy["publication_limits"]["new_verified_court_acts_per_run"]
+    assert type(target) is int and target==10
+    assert data["limit_per_daily_release"]==target
     rows=data["items"]
     old=json.loads(CURATED.read_text(encoding="utf-8"))
     seed=[json.loads(s) for s in SEED.read_text(encoding="utf-8").splitlines() if s.strip()]
