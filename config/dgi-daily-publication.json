@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "project": "dgi-pravo.ru",
   "purpose": "Единый ежедневный процесс новостей и официальных судебных актов ДГИ с любым исходом",
   "policy_file": "config/dgi-automation-approval-policy.json",
@@ -17,10 +17,10 @@
   ],
   "publication_limits": {
     "new_housing_news_per_run": 5,
-    "new_verified_court_acts_per_run": null,
+    "new_verified_court_acts_per_run": 10,
     "verified_court_act_goal": 100,
     "never_pad_counts": true,
-    "court_acts_limitation": "no_outcome_or_daily_count_cap; only available official and screened documents"
+    "court_acts_limitation": "target 10 newly verified acts daily, never fabricate or bypass official full-text, privacy, PDF SHA256, CI or manual deployment; report shortfall and retry next daily run"
   },
   "news": {
     "enabled": true,
@@ -81,7 +81,7 @@
       "do_not_exclude_unsuccessful_or_mixed_or_remanded_court_acts",
       "include_only_cases_involving_DGI",
       "never_infer_outcome_from_metadata; use_not_classified_if_uncertain",
-      "batch_every_source_available_case_without_daily_court_count_cap",
+      "research_and_prepare_up_to_10_new_verified_cases_each_day; report_source_shortfall_without_padding",
       "leave_unavailable_or_obviously_identifying_documents_in_queue_with_reason"
     ],
     "allowed_outcomes": [
@@ -94,7 +94,9 @@
       "not_classified"
     ],
     "source_import_script": "scripts/prepare_dgi_all_outcome_courts.py",
-    "source_import_workflow": ".github/workflows/dgi-all-outcome-courts-prep.yml"
+    "source_import_workflow": ".github/workflows/dgi-all-outcome-courts-prep.yml",
+    "daily_target": 10,
+    "daily_target_policy": "best_effort_verified_only; shortfall is reported, not padded; no restriction by outcome"
   },
   "release": {
     "repository": "ymaslen77-tech/dgi-court-importer",
