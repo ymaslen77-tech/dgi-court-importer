@@ -59,7 +59,11 @@ export const siteIsLive =
   process.env.SITE_CUTOVER === "true" &&
   process.env.SITE_RELEASE_APPROVED === "yes" &&
   Boolean(releaseOrigin);
-export const siteOrigin = siteIsLive ? releaseOrigin! : "http://localhost:3000";
+// SEO can be enabled for already-public static news and court pages WITHOUT
+// switching migrated legal drafts to the CMS-only cutover path.
+export const siteIndexingEnabled = Boolean(releaseOrigin) &&
+  (siteIsLive || process.env.PUBLIC_INDEXING_ENABLED === "true");
+export const siteOrigin = siteIndexingEnabled ? releaseOrigin! : "http://localhost:3000";
 
 // Individual pages must pass editorial approval; global release flags alone are insufficient.
 export function canIndexPage(page: MigratedPage): boolean {
