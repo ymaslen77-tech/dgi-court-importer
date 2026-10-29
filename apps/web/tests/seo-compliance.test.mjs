@@ -40,6 +40,7 @@ test("no unapproved legal page leaks into sitemap, canonical or rich results",()
  const sitemap=read("src/app/sitemap.ts");
  const robots=read("src/app/robots.ts");
  const config=read("next.config.ts");
+ const proxy=read("src/proxy.ts");
  const structured=read("src/components/SeoMarkup.tsx");
  assert.match(pagesConfig,/SITE_CUTOVER === "true"/);
  assert.match(pagesConfig,/SITE_RELEASE_APPROVED === "yes"/);
@@ -49,7 +50,11 @@ test("no unapproved legal page leaks into sitemap, canonical or rich results",()
  assert.match(sitemap,/listHousingNews/);
  assert.match(sitemap,/listPublicCourtCaseSlugs/);
  assert.match(robots,/disallow: "\/"/);
- assert.match(config,/noindex, nofollow, noarchive/);
+ assert.doesNotMatch(config,/key: "X-Robots-Tag"/);
+ assert.match(proxy,/X-Robots-Tag/);
+ assert.match(proxy,/noindex, nofollow, noarchive/);
+ assert.match(proxy,/SITE_RELEASE_APPROVED === "yes"/);
+ assert.match(proxy,/SITE_CUTOVER === "true"/);
  assert.match(structured,/if \(!canIndexPage\(page\)\) return null/);
 });
 test("legal editorial policy is visible site-wide without made-up credentials",()=>{

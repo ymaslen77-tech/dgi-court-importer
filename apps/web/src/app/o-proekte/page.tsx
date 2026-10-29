@@ -3,6 +3,8 @@ import { PageShell } from "@/components/PageShell";
 import { factualSocialMetadata } from "@/data/seo-social";
 import { siteIsLive, siteOrigin } from "@/data/pages";
 
+export const dynamic = "force-dynamic";
+
 const title = "О проекте и источниках";
 const description = "Независимый справочник по жилищным вопросам Москвы и ссылки на официальные правовые источники.";
 export const metadata: Metadata = {

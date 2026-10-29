@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   alternates: siteIsLive ? { canonical: "https://dgi-pravo.ru/novosti-zhilishchnogo-prava" } : undefined,
   robots: { index: siteIsLive, follow: siteIsLive },
 };
+export const dynamic = "force-dynamic";
+
 const fmt = new Intl.DateTimeFormat("ru-RU", { day: "numeric", month: "long", year: "numeric", timeZone: "Europe/Moscow" });
 
 export default function HousingNewsPage() {

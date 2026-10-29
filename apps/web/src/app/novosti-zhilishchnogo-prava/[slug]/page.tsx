@@ -6,6 +6,8 @@ import { siteIsLive } from "@/data/pages";
 import { getHousingNews, housingNewsBase, listHousingNews } from "@/data/housing-news";
 
 type Props = { params: Promise<{ slug: string }> };
+export const dynamic = "force-dynamic";
+
 const fmt = new Intl.DateTimeFormat("ru-RU", { day: "numeric", month: "long", year: "numeric", timeZone: "Europe/Moscow" });
 export function generateStaticParams() { return listHousingNews().map(article => ({ slug: article.slug })); }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
