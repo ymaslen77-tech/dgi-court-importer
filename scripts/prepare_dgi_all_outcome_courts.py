@@ -8,7 +8,7 @@ CMS/DB approval or completed Coolify deployment are made.
 """
 import datetime, hashlib, importlib.util, json, re
 from pathlib import Path
-from urllib.parse import urlsplit
+from urllib.parse import urlsplit, parse_qs
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError, URLError
 from bs4 import BeautifulSoup
@@ -34,8 +34,16 @@ def module(path):
 def full_official_court_act(url,case_number):
     p=urlsplit(url)
     if (p.scheme!="https" or p.hostname!="2kas.sudrf.ru" or p.path!="/modules.php" or
-        not any(part in p.query for part in ("name_op=case", "name_op=doc"))):
+        p.username or p.password or p.port or p.fragment or len(url)>1900):
         raise ValueError("Official court URL not allowed")
+    params=parse_qs(p.query, strict_parsing=True)
+    if (params.get("name")!=["sud_delo"] or
+        params.get("name_op") not in (["case"],["doc"]) or
+        params.get("delo_id")!=["2800001"] or
+        params.get("srv_num")!=["1"] or
+        not (params.get("case_id",[""])[0].isdigit() if params["name_op"]==["case"]
+             else params.get("number",[""])[0].isdigit())):
+        raise ValueError("Unexpected official court document parameters")
     with urlopen(Request(url,headers={"User-Agent":"Mozilla/5.0 (DGI public court act index)"}),timeout=40) as r:
         if r.status!=200 or urlsplit(r.url).hostname!="2kas.sudrf.ru":
             raise ValueError("Official court source did not return HTTP 200")
@@ -55,13 +63,17 @@ def full_official_court_act(url,case_number):
         raise ValueError("DGI not named in the published act")
     if "ОПРЕДЕЛЕНИЕ" not in re.sub(r"\s+","",body[:1500]).upper():
         raise ValueError("Judicial act header missing")
-    date_pattern=r"\b(\d{1,2})\s+("+"|".join(MONTHS)+r")\s+(20\d{2})\s*года\b"
-    dates=list(re.finditer(date_pattern,normalized[:1800],re.I))
-    if not dates:raise ValueError("Court judgment date not observed in header")
+    # Decision date is the date immediately following the court act heading.
+    # Do NOT use a different "final text prepared on" date: official pages can
+    # contain clerical year errors in that preamble (e.g. case 88-1737/2026).
+    header=re.search(r"О\s*П\s*Р\s*Е\s*Д\s*Е\s*Л\s*Е\s*Н\s*И\s*Е",normalized[:2000],re.I)
+    if not header:raise ValueError("Official decision heading not located")
+    date_pattern=r"[«\"“]?\s*(\d{1,2})\s*[»\"”]?\s+("+"|".join(MONTHS)+r")\s+(20\d{2})\s*года\b"
+    d=re.search(date_pattern,normalized[header.end():header.end()+250],re.I)
+    if not d:raise ValueError("Judicial act decision date absent directly after heading")
     expected_year=int(case_number.split("/")[1])
-    matches=[match for match in dates if int(match.group(3))==expected_year]
-    if not matches:raise ValueError("Judicial act date not confirmed in same year as cassation case number")
-    d=matches[0]
+    if int(d.group(3))!=expected_year:
+        raise ValueError("Court decision heading year differs from cassation identifier")
     day,month,year=int(d.group(1)),MONTHS[d.group(2).lower()],int(d.group(3))
     date=datetime.date(year,month,day)
     if date>datetime.datetime.now(datetime.timezone.utc).date():
@@ -72,6 +84,14 @@ def full_official_court_act(url,case_number):
     if PHONE.search(body) or EMAIL.search(body) or SNILS.search(body) or PASSPORT.search(body):
         raise ValueError("Potential unredacted personal identifier in official act")
     return raw,body,date.isoformat()
+
+def source_date_warnings(body, decision_date):
+    """Report discrepancies verbatim; do not silently correct official text."""
+    prefix=re.sub(r"\s+"," ",body[:1200])
+    m=re.search(r"(?:окончательной форме\s+)?изготовлен[оа]?\s+(\d{1,2}\s+("+ "|".join(MONTHS)+r")\s+20\d{2}\s*года)",prefix,re.I)
+    if m and not m.group(1).endswith(decision_date[:4]+" года"):
+        return ["official_full_text_preparation_date_disagrees_with_decision_heading: "+m.group(1)]
+    return []
 
 def run():
     q=json.loads(QUEUE.read_text(encoding="utf-8"))
@@ -85,12 +105,16 @@ def run():
     successes=[];skipped=[]
     policy=json.loads((ROOT/"config/dgi-daily-publication.json").read_text(encoding="utf-8"))
     daily_target=policy["publication_limits"]["new_verified_court_acts_per_run"]
-    if not isinstance(daily_target,int) or daily_target<1:raise ValueError("Invalid daily court target")
+    if type(daily_target) is not int or daily_target!=10:
+        raise ValueError("Daily verified court target must be 10")
+    if q["limit_per_daily_release"]!=daily_target:
+        raise ValueError("Queue and policy daily court quota disagree")
     pending=[x for x in q["items"] if x["status"]=="ready_for_source_import"]
     for row in pending:
         if len(successes)>=daily_target:break
         number=row["case_number"];url=row["official_url"]
         rec={"case_number":number,"official_url":url}
+        path=None
         if not CASE_NUMBER.fullmatch(number) or number in existing_num or url in existing_urls:
             skipped.append(dict(rec,reason="invalid_or_duplicate_case_or_source"));continue
         try:
@@ -105,6 +129,7 @@ def run():
                 raise ValueError("Generated PDF incomplete")
             psha=hashlib.sha256(data).hexdigest()
             sha=hashlib.sha256(body.encode("utf-8")).hexdigest()
+            warnings=source_date_warnings(body,date)
             entries.append({
                 "slug":slug,"case_number":number,
                 "court_name":"Второй кассационный суд общей юрисдикции",
@@ -118,12 +143,16 @@ def run():
                 "pdf_sha256":psha,"source_checked":True,
                 "privacy_screen_passed":True,
                 "outcome_verified":"not_classified",
-                "outcome_evidence":"Исход не классифицирован редакцией. Для оценки результата ознакомьтесь с резолютивной частью судебного акта."
+                "outcome_evidence":"Исход не классифицирован редакцией. Для оценки результата ознакомьтесь с резолютивной частью судебного акта.",
+                **({"official_text_warnings":warnings} if warnings else {})
             })
             existing_num.add(number);existing_urls.add(url);used_slugs.add(slug)
-            successes.append(dict(rec,slug=slug,date=date,pdf_sha256=psha,text_sha256=sha))
+            successes.append(dict(rec,slug=slug,date=date,pdf_sha256=psha,text_sha256=sha,
+                                  **({"source_warnings":warnings} if warnings else {})))
             print("PREPARED_OFFICIAL_COURT_ACT",number,slug,"PDF_SHA256",psha)
         except (HTTPError,URLError,TimeoutError,OSError,ValueError,AssertionError) as err:
+            if path is not None:
+                path.unlink(missing_ok=True)
             skipped.append(dict(rec,reason=type(err).__name__+": "+str(err)[:160]))
             print("SKIPPED_COURT_ACT",number,type(err).__name__)
     if successes:
@@ -145,8 +174,8 @@ def run():
           "ready_for_source_import":sum(x["status"]=="ready_for_source_import" for x in q["items"]),
         }
         QUEUE.write_text(json.dumps(q,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
-    elif REPORT.exists():
-        print("NO_NEW_ACTS; report shortfall without altering curated manifest")
+    else:
+        print("NO_NEW_ACTS; preserve last successful import report and write daily status artifact")
     report={"as_of":datetime.datetime.now(datetime.timezone.utc).isoformat(),
        "source_queue":str(QUEUE.relative_to(ROOT)),
        "publication_stage":"prepared_automation_branch_not_merged_or_deployed",
@@ -154,11 +183,17 @@ def run():
        "outcome_policy":"ALL court outcomes allowed; undisclosed result honestly labeled not_classified",
        "daily_verified_target":daily_target,
        "daily_target_shortfall":max(0,daily_target-len(successes)),
+       "pending_candidates_checked":len(pending),
+       "remaining_curated_goal":max(0,policy["publication_limits"]["verified_court_act_goal"]-len(entries)),
        "new_prepared_count":len(successes),
        "skipped_count":len(skipped),"prepared":successes,"skipped":skipped,
        "owner_must_deploy_after_protected_PR_CI":True}
-    REPORT.parent.mkdir(parents=True,exist_ok=True)
-    REPORT.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+    daily_status=ROOT/"test-results/dgi-court-daily-status.json"
+    daily_status.parent.mkdir(parents=True,exist_ok=True)
+    daily_status.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+    if successes:
+        REPORT.parent.mkdir(parents=True,exist_ok=True)
+        REPORT.write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     print("PREPARATION_COMPLETE",len(successes),"skipped",len(skipped),
           "LIVE_PUBLICATIONS_NOT_ASSERTED")
 if __name__=="__main__":
