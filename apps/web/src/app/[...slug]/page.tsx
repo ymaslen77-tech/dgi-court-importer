@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug: parts } = await params;
   const slug = resolvedSlug(parts);
   if (!slug || slug === "sudebnaya-praktika-dgi") return {};
-  const page = (await getPublishedEditorialPage(slug)) ?? (!siteIsLive ? getMigratedPage(slug) : undefined);
+  const page = (await getPublishedEditorialPage(slug)) ?? getMigratedPage(slug);
   if (!page) {
     if (!siteIsLive && slug === dgiServiceRegistrySlug) return {
       title: { absolute: dgiServiceRegistryTitle },
@@ -59,8 +59,9 @@ export default async function ContentPage({ params }: Props) {
   const { slug: parts } = await params;
   const slug = resolvedSlug(parts);
   if (!slug || slug === "sudebnaya-praktika-dgi") notFound();
-  // Render the same approved editorial revision used for metadata and sitemap.
-  const page = (await getPublishedEditorialPage(slug)) ?? (!siteIsLive ? getMigratedPage(slug) : undefined);
+  // Restore the 33 existing legacy article URLs if CMS has no published replacement.
+  // Fallback snapshots remain noindex and absent from sitemap until approved.
+  const page = (await getPublishedEditorialPage(slug)) ?? getMigratedPage(slug);
   if (!page) {
     if (!siteIsLive && slug === dgiServiceRegistrySlug) {
       return <PageShell variant="thematic"><div className="container"><DgiServiceRegistry /></div></PageShell>;
