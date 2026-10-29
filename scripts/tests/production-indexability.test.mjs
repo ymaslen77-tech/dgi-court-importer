@@ -10,14 +10,16 @@ test("production may index, but preview environment stays noindex and robots-dis
   const root=read("apps/web/src/app/layout.tsx");
   const pages=read("apps/web/src/data/pages.ts");
   const config=read("apps/web/next.config.ts");
+  const proxy=read("apps/web/src/proxy.ts");
   const robots=read("apps/web/src/app/robots.ts");
   assert.match(root,/robots: \{ index: siteIsLive, follow: siteIsLive \}/);
   assert.match(pages,/SITE_RELEASE_APPROVED === "yes"/);
   assert.match(pages,/SITE_CUTOVER === "true"/);
   assert.match(pages,/host !== "dgi-pravo.ru"/);
-  assert.match(config,/host === "dgi-pravo.ru"/);
-  assert.match(config,/X-Robots-Tag/);
-  assert.match(config,/noindex, nofollow, noarchive/);
+  assert.match(proxy,/host === "dgi-pravo.ru"/);
+  assert.doesNotMatch(config,/key: "X-Robots-Tag"/);
+  assert.match(proxy,/X-Robots-Tag/);
+  assert.match(proxy,/noindex, nofollow, noarchive/);
   assert.match(robots,/if \(!siteIsLive\)/);
   assert.match(robots,/disallow:\s*"\/"/); // preview robots is closed
 });
