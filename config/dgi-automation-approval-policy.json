@@ -1,7 +1,7 @@
 {
-  "version": 4,
+  "version": 5,
   "project": "dgi-pravo.ru",
-  "effective_at": "2026-10-27",
+  "effective_at": "2026-10-29",
   "decision_model": {
     "automatic_with_verified_evidence": [
       "fact_checked_official_housing_news",
@@ -22,7 +22,10 @@
       "court_case_only_metadata_without_retrievable_full_official_text",
       "court_document_with_obvious_unredacted_sensitive_identifiers"
     ],
-    "human_review_policy": "No routine human approval or subjective merits gate for officially published DGI court acts. Accept every dispositive outcome. Block only missing official full text, incorrect court identifiers, evident sensitive data, duplication or failing CI; do not fabricate CMS/DB approval fields."
+    "human_review_policy": "No routine human approval for original official-source news, DGI official court acts of any outcome, or owner-authorized existing public site pages. Verify dates, full primary sources, case identifiers and privacy. Pause affected item only for unresolvable official-source conflict, unverified current law or incomplete source, privacy risk, duplicate or failing CI. Report disputed evidence to owner, never invent legal/editorial signoffs.",
+    "publication_model": "official_source_first_automatic_release; owner-authorized pre-existing public legacy pages can be crawled without a new formal lawyer attestation; source conflicts or unsupported new legal claims are quarantined only per affected claim/page",
+    "owner_authorized_existing_content": "All 33 already-public migrated editorial snapshots listed in apps/web/src/data/owner-released-legacy-pages.json are approved by their site owner for indexing. This is permission to publish, not proof that every legal statement is the latest consolidated legal edition.",
+    "blocker_scope": "per_affected_claim_or_url_not_entire_site"
   },
   "automatic_news": {
     "source_file": "apps/web/src/data/housing-news.json",
@@ -85,7 +88,17 @@
     "needs_owner_approval": [],
     "never_hide_findings": true,
     "require_ci_and_live_verification": true,
-    "requires_release_eligibility_for_indexability": true
+    "requires_release_eligibility_for_indexability": true,
+    "public_existing_pages_indexing": {
+      "enabled": true,
+      "approval_source": "owner_authorization_2026-10-29",
+      "allowlist": "apps/web/src/data/owner-released-legacy-pages.json",
+      "route_count": 33,
+      "automatic_sitemap": true,
+      "exclusive_of": "unpublished_CMS_records_nonpublic_legal_research_previews_and_admin_API",
+      "no_claim_of_professional_signoff": true
+    },
+    "release_eligibility_scope": "Only individual released public URLs are indexable; unverified draft inventories remain separate diagnostics and must not force robots.txt Disallow:/ for the entire live domain."
   },
   "deploy": {
     "target": "Russian VPS Coolify",
@@ -139,6 +152,10 @@
     "require_diff_content_is_exactly_documented": true,
     "require_successful_ci_before_release": true,
     "require_live_page_and_source_confirmation_after_release": true,
-    "human_review_required": false
+    "human_review_required": false,
+    "default_official_source_handling": "Eligible for automatic source-backed publication once accessible precise current primary source confirms the claim and date; compare other official sources when inconsistencies or supersession are suspected. A source domain alone never establishes latest edition.",
+    "on_official_source_disagreement": "isolate_and_report_affected_claim_with_conflicting_urls; retain_publication_of_unaffected_valid_pages",
+    "no_global_blocking_for_independent_drafts": true,
+    "legacy_page_owner_release_does_not_fake_review_fields": true
   }
 }
