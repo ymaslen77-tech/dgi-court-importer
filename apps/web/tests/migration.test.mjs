@@ -57,9 +57,10 @@ test("all preserved deep links resolve to migrated heading anchors", () => {
   }
 });
 
-test("content routes render reviewed CMS pages, including new slugs", () => {
+test("content routes prefer reviewed CMS pages and restore missing legacy routes as noindex", () => {
   const route = readFileSync(new URL("../src/app/[...slug]/page.tsx", import.meta.url), "utf8");
-  assert.ok(route.includes('const page = (await getPublishedEditorialPage(slug)) ?? (!siteIsLive ? getMigratedPage(slug) : undefined)'));
+  assert.ok(route.includes('const page = (await getPublishedEditorialPage(slug)) ?? getMigratedPage(slug)'));
+  assert.ok(route.includes("canIndexPage(page) ? { index: true, follow: true } : { index: false, follow: false }"));
   assert.ok(!route.includes("const page = getMigratedPage(slug);"));
 });
 
