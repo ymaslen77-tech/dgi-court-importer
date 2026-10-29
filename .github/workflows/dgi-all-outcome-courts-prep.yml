@@ -14,7 +14,7 @@ on:
       - '.github/workflows/dgi-all-outcome-courts-prep.yml'
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
 concurrency:
   group: dgi-court-prep-${{ github.ref }}
   cancel-in-progress: false
@@ -27,7 +27,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          persist-credentials: false
+          persist-credentials: true
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -70,6 +70,31 @@ jobs:
                   assert row['case_number'] in text and len(text)>3500,row['slug']
           print('COURT_PREPARATION_VALID',len(data),'new',report['new_prepared_count'],'shortfall',report['daily_target_shortfall'])
           PY
+      - name: Commit generated full-text manifest and PDF copies ONLY to automation branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "$GITHUB_REF_NAME" in automation/dgi-daily-*) ;; *) echo 'Refusing protected branch push'; exit 1;; esac
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('test-results/dgi-court-daily-status.json').read_text())
+          assert d['daily_verified_target']==10 and 0<=d['new_prepared_count']<=10
+          assert d['new_prepared_count']==len(d['prepared'])
+          assert d['daily_target_shortfall']==10-d['new_prepared_count']
+          print('SOURCE_VERIFIED_NEW_PREPARED',d['new_prepared_count'])
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add apps/web/src/data/verified-court-static.json apps/web/public/court-pdf-copies/ research/dgi-court-publication-queue-2026-10-28.json research/dgi-court-import-report-2026-10-28.json
+          git diff --cached --check -- apps/web/src/data/verified-court-static.json research/dgi-court-publication-queue-2026-10-28.json research/dgi-court-import-report-2026-10-28.json
+          if git diff --cached --quiet; then
+            echo 'No new source-verified court acts; preserving existing catalog and prior import report'
+            exit 0
+          fi
+          git commit -m 'data(courts): stage up to ten source-checked DGI acts and PDF copies'
+          git push origin "HEAD:$GITHUB_REF_NAME"
+          echo 'Only the automation branch was updated; PR CI must rerun on the final SHA before protected merge.'
       - name: Save source-checked candidate package for protected PR
         if: always()
         uses: actions/upload-artifact@v4
@@ -85,5 +110,5 @@ jobs:
           if-no-files-found: warn
       - name: Protect the production branch and publication workflow
         run: |
-          echo 'Runner was read-only: no direct push, no auto-approved cases, no Coolify deployment.'
+          echo 'Writes may target ONLY the automation branch; never protected production, no Coolify deployment.'
           echo 'Only an automation/dgi-* PR with final-head CI may publish prepared content.'
