@@ -25,7 +25,7 @@ const tasks = [
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const page = (await getPublishedEditorialPage("")) ?? (!siteIsLive ? getMigratedPage("") : undefined);
+  const page = (await getPublishedEditorialPage("")) ?? getMigratedPage("");
   if (!page) return {};
   return {
     title: { absolute: page.seoTitle },
@@ -45,7 +45,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const page = (await getPublishedEditorialPage("")) ?? (!siteIsLive ? getMigratedPage("") : undefined);
+  const page = (await getPublishedEditorialPage("")) ?? getMigratedPage("");
   if (!page) notFound();
   const news = listHousingNews().slice(0, 3);
   return <PageShell variant="home">
