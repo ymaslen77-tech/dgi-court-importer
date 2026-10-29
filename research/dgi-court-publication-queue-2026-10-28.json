@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "as_of": "2026-10-28",
+  "as_of": "2026-10-29",
   "purpose": "Prepare all officially published court acts involving DGI, regardless of success, refusal, mixed result or remand",
   "source_policy": "config/dgi-automation-approval-policy.json",
   "publication_source": "apps/web/src/data/verified-court-static.json",
@@ -19,10 +19,10 @@
     "manual owner Coolify deploy"
   ],
   "counts": {
-    "total": 24,
+    "total": 36,
     "curated": 14,
-    "out_of_scope": 8,
-    "ready_for_source_import": 2
+    "out_of_scope": 7,
+    "ready_for_source_import": 15
   },
   "items": [
     {
@@ -156,11 +156,12 @@
       "case_number": "88-10971/2026",
       "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17867073&case_uid=69bd7c6d-81ff-4c2a-af60-5b9376fac54a&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
       "origin": "seed_candidate_metadata_only",
-      "status": "out_of_scope",
-      "reason": "DGI participation not established; no automatic import without direct full-text DGI evidence",
+      "status": "ready_for_source_import",
+      "reason": "Official 2kas.sudrf.ru page now shows full DGI-related court act; previous metadata-only exclusion is superseded by direct source evidence; full importer checks still required.",
       "release_eligible": false,
-      "needs_full_act_and_history_review": true,
-      "already_curated": false
+      "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
     },
     {
       "case_number": "88-12791/2026",
@@ -276,6 +277,138 @@
       "reason": "Outcome no longer a restriction; attempt official full-text retrieval and minimal source/privacy checks. Unavailable or identifying acts must be skipped.",
       "origin": "new_official_source_discovery",
       "status": "ready_for_source_import",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-746/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=16814463&case_uid=3790d85f-69e3-4791-98f5-4cb782a2be77&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "official_search_full_text_discovery_2026-10-29",
+      "status": "ready_for_source_import",
+      "reason": "Official Second Cassation Court case page exposes published act text; exact full text, DGI participation, decision date, PII and SHA-256 must pass importer before publication.",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-1993/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=16991105&case_uid=a7715db8-86f8-4953-9cb3-103211d213fd&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "official_search_full_text_discovery_2026-10-29",
+      "status": "ready_for_source_import",
+      "reason": "Official Second Cassation Court case page exposes published act text; exact full text, DGI participation, decision date, PII and SHA-256 must pass importer before publication.",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-13304/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=18085592&case_uid=608b1ce5-c9d7-4c08-b0da-fa75da5fa20c&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "official_search_full_text_discovery_2026-10-29",
+      "status": "ready_for_source_import",
+      "reason": "Official Second Cassation Court case page exposes published act text; exact full text, DGI participation, decision date, PII and SHA-256 must pass importer before publication.",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-1354/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=16957427&case_uid=17eb6907-252a-4752-bcc5-5f692ba9a52d&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "official_search_full_text_discovery_2026-10-29",
+      "status": "ready_for_source_import",
+      "reason": "Official Second Cassation Court case page exposes published act text; exact full text, DGI participation, decision date, PII and SHA-256 must pass importer before publication.",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-10767/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17117746&case_uid=144cf666-db96-4411-9a06-0339d41314f4&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "official_search_full_text_discovery_2026-10-29",
+      "status": "ready_for_source_import",
+      "reason": "Official Second Cassation Court case page exposes published act text; exact full text, DGI participation, decision date, PII and SHA-256 must pass importer before publication.",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-15869/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=18354463&case_uid=5bc95348-47a7-4253-b814-763e292b179f&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "official_search_full_text_discovery_2026-10-29",
+      "status": "ready_for_source_import",
+      "reason": "Official Second Cassation Court case page exposes published act text; exact full text, DGI participation, decision date, PII and SHA-256 must pass importer before publication.",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-8962/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17547055&case_uid=33c0eb0e-d7f3-451f-9ba2-295fca726ef9&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "official_search_full_text_discovery_2026-10-29",
+      "status": "ready_for_source_import",
+      "reason": "Official Second Cassation Court case page exposes published act text; exact full text, DGI participation, decision date, PII and SHA-256 must pass importer before publication.",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-5425/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17346104&case_uid=1a7f8f1c-ad04-4549-96b2-e7a4f84a4d78&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "official_search_full_text_discovery_2026-10-29",
+      "status": "ready_for_source_import",
+      "reason": "Official Second Cassation Court case page exposes published act text; exact full text, DGI participation, decision date, PII and SHA-256 must pass importer before publication.",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-856/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=16897044&case_uid=711d9fc4-1270-481b-9a76-696ecc3f8009&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "official_search_full_text_discovery_2026-10-29",
+      "status": "ready_for_source_import",
+      "reason": "Official Second Cassation Court case page exposes published act text; exact full text, DGI participation, decision date, PII and SHA-256 must pass importer before publication.",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-10280/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17817346&case_uid=eb86a56c-c035-4923-b431-c0ea8dd7e0f5&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "official_search_full_text_discovery_2026-10-29",
+      "status": "ready_for_source_import",
+      "reason": "Official Second Cassation Court case page exposes published act text; exact full text, DGI participation, decision date, PII and SHA-256 must pass importer before publication.",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-9228/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17566510&case_uid=c1a23f7f-8273-48ac-9207-6af8be34868c&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "official_search_full_text_discovery_2026-10-29",
+      "status": "ready_for_source_import",
+      "reason": "Official Second Cassation Court case page exposes published act text; exact full text, DGI participation, decision date, PII and SHA-256 must pass importer before publication.",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-16034/2025",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=15115826&case_uid=b17e1e6e-a6e5-449a-a581-373055d8c9ab&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "official_search_full_text_discovery_2026-10-29",
+      "status": "ready_for_source_import",
+      "reason": "Official Second Cassation Court case page exposes published act text; exact full text, DGI participation, decision date, PII and SHA-256 must pass importer before publication.",
       "release_eligible": false,
       "needs_full_act_and_history_review": false,
       "already_curated": false,
