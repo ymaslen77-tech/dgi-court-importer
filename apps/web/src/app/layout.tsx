@@ -3,6 +3,10 @@ import Script from "next/script";
 import { siteIsLive } from "@/data/pages";
 import "./globals.css";
 
+// Root metadata must be evaluated in the production runtime, not fixed during
+// a closed/staging Docker build. Routes still keep their own noindex gates.
+export const dynamic = "force-dynamic";
+
 // Absolute production host for share previews. Does not enable indexing.
 const publicSiteOrigin = "https://dgi-pravo.ru";
 const brand = "Единая справочная служба Москвы — жилищные вопросы";
