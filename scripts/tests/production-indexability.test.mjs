@@ -12,7 +12,9 @@ test("production may index, but preview environment stays noindex and robots-dis
   const config=read("apps/web/next.config.ts");
   const proxy=read("apps/web/src/proxy.ts");
   const robots=read("apps/web/src/app/robots.ts");
+  const docker=read("Dockerfile.coolify");
   assert.match(root,/robots: \{ index: siteIsLive, follow: siteIsLive \}/);
+  assert.match(root,/export const dynamic = "force-dynamic"/);
   assert.match(pages,/SITE_RELEASE_APPROVED === "yes"/);
   assert.match(pages,/SITE_CUTOVER === "true"/);
   assert.match(pages,/host !== "dgi-pravo.ru"/);
@@ -21,6 +23,9 @@ test("production may index, but preview environment stays noindex and robots-dis
   assert.match(proxy,/X-Robots-Tag/);
   assert.match(proxy,/noindex, nofollow, noarchive/);
   assert.match(robots,/if \(!siteIsLive\)/);
+  assert.match(robots,/export const dynamic = "force-dynamic"/);
+  assert.doesNotMatch(docker,/^ENV SITE_CUTOVER=false/m);
+  assert.doesNotMatch(docker,/^ENV SITE_RELEASE_APPROVED=no/m);
   assert.match(robots,/disallow:\s*"\/"/); // preview robots is closed
 });
 
@@ -28,6 +33,7 @@ test("sitemap includes published news and full-text court pages with canonical p
   const sitemap=read("apps/web/src/app/sitemap.ts");
   assert.match(sitemap,/if \(!siteIsLive\) return \[\]/);
   assert.match(sitemap,/listPublishedEditorialSlugs\(\)/);
+  assert.match(sitemap,/listOwnerReleasedLegacySlugs\(\)/);
   assert.match(sitemap,/listHousingNews\(\)/);
   assert.match(sitemap,/listPublicCourtCaseSlugs\(\)/);
   assert.match(sitemap,/lastModified: new Date\(article.publishedAt\)/);
