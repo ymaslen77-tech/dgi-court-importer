@@ -5,7 +5,7 @@
   "source_policy": "config/dgi-automation-approval-policy.json",
   "publication_source": "apps/web/src/data/verified-court-static.json",
   "current_curated_count": 14,
-  "limit_per_daily_release": null,
+  "limit_per_daily_release": 10,
   "auto_publish_from_this_file": false,
   "source_recheck_required": true,
   "required_remaining_gates": [
@@ -283,5 +283,6 @@
     }
   ],
   "release_condition": "Official full text + case/court/date + DGI + automated sensitive-data screen + unique case and source + PDF SHA256 + protected CI",
-  "policy": "config/dgi-automation-approval-policy.json"
+  "policy": "config/dgi-automation-approval-policy.json",
+  "daily_release_policy": "up_to_10_source_verified_acts_per_run; never_pad_on_shortfall; reports are research until PR CI owner deploy"
 }
