@@ -26,7 +26,7 @@ class Reply:
 
 def court_page(prepared_date="23 января 2025 года",decision_date="« 15 » января 2026 года",
                heading="О П Р Е Д Е Л Е Н И Е",mask="ФИО1"):
-    head=(f"Дело № 88-1737/2026\nОпределение в окончательной форме изготовлено {prepared_date}. "
+    head=(f"Дело № 88-1737/2026\nОпределение в окончательной форме изготовлено {prepared_date}.\n"
           f"{heading}\n{decision_date} город Москва\n"
           "Судебная коллегия по гражданским делам Второго кассационного суда общей юрисдикции\n")
     legal=("По иску ФИО1 к Департаменту городского имущества г. Москвы, "
@@ -58,6 +58,12 @@ class OfficialDocumentTests(unittest.TestCase):
         self.assertEqual(date,"2026-01-15")
         warnings=prep.source_date_warnings(body,date)
         self.assertTrue(warnings and "2025" in warnings[0])
+    def test_heading_date_with_short_russian_year_suffix(self):
+        raw=court_page(decision_date="город Москва 14 апреля 2026 г.")
+        with patch.object(prep,"urlopen",return_value=Reply(raw)):
+            _,_,date=prep.full_official_court_act(URL_CASE,"88-1737/2026")
+        self.assertEqual(date,"2026-04-14")
+
     def test_reject_missing_full_text_and_wrong_date(self):
         with patch.object(prep,"urlopen",return_value=Reply(b"<html>card only</html>")):
             with self.assertRaises(ValueError):
