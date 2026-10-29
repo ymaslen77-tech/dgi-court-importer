@@ -4,6 +4,7 @@ import batch2 from "./pages-2.json";
 import batch3 from "./pages-3.json";
 import batch4 from "./pages-4.json";
 import batch5 from "./pages-5.json";
+import existingOwnerRelease from "./owner-released-legacy-pages.json";
 
 export type MigratedBlock = {
   kind: "h1" | "h2" | "h3" | "h4" | "p" | "link";
@@ -61,9 +62,25 @@ export const siteIsLive =
   Boolean(releaseOrigin);
 export const siteOrigin = siteIsLive ? releaseOrigin! : "http://localhost:3000";
 
-// Individual pages must pass editorial approval; global release flags alone are insufficient.
+// Public legacy articles existed on the owner's site before the CMS migration.
+// The owner has explicitly authorized indexing this fixed 33-page inventory.
+// This is an editorial publishing instruction, NOT a fabricated legal signoff.
+// Unknown/new CMS rows, unlisted pages, and unpublished documents do not inherit it.
+const ownerReleasedLegacySlugs = new Set<string>(existingOwnerRelease.approved_existing_slugs);
+function isOwnerReleasedLegacyPage(page: MigratedPage): boolean {
+  return ownerReleasedLegacySlugs.has(page.slug) &&
+    getMigratedPage(page.slug) === page &&
+    page.source === new URL(page.slug ? "/" + page.slug : "/", "https://dgimos.webflow.io").toString() &&
+    page.blocks.length >= 5 &&
+    page.seoTitle.trim().length >= 20 &&
+    page.description.trim().length >= 60;
+}
+export function listOwnerReleasedLegacySlugs(): string[] {
+  return migratedPages.filter(isOwnerReleasedLegacyPage).map(page => page.slug);
+}
 export function canIndexPage(page: MigratedPage): boolean {
-  return siteIsLive && page.editoriallyApproved === true;
+  if (siteIsLive && page.editoriallyApproved === true) return true;
+  return siteIsLive && isOwnerReleasedLegacyPage(page);
 }
 
 export function canonicalUrl(page: MigratedPage): string {
