@@ -6,7 +6,7 @@
     "region": "Москва",
     "category": "Городская недвижимость",
     "publishedAt": "2026-10-30T17:30:00+03:00",
-    "sourcePublishedAt": "2026-10-30",
+    "sourcePublishedAt": "2026-10-30T00:00:00+03:00",
     "sourceUrl": "https://tender.mos.ru/news/dva-prostornykh-pomeshcheniya-dlya-biznesa-v-kuntseve-vystavili-na-gorodskie-torgi-/",
     "sourceName": "Департамент города Москвы по конкурентной политике",
     "sections": [
@@ -28,7 +28,7 @@
         "heading": "Что проверить инвестору",
         "paragraphs": [
           "Ведомство характеризует помещения как объекты свободного назначения, однако фактически допустимое использование необходимо проверять с учетом характеристик здания и ограничений конкретного лота.",
-          "До подачи заявки следует проверить документацию на официальном портале торгов Москвы, сведения об объекте, начальную цену, задаток и возможные изменения сроков. Объявление торгов не означает состоявшуюся продажу."
+          "До подачи заявки следует проверить документацию на официальном портале торгов Москвы, сведения об объекте, начальную цену, задаток и действующие сроки. Объявление торгов не означает состоявшуюся продажу."
         ]
       }
     ]
@@ -40,7 +40,7 @@
     "region": "Москва",
     "category": "Городские имущественные торги",
     "publishedAt": "2026-10-30T17:30:00+03:00",
-    "sourcePublishedAt": "2026-10-29",
+    "sourcePublishedAt": "2026-10-29T00:00:00+03:00",
     "sourceUrl": "https://tender.mos.ru/news/investory-poboryutsya-na-torgakh-za-zdanie-s-zemelnym-uchastkom-na-neglinnoy/",
     "sourceName": "Департамент города Москвы по конкурентной политике",
     "sections": [
@@ -74,7 +74,7 @@
     "region": "Москва",
     "category": "Городская недвижимость",
     "publishedAt": "2026-10-30T17:30:00+03:00",
-    "sourcePublishedAt": "2026-10-29",
+    "sourcePublishedAt": "2026-10-29T00:00:00+03:00",
     "sourceUrl": "https://tender.mos.ru/news/chetyre-pomeshcheniya-dlya-biznesa-na-ulitse-dmitriya-ulyanova-dostupny-na-gorodskikh-torgakh/",
     "sourceName": "Департамент города Москвы по конкурентной политике",
     "sections": [
