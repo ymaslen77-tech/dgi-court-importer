@@ -1,0 +1,66 @@
+name: Create approved site favicon and logo formats
+on:
+  push:
+    branches: [infra/coolify-russian-vps]
+    paths:
+      - .github/workflows/generate-brand-icons.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: dgi-approved-brand-assets
+  cancel-in-progress: false
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: infra/coolify-russian-vps
+          persist-credentials: true
+      - name: Produce favicon.ico, apple-touch icon and header PNG from approved vector mark
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install -q --disable-pip-version-check pillow cairosvg
+          python3 - <<'PY'
+          from pathlib import Path
+          import cairosvg
+          from PIL import Image
+          import io, hashlib
+          root = Path("apps/web")
+          source = root / "public/brand/dgi-logo.svg"
+          assert source.exists()
+          svg = source.read_bytes()
+          assert b'viewBox="140 170 1000 1000"' in svg
+          assert b'fill="#c8011f"' in svg
+          def png(size):
+              return Image.open(io.BytesIO(cairosvg.svg2png(bytestring=svg,output_width=size,output_height=size))).convert("RGBA")
+          master=png(1024)
+          (root/"public/brand/dgi-logo.png").write_bytes(io.BytesIO(cairosvg.svg2png(bytestring=svg,output_width=512,output_height=512)).getvalue())
+          apple=master.resize((180,180),Image.Resampling.LANCZOS)
+          apple.save(root/"src/app/apple-icon.png",optimize=True)
+          ico=png(256)
+          ico.save(root/"src/app/favicon.ico",format="ICO",sizes=[(16,16),(32,32),(48,48),(64,64),(128,128),(256,256)])
+          for file in [root/"public/brand/dgi-logo.png",root/"src/app/apple-icon.png",root/"src/app/favicon.ico"]:
+              assert file.stat().st_size > 100
+              print("GENERATED",file,file.stat().st_size,hashlib.sha256(file.read_bytes()).hexdigest()[:16])
+          with Image.open(root/"src/app/favicon.ico") as icon:
+              assert icon.format=="ICO"
+              assert icon.size==(256,256)
+          PY
+      - name: Commit generated brand assets to deployment branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add apps/web/public/brand/dgi-logo.png apps/web/src/app/favicon.ico apps/web/src/app/apple-icon.png
+          if git diff --cached --quiet; then
+            echo "Brand files already up to date"
+            exit 0
+          fi
+          git commit -m "assets(brand): approved logo PNG, favicon ICO and apple touch icon"
+          git pull --rebase origin infra/coolify-russian-vps
+          git push origin HEAD:infra/coolify-russian-vps

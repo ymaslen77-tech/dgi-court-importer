@@ -1,0 +1,16 @@
+# DGI maintainers (informational); routine manual approval is NOT required.
+# Technical news entries in housing-news.json and verified 301/308 link repairs
+# are deliberately NOT listed here: safe automation can process them with CI.
+# Branch ruleset must NOT require Code Owner reviews; automated official-source validation and CI control releases.
+
+/apps/web/src/app/ @ymaslen77-tech
+/apps/web/src/data/pages.ts @ymaslen77-tech
+/apps/web/src/data/housing-guides.json @ymaslen77-tech
+/apps/web/src/data/housing-law* @ymaslen77-tech
+/apps/web/src/data/housing-news.ts @ymaslen77-tech
+/apps/web/src/data/court-fulltext.ts @ymaslen77-tech
+/apps/web/src/data/pages-*.json @ymaslen77-tech
+/config/ @ymaslen77-tech
+/scripts/ @ymaslen77-tech
+/.github/workflows/ @ymaslen77-tech
+/.github/CODEOWNERS @ymaslen77-tech

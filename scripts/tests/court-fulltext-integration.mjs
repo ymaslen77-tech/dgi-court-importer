@@ -48,6 +48,7 @@ try{
  catch(e){if(e.code!=="23514")throw e;rejected=true;}
  assert.ok(rejected,"Court act published without privacy/source signoff");
  await db.query("ROLLBACK TO SAVEPOINT invalid");
+ await db.query("UPDATE court_act_documents SET claimant_outcome='applicant_granted',outcome_checked_at=now(),outcome_reviewed_by='ci-reviewer',outcome_evidence='ТЕСТОВЫЙ ИСХОД ДЛЯ CI: требования вымышленного заявителя удовлетворены в фиктивном судебном акте, это не реальное дело.' WHERE id=$1",[id]);
  const applied=await db.query(`
  UPDATE court_act_documents SET status='published',reviewed_by='ci-reviewer',
  source_checked_at=now(),text_verified_at=now(),privacy_checked_at=now(),published_at=now()

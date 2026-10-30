@@ -1,87 +1,64 @@
 import Link from "next/link";
+import Image from "next/image";
 import { siteIsLive } from "@/data/pages";
 
 const navigation = [
-  { href: "/funkcii-dgi", label: "О ДГИ" },
-  { href: "/privatizaciya-zhilya", label: "Приватизация" },
-  { href: "/spory-s-dgi", label: "Жилищные споры" },
-  { href: "/sudebnaya-praktika-dgi", label: "Судебная практика" },
-  { href: "/novosti-zhilishchnogo-prava", label: "Новости" },
-  { href: "/kontakty-dgi", label: "Контакты" },
-];
-
-const homeNavigation = [
-  { href: "/#services", label: "Услуги" },
-  { href: "/funkcii-dgi", label: "Каталог ДГИ" },
-  { href: "/#material", label: "Порядок работы" },
-  { href: "/normativnye-akty", label: "Источники" },
-  { href: "/sudebnaya-praktika-dgi", label: "Судебная практика" },
-  { href: "/novosti-zhilishchnogo-prava", label: "Новости" },
-];
-
-const thematicNavigation = [
   { href: "/", label: "Главная" },
   { href: "/zhilishchnyj-uchet", label: "Жилищный учёт" },
   { href: "/privatizaciya-zhilya", label: "Приватизация" },
   { href: "/socialnyj-naem", label: "Социальный наём" },
   { href: "/renovaciya-pereselenie", label: "Реновация" },
-  { href: "/funkcii-dgi", label: "Функции ДГИ" },
-  { href: "/normativnye-akty", label: "Нормативные акты" },
-  { href: "/gosuslugi-dgi", label: "Госуслуги" },
-  ...(!siteIsLive ? [{ href: "/reestr-gosuslug-dgi", label: "Реестр услуг" }, { href: "/osvobodivshayasya-komnata-v-kommunalnoy-kvartire", label: "Коммунальные квартиры" }, { href: "/specializirovannyy-zhilishchnyy-fond", label: "Спецжилфонд" }] : []),
+  { href: "/spory-s-dgi", label: "Споры с ДГИ" },
+  { href: "/normativnye-akty", label: "Законы" },
+  { href: "/sudebnaya-praktika-dgi", label: "Судебные дела" },
+  { href: "/novosti-zhilishchnogo-prava", label: "Новости" },
 ];
 
-export function PageShell({ children, variant = "default" }: Readonly<{ children: React.ReactNode; variant?: "default" | "home" | "thematic" }>) {
+const previewOnlyLinks = [
+  ...(!siteIsLive ? [{ href: "/reestr-gosuslug-dgi", label: "Реестр услуг" },
+    { href: "/osvobodivshayasya-komnata-v-kommunalnoy-kvartire", label: "Коммунальные квартиры" },
+    { href: "/specializirovannyy-zhilishchnyy-fond", label: "Спецжилфонд" }] : []),
+];
+
+export function PageShell({ children, variant = "default" }: Readonly<{
+  children: React.ReactNode;
+  variant?: "default" | "home" | "thematic";
+}>) {
   return (
     <div className={`site site--${variant}`}>
-      <a href="#main-content" className="skip-link">Перейти к основному содержанию</a>
-      <div className="topbar">
-        <div className="container">{variant === "thematic" ? "ЕДИНАЯ СПРАВОЧНАЯ СЛУЖБА МОСКВЫ · ЖИЛИЩНЫЕ ВОПРОСЫ · СПРАВОЧНО-ПРАВОВАЯ ПОМОЩЬ" : "МОСКВА · ЖИЛИЩНОЕ ПРАВО · СПРАВОЧНЫЕ МАТЕРИАЛЫ"}</div>
-      </div>
+      <a href="#main-content" className="skip-link">К содержанию</a>
+      <div className="topbar"><div className="container">
+        Единая справочная служба Москвы по жилищным вопросам
+      </div></div>
       <header className="site-header">
         <div className="container header-wrap">
-          <Link href="/" className="brand" aria-label="Единая справочная служба Москвы — главная">
-            <span className="brand-mark" aria-hidden="true">{variant === "home" ? "ЖК" : "Е"}</span>
-            <span className="brand-text">
-              ЕДИНАЯ СПРАВОЧНАЯ СЛУЖБА МОСКВЫ
-              <span className="brand-sub">ПО ЖИЛИЩНЫМ ВОПРОСАМ</span>
-            </span>
+          <Link href="/" className="brand" aria-label="На главную — Жилищный справочник Москвы">
+            <Image src="/brand/dgi-logo.svg" alt="" width={46} height={46} className="brand-logo" priority />
+            <span className="brand-text">Жилищный справочник Москвы</span>
           </Link>
-          <nav className="main-nav" aria-label="Основная навигация">
-            {(variant === "home" ? homeNavigation : variant === "thematic" ? thematicNavigation : navigation).map((item) => <Link href={item.href} key={item.href}>{item.label}</Link>)}
+          <nav className="main-nav" aria-label="Основные разделы">
+            {navigation.map((item) => <Link href={item.href} key={item.href}>{item.label}</Link>)}
           </nav>
-          {variant === "home" && <Link className="header-cta" href="/#services">РАЗОБРАТЬ СИТУАЦИЮ →</Link>}
         </div>
       </header>
-      {variant === "thematic" && <div className="thematic-utility">
-        <div className="container thematic-utility-inner">
-          <Link href="/">← Вернуться к каталогу</Link>
-          <span>Ознакомьтесь с официальными источниками перед обращением</span>
-        </div>
-      </div>}
-      {!siteIsLive && (
-        <aside className="legal-review-strip" aria-label="Статус юридической проверки материалов">
-          <div className="container legal-review-strip-inner">
-            <strong>Независимый справочный проект. Правовые материалы проходят проверку актуальности.</strong>
-            <span>Это не официальный сайт ДГИ Москвы. Сроки, перечни документов и действующие правила уточняйте на <a href="https://www.mos.ru/dgi/" target="_blank" rel="noopener noreferrer">официальном сайте ведомства</a>.</span>
-          </div>
-        </aside>
-      )}
       <main id="main-content">{children}</main>
       <footer className="footer">
         <div className="container footer-grid">
           <div>
-            <strong>ЕДИНАЯ СПРАВОЧНАЯ СЛУЖБА МОСКВЫ</strong>
-            <p>Независимый справочно-правовой ресурс по жилищным вопросам. Перед подачей документов проверяйте действующие правила и официальные источники.</p>
+            <strong>Единая справочная служба Москвы по жилищным вопросам</strong>
+            <p>Независимый информационно-правовой справочник. Не является официальным сайтом или подразделением ДГИ Москвы и не оказывает государственные услуги.</p>
+            <p className="footer-disclaimer">Материалы носят справочный характер. Перед обращением проверяйте действующую редакцию нормативных актов, сроки и документы в официальных источниках.</p>
+            <p><a href="https://www.mos.ru/dgi/" target="_blank" rel="noopener noreferrer">Официальный сайт ДГИ Москвы ↗</a></p>
           </div>
-          <div className="footer-links">
-            <Link href="/o-proekte">О проекте и проверке источников</Link>
-            <Link href="/normativnye-akty">Нормативные акты</Link>
-            <Link href="/zayavlenie-v-dgi-moskvy">Обращения</Link>
-            <Link href="/sudebnaya-praktika-dgi">Судебные дела</Link>
-            <a href="mailto:admin@dgi-pravo.ru">Почта редакции: admin@dgi-pravo.ru</a>
-            <span className="footer-email-note">Адрес независимого справочного проекта, не Департамента городского имущества Москвы.</span>
-          </div>
+          <nav className="footer-links" aria-label="Дополнительная информация">
+            <Link href="/funkcii-dgi">Функции ДГИ</Link>
+            <Link href="/gosuslugi-dgi">Государственные услуги</Link>
+            <Link href="/zayavlenie-v-dgi-moskvy">Заявление в ДГИ</Link>
+            <Link href="/zhaloba-na-dgi-moskvy">Обжалование</Link>
+            <Link href="/o-proekte">О проекте и источниках</Link>
+            {previewOnlyLinks.map((item) => <Link href={item.href} key={item.href}>{item.label}</Link>)}
+            <a href="mailto:admin@dgi-pravo.ru">Редакция: admin@dgi-pravo.ru</a>
+          </nav>
         </div>
       </footer>
     </div>

@@ -1,0 +1,135 @@
+{
+  "version": 2,
+  "project": "dgi-pravo.ru",
+  "purpose": "Единый ежедневный процесс новостей и официальных судебных актов ДГИ с любым исходом",
+  "policy_file": "config/dgi-automation-approval-policy.json",
+  "cadence": "daily",
+  "orchestrator": "one ChatGPT scheduled task; no separate court-publication schedule",
+  "run_order": [
+    "load_current_policy_and_official_source_queue",
+    "research_news_and_all_outcome_court_acts",
+    "verify_official_full_text_identifiers_privacy_and_duplicate_sources",
+    "create_PDF_reading_copies_and_stage_source_only_items_in_automation_branch",
+    "protected_PR_CI_and_automerge",
+    "notify_owner_of_merge_and_exact_SHA_for_manual_Coolify_deploy",
+    "after_owner_deploy_verify_live_news_court_cards_and_PDF_URLs",
+    "report_prepared_versus_verified_live_counts"
+  ],
+  "publication_limits": {
+    "new_housing_news_per_run": 5,
+    "new_verified_court_acts_per_run": 10,
+    "verified_court_act_goal": 100,
+    "never_pad_counts": true,
+    "court_acts_limitation": "target 10 newly verified acts daily, never fabricate or bypass official full-text, privacy, PDF SHA256, CI or manual deployment; report shortfall and retry next daily run"
+  },
+  "news": {
+    "enabled": true,
+    "data_file": "apps/web/src/data/housing-news.json",
+    "schema": "apps/web/src/data/housing-news.ts#HousingNewsArticle",
+    "base_url": "https://dgi-pravo.ru/novosti-zhilishchnogo-prava",
+    "preferred_age_hours": [
+      24,
+      72
+    ],
+    "max_age_days": 7,
+    "require_accessible_official_primary_source": true,
+    "verify": [
+      "source_URL_and_published_date",
+      "title_and_relevant_Moscow_or_Moscow_region_location",
+      "all_numbers_and_addresses",
+      "current_status_of_procedure_or_norm",
+      "unique_slug_sourceUrl_and_topic",
+      "original_three_to_five_readable_sections"
+    ],
+    "normative_claims_require": "official_current_act_exact_quote_effective_date_and_legal_evidence_gate",
+    "on_unverified_normative_claim": "omit_claim_or_article; never assert a press release is an effective law"
+  },
+  "courts": {
+    "enabled": true,
+    "public_url": "https://dgi-pravo.ru/sudebnaya-praktika-dgi",
+    "published_manifest": "apps/web/src/data/verified-court-static.json",
+    "pdf_copies_dir": "apps/web/public/court-pdf-copies",
+    "server_code": "apps/web/src/data/verified-courts.ts",
+    "route": "/api/courts/verified",
+    "reader_mode": "curated_static_source_only; DB/CMS remain restricted",
+    "existing_candidate_index": "data/court-catalog.jsonl",
+    "candidate_index_is_never_publication_evidence": true,
+    "require_each": [
+      "available_full_official_court_act_text",
+      "court_case_number_and_date_match",
+      "DGI_participation_identified",
+      "duplicate_check_by_number_and_official_URL",
+      "no_obvious_unredacted_sensitive_personal_identifiers",
+      "valid_labeled_PDF_reading_copy_and_SHA256",
+      "protected_PR_and_successful_CI"
+    ],
+    "never_fabricate": [
+      "approved_by",
+      "reviewed_by",
+      "privacy_checked",
+      "published_at",
+      "official_signature",
+      "appeal_outcome"
+    ],
+    "count_toward_goal_only_if": "owner_manual_Coolify_deploy_completed_and_live_case_and_PDF_HTTP_200_verified",
+    "on_any_missing_proof": "hold_only_unavailable_source_or_mismatched_case_or_unredacted_sensitive_document; report_reason",
+    "prepublication_queue": "research/dgi-court-publication-queue-2026-10-28.json",
+    "prepublication_queue_validator": "scripts/validate_dgi_court_publication_queue.py",
+    "prepublication_source_research_ci": ".github/workflows/dgi-court-publication-queue.yml",
+    "prepublication_queue_is_not_authorization": true,
+    "research_priorities": [
+      "do_not_exclude_unsuccessful_or_mixed_or_remanded_court_acts",
+      "include_only_cases_involving_DGI",
+      "never_infer_outcome_from_metadata; use_not_classified_if_uncertain",
+      "research_and_prepare_up_to_10_new_verified_cases_each_day; report_source_shortfall_without_padding",
+      "leave_unavailable_or_obviously_identifying_documents_in_queue_with_reason"
+    ],
+    "allowed_outcomes": [
+      "applicant_granted",
+      "applicant_partially_granted",
+      "claim_granted",
+      "claim_denied",
+      "mixed",
+      "remanded",
+      "not_classified"
+    ],
+    "source_import_script": "scripts/prepare_dgi_all_outcome_courts.py",
+    "source_import_workflow": ".github/workflows/dgi-all-outcome-courts-prep.yml",
+    "daily_target": 10,
+    "daily_target_policy": "best_effort_verified_only; shortfall is reported, not padded; no restriction by outcome"
+  },
+  "release": {
+    "repository": "ymaslen77-tech/dgi-court-importer",
+    "production_branch": "infra/coolify-russian-vps",
+    "prohibit_direct_push_to_production": true,
+    "development_branch_prefix": "automation/dgi-",
+    "required_ruleset": "DGI - Production Protection",
+    "required_ruleset_enforcement": "active",
+    "required_checks": [
+      "web-checks",
+      "db-checks",
+      "cms-checks",
+      "dgi-approval-policy"
+    ],
+    "merging": "authorized_auto_merge_only_after_all_required_final_SHA_checks",
+    "infrastructure_repository": "ymaslen77-tech/vps-infrastructure",
+    "deploy": "owner_manually_deploys_approved_merged_branch_via_Coolify",
+    "verify_production_commit": true,
+    "verify_every_new_news_URL_and_every_new_court_case_and_PDF_URL": true,
+    "if_unavailable": "do_not_bypass_source_Privacy_CI_or_protected_PR; report_prepared_count_and_not_yet_live",
+    "owner_action_required": "owner_press_Deploy_after_PR_merged_and_exact_SHA_report"
+  },
+  "notification": {
+    "one_daily_summary_for_both_tracks": true,
+    "include": [
+      "date",
+      "news_newly_live_count_and_links",
+      "courts_newly_live_count_and_links",
+      "total_verified_courts_visible",
+      "checks_and_deploy_outcome",
+      "blocked_candidates_with_reasons"
+    ],
+    "never_call_draft_or_successful_CI_a_live_publication": true,
+    "no_routine_owner_approvals": true
+  }
+}

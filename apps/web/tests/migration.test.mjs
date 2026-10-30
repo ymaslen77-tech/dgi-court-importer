@@ -57,20 +57,21 @@ test("all preserved deep links resolve to migrated heading anchors", () => {
   }
 });
 
-test("content routes render reviewed CMS pages, including new slugs", () => {
+test("content routes prefer reviewed CMS pages and restore missing legacy routes as noindex", () => {
   const route = readFileSync(new URL("../src/app/[...slug]/page.tsx", import.meta.url), "utf8");
-  assert.ok(route.includes('const page = (await getPublishedEditorialPage(slug)) ?? (!siteIsLive ? getMigratedPage(slug) : undefined)'));
+  assert.ok(route.includes('const page = (await getPublishedEditorialPage(slug)) ?? getMigratedPage(slug)'));
+  assert.ok(route.includes("canIndexPage(page) ? { index: true, follow: true } : { index: false, follow: false }"));
   assert.ok(!route.includes("const page = getMigratedPage(slug);"));
 });
 
-test("published Webflow court-case slugs have protected archival routes", () => {
+test("unverified archival court case links redirect to the verified-only search", () => {
   const cases=JSON.parse(readFileSync(new URL("../src/data/legacy-cases.json",import.meta.url),"utf8")).cases;
   assert.equal(cases.length,22);
   const route=readFileSync(new URL("../src/app/dgi-court-cases/[slug]/page.tsx",import.meta.url),"utf8");
-  assert.match(route,/legacyCases\.find/);
-  assert.match(route,/index:false,follow:false/);
-  assert.ok(!route.includes("entry.title"));
-  assert.ok(cases.every(c=>c.verifiedAct===false && /^[a-z0-9-]+$/.test(c.slug)));
+  assert.match(route,/redirect\("\/sudebnaya-praktika-dgi"\)/);
+  assert.match(route,/index: false, follow: false/);
+  assert.ok(!route.includes("legacyCases.find"));
+  assert.ok(cases.every(c=>c.verifiedAct===false));
 });
 
 test("production indexation requires independent release approval and HTTPS canonical", () => {
@@ -101,46 +102,35 @@ test("page template includes factual gated SEO schema and a keyboard skip link",
   assert.ok(article.includes('<SeoMarkup page={page} />'));
 });
 
-test("home hero precedes service navigation and original article body", () => {
-  const home = readFileSync(new URL("../src/app/page.tsx",import.meta.url),"utf8");
-  const article = readFileSync(new URL("../src/components/MigratedArticle.tsx",import.meta.url),"utf8");
-  assert.ok(home.includes('<MigratedArticle page={page} home afterHero={'));
-  assert.ok(home.includes('className="topic-section" id="services"'));
-  assert.ok(article.indexOf('{afterHero}') > article.indexOf('className="hero"'));
-  assert.ok(article.indexOf('{afterHero}') < article.indexOf('className="article-section"'));
+test("homepage provides a short legal catalogue and practical actions", () => {
+  const home = readFileSync(new URL("../src/app/page.tsx", import.meta.url), "utf8");
+  assert.ok(home.includes('className="home-intro"'));
+  assert.ok(home.includes('id="topics"'));
+  assert.ok(home.includes('className="home-task-section"'));
+  assert.ok(!home.includes("afterHero="));
 });
 
-test("verified Webflow thematic pages use a light, separate content template",()=>{
- const themes=readFileSync(new URL("../src/data/themes.ts",import.meta.url),"utf8");
- const article=readFileSync(new URL("../src/components/MigratedArticle.tsx",import.meta.url),"utf8");
- const route=readFileSync(new URL("../src/app/[...slug]/page.tsx",import.meta.url),"utf8");
- const header=readFileSync(new URL("../src/components/PageShell.tsx",import.meta.url),"utf8");
- const home=readFileSync(new URL("../src/app/page.tsx",import.meta.url),"utf8");
- for(const slug of ["privatizaciya-zhilya","socialnyj-naem","renovaciya-pereselenie"])
-   assert.ok(themes.includes(slug));
- assert.ok(article.includes("hero--thematic"));
- assert.ok(article.includes("editorial-notice"));
- assert.ok(route.includes("isThematicSlug(slug)"));
- assert.ok(header.includes("site--"));
- assert.ok(home.includes('variant="home"'));
+test("shared legal pages use one light template without redundant editorial banners", () => {
+  const article = readFileSync(new URL("../src/components/MigratedArticle.tsx", import.meta.url), "utf8");
+  const shell = readFileSync(new URL("../src/components/PageShell.tsx", import.meta.url), "utf8");
+  const route = readFileSync(new URL("../src/app/[...slug]/page.tsx", import.meta.url), "utf8");
+  assert.ok(article.includes("hero--thematic"));
+  assert.ok(article.includes("isRepeatedNotice"));
+  assert.ok(article.includes("ArticleReadingFlow"));
+  assert.ok(!article.includes('className="editorial-notice"'));
+  assert.ok(!article.includes('className="thematic-feature"'));
+  assert.ok(!shell.includes('className="legal-review-strip"'));
+  assert.ok(route.includes("isThematicSlug(slug)"));
 });
 
-test("home header can emphasize an existing source phrase without inventing text",()=>{
- const article=readFileSync(new URL("../src/components/MigratedArticle.tsx",import.meta.url),"utf8");
- assert.ok(article.includes('lastIndexOf("по жилищным вопросам")'));
- assert.ok(article.includes("heading.slice(accentAt)"));
- assert.ok(article.includes('className="hero-accent"'));
+test("the exact public service title appears in the red site-wide header", () => {
+  const shell = readFileSync(new URL("../src/components/PageShell.tsx", import.meta.url), "utf8");
+  const css = readFileSync(new URL("../src/app/globals.css", import.meta.url), "utf8");
+  assert.ok(shell.includes("Единая справочная служба Москвы по жилищным вопросам"));
+  assert.ok(css.includes(".site--home .topbar"));
+  assert.ok(shell.includes('href="/o-proekte"'));
+  assert.ok(shell.includes("Не является официальным сайтом"));
 });
-
-test("home nav and hero expose both original primary and secondary actions",()=>{
- const shell=readFileSync(new URL("../src/components/PageShell.tsx",import.meta.url),"utf8");
- const article=readFileSync(new URL("../src/components/MigratedArticle.tsx",import.meta.url),"utf8");
- assert.ok(shell.includes('href="/#services"'));
- assert.ok(shell.includes("РАЗОБРАТЬ СИТУАЦИЮ"));
- assert.ok(article.includes("КАК МЫ РАБОТАЕМ"));
- assert.ok(article.includes("hero-link-secondary"));
-});
-
 
 test("all fifteen Webflow light-layout pages use the source-verified thematic variant",()=>{
  const themes=readFileSync(new URL("../src/data/themes.ts",import.meta.url),"utf8");
@@ -155,22 +145,11 @@ test("all fifteen Webflow light-layout pages use the source-verified thematic va
  assert.ok(sourcePage.includes('<PageShell variant="thematic">'));
  assert.ok(sourcePage.includes('hero hero--thematic'));
 });
-test("accent spans reuse existing headings rather than introducing unsupported wording",()=>{
- const themes=readFileSync(new URL("../src/data/themes.ts",import.meta.url),"utf8");
- const article=readFileSync(new URL("../src/components/MigratedArticle.tsx",import.meta.url),"utf8");
- assert.ok(themes.includes("sourceHeadingAccentIndex"));
- assert.ok(article.includes("heading.slice(accentAt)"));
- assert.ok(article.includes("heading.slice(0, accentAt)"));
- assert.ok(!article.includes("копия действующего административного регламента"));
-});
-
-
-test("thematic featured card preserves source text and no third-party image URLs",()=>{
- const article=readFileSync(new URL("../src/components/MigratedArticle.tsx",import.meta.url),"utf8");
- const css=readFileSync(new URL("../src/app/globals.css",import.meta.url),"utf8");
- assert.ok(article.includes('body.slice(featureAt, featureAt + featureLength)'));
- assert.ok(article.includes('thematic-feature'));
- assert.ok(article.includes('sourceNotice?.text'));
- assert.ok(css.includes('.thematic-feature'));
- assert.ok(!css.includes("images.unsplash.com"));
+test("legal reading flow drops empty migration headings and editorial-only paragraphs", () => {
+  const article = readFileSync(new URL("../src/components/MigratedArticle.tsx", import.meta.url), "utf8");
+  assert.ok(article.includes("if (!section.length"));
+  assert.ok(article.includes("isRepeatedNotice"));
+  assert.ok(article.includes("legacyAnchors.find"));
+  assert.ok(!article.includes("Подробное содержание этого раздела пока не подтверждено"));
+  assert.ok(!article.includes('className="thematic-feature"'));
 });

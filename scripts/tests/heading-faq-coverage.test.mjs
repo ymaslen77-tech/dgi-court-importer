@@ -34,11 +34,11 @@ test("FAQ uses native accessible disclosures and preserves the existing answer b
  const css=readFileSync(new URL("../../apps/web/src/app/globals.css",import.meta.url),"utf8");
  assert.match(component,/<details className="article-faq"/);
  assert.match(component,/<summary>/);
- assert.match(component,/content\.map\(\(entry, index\)/);
- assert.match(component,/TopicDestination/);
- assert.match(component,/SourceHeadingId/);
- assert.match(component,/const needsAnswer/);
- assert.match(component,/getMigratedPage\(href\.slice\(1\)\)/);
+ assert.match(component,/section\.map\(\(item, j\)/);
+ assert.doesNotMatch(component,/TopicDestination/);
+ assert.match(component,/legacyAnchors\.find/);
+ assert.match(component,/const isQuestion/);
+ assert.match(component,/safeHref/);
  assert.match(css,/\.article-faq summary:focus-visible/);
  assert.match(css,/\.article-related-topic/);
 });
@@ -46,6 +46,6 @@ test("FAQ uses native accessible disclosures and preserves the existing answer b
 test("published content still has no auto-generated legal claims or FAQ schema",()=>{
  const component=readFileSync(new URL("../../apps/web/src/components/MigratedArticle.tsx",import.meta.url),"utf8");
  assert.doesNotMatch(component,/"@type"\s*:\s*"FAQPage"/);
- assert.match(component,/Подробное содержание этого раздела пока не подтверждено/);
+ assert.doesNotMatch(component,/Подробное содержание этого раздела пока не подтверждено/);
  assert.match(component,/noopener noreferrer/);
 });

@@ -33,6 +33,9 @@ test("Next.js candidate catalog cannot trace the whole repository into its runti
 test("legacy general appeals search URL cannot be presented as a confirmed case source",()=>{
   const source=readFileSync(new URL("../../apps/web/src/app/sudebnaya-praktika-dgi/page.tsx",import.meta.url),"utf8");
   const dbSource=readFileSync(new URL("../../apps/web/src/data/court-search.ts",import.meta.url),"utf8");
-  assert.ok(source.includes("url: undefined"));
+  assert.ok(source.includes("VerifiedCourtExplorer"));
+  assert.ok(!source.includes("CourtExplorer cases="));
+  assert.ok(!source.includes("legacyCases"));
+  assert.ok(!source.includes("listOfficialCandidates"));
   assert.ok(dbSource.includes("services\\/cases\\/"));
 });

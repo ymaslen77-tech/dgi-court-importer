@@ -1,0 +1,163 @@
+{
+  "version": 5,
+  "project": "dgi-pravo.ru",
+  "effective_at": "2026-10-29",
+  "decision_model": {
+    "automatic_with_verified_evidence": [
+      "fact_checked_official_housing_news",
+      "officially_published_DGI_court_acts_of_any_disposition_with_basic_privacy_screen",
+      "low_risk_reversible_technical_seo_fixes",
+      "exact_source_backed_changes_to_law_and_legal_procedures"
+    ],
+    "publication_blocked_until_resolved": [
+      "no_current_authoritative_primary_source",
+      "official_document_unavailable_or_only_a_search_result",
+      "ambiguous_effective_date_revision_or_transitional_rule",
+      "source_excerpt_not_observable_on_official_source",
+      "contradictory_official_sources_or_legal_interpretation",
+      "draft_or_withdrawn_law_presented_as_effective",
+      "missing_signed_or_original_judicial_text",
+      "newly_indexable_pages_without_editorial_validation",
+      "failing_ci_or_unverified_production_deployment",
+      "court_case_only_metadata_without_retrievable_full_official_text",
+      "court_document_with_obvious_unredacted_sensitive_identifiers"
+    ],
+    "human_review_policy": "No routine human approval for original official-source news, DGI official court acts of any outcome, or owner-authorized existing public site pages. Verify dates, full primary sources, case identifiers and privacy. Pause affected item only for unresolvable official-source conflict, unverified current law or incomplete source, privacy risk, duplicate or failing CI. Report disputed evidence to owner, never invent legal/editorial signoffs.",
+    "publication_model": "official_source_first_automatic_release; owner-authorized pre-existing public legacy pages can be crawled without a new formal lawyer attestation; source conflicts or unsupported new legal claims are quarantined only per affected claim/page",
+    "owner_authorized_existing_content": "All 33 already-public migrated editorial snapshots listed in apps/web/src/data/owner-released-legacy-pages.json are approved by their site owner for indexing. This is permission to publish, not proof that every legal statement is the latest consolidated legal edition.",
+    "blocker_scope": "per_affected_claim_or_url_not_entire_site"
+  },
+  "automatic_news": {
+    "source_file": "apps/web/src/data/housing-news.json",
+    "max_new_per_run": 5,
+    "official_source_hosts": [
+      "mos.ru",
+      "mosreg.ru",
+      "tender.mos.ru",
+      "publication.pravo.gov.ru",
+      "pravo.gov.ru"
+    ],
+    "require_primary_source": true,
+    "duplicate_detection": [
+      "slug",
+      "sourceUrl",
+      "normalized_title"
+    ],
+    "max_age_days": 7,
+    "block_if_legal_rule_is_changed": false,
+    "require_ci_build": true,
+    "require_live_verification": true,
+    "legal_rule_change_requires": "verified legal change evidence and legal-source gate; otherwise publish no normative assertion"
+  },
+  "automatic_courts": {
+    "public_page": "/sudebnaya-praktika-dgi",
+    "selection": "officially_published_court_acts_involving_Moscow_DGI_of_any_outcome",
+    "allow_outcomes": [
+      "claim_granted",
+      "claim_denied",
+      "applicant_granted",
+      "applicant_partially_granted",
+      "mixed",
+      "remanded",
+      "not_classified"
+    ],
+    "source_verification": "official_full_text_retrievable_not_a_search_snippet; verify court_number_and_date",
+    "min_required": [
+      "exact_official_act_URL",
+      "published_full_judicial_text",
+      "case_number_court_and_date_correspond",
+      "DGI_mentioned_in_full_text",
+      "duplicate_case_and_source_URL_check",
+      "automated_screen_for_obvious_sensitive_identifiers",
+      "accurate_reading_PDF_copy_and_SHA256",
+      "protected_PR_and_required_CI"
+    ],
+    "when_outcome_unclear": "label_not_classified_and_link_full_official_text; never_guess_success_or_loss",
+    "court_act_status": "Do not claim entry into force, finality, no reversal, or legal precedent without evidence. Remands and dismissals may appear as regular source acts.",
+    "original_act_rights": "Official judicial acts are generally excluded from copyright protection under Russian Civil Code article 1259(6)(1); this does not remove privacy rules.",
+    "never_set_approval_fields_fictitiously": true,
+    "publication_path": "static_verified_court_manifest_only; do_not_override_database_CMS_permissions",
+    "deploy": "owner_manually_deploys_merged_branch_in_Coolify",
+    "count_live_only_after_owner_deploy_and_HTTP_PDF_check": true,
+    "daily_verified_target": 10,
+    "daily_target_enforcement": "best_effort; only source-verified acts count; report shortfall and retry; no fabricated PDFs or bypassed checks"
+  },
+  "automatic_seo": {
+    "cadence": "weekly",
+    "automatic_fixes": [
+      "verified_intra_site_permanent_301_or_308_link_replacement"
+    ],
+    "needs_owner_approval": [],
+    "never_hide_findings": true,
+    "require_ci_and_live_verification": true,
+    "requires_release_eligibility_for_indexability": true,
+    "public_existing_pages_indexing": {
+      "enabled": true,
+      "approval_source": "owner_authorization_2026-10-29",
+      "allowlist": "apps/web/src/data/owner-released-legacy-pages.json",
+      "route_count": 33,
+      "automatic_sitemap": true,
+      "exclusive_of": "unpublished_CMS_records_nonpublic_legal_research_previews_and_admin_API",
+      "no_claim_of_professional_signoff": true
+    },
+    "release_eligibility_scope": "Only individual released public URLs are indexable; unverified draft inventories remain separate diagnostics and must not force robots.txt Disallow:/ for the entire live domain."
+  },
+  "deploy": {
+    "target": "Russian VPS Coolify",
+    "production_branch": "infra/coolify-russian-vps",
+    "require_successful_ci": true,
+    "require_exact_commit_verification": true,
+    "require_live_smoke": true,
+    "do_not_bypass_unapproved_legal_content_gate": true,
+    "no_routine_owner_review": true,
+    "requires_branch_protection_with_required_ci": true,
+    "require_source_evidence_before_legal_release": true,
+    "publication_operator": "owner_manual_Coolify"
+  },
+  "automatic_legal_review": {
+    "automated": true,
+    "evidence_path": "legal-evidence/changes.json",
+    "required_per_changed_claim": [
+      "affected_file",
+      "current_exact_statement",
+      "replacement_exact_statement",
+      "official_primary_source_url",
+      "official_source_excerpt",
+      "act_number_and_date",
+      "effective_date",
+      "legal_reason_and_scope",
+      "transitional_rules_checked",
+      "amendment_history_checked",
+      "source_checked_at"
+    ],
+    "acceptable_official_sources": [
+      "pravo.gov.ru",
+      "publication.pravo.gov.ru",
+      "mos.ru",
+      "mosreg.ru",
+      "vsrf.ru",
+      "ksrf.ru",
+      "sudrf.ru",
+      "rosreestr.gov.ru",
+      "nalog.gov.ru",
+      "gosuslugi.ru"
+    ],
+    "secondary_sources_for_discovery_only": [
+      "consultant.ru",
+      "garant.ru"
+    ],
+    "reject_if_source_unreachable": true,
+    "reject_if_exact_official_quote_unverifiable": true,
+    "reject_if_claim_exceeds_supported_legal_conclusion": true,
+    "never_publish_if_conflicting_or_ambiguous": true,
+    "never_fake_cms_or_court_approval_fields": true,
+    "require_diff_content_is_exactly_documented": true,
+    "require_successful_ci_before_release": true,
+    "require_live_page_and_source_confirmation_after_release": true,
+    "human_review_required": false,
+    "default_official_source_handling": "Eligible for automatic source-backed publication once accessible precise current primary source confirms the claim and date; compare other official sources when inconsistencies or supersession are suspected. A source domain alone never establishes latest edition.",
+    "on_official_source_disagreement": "isolate_and_report_affected_claim_with_conflicting_urls; retain_publication_of_unaffected_valid_pages",
+    "no_global_blocking_for_independent_drafts": true,
+    "legacy_page_owner_release_does_not_fake_review_fields": true
+  }
+}
