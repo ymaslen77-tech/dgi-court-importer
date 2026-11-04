@@ -1,0 +1,61 @@
+name: DGI official-source discovery — safe daily inputs
+
+on:
+  push:
+    branches:
+      - 'automation/dgi-daily-*'
+    paths:
+      - 'research/dgi-daily-trigger-*.json'
+      - 'scripts/discover_dgi_official_news.py'
+      - 'scripts/tests/test_dgi_official_news_discovery.py'
+      - '.github/workflows/dgi-official-source-discovery.yml'
+  pull_request:
+    branches: [infra/coolify-russian-vps]
+    paths:
+      - 'apps/web/src/data/housing-news.json'
+      - 'scripts/discover_dgi_official_news.py'
+      - 'scripts/tests/test_dgi_official_news_discovery.py'
+      - '.github/workflows/dgi-official-source-discovery.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  official-news-candidates:
+    name: official-news-discovery
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install constrained official HTML parser
+        run: python -m pip install --disable-pip-version-check 'beautifulsoup4>=4.12,<5'
+      - name: Verify strict URLs and missing-date rejection
+        run: python -m unittest discover -s scripts/tests -p 'test_dgi_official_news_discovery.py' -v
+      - name: Discover fresh primary-source leads, never publish automatically
+        run: python scripts/discover_dgi_official_news.py --limit 30 --lookback-days 7
+      - name: Validate report cannot authorize publication
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open("test-results/dgi-official-news-discovery.json"))
+          assert d['publication_allowed'] is False and d['new_publications']==0
+          assert d['existing_news_preserved'] >= 15
+          assert d['candidate_count'] == len(d['candidates'])
+          assert len({x['official_url'] for x in d['candidates']})==len(d['candidates'])
+          assert all(x['eligible_for_publication'] is False for x in d['candidates'])
+          print("SOURCE_LEADS",d['candidate_count'],"NEWS_PUBLISHED",d['new_publications'])
+          PY
+      - name: Preserve source leads for one daily DGI editorial release
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dgi-official-news-candidates
+          path: test-results/dgi-official-news-discovery.json
+          retention-days: 14
+          if-no-files-found: warn

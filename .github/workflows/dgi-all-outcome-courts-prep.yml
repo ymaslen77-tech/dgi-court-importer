@@ -8,6 +8,8 @@ on:
       - 'research/dgi-court-publication-queue-*.json'
       - 'config/dgi-daily-publication.json'
       - 'config/dgi-automation-approval-policy.json'
+      - 'scripts/discover_dgi_official_courts.py'
+      - 'scripts/tests/test_dgi_official_court_discovery.py'
       - 'scripts/prepare_dgi_all_outcome_courts.py'
       - 'scripts/validate_dgi_court_publication_queue.py'
       - 'scripts/tests/test_dgi_court_daily_preparation.py'
@@ -36,6 +38,10 @@ jobs:
           python3 -m pip install --disable-pip-version-check -q beautifulsoup4 lxml reportlab
           sudo apt-get update -qq
           sudo apt-get install -y -qq fonts-dejavu-core poppler-utils >/dev/null
+      - name: Verify official court discovery parser
+        run: python3 -m unittest discover -s scripts/tests -p 'test_dgi_official_court_discovery.py' -v
+      - name: Refresh candidate queue from bounded official 2kas case links
+        run: python3 scripts/discover_dgi_official_courts.py --limit 20 --apply
       - name: Verify source queue and ten-act ceiling
         run: |
           python3 scripts/validate_dgi_court_publication_queue.py
@@ -101,6 +107,7 @@ jobs:
         with:
           name: dgi-daily-court-preparation-${{ github.run_id }}
           path: |
+            test-results/dgi-official-court-discovery.json
             test-results/dgi-court-daily-status.json
             research/dgi-court-import-report-2026-10-28.json
             research/dgi-court-publication-queue-2026-10-28.json
