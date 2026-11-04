@@ -10,12 +10,16 @@ import argparse
 import datetime
 import json
 import re
+import sys
 import urllib.parse
 import urllib.request
 from pathlib import Path
 
 from bs4 import BeautifulSoup
 from bs4.dammit import UnicodeDammit
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from validate_dgi_court_publication_queue import official_url
 
 ROOT = Path(__file__).resolve().parents[1]
 QUEUE = ROOT / "research/dgi-court-publication-queue-2026-10-28.json"
@@ -27,7 +31,6 @@ MAX_HTML = 1_500_000
 
 
 def case_link(value, origin=LIST_URL):
-    from validate_dgi_court_publication_queue import official_url
     url = urllib.parse.urljoin(origin, value)
     return url if official_url(url) and urllib.parse.parse_qs(
         urllib.parse.urlsplit(url).query).get("name_op") == ["case"] else None
