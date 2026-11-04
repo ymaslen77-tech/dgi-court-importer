@@ -78,7 +78,7 @@ def discover(limit, apply=False):
     except (OSError, TimeoutError, ValueError) as error:
         entries = {}
         problems.append({"source": LIST_URL, "reason": type(error).__name__})
-    for number, url in entries.items():
+    for number, url in list(entries.items())[:min(max(12, limit * 2), 25)]:
         if number in existing or url in used_urls:
             continue
         try:
