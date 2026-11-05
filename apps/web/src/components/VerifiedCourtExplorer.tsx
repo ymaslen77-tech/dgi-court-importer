@@ -29,6 +29,9 @@ export function VerifiedCourtExplorer({ initialItems = [] }: { initialItems?: Ve
   const searchInput = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    // The server has already supplied the verified catalog. Do not make an
+    // empty-query request on hydration: an API outage must not hide it.
+    if (!query.trim()) return;
     const controller = new AbortController();
     const timeout = window.setTimeout(async () => {
       setBusy(true); setError("");
@@ -42,14 +45,16 @@ export function VerifiedCourtExplorer({ initialItems = [] }: { initialItems?: Ve
         setItems(data.items);
       } catch (cause) {
         if (controller.signal.aborted) return;
-        setItems([]);
-        setError(cause instanceof Error ? cause.message : "Ошибка поиска");
+        // Retain only server-verified records; never turn a transient API error
+        // into an apparently empty public court catalog.
+        setItems(initialItems);
+        setError("Поиск временно недоступен. Показаны проверенные судебные акты из каталога.");
       } finally {
         if (!controller.signal.aborted) setBusy(false);
       }
     }, query ? 280 : 0);
     return () => { controller.abort(); window.clearTimeout(timeout); };
-  }, [query]);
+  }, [query, initialItems]);
 
   useEffect(() => {
     if (!active) return;
@@ -71,7 +76,15 @@ export function VerifiedCourtExplorer({ initialItems = [] }: { initialItems?: Ve
     <form role="search" className="verified-search" onSubmit={e => e.preventDefault()}>
       <label htmlFor="verified-case-q">Поиск по тексту решения, номеру дела, суду и теме</label>
       <input ref={searchInput} id="verified-case-q" type="search" value={query}
-        autoComplete="off" maxLength={100} onChange={e => setQuery(e.target.value)}
+        autoComplete="off" maxLength={100} onChange={e => {
+          const next = e.target.value;
+          setQuery(next);
+          if (!next.trim()) {
+            setItems(initialItems);
+            setError("");
+            setBusy(false);
+          }
+        }}
         placeholder="Например: отказ в приватизации, жилищный учёт, выселение" />
       <p>Результаты обновляются при вводе запроса.</p>
     </form>
