@@ -1,0 +1,15 @@
+{
+  "date": "2026-11-05",
+  "kind": "daily_official_source_preparation",
+  "base_branch": "infra/coolify-russian-vps",
+  "court_queue": "research/dgi-court-publication-queue-2026-10-28.json",
+  "discover_script": "scripts/discover_dgi_official_courts.py",
+  "prepare_script": "scripts/prepare_dgi_all_outcome_courts.py",
+  "max_new_courts": 10,
+  "max_new_news": 5,
+  "require_full_official_text": true,
+  "require_pdf_sha256": true,
+  "require_privacy_screen": true,
+  "deploy": "owner_manual_only",
+  "note": "Trigger only; not publication evidence."
+}
