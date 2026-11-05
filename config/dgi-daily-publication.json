@@ -7,9 +7,10 @@
   "orchestrator": "one ChatGPT scheduled task; no separate court-publication schedule",
   "run_order": [
     "read_current_protected_infra/coolify-russian-vps_config_policy_queue_news_manifest_and_live_baseline",
+    "create_one_automation/dgi-daily-YYYY-MM-DD_branch_BEFORE_any_repository_writes",
     "research_new_official_Moscow_and_Moscow_region_news_and_exact_court_case_URLs",
-    "append_deduplicated_15_to_25_source_observed_official_court_URL_leads_to_daily_queue_before_runner",
-    "create_one_automation/dgi-daily-YYYY-MM-DD_branch_and_trigger_JSON",
+    "append_deduplicated_best_effort_15_to_25_source_observed_official_court_URL_leads_TO_automation_branch_queue",
+    "commit_queue_and_daily_trigger_JSON_on_same_automation_branch_then_run_workflow",
     "run_discover_dgi_official_courts_and_prepare_dgi_all_outcome_courts_using_GitHub_Actions",
     "inspect_dgi_court_daily_status_import_report_queue_manifest_and_each_PDF_SHA256_in_final_branch",
     "independently_verify_and_add_zero_to_five_original_official_news_preserving_all_existing_entries",
@@ -161,11 +162,12 @@
       "never_silently_repair_original_court_document": true,
       "accepted_outcome_if_not_proven": "not_classified",
       "reject_only_affected_candidate_on_missing_text_privacy_risk_or_mismatch": true,
-      "never_change_existing_26_or_subsequent_curated_acts_to_create_count": true,
       "count_new_successes_from_current_run_status_not_older_historical_report": true,
       "never_assert_10_of_10_if_fewer_than_10": true,
       "once_ten_acts_prepared_stop_daily_import_and_leave_rest_in_queue": true,
-      "do_not_automatically_unlock_CMS_or_database_court_read_permissions": true
+      "do_not_automatically_unlock_CMS_or_database_court_read_permissions": true,
+      "preserve_all_preexisting_curated_acts_and_never_pad_count": true,
+      "commit_queue_and_trigger_on_same_branch_before_import": true
     }
   },
   "release": {
@@ -241,7 +243,6 @@
   "orchestration": {
     "single_scheduled_task": true,
     "task_title": "Ежедневные публикации ДГИ: новости и суды",
-    "existing_task_id": "6ae0575a0e60819187cada8b8a3f6267",
     "timezone": "Europe/Moscow",
     "nominal_time": "09:00",
     "separate_news_or_court_publishing_tasks_enabled": false,
