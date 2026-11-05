@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "as_of": "2026-10-29",
+  "as_of": "2026-11-05",
   "purpose": "Prepare all officially published court acts involving DGI, regardless of success, refusal, mixed result or remand",
   "source_policy": "config/dgi-automation-approval-policy.json",
   "publication_source": "apps/web/src/data/verified-court-static.json",
@@ -19,10 +19,10 @@
     "manual owner Coolify deploy"
   ],
   "counts": {
-    "total": 36,
+    "total": 52,
     "curated": 26,
     "out_of_scope": 7,
-    "ready_for_source_import": 3
+    "ready_for_source_import": 19
   },
   "items": [
     {
@@ -413,9 +413,186 @@
       "needs_full_act_and_history_review": false,
       "already_curated": true,
       "needs_official_source_and_privacy_screen": false
+    },
+    {
+      "case_number": "88-15635/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=18292655&case_uid=4e0d022d-9d6e-432d-85eb-a9423d72f51c&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "official_web_primary_source_discovery_2026-11-05",
+      "status": "ready_for_source_import",
+      "reason": "Exact court case page and published judicial act indicated on official 2kas source; full text, case/date, DGI, privacy and PDF SHA-256 to be independently verified by importer",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-15638/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=18322440&case_uid=b3fa2b3e-5206-4321-a802-b2cba2671704&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "official_web_primary_source_discovery_2026-11-05",
+      "status": "ready_for_source_import",
+      "reason": "Exact court case page and published judicial act indicated on official 2kas source; full text, case/date, DGI, privacy and PDF SHA-256 to be independently verified by importer",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-12882/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17961038&case_uid=ec26affe-c972-421c-a482-c6a5b9c81a48&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "official_web_primary_source_discovery_2026-11-05",
+      "status": "ready_for_source_import",
+      "reason": "Exact court case page and published judicial act indicated on official 2kas source; full text, case/date, DGI, privacy and PDF SHA-256 to be independently verified by importer",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-3357/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17208652&case_uid=1772b58b-1313-41fd-9823-e5e572c991cc&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "official_web_primary_source_discovery_2026-11-05",
+      "status": "ready_for_source_import",
+      "reason": "Exact court case page and published judicial act indicated on official 2kas source; full text, case/date, DGI, privacy and PDF SHA-256 to be independently verified by importer",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-8907/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17694345&case_uid=0d62a970-a053-4b68-a6d6-bcad707a8e0b&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "official_web_primary_source_discovery_2026-11-05",
+      "status": "ready_for_source_import",
+      "reason": "Exact court case page and published judicial act indicated on official 2kas source; full text, case/date, DGI, privacy and PDF SHA-256 to be independently verified by importer",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-903/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=16554125&case_uid=c7a033a7-ecf0-4bfb-ab07-6e8604a20948&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "official_web_primary_source_discovery_2026-11-05",
+      "status": "ready_for_source_import",
+      "reason": "Exact court case page and published judicial act indicated on official 2kas source; full text, case/date, DGI, privacy and PDF SHA-256 to be independently verified by importer",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-12231/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17673099&case_uid=dd710af7-65dc-4fe3-86c0-f6b81b0da7cf&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "official_web_primary_source_discovery_2026-11-05",
+      "status": "ready_for_source_import",
+      "reason": "Exact court case page and published judicial act indicated on official 2kas source; full text, case/date, DGI, privacy and PDF SHA-256 to be independently verified by importer",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-11771/2025",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=14814096&case_uid=a455faab-976c-4b5c-af5e-feb9ce88246a&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "official_web_primary_source_discovery_2026-11-05",
+      "status": "ready_for_source_import",
+      "reason": "Exact court case page and published judicial act indicated on official 2kas source; full text, case/date, DGI, privacy and PDF SHA-256 to be independently verified by importer",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-6591/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17439957&case_uid=bc399991-b77d-448f-bfb0-8a4ca4fc7159&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "official_web_primary_source_discovery_2026-11-05",
+      "status": "ready_for_source_import",
+      "reason": "Exact court case page and published judicial act indicated on official 2kas source; full text, case/date, DGI, privacy and PDF SHA-256 to be independently verified by importer",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-9401/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17263629&case_uid=9ba962eb-4c3d-49cd-a682-785384db4d52&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "official_web_primary_source_discovery_2026-11-05",
+      "status": "ready_for_source_import",
+      "reason": "Exact court case page and published judicial act indicated on official 2kas source; full text, case/date, DGI, privacy and PDF SHA-256 to be independently verified by importer",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-2834/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=16842762&case_uid=06e96001-3839-4c9d-b0f3-2ebbd8f003c6&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "official_web_primary_source_discovery_2026-11-05",
+      "status": "ready_for_source_import",
+      "reason": "Exact court case page and published judicial act indicated on official 2kas source; full text, case/date, DGI, privacy and PDF SHA-256 to be independently verified by importer",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-8433/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17176399&case_uid=0256d852-2a1b-4f14-b323-a25a7906c804&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "official_web_primary_source_discovery_2026-11-05",
+      "status": "ready_for_source_import",
+      "reason": "Exact court case page and published judicial act indicated on official 2kas source; full text, case/date, DGI, privacy and PDF SHA-256 to be independently verified by importer",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-2563/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17024249&case_uid=e9f51f64-cbce-42f2-9b54-2c8410e25650&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "official_web_primary_source_discovery_2026-11-05",
+      "status": "ready_for_source_import",
+      "reason": "Exact court case page and published judicial act indicated on official 2kas source; full text, case/date, DGI, privacy and PDF SHA-256 to be independently verified by importer",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-5998/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17380048&case_uid=5f7b8c19-b21b-4bef-991e-104fd9680ebd&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "official_web_primary_source_discovery_2026-11-05",
+      "status": "ready_for_source_import",
+      "reason": "Exact court case page and published judicial act indicated on official 2kas source; full text, case/date, DGI, privacy and PDF SHA-256 to be independently verified by importer",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-206/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=16481637&case_uid=1dc7ba6d-a754-48c1-a98a-6d712a73e02f&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "official_web_primary_source_discovery_2026-11-05",
+      "status": "ready_for_source_import",
+      "reason": "Exact court case page and published judicial act indicated on official 2kas source; full text, case/date, DGI, privacy and PDF SHA-256 to be independently verified by importer",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-4596/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17312596&case_uid=bce1107f-e37e-41ee-b88d-a574d35fa020&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "official_web_primary_source_discovery_2026-11-05",
+      "status": "ready_for_source_import",
+      "reason": "Exact court case page and published judicial act indicated on official 2kas source; full text, case/date, DGI, privacy and PDF SHA-256 to be independently verified by importer",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
     }
   ],
   "release_condition": "Official full text + case/court/date + DGI + automated sensitive-data screen + unique case and source + PDF SHA256 + protected CI",
   "policy": "config/dgi-automation-approval-policy.json",
-  "daily_release_policy": "up_to_10_source_verified_acts_per_run; never_pad_on_shortfall; reports are research until PR CI owner deploy"
+  "daily_release_policy": "up_to_10_source_verified_acts_per_run; never_pad_on_shortfall; reports are research until PR CI owner deploy",
+  "proposed_new_source_candidates_on_2026_11_05": 16
 }
