@@ -1,19 +1,24 @@
 {
-  "version": 2,
+  "version": 3,
   "project": "dgi-pravo.ru",
   "purpose": "Единый ежедневный процесс новостей и официальных судебных актов ДГИ с любым исходом",
   "policy_file": "config/dgi-automation-approval-policy.json",
   "cadence": "daily",
   "orchestrator": "one ChatGPT scheduled task; no separate court-publication schedule",
   "run_order": [
-    "load_current_policy_and_official_source_queue",
-    "research_news_and_all_outcome_court_acts",
-    "verify_official_full_text_identifiers_privacy_and_duplicate_sources",
-    "create_PDF_reading_copies_and_stage_source_only_items_in_automation_branch",
-    "protected_PR_CI_and_automerge",
-    "notify_owner_of_merge_and_exact_SHA_for_manual_Coolify_deploy",
-    "after_owner_deploy_verify_live_news_court_cards_and_PDF_URLs",
-    "report_prepared_versus_verified_live_counts"
+    "read_current_protected_infra/coolify-russian-vps_config_policy_queue_news_manifest_and_live_baseline",
+    "research_new_official_Moscow_and_Moscow_region_news_and_exact_court_case_URLs",
+    "append_deduplicated_15_to_25_source_observed_official_court_URL_leads_to_daily_queue_before_runner",
+    "create_one_automation/dgi-daily-YYYY-MM-DD_branch_and_trigger_JSON",
+    "run_discover_dgi_official_courts_and_prepare_dgi_all_outcome_courts_using_GitHub_Actions",
+    "inspect_dgi_court_daily_status_import_report_queue_manifest_and_each_PDF_SHA256_in_final_branch",
+    "independently_verify_and_add_zero_to_five_original_official_news_preserving_all_existing_entries",
+    "open_or_update_one_protected_PR_for_both_tracks",
+    "recheck_all_required_and_applicable_CI_on_exact_final_PR_head_SHA_after_any_GITHUB_TOKEN_commit",
+    "merge_only_with_active_protected_ruleset_and_all_checks_successful",
+    "tell_owner_exact_merge_SHA_for_manual_Coolify_dgi-web_Deploy_only",
+    "verify_new_live_news_case_and_PDF_HTTP_200_only_after_owner_confirms_Deploy",
+    "send_one_truthful_daily_report_prepared_vs_confirmed_live_and_source_failures"
   ],
   "publication_limits": {
     "new_housing_news_per_run": 5,
@@ -42,7 +47,26 @@
       "original_three_to_five_readable_sections"
     ],
     "normative_claims_require": "official_current_act_exact_quote_effective_date_and_legal_evidence_gate",
-    "on_unverified_normative_claim": "omit_claim_or_article; never assert a press release is an effective law"
+    "on_unverified_normative_claim": "omit_claim_or_article; never assert a press release is an effective law",
+    "discovery_and_editing": {
+      "official_primary_source_priority": [
+        "mosreg.ru",
+        "mio.mosreg.ru",
+        "minzhil.mosreg.ru",
+        "mos.ru",
+        "tender.mos.ru"
+      ],
+      "use_official_source_discovery_workflow": ".github/workflows/dgi-official-source-discovery.yml",
+      "discovery_artifact": "dgi-official-news-candidates",
+      "discovery_workflow_is_research_only": true,
+      "on_runner_access_failure": "continue_independent_web_verification_of_openable_exact_official_pages; never_treat_empty_successful_workflow_as_release",
+      "do_not_use_main_Housing_law_news_research_read_only_as_publication_evidence": true,
+      "preserve_all_existing_rows_in": "apps/web/src/data/housing-news.json",
+      "do_not_overwrite_previously_published_news": true,
+      "only_count_new_unique_records_in_FINAL_PR_HEAD": true,
+      "do_not_clone_old_articles_as_new": true,
+      "publication_requires_owner_deploy_and_live_URL_HTTP_200": true
+    }
   },
   "courts": {
     "enabled": true,
@@ -96,7 +120,53 @@
     "source_import_script": "scripts/prepare_dgi_all_outcome_courts.py",
     "source_import_workflow": ".github/workflows/dgi-all-outcome-courts-prep.yml",
     "daily_target": 10,
-    "daily_target_policy": "best_effort_verified_only; shortfall is reported, not padded; no restriction by outcome"
+    "daily_target_policy": "best_effort_verified_only; shortfall is reported, not padded; no restriction by outcome",
+    "discovery_and_import": {
+      "successful_verified_method": "independent_exact_official_2kas_URL_research_then_queue_then_GitHub_Actions_full_document_import",
+      "primary_official_host": "2kas.sudrf.ru",
+      "exact_case_URL_required": true,
+      "seek_new_distinct_source_leads_per_day": [
+        15,
+        25
+      ],
+      "lead_search_is_best_effort_only": true,
+      "source_leads_are_not_published_acts": true,
+      "research_and_append_leads_before_trigger": true,
+      "extend_prior_queue_instead_of_replacing": true,
+      "deduplicate_by": [
+        "case_number",
+        "official_url"
+      ],
+      "source_url_research_can_use_public_web_search": true,
+      "on_runner_list_scan_returns_zero": "independently_open_official_search_result_case_pages_and_append_only_exact_verified_URLs_to_queue; reexecute_import_workflow; never_count_empty_discovery_as_successful_publication",
+      "source_discovery_script": "scripts/discover_dgi_official_courts.py",
+      "importer": "scripts/prepare_dgi_all_outcome_courts.py",
+      "source_verifier": "scripts/validate_dgi_court_publication_queue.py",
+      "preparation_workflow": ".github/workflows/dgi-all-outcome-courts-prep.yml",
+      "preparation_status_artifact": "test-results/dgi-court-daily-status.json",
+      "import_report": "research/dgi-court-import-report-2026-10-28.json",
+      "expected_manifest": "apps/web/src/data/verified-court-static.json",
+      "required_reader_PDF_dir": "apps/web/public/court-pdf-copies",
+      "verify_each_added_act": [
+        "official_full_HTML_text",
+        "case_number_and_decision_date_match",
+        "court_and_DGI_in_text",
+        "basic_privacy_screen",
+        "no_duplicate_case_or_URL",
+        "PDF_reading_copy_has_label_and_SHA256_matches",
+        "full_text_SHA256_matches",
+        "PDF_extractable_text_matches_case"
+      ],
+      "show_original_act_conflicts_and_technical_typos_in_editorial_notes": true,
+      "never_silently_repair_original_court_document": true,
+      "accepted_outcome_if_not_proven": "not_classified",
+      "reject_only_affected_candidate_on_missing_text_privacy_risk_or_mismatch": true,
+      "never_change_existing_26_or_subsequent_curated_acts_to_create_count": true,
+      "count_new_successes_from_current_run_status_not_older_historical_report": true,
+      "never_assert_10_of_10_if_fewer_than_10": true,
+      "once_ten_acts_prepared_stop_daily_import_and_leave_rest_in_queue": true,
+      "do_not_automatically_unlock_CMS_or_database_court_read_permissions": true
+    }
   },
   "release": {
     "repository": "ymaslen77-tech/dgi-court-importer",
@@ -117,7 +187,31 @@
     "verify_production_commit": true,
     "verify_every_new_news_URL_and_every_new_court_case_and_PDF_URL": true,
     "if_unavailable": "do_not_bypass_source_Privacy_CI_or_protected_PR; report_prepared_count_and_not_yet_live",
-    "owner_action_required": "owner_press_Deploy_after_PR_merged_and_exact_SHA_report"
+    "owner_action_required": "owner_press_Deploy_after_PR_merged_and_exact_SHA_report",
+    "final_head_CI": {
+      "required": [
+        "web-checks",
+        "db-checks",
+        "cms-checks",
+        "dgi-approval-policy"
+      ],
+      "also_require_all_applicable": "browser_QA_chromium,court_queue_safety,court_source_research_and_other_PR_checks_if_triggered",
+      "only_current_PR_head_SHA_counts": true,
+      "after_actions_GITHUB_TOKEN_commit": "reopen_or_update_PR_if_needed_to_run_final_SHA_checks; GitHub Actions GITHUB_TOKEN_push_may_not_retrigger_CI",
+      "no_direct_push_to_protected_branch": true,
+      "merge_requires_active_ruleset": true,
+      "may_merge_even_with_zero_from_one_independent_track_if_other_has_approved_new_content": true,
+      "never_merge_unreviewed_changed_legal_assertions_or_unverified_PDFs": true
+    },
+    "manual_deployment": {
+      "execute_Coolify_from_ChatGPT": false,
+      "operator": "owner",
+      "instructions_after_merge": "Coolify → dgi-web → Deploy",
+      "published_claims_only_after_live_HTTP_200": true,
+      "news_live_verification": "each_added_news_URL_HTTP_200",
+      "court_live_verification": "each_added_court_card_and_corresponding_PDF_HTTP_200",
+      "read_after_deploy_exact_merge_SHA": true
+    }
   },
   "notification": {
     "one_daily_summary_for_both_tracks": true,
@@ -130,6 +224,30 @@
       "blocked_candidates_with_reasons"
     ],
     "never_call_draft_or_successful_CI_a_live_publication": true,
-    "no_routine_owner_approvals": true
+    "no_routine_owner_approvals": true,
+    "report_separate_counts": [
+      "new_news_staged_in_merged_commit",
+      "new_courts_staged_in_merged_commit",
+      "new_news_confirmed_live_HTTP_200",
+      "new_courts_confirmed_live_with_PDF_HTTP_200",
+      "catalog_total_verified_current_branch",
+      "source_errors",
+      "blocked_candidate_reasons",
+      "PR_link_and_final_head_SHA",
+      "merge_SHA_or_explicit_no_merge"
+    ],
+    "success_wording_only_when_merged": "ГОТОВО К ПУБЛИКАЦИИ — Coolify → dgi-web → Deploy"
+  },
+  "orchestration": {
+    "single_scheduled_task": true,
+    "task_title": "Ежедневные публикации ДГИ: новости и суды",
+    "existing_task_id": "6ae0575a0e60819187cada8b8a3f6267",
+    "timezone": "Europe/Moscow",
+    "nominal_time": "09:00",
+    "separate_news_or_court_publishing_tasks_enabled": false,
+    "trigger_pattern": "research/dgi-daily-trigger-YYYY-MM-DD.json",
+    "automation_branch_pattern": "automation/dgi-daily-YYYY-MM-DD",
+    "do_not_create_separate_production_schedule": true,
+    "dry_run_and_old_main_RSS_are_not_new_publications": true
   }
 }
