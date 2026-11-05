@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "site": "https://dgi-pravo.ru",
+  "name": "Weekly Google/Yandex technical SEO health",
+  "frequency_utc": "35 6 * * 1",
+  "discovery": {
+    "sitemap": "/sitemap.xml",
+    "robots": "/robots.txt",
+    "editorial_glob": "apps/web/src/data/pages-*.json",
+    "seed_paths": [
+      "/",
+      "/o-proekte",
+      "/novosti-zhilishchnogo-prava",
+      "/sudebnaya-praktika-dgi"
+    ],
+    "max_pages": 5000,
+    "max_internal_links": 20000,
+    "max_external_links": 200,
+    "timeout_seconds": 18,
+    "workers": 5
+  },
+  "checks": {
+    "http_status": true,
+    "canonical": true,
+    "title": true,
+    "description": true,
+    "heading_h1": true,
+    "duplicate_metadata": true,
+    "noindex": true,
+    "robots": true,
+    "sitemap": true,
+    "internal_links": true,
+    "fragment_anchors": true,
+    "external_links": true,
+    "lang": true,
+    "viewport": true,
+    "image_alt": true,
+    "structured_data": true,
+    "soft_404": true,
+    "https_and_www": true,
+    "unexpected_sitemap_removals": true,
+    "unexpected_sitemap_additions": true
+  },
+  "index_policy": "production must be indexable; a genuine restricted pre-release should be explicitly opted out",
+  "expect_indexable": true,
+  "automatic_response": {
+    "generate_diagnostics": true,
+    "raise_issue_on_failure": true,
+    "propose_fix_plan": true,
+    "silent_rewrite_of_legal_or_CMS_content": false,
+    "silent_redirects_or_bulk_deletions": false,
+    "automatic_deployment": false
+  },
+  "standards": [
+    "https://developers.google.com/search/docs/fundamentals/seo-starter-guide",
+    "https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap",
+    "https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls",
+    "https://yandex.ru/support/webmaster/ru/diagnosis/mistakes",
+    "https://yandex.ru/support/webmaster/ru/diagnosis/recommendations"
+  ]
+}

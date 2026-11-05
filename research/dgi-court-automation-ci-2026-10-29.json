@@ -1,0 +1,29 @@
+{
+  "as_of": "2026-10-29",
+  "scope": "audit marker for PR final-head CI after GitHub Actions automation-branch PDF generation",
+  "source_generated_commit": "183916f23867842a79d517e49ff3e4475c4306de",
+  "prior_public_catalog_count": 14,
+  "new_source_checked_act_count": 10,
+  "new_branch_catalog_count": 24,
+  "remaining_source_candidates": 5,
+  "source_warnings": [
+    {
+      "case_number": "88-1737/2026",
+      "warning": "Official full-text preparation date states 23 January 2025 while decision heading states 15 January 2026; preserved verbatim and visible in source warning, not silently corrected."
+    }
+  ],
+  "skipped": [
+    {
+      "case_number": "88-16812/2025",
+      "reason": "Full official text section not identified by importer"
+    }
+  ],
+  "required_final_sha_checks": [
+    "web-checks",
+    "db-checks",
+    "cms-checks",
+    "dgi-approval-policy"
+  ],
+  "publication_status": "not_published_until_protected_PR_merged_and_owner_manual_Coolify_deploy",
+  "owner_deploy_only": true
+}

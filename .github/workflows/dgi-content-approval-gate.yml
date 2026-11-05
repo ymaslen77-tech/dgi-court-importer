@@ -1,0 +1,63 @@
+name: DGI content automation approval gate
+on:
+  pull_request:
+    branches: [infra/coolify-russian-vps]
+  push:
+    branches: [infra/coolify-russian-vps]
+    paths:
+      - config/dgi-automation-approval-policy.json
+      - scripts/validate_dgi_automation_changes.py
+      - scripts/validate_official_legal_changes.py
+      - scripts/tests/test_validate_official_legal_changes.py
+      - legal-evidence/**
+      - scripts/tests/test_validate_dgi_automation_changes.py
+      - .github/workflows/dgi-content-approval-gate.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate_automation_policy:
+    name: dgi-approval-policy
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          path: site
+      - uses: actions/checkout@v4
+        with:
+          ref: infra/coolify-russian-vps
+          persist-credentials: false
+          path: policy
+      - name: Validate current protected-branch policy, not PR-supplied scripts
+        run: |
+          python3 -m json.tool policy/config/dgi-automation-approval-policy.json >/dev/null
+          python3 -m py_compile policy/scripts/validate_dgi_automation_changes.py policy/scripts/validate_official_legal_changes.py
+          python3 -m unittest discover -s policy/scripts/tests -p 'test_validate_dgi_automation_changes.py' -v
+          python3 -m unittest discover -s policy/scripts/tests -p 'test_validate_official_legal_changes.py' -v
+      - name: Classify PR diff before any automated publishing
+        if: github.event_name == 'pull_request'
+        working-directory: site
+        env:
+          BASE_BRANCH: ${{ github.base_ref }}
+        run: |
+          set -euo pipefail
+          git fetch origin "$BASE_BRANCH"
+          python3 ../policy/scripts/validate_dgi_automation_changes.py --base "origin/$BASE_BRANCH" --head HEAD
+          python3 - <<'PY'
+          import json,os
+          x=json.load(open("test-results/dgi-approval-classification.json"))
+          with open(os.environ["GITHUB_STEP_SUMMARY"],"a") as f:
+              f.write("## DGI automation classification\\n\\n")
+              f.write("Change category: **"+x["classification"]+"**\\n\\n")
+              f.write("Every normative change is blocked unless exact official claim evidence is verified. Passing is not a guarantee of legal interpretation.\\n")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always() && github.event_name == 'pull_request'
+        with:
+          name: dgi-publication-classification
+          path: site/test-results/dgi-approval-classification.json
+          if-no-files-found: warn
+          retention-days: 14

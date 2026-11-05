@@ -15,7 +15,9 @@ test("every formerly public Webflow URL is preserved without collisions",()=>{
   assert.equal(oldCases.cases.length,22);
   const protectedDetailRoute=readFileSync(
     new URL("../../apps/web/src/app/dgi-court-cases/[slug]/page.tsx",import.meta.url),"utf8");
-  assert.match(protectedDetailRoute,/index:false,follow:false/);
+  assert.match(protectedDetailRoute,/index: false, follow: false/);
+  assert.match(protectedDetailRoute,/redirect\("\/sudebnaya-praktika-dgi"\)/);
+  assert.doesNotMatch(protectedDetailRoute,/legacyCases.find/);
   const migratedSlugs=new Set(oldCases.cases.map(x=>x.slug));
   for(const item of published)assert.ok(migratedSlugs.has(item.slug),
     "Missing formerly public CMS case: "+item.slug);

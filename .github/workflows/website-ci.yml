@@ -3,6 +3,7 @@ name: Next.js migration checks
 on:
   push:
     branches:
+      - infra/coolify-russian-vps
       - feature/nextjs-webflow-migration
       - feature/dgi-offline-completion
       - main
@@ -20,19 +21,6 @@ on:
       - "pnpm-workspace.yaml"
       - ".github/workflows/website-ci.yml"
   pull_request:
-    paths:
-      - "apps/web/**"
-      - "apps/cms/**"
-      - "db/**"
-      - "scripts/**"
-      - "docker-compose.yml"
-      - "deploy/staging/**"
-      - ".dockerignore"
-      - ".env.example"
-      - "scripts/export-webflow.mjs"
-      - "package.json"
-      - "pnpm-workspace.yaml"
-      - ".github/workflows/website-ci.yml"
 
 permissions:
   contents: read
@@ -130,6 +118,8 @@ jobs:
           await db.query(readFileSync("db/migrations/0003_editorial_publication.sql", "utf8"));
           await db.query(readFileSync("db/migrations/0004_court_search.sql", "utf8"));
           await db.query(readFileSync("db/migrations/0005_court_fulltext_publication.sql", "utf8"));
+          await db.query(readFileSync("db/migrations/0006_verified_court_pdf_assets.sql", "utf8"));
+          await db.query(readFileSync("db/migrations/0007_positive_claimant_outcome.sql", "utf8"));
           await db.end();
           JS
       - name: Test idempotent staging migration

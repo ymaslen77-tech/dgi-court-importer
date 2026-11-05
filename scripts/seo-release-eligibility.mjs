@@ -7,6 +7,8 @@ import {resolve} from "node:path";
 
 const read=(p)=>JSON.parse(readFileSync(new URL("../"+p,import.meta.url),"utf8"));
 
+const existingOwnerRelease=read("apps/web/src/data/owner-released-legacy-pages.json");
+const ownerReleasedSlugs=new Set(existingOwnerRelease.approved_existing_slugs);
 const legalSourceHosts=new Set(["www.mos.ru","mos.ru","vestnikmoscow.mos.ru","publication.pravo.gov.ru","pravo.gov.ru"]);
 function realIsoDate(value) {
  if(typeof value!=="string"||!/^\d{4}-\d{2}-\d{2}$/.test(value))return false;
@@ -37,6 +39,15 @@ export function hasDocumentedLegalSignoff(item) {
 
 export function summarizeEligibility({pages,acts,services,guides,remediation}){
   const approvedPages=pages.filter(x=>x.editoriallyApproved===true && hasDocumentedLegalSignoff(x));
+  // Site-owner release of an existing public URL differs from certification
+  // of all referenced legal acts. Keep draft inventory validation separate.
+  const ownerReleasedExistingPages=pages.filter(x=>
+    ownerReleasedSlugs.has(x.slug) &&
+    typeof x.source==="string" &&
+    x.source===new URL(x.slug ? "/"+x.slug : "/", "https://dgimos.webflow.io").toString() &&
+    typeof x.seoTitle==="string" && x.seoTitle.trim().length>=20 &&
+    typeof x.description==="string" && x.description.trim().length>=60
+  );
   const approvedActs=acts.laws.filter(x=>x.currentVersionVerified===true && x.publicationApproved===true && hasDocumentedLegalSignoff(x));
   const approvedServices=services.services.filter(x=>x.procedureVerified===true && x.currentRevisionVerified===true && x.publicationApproved===true && hasDocumentedLegalSignoff(x));
   const approvedGuides=guides.guides.filter(x=>x.stage==="approved" && x.publicationApproved===true && hasDocumentedLegalSignoff(x));
@@ -62,14 +73,25 @@ export function summarizeEligibility({pages,acts,services,guides,remediation}){
     ...(approvedGuides.length!==guides.guides.length?[{type:"unapproved_guides",count:guides.guides.length-approvedGuides.length}]:[]),
     ...(remediation.missingOrIncompleteTopics.length?[{type:"incomplete_topic_inventory",count:remediation.missingOrIncompleteTopics.length}]:[]),
   ];
+  const ownerReleaseCanIndexPublicPages=ownerReleasedExistingPages.length>0 &&
+    unprovenApprovals.length===0;
   return {
     checkedAgainst:"committed_editorial_inventories",
+    ownerReleasedExistingPublicPages:ownerReleasedExistingPages.length,
+    publicSiteIndexingAllowedWithDraftsRestricted:ownerReleaseCanIndexPublicPages,
+    fullCorpusLegalSignoffRemainsSeparate:true,
     notAnOnlineOrHumanLegalSignoff:true,
     allContentLegallyApproved:blockers.length===0,
     eligibleDrafts:{staticPages:approvedPages.length,acts:approvedActs.length,services:approvedServices.length,guides:approvedGuides.length},
     totalDrafts:{staticPages:pages.length,acts:acts.laws.length,services:services.services.length,guides:guides.guides.length},
     blockers,identityWarnings:warnings.map(x=>x.code),
-    indexationDecision:blockers.length?"BLOCKED_PENDING_VERIFIED_LEGAL_SIGNOFF":"REQUIRES_SEPARATE_PRODUCTION_AND_EDITOR_APPROVAL",
+    indexationDecision:unprovenApprovals.length
+      ? "BLOCKED_PENDING_VERIFIED_LEGAL_SIGNOFF"
+      : ownerReleaseCanIndexPublicPages
+      ? "PUBLIC_SITE_INDEXATION_ALLOWED_DRAFTS_EXCLUDED"
+      : blockers.length
+      ? "BLOCKED_PENDING_VERIFIED_LEGAL_SIGNOFF"
+      : "REQUIRES_SEPARATE_PRODUCTION_AND_EDITOR_APPROVAL",
   };
 }
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)){
@@ -81,6 +103,8 @@ if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)){
    remediation:read("migration/housing-legal-remediation-2026-10-18.json"),
  });
  console.log(JSON.stringify(summary,null,2));
- if(process.argv.includes("--require-indexable") && summary.indexationDecision!=="REQUIRES_SEPARATE_PRODUCTION_AND_EDITOR_APPROVAL")
+ if(process.argv.includes("--require-indexable") &&
+    !["PUBLIC_SITE_INDEXATION_ALLOWED_DRAFTS_EXCLUDED",
+      "REQUIRES_SEPARATE_PRODUCTION_AND_EDITOR_APPROVAL"].includes(summary.indexationDecision))
    process.exitCode=1;
 }

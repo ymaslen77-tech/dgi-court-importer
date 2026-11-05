@@ -5,11 +5,13 @@ import {summarizeEligibility,hasDocumentedLegalSignoff} from "../seo-release-eli
 const load=p=>JSON.parse(readFileSync(new URL("../../"+p,import.meta.url),"utf8"));
 const pages=Array.from({length:6},(_,i)=>load(`apps/web/src/data/pages-${i}.json`)).flat();
 const state={pages,acts:load("apps/web/src/data/housing-law-catalog.json"),services:load("apps/web/src/data/dgi-service-register.json"),guides:load("apps/web/src/data/housing-guides.json"),remediation:load("migration/housing-legal-remediation-2026-10-18.json")};
-test("full SEO site launch cannot happen without signed legal editions and procedures",()=>{
+test("owner-released public URLs may index without treating all draft laws and procedures as approved",()=>{
  const r=summarizeEligibility(state);
  assert.equal(r.notAnOnlineOrHumanLegalSignoff,true);
  assert.equal(r.allContentLegallyApproved,false);
- assert.equal(r.indexationDecision,"BLOCKED_PENDING_VERIFIED_LEGAL_SIGNOFF");
+ assert.equal(r.indexationDecision,"PUBLIC_SITE_INDEXATION_ALLOWED_DRAFTS_EXCLUDED");
+ assert.equal(r.ownerReleasedExistingPublicPages,33);
+ assert.equal(r.publicSiteIndexingAllowedWithDraftsRestricted,true);
  assert.equal(r.totalDrafts.staticPages,33);
  assert.equal(r.totalDrafts.acts,20);
  assert.equal(r.totalDrafts.services,7);

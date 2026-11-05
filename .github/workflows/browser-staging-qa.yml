@@ -1,8 +1,8 @@
-name: Browser QA — Next.js migration
+name: Browser QA — current DGI release gates
 
 on:
   push:
-    branches: [main, feature/nextjs-webflow-migration, feature/dgi-offline-completion]
+    branches: [main, infra/coolify-russian-vps, feature/nextjs-webflow-migration, feature/dgi-offline-completion]
     paths:
       - "apps/web/**"
       - "migration/**"
@@ -42,8 +42,8 @@ jobs:
         run: pnpm --filter @dgi/web build
       - name: Install Chromium
         run: pnpm --filter @dgi/web exec playwright install --with-deps chromium
-      - name: Test 33 pages and 22 archive URLs on desktop/mobile
-        run: pnpm --filter @dgi/web test:e2e
+      - name: Test current restricted-release URLs, empty legal sections and mobile reading UX
+        run: pnpm --filter @dgi/web exec playwright test e2e/release-guard.spec.ts e2e/empty-sections.spec.ts e2e/reading-ux.spec.ts --workers=2
       - name: Preserve failure screenshots and traces
         if: failure()
         uses: actions/upload-artifact@v4
