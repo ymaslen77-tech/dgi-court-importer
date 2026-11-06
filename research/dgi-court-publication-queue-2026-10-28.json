@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "as_of": "2026-11-05",
+  "as_of": "2026-11-06",
   "purpose": "Prepare all officially published court acts involving DGI, regardless of success, refusal, mixed result or remand",
   "source_policy": "config/dgi-automation-approval-policy.json",
   "publication_source": "apps/web/src/data/verified-court-static.json",
@@ -19,10 +19,10 @@
     "manual owner Coolify deploy"
   ],
   "counts": {
-    "total": 52,
+    "total": 55,
     "curated": 36,
     "out_of_scope": 7,
-    "ready_for_source_import": 9
+    "ready_for_source_import": 12
   },
   "items": [
     {
@@ -587,6 +587,39 @@
       "reason": "Exact court case page and published judicial act indicated on official 2kas source; full text, case/date, DGI, privacy and PDF SHA-256 to be independently verified by importer",
       "release_eligible": false,
       "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-6644/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17279110&case_uid=c44511e0-86c5-4795-befa-47e48ed2798e&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "independent_official_web_research_2026-11-06",
+      "status": "ready_for_source_import",
+      "reason": "Official individual case page shows full act and DGI involvement; importer must verify full text, privacy and PDF hashes",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": true,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-2728/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=16896931&case_uid=59742237-8b4b-4c8c-bd7b-84e945f183ae&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "independent_official_web_research_2026-11-06",
+      "status": "ready_for_source_import",
+      "reason": "Official individual case page shows full act and DGI involvement; importer must verify full text, privacy and PDF hashes",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": true,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-891/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=16733292&case_uid=c3d03c93-04ae-425e-8638-39f7939f1922&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "independent_official_web_research_2026-11-06",
+      "status": "ready_for_source_import",
+      "reason": "Official individual case page shows full act and DGI involvement; importer must verify full text, privacy and PDF hashes",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": true,
       "already_curated": false,
       "needs_official_source_and_privacy_screen": true
     }
