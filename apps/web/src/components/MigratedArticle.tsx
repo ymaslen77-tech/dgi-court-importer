@@ -5,6 +5,7 @@ import legacyAnchors from "@/data/legacy-anchors.json";
 import { SeoMarkup } from "./SeoMarkup";
 import { HousingSupplement, hasHousingSupplement } from "./HousingGuide";
 import { siteIsLive } from "@/data/pages";
+import { LegalDocumentBuilder } from "./LegalDocumentBuilder";
 
 function safeHref(href?: string) {
   if (!href) return undefined;
@@ -16,7 +17,7 @@ function safeHref(href?: string) {
 /* Hide only verified editorial boilerplate — never substantive legal content. */
 function isRepeatedNotice(block: MigratedBlock): boolean {
   return block.kind === "p" &&
-    /^(Это собственное изложение основных положений|Сведения носят справочный характер\.|Материалы приведены непосредственно на странице\.|Публикация на mos\.ru подтверждает происхождение источника|ПОИСКОВЫЕ ВОПРОСЫ И ПРАКТИЧЕСКИЕ МАРШРУТЫ$|НОВЫЕ ПРАКТИЧЕСКИЕ РУКОВОДСТВА$)/iu.test(block.text.trim());
+    /^(Это собственное изложение основных положений|Сведения носят справочный характер\.|Материалы приведены непосредственно на странице\.|Публикация на mos\.ru подтверждает происхождение источника|ПОИСКОВЫЕ ВОПРОСЫ И ПРАКТИЧЕСКИЕ МАРШРУТЫ$|НОВЫЕ ПРАКТИЧЕСКИЕ РУКОВОДСТВА$|СВЕРЕННЫЕ СВЕДЕНИЯ И ВАЖНЫЕ УСЛОВИЯ$)/iu.test(block.text.trim());
 }
 
 function ContentBlock({ block, slug }: { block: MigratedBlock; slug: string }) {
@@ -156,6 +157,9 @@ export function MigratedArticle({ page, home = false, afterHero }: {
             <h2 className="article-h2" id={section.id}>{section.heading}</h2>
             <ArticleReadingFlow blocks={section.blocks} slug={page.slug} />
           </section>)}
+          {page.slug === "zayavlenie-v-dgi-moskvy" && <LegalDocumentBuilder kind="request" />}
+          {page.slug === "zhaloba-na-dgi-moskvy" && <LegalDocumentBuilder kind="service-complaint" />}
+          {page.slug === "isk-o-vyselenii-socialnyy-naem" && <LegalDocumentBuilder kind="civil-objection" />}
           {!siteIsLive && page.slug === "normativnye-akty" &&
             <p className="article-action"><Link href="/spravochnik-zhilishchnogo-zakonodatelstva-moskvy">Справочник жилищных законов и постановлений →</Link></p>}
           {!siteIsLive && hasHousingSupplement(page.slug) &&
