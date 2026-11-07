@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "as_of": "2026-11-05",
+  "as_of": "2026-11-07",
   "purpose": "Prepare all officially published court acts involving DGI, regardless of success, refusal, mixed result or remand",
   "source_policy": "config/dgi-automation-approval-policy.json",
   "publication_source": "apps/web/src/data/verified-court-static.json",
@@ -19,10 +19,10 @@
     "manual owner Coolify deploy"
   ],
   "counts": {
-    "total": 52,
+    "total": 57,
     "curated": 36,
     "out_of_scope": 7,
-    "ready_for_source_import": 9
+    "ready_for_source_import": 14
   },
   "items": [
     {
@@ -587,6 +587,61 @@
       "reason": "Exact court case page and published judicial act indicated on official 2kas source; full text, case/date, DGI, privacy and PDF SHA-256 to be independently verified by importer",
       "release_eligible": false,
       "needs_full_act_and_history_review": false,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-11942/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17852413&case_uid=c94bd8dd-11b4-4473-93ab-4fb496b9e126&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "independent_official_web_research_2026-11-07",
+      "status": "ready_for_source_import",
+      "reason": "Official case page found via web search; full official text, privacy and PDF SHA256 require runner validation",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": true,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-11766/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17936629&case_uid=273aecfc-42f3-42d2-8e67-5500ac6a4f26&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "independent_official_web_research_2026-11-07",
+      "status": "ready_for_source_import",
+      "reason": "Official case page found via web search; full official text, privacy and PDF SHA256 require runner validation",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": true,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-8063/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17223562&case_uid=03b56696-9bc4-4a2c-9133-4f73a3c678cc&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "independent_official_web_research_2026-11-07",
+      "status": "ready_for_source_import",
+      "reason": "Official case page found via web search; full official text, privacy and PDF SHA256 require runner validation",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": true,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-8211/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17421032&case_uid=7d72bea3-c35c-4900-8c1b-8067c2e5e732&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "independent_official_web_research_2026-11-07",
+      "status": "ready_for_source_import",
+      "reason": "Official case page found via web search; full official text, privacy and PDF SHA256 require runner validation",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": true,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
+    },
+    {
+      "case_number": "88-1238/2026",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=16927803&case_uid=31178df1-819f-4f10-94f2-2d2bc4c79e13&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "origin": "independent_official_web_research_2026-11-07",
+      "status": "ready_for_source_import",
+      "reason": "Official case page found via web search; full official text, privacy and PDF SHA256 require runner validation",
+      "release_eligible": false,
+      "needs_full_act_and_history_review": true,
       "already_curated": false,
       "needs_official_source_and_privacy_screen": true
     }
