@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import styles from "./LegalDocumentBuilder.module.css";
 
 type Kind = "request" | "service-complaint" | "civil-objection";
 type Fields = {
@@ -136,10 +137,10 @@ export function LegalDocumentBuilder({ kind }: { kind: Kind }) {
     window.setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
 
-  return <section className="legal-builder" aria-label={titles[kind]}>
+  return <section className={styles["legal-builder"]} aria-label={titles[kind]}>
     <h2>{titles[kind]}</h2>
-    <p className="legal-builder-lead">Заполните сведения — получите редактируемый текст документа. Данные остаются в вашем браузере и не отправляются на сайт.</p>
-    <div className="legal-builder-grid">
+    <p className={styles["legal-builder-lead"]}>Заполните сведения — получите редактируемый текст документа. Данные остаются в вашем браузере и не отправляются на сайт.</p>
+    <div className={styles["legal-builder-grid"]}>
       <label>{kind === "civil-objection" ? "Наименование суда" : "Адресат (орган, должностное лицо)"}
         <input value={fields.recipient} onChange={e => change("recipient", e.target.value)} placeholder={kind === "civil-objection" ? "Суд, рассматривающий дело" : "Департамент городского имущества города Москвы"} />
       </label>
@@ -166,30 +167,30 @@ export function LegalDocumentBuilder({ kind }: { kind: Kind }) {
           <input value={fields.claimant} onChange={e => change("claimant", e.target.value)} />
         </label>
       </>}
-      <label className="legal-builder-wide">{kind === "service-complaint" ? "Госуслуга и предмет жалобы" : "Предмет документа"}
+      <label className={styles["legal-builder-wide"]}>{kind === "service-complaint" ? "Госуслуга и предмет жалобы" : "Предмет документа"}
         <input value={fields.subject} onChange={e => change("subject", e.target.value)} placeholder="Укажите конкретную ситуацию" />
       </label>
-      <label className="legal-builder-wide">Факты, даты, номера решений и доводы
+      <label className={styles["legal-builder-wide"]}>Факты, даты, номера решений и доводы
         <textarea rows={4} value={fields.facts} onChange={e => change("facts", e.target.value)} placeholder="Только проверенные обстоятельства; не включайте избыточные персональные данные третьих лиц" />
       </label>
-      <label className="legal-builder-wide">Что просите сделать
+      <label className={styles["legal-builder-wide"]}>Что просите сделать
         <textarea rows={3} value={fields.demand} onChange={e => change("demand", e.target.value)} placeholder="Сформулируйте требование своими словами" />
       </label>
-      <label className="legal-builder-wide">Приложения (необязательно)
+      <label className={styles["legal-builder-wide"]}>Приложения (необязательно)
         <textarea rows={2} value={fields.attachments} onChange={e => change("attachments", e.target.value)} />
       </label>
     </div>
-    <div className="legal-builder-actions">
+    <div className={styles["legal-builder-actions"]}>
       <button type="button" disabled={!ready} onClick={() => setShowPreview(prev => !prev)}>{showPreview ? "Скрыть текст" : "Показать текст"}</button>
       <button type="button" disabled={!ready} onClick={download}>Скачать .txt</button>
     </div>
-    {showPreview && ready && <textarea className="legal-builder-preview" aria-label="Подготовленный текст" readOnly rows={15} value={result} />}
-    <p className="legal-builder-note">{kind === "request"
+    {showPreview && ready && <textarea className={styles["legal-builder-preview"]} aria-label="Подготовленный текст" readOnly rows={15} value={result} />}
+    <p className={styles["legal-builder-note"]}>{kind === "request"
       ? "Обращение по № 59-ФЗ не заменяет заявление на конкретную государственную услугу. Электронное обращение направляйте через официальный канал с идентификацией заявителя."
       : kind === "service-complaint"
         ? "Это жалоба именно на порядок предоставления госуслуги (№ 210-ФЗ), не универсальная претензия и не судебный документ. Проверьте регламент услуги и уполномоченного адресата."
         : "Возражения готовятся только по уже предъявленному гражданскому иску. Уточните суд, требования истца, сроки и порядок представления копий участникам дела."}</p>
-    <p className="legal-builder-sources">Правовые основания: {sources[kind].map((source, index) =>
+    <p className={styles["legal-builder-sources"]}>Правовые основания: {sources[kind].map((source, index) =>
       <span key={source.url}>{index > 0 ? " · " : ""}<a href={source.url} target="_blank" rel="noopener noreferrer">{source.label}</a></span>)}</p>
   </section>;
 }
