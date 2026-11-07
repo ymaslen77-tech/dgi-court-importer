@@ -36,8 +36,8 @@ for (const route of routes) {
     await expect(download).toBeEnabled();
     await builder.getByRole("button", { name: "Показать текст" }).click();
     const preview = builder.getByLabel("Подготовленный текст");
-    await expect(preview).toContainText("Иванов Иван");
-    await expect(preview).toContainText("Факты и доказательства, внесённые пользователем.");
+    await expect(preview).toHaveValue(/Иванов Иван/);
+    await expect(preview).toHaveValue(/Факты и доказательства, внесённые пользователем\./);
     const [file] = await Promise.all([
       page.waitForEvent("download"),
       download.click(),
