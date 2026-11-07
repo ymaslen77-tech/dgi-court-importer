@@ -31,6 +31,7 @@ for (const route of routes) {
     } else {
       await builder.getByLabel("Адресат (орган, должностное лицо)").fill("Департамент городского имущества Москвы");
       if (route.path === "/zhaloba-na-dgi-moskvy") {
+        await builder.getByLabel("Орган или должностное лицо, чьё решение обжалуется").fill("ДГИ Москвы, должностное лицо по услуге");
         await builder.getByLabel("Место жительства").fill("Москва, адрес места жительства");
         await builder.getByLabel("Контактный телефон").fill("+7 495 000-00-00");
       }
