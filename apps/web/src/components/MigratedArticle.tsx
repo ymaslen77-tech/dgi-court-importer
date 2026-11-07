@@ -6,6 +6,7 @@ import { SeoMarkup } from "./SeoMarkup";
 import { HousingSupplement, hasHousingSupplement } from "./HousingGuide";
 import { siteIsLive } from "@/data/pages";
 import { LegalDocumentBuilder } from "./LegalDocumentBuilder";
+import { SpecializedDocumentBuilder } from "./SpecializedDocumentBuilder";
 
 function safeHref(href?: string) {
   if (!href) return undefined;
@@ -157,6 +158,13 @@ export function MigratedArticle({ page, home = false, afterHero }: {
             <h2 className="article-h2" id={section.id}>{section.heading}</h2>
             <ArticleReadingFlow blocks={section.blocks} slug={page.slug} />
           </section>)}
+          {page.slug === "snyatie-s-zhilishchnogo-ucheta-moskva" && <SpecializedDocumentBuilder kind="housing-removal" />}
+          {page.slug === "otkaz-v-privatizacii-kvartiry" && <SpecializedDocumentBuilder kind="privatization-service-complaint" />}
+          {page.slug === "pereraschet-zhku-moskva" && <SpecializedDocumentBuilder kind="utility-quality" />}
+          {page.slug === "avariynoe-zhile-moskva" && <SpecializedDocumentBuilder kind="emergency-housing" />}
+          {(page.slug === "vymorochnoe-imushchestvo-moskva" || page.slug === "vymorochnoe-imushchestvo-kvartira-moskva") && <SpecializedDocumentBuilder kind="inheritance-acceptance" />}
+          {page.slug === "renovaciya-pereselenie" && <SpecializedDocumentBuilder kind="renovation-comments" />}
+          {page.slug === "zashchita-prav-sobstvennika-mkd" && <SpecializedDocumentBuilder kind="mkd-information" />}
           {page.slug === "zayavlenie-v-dgi-moskvy" && <LegalDocumentBuilder kind="request" />}
           {page.slug === "zhaloba-na-dgi-moskvy" && <LegalDocumentBuilder kind="service-complaint" />}
           {page.slug === "isk-o-vyselenii-socialnyy-naem" && <LegalDocumentBuilder kind="civil-objection" />}
