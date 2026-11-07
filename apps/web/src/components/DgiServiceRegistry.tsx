@@ -11,8 +11,7 @@ export function DgiServiceRegistry() {
     <p className="housing-review-label">Справочник процедур — сведения требуют сверки</p>
     <h1>{dgiServiceRegistryTitle}</h1>
     <p className="housing-guide-lead">Первый реестр услуг, для которых найдены официальные документы. Это не полный перечень услуг Департамента и не подтверждение действующих сроков или порядка обращения.</p>
-    <p>{registry.notice}</p>
-    <p>Дата составления перечня: {registry.checkedOn}. Материалы используются только для ознакомительной проверки.</p>
+    <p>Перечень составлен {registry.checkedOn}. Перед подачей заявления проверьте условия конкретной услуги на mos.ru.</p>
     <div className="housing-law-list">
       {registry.services.map(item=><section className="housing-law-entry" id={item.id} key={item.id}>
         <h2>{item.title}</h2>
@@ -25,17 +24,15 @@ export function DgiServiceRegistry() {
             <h3>Что подтверждено официальной публикацией</h3>
             <p><strong>{item.verifiedAmendmentEvidence.act}</strong>. {item.verifiedAmendmentEvidence.confirmedScope}</p>
             <p><strong>Дата вступления изменений в силу:</strong> {item.verifiedAmendmentEvidence.confirmedEffectiveFrom}.</p>
-            <p><strong>Ограничение проверки:</strong> {item.verifiedAmendmentEvidence.caveat}</p>
             <a href={item.verifiedAmendmentEvidence.publishedSource} target="_blank" rel="noopener noreferrer">Официальная публикация изменений ↗</a>
           </div>
         )}
-        <p><strong>Что ещё необходимо проверить:</strong> {item.remaining}</p>
         <nav className="housing-related" aria-label={`Ссылки к услуге: ${item.title}`}>
           {(findHousingGuide(item.guideSlug) || getMigratedPage(item.guideSlug)) && <Link href={`/${item.guideSlug}`}>Правовое руководство →</Link>}
           <a href={item.officialSource} target="_blank" rel="noopener noreferrer">Официально размещённый исходный документ ↗</a>
         </nav>
       </section>)}
     </div>
-    <p className="housing-editorial-foot">Перед подачей заявления найдите действующий сервис на mos.ru и проверьте регламент с приложениями. Данный реестр не предоставляет госуслуги, не собирает заявления и не формирует обязательных для ведомства документов.</p>
+    <p className="housing-editorial-foot">Это справочник, а не портал подачи заявлений. Действующие формы и условия услуг опубликованы на <a href="https://www.mos.ru/dgi/" target="_blank" rel="noopener noreferrer">mos.ru</a>.</p>
   </article>;
 }
