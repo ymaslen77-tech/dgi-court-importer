@@ -30,6 +30,10 @@ for (const route of routes) {
       await builder.getByLabel("Предмет документа").fill("Спор о праве пользования");
     } else {
       await builder.getByLabel("Адресат (орган, должностное лицо)").fill("Департамент городского имущества Москвы");
+      if (route.path === "/zhaloba-na-dgi-moskvy") {
+        await builder.getByLabel("Место жительства").fill("Москва, адрес места жительства");
+        await builder.getByLabel("Контактный телефон").fill("+7 495 000-00-00");
+      }
       await builder.getByLabel(route.path === "/zhaloba-na-dgi-moskvy"
         ? "Госуслуга и предмет жалобы" : "Предмет документа").fill("Документы по жилищному вопросу");
     }
