@@ -61,7 +61,6 @@ const specs: Record<Kind, Spec> = {
     filename: "zhaloba-otkaz-privatizatsiya.txt",
     extra: [
       { key: "residence", label: "Место жительства заявителя" },
-      { key: "phone", label: "Контактный телефон" },
       { key: "challengedAuthority", label: "Орган или должностное лицо, принявшее решение" },
     ],
     sources: [
@@ -206,7 +205,8 @@ export function SpecializedDocumentBuilder({ kind }: { kind: Kind }) {
   const isValid = Boolean(
     fields.recipient.trim() && fields.applicant.trim() && fields.replyAddress.trim() &&
     fields.date.trim() && fields.object.trim() && fields.facts.trim() && fields.request.trim() &&
-    spec.extra.every(entry => fields[entry.key].trim()),
+    spec.extra.every(entry => fields[entry.key].trim()) &&
+    (kind !== "privatization-service-complaint" || fields.phone.trim()),
   );
   const document = isValid ? renderDocument(kind, fields) : "";
 
@@ -242,7 +242,7 @@ export function SpecializedDocumentBuilder({ kind }: { kind: Kind }) {
       {spec.extra.map(entry => <label key={entry.key}>{entry.label}
         <input value={fields[entry.key]} onChange={e => change(entry.key, e.target.value)} placeholder={entry.hint} />
       </label>)}
-      <label>Телефон (если требуется, укажите)
+      <label>{kind === "privatization-service-complaint" ? "Контактный телефон" : "Телефон (если требуется, укажите)"}
         <input value={fields.phone} onChange={e => change("phone", e.target.value)} />
       </label>
       <label>Электронная почта (необязательно)
