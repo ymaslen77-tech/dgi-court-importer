@@ -1031,3 +1031,38 @@ body {
   .site .article .article-h2 { font-size: 21px; font-weight: 610; }
   .site .article-topic .article-p { font-size: 15px; }
 }
+
+
+/* Local legal document drafting: intentionally separate from submission services. */
+.legal-builder {
+  margin: 34px 0 42px;
+  padding: clamp(18px, 3vw, 32px);
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background: #fcfbfa;
+}
+.legal-builder h2 { font-size: clamp(21px, 2.2vw, 27px); line-height: 1.3; margin: 0 0 12px; }
+.legal-builder-lead { font-size: 15px; line-height: 1.65; margin: 0 0 20px; }
+.legal-builder-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px; }
+.legal-builder-grid label { min-width: 0; font-size: 14px; font-weight: 700; display: flex; flex-direction: column; gap: 6px; }
+.legal-builder-grid input,
+.legal-builder-grid textarea,
+.legal-builder-preview {
+  width: 100%; min-width: 0; padding: 10px 12px;
+  border: 1px solid #aaa; border-radius: 6px; background: white;
+  color: #181818; font: inherit; font-size: 15px; line-height: 1.5;
+}
+.legal-builder-grid input:focus-visible,
+.legal-builder-grid textarea:focus-visible,
+.legal-builder-actions button:focus-visible { outline: 3px solid #8c2135; outline-offset: 2px; }
+.legal-builder-wide { grid-column: 1 / -1; }
+.legal-builder-actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0 14px; }
+.legal-builder-actions button { border: 0; padding: 10px 18px; border-radius: 6px; background: #8c2135; color: white; font-weight: 700; cursor: pointer; }
+.legal-builder-actions button:disabled { opacity: .48; cursor: not-allowed; }
+.legal-builder-preview { white-space: pre-wrap; overflow-wrap: anywhere; margin-bottom: 14px; }
+.legal-builder-note, .legal-builder-sources { font-size: 13px; line-height: 1.55; color: #4b4b4b; margin: 11px 0 0; }
+.legal-builder-sources a { color: #8c2135; text-decoration: underline; }
+@media (max-width: 640px) {
+  .legal-builder-grid { grid-template-columns: minmax(0, 1fr); }
+  .legal-builder-actions button { flex: 1 1 auto; }
+}
