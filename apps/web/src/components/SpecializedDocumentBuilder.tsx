@@ -46,6 +46,7 @@ const specs: Record<Kind, Spec> = {
     extra: [],
     sources: [
       { label: "ЖК РФ, статья 56", url: "https://www.consultant.ru/document/cons_doc_LAW_51057/87012f36f8ec455730f4c40fca8dabb782e7844b/" },
+      { label: "Верховный Суд: обзор дел о снятии с жилищного учёта", url: "https://www.vsrf.ru/documents/all/15162" },
       { label: "59-ФЗ, статьи 5 и 7 — обращения и ознакомление с материалами", url: "https://mintrud.gov.ru/docs/laws/108" },
     ],
   },
