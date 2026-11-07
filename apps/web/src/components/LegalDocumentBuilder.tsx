@@ -9,6 +9,7 @@ type Fields = {
   applicant: string;
   postalAddress: string;
   residence: string;
+  challengedAuthority: string;
   phone: string;
   email: string;
   subject: string;
@@ -46,6 +47,7 @@ const initial: Fields = {
   applicant: "",
   postalAddress: "",
   residence: "",
+  challengedAuthority: "",
   phone: "",
   email: "",
   subject: "",
@@ -100,6 +102,7 @@ function draft(kind: Kind, f: Fields): string {
     "",
     kind === "request" ? "ОБРАЩЕНИЕ" : "ЖАЛОБА НА НАРУШЕНИЕ ПОРЯДКА ПРЕДОСТАВЛЕНИЯ ГОСУДАРСТВЕННОЙ УСЛУГИ",
     "",
+    ...(kind === "service-complaint" ? ["Обжалуемое решение или действие органа (должностного лица): " + f.challengedAuthority.trim()] : []),
     "Вопрос: " + f.subject.trim(),
     "",
     kind === "request" ? "Излагаю обстоятельства:" : "Обжалуемое решение, действие (бездействие) и доводы:",
@@ -123,7 +126,7 @@ export function LegalDocumentBuilder({ kind }: { kind: Kind }) {
   const ready = Boolean(fields.applicant.trim() && fields.postalAddress.trim() &&
     fields.recipient.trim() && fields.subject.trim() && fields.facts.trim() &&
     fields.demand.trim() && fields.date.trim() &&
-    (kind !== "service-complaint" || (fields.residence.trim() && fields.phone.trim())) &&
+    (kind !== "service-complaint" || (fields.residence.trim() && fields.phone.trim() && fields.challengedAuthority.trim())) &&
     (kind !== "civil-objection" || (fields.caseNumber.trim() && fields.claimant.trim())));
   const result = ready ? draft(kind, fields) : "";
 
@@ -154,6 +157,9 @@ export function LegalDocumentBuilder({ kind }: { kind: Kind }) {
       <label>Почтовый адрес заявителя
         <input value={fields.postalAddress} onChange={e => change("postalAddress", e.target.value)} />
       </label>
+      {kind === "service-complaint" && <label>Орган или должностное лицо, чьё решение обжалуется
+        <input value={fields.challengedAuthority} onChange={e => change("challengedAuthority", e.target.value)} />
+      </label>}
       {kind === "service-complaint" && <label>Место жительства
         <input value={fields.residence} onChange={e => change("residence", e.target.value)} />
       </label>}
