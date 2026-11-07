@@ -26,7 +26,7 @@ export function HousingLawCatalog() {
          <p><strong>Подтверждённый изменяющий акт:</strong> {law.confirmedAmendment.act}.</p>
          <p>{law.confirmedAmendment.scope}</p>
          <p><a href={law.confirmedAmendment.officialPublication} rel="noopener noreferrer" target="_blank">Официальная публикация изменения ↗</a></p>
-         <p>Это не подтверждение действующей консолидированной редакции. Итоговая юридическая проверка не выполнена.</p>
+         <p>Перед применением проверьте последующие изменения и дату их вступления в силу.</p>
        </div>}
        {"officialSnapshot" in law && law.officialSnapshot && <div className="housing-law-official-snapshot">
          <p><strong>Официально размещённая редакция:</strong> {law.officialSnapshot.title}.</p>
@@ -35,7 +35,6 @@ export function HousingLawCatalog() {
        </div>}
        {law.revisionResearch && <div className="housing-law-revision">
          <p><strong>Дата найденной редакции:</strong> {law.revisionResearch.editionDate}. Текст документа мог измениться.</p>
-         <p>{law.revisionResearch.researchNote}</p>
          <p><a href={law.revisionResearch.secondaryReference} rel="noopener noreferrer" target="_blank">Посмотреть сведения об изменениях ↗</a></p>
        </div>}
        {law.sourceScope === "appendix_5_historical_2022" && <p>Внимание: ниже опубликован текст приложения 5 в редакции 23.12.2022. Прежнее приложение 14 утратило силу; актуальную редакцию 2026 года необходимо сверять отдельно.</p>}
