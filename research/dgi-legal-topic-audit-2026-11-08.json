@@ -1,0 +1,135 @@
+{
+  "schema_version": 1,
+  "audit_date": "2026-11-08",
+  "purpose": "Evidence-backed audit of DGI public housing themes, document tools and user-visible development notes",
+  "branch": "automation/dgi-daily-2026-11-07",
+  "protected_base": "infra/coolify-russian-vps",
+  "scope": {
+    "legacy_public_pages": 33,
+    "additional_housing_guides": 18,
+    "housing_law_reference_entries": 20,
+    "runtime_live_html_checked": false,
+    "live_site_limitation": "The public site and sitemap were not retrievable through the available web access in this run; no LIVE claim or live audit is made.",
+    "legal_claim_coverage": "targeted official-source spot check of 59-FZ, 210-FZ, GPK 149, ЖК 52/54; NOT full sentence-by-sentence validation of every topic"
+  },
+  "official_or_authoritative_evidence": [
+    {
+      "purpose": "General citizen request requirements and electronic authentication",
+      "url": "https://mintrud.gov.ru/docs/laws/108",
+      "law": "59-ФЗ, статьи 7, 8, 12",
+      "revision_note": "Federal official ministry text includes amendments through 547-ФЗ of 28.12.2024"
+    },
+    {
+      "purpose": "Confirmation of portal identification rule effective 30 March 2025",
+      "url": "https://rostransnadzor.gov.ru/news/16472",
+      "law": "547-ФЗ"
+    },
+    {
+      "purpose": "State-service complaint elements and procedure",
+      "url": "https://minjust.gov.ru/ru/documents/7743/",
+      "law": "210-ФЗ, статья 11.2"
+    },
+    {
+      "purpose": "Civil-defendant written objections",
+      "url": "https://www.consultant.ru/document/cons_doc_LAW_39570/72854130f0ed1553f37c3d865a1940a336c77837/",
+      "law": "ГПК РФ, статья 149",
+      "source_status": "authoritative secondary text; confirm controlling official act for individual case"
+    },
+    {
+      "purpose": "Housing-registration baseline",
+      "url": "https://www.consultant.ru/document/cons_doc_LAW_51057/9c27b70af8c4ea6e0fa46f2c048b962410af5945/",
+      "law": "ЖК РФ, статья 52",
+      "source_status": "authoritative secondary text; current city procedure still needs separate verification"
+    },
+    {
+      "purpose": "Refusal of housing registration",
+      "url": "https://www.consultant.ru/document/cons_doc_LAW_51057/067abaff5392b76a3a7bf915012493c7ee4ffb3c/",
+      "law": "ЖК РФ, статья 54",
+      "source_status": "authoritative secondary text; current city procedure still needs separate verification"
+    }
+  ],
+  "changes_in_existing_pr": [
+    {
+      "route": "/zayavlenie-v-dgi-moskvy",
+      "action": "add client-only editable request draft under 59-ФЗ",
+      "limitations": "not a specific state-service application; official authenticated submission required"
+    },
+    {
+      "route": "/zhaloba-na-dgi-moskvy",
+      "action": "add separate complaint draft under 210-ФЗ; require residence, postal reply address, contact telephone, facts and demand",
+      "limitations": "not a universal dispute claim; user must verify current competent recipient and service regulations"
+    },
+    {
+      "route": "/isk-o-vyselenii-socialnyy-naem",
+      "action": "add civil defendant-objection draft under ГПК РФ 149",
+      "limitations": "not legal evaluation of case, cannot substitute court evidence or copy delivery"
+    },
+    {
+      "component": "MigratedArticle",
+      "action": "suppress exact editorial source-check label 'СВЕРЕННЫЕ СВЕДЕНИЯ И ВАЖНЫЕ УСЛОВИЯ' while preserving all legal paragraphs and source links"
+    },
+    {
+      "component": "LegalDocumentBuilder",
+      "action": "use isolated CSS module, browser-side draft, editable plain text; no sending private data to server"
+    }
+  ],
+  "generator_triage": [
+    {
+      "themes": [
+        "обращение в ДГИ",
+        "досудебная жалоба на госуслугу",
+        "возражения на иск о выселении"
+      ],
+      "status": "implemented_as_source_backed_editable_draft_in_this_PR"
+    },
+    {
+      "themes": [
+        "снятие с жилищного учёта",
+        "отказ в приватизации",
+        "спор о реновации",
+        "выморочное имущество"
+      ],
+      "status": "procedural_draft_not_auto_published",
+      "reason": "claim route and standing depend on decision, documents and court process; exact official procedural mapping not completed"
+    },
+    {
+      "themes": [
+        "перерасчёт ЖКУ",
+        "аварийное жильё",
+        "права собственника МКД"
+      ],
+      "status": "purpose_built_template_needed_further_verified_sources",
+      "reason": "recipient, act/inspection and procedure differ by event; do not invent a universal form"
+    },
+    {
+      "themes": [
+        "приватизация",
+        "переустройство и перепланировка",
+        "земельные торги",
+        "аренда городской земли",
+        "жилищные субсидии",
+        "постановка на жилищный учёт"
+      ],
+      "status": "official_service_form_must_be_checked",
+      "reason": "do not replace mandatory official forms with a free-text letter"
+    },
+    {
+      "themes": [
+        "нормативные акты",
+        "новости",
+        "судебная практика",
+        "контакты и полномочия ДГИ"
+      ],
+      "status": "no_generic_legal_document_generator_required"
+    }
+  ],
+  "source_gates": [
+    "Court/administrative action type may depend on individual grounds and legal relation. Never label a universal filing as court-ready.",
+    "Do not reuse historical official PDFs as current consolidated legal edition.",
+    "No request to a court is presented as a pretrial claim or administrative complaint.",
+    "Only independently verified facts, terms, law and official procedure may be asserted.",
+    "Current 18 additional guides remain preview/draft and not legally approved for production indexing.",
+    "This report is research metadata, not a signoff on all 33 migrated articles."
+  ],
+  "release": "Leave existing PR #56 draft until all applicable checks succeed on exact final branch HEAD; no merge or Coolify deployment authorised by this report."
+}
