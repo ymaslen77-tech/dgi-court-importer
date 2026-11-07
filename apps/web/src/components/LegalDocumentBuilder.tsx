@@ -8,6 +8,7 @@ type Fields = {
   recipient: string;
   applicant: string;
   postalAddress: string;
+  residence: string;
   phone: string;
   email: string;
   subject: string;
@@ -44,6 +45,7 @@ const initial: Fields = {
   recipient: "",
   applicant: "",
   postalAddress: "",
+  residence: "",
   phone: "",
   email: "",
   subject: "",
@@ -59,7 +61,8 @@ function draft(kind: Kind, f: Fields): string {
   const header = [
     "Кому: " + (f.recipient.trim() || "Департамент городского имущества города Москвы"),
     "От: " + f.applicant.trim(),
-    "Адрес для ответа: " + f.postalAddress.trim(),
+    ...(kind === "service-complaint" ? ["Место жительства: " + f.residence.trim()] : []),
+    "Почтовый адрес для ответа: " + f.postalAddress.trim(),
     f.phone.trim() ? "Телефон: " + f.phone.trim() : "",
     f.email.trim() ? "Электронная почта: " + f.email.trim() : "",
   ].filter(Boolean);
@@ -120,6 +123,7 @@ export function LegalDocumentBuilder({ kind }: { kind: Kind }) {
   const ready = Boolean(fields.applicant.trim() && fields.postalAddress.trim() &&
     fields.recipient.trim() && fields.subject.trim() && fields.facts.trim() &&
     fields.demand.trim() && fields.date.trim() &&
+    (kind !== "service-complaint" || (fields.residence.trim() && fields.phone.trim())) &&
     (kind !== "civil-objection" || (fields.caseNumber.trim() && fields.claimant.trim())));
   const result = ready ? draft(kind, fields) : "";
 
@@ -150,7 +154,10 @@ export function LegalDocumentBuilder({ kind }: { kind: Kind }) {
       <label>Почтовый адрес заявителя
         <input value={fields.postalAddress} onChange={e => change("postalAddress", e.target.value)} />
       </label>
-      <label>Телефон (необязательно)
+      {kind === "service-complaint" && <label>Место жительства
+        <input value={fields.residence} onChange={e => change("residence", e.target.value)} />
+      </label>}
+      <label>{kind === "service-complaint" ? "Контактный телефон" : "Телефон (необязательно)"}
         <input value={fields.phone} onChange={e => change("phone", e.target.value)} />
       </label>
       <label>Электронная почта (необязательно)
