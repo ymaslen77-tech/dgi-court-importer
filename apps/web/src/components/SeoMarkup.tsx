@@ -11,7 +11,7 @@ export function SeoMarkup({page}: {page: MigratedPage}) {
   const website={
     "@type":"WebSite",
     "@id":websiteId,
-    name:"Единая справочная служба Москвы",
+    name:"Жилищный справочник Москвы",
     alternateName:"dgi-pravo.ru",
     url:`${siteOrigin}/`,
     inLanguage:"ru",
