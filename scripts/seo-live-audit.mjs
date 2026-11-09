@@ -42,11 +42,32 @@ async function get(path, options={}) {
   const body = await response.text();
   return {response,body,ms:Date.now()-start,url:url.toString()};
 }
+// Do not amplify a small VPS's load during simultaneous CI and search crawls.
+// Keep intermittent 5xx/connection failures visible as warnings, even if
+// recovered; only persistent failures should prevent a release health check.
 async function safeGet(path, options={}) {
-  try {return await get(path,options);} catch(e) {
-    addError(path,"request_failed",e instanceof Error?e.message:e);
-    return null;
+  const transient = [];
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      const result = await get(path, options);
+      if ([429, 502, 503, 504].includes(result.response.status) && attempt < 3) {
+        transient.push("HTTP " + result.response.status + " on attempt " + attempt);
+        await new Promise(resolve => setTimeout(resolve, 450 * attempt));
+        continue;
+      }
+      if (transient.length) addWarning(path, "transient_http_or_network", transient.join("; "));
+      return result;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      transient.push(message.slice(0, 140));
+      if (attempt === 3) {
+        addError(path, "request_failed", transient.join("; "));
+        return null;
+      }
+      await new Promise(resolve => setTimeout(resolve, 450 * attempt));
+    }
   }
+  return null;
 }
 function normalized(path) {
   const url=new URL(path,origin);
@@ -139,7 +160,7 @@ async function worker() {
     for(const failure of failures)addError(path,failure);
   }
 }
-await Promise.all(Array.from({length:5},worker));
+await Promise.all(Array.from({length:2},worker));
 pages.sort((a,b)=>a.path.localeCompare(b.path));
 const titleMap=new Map();
 for(const page of pages){
@@ -183,7 +204,7 @@ try{
   checks.push({path:"www-redirect",status:response.status,location,ms:Date.now()-start});
 }catch(e){addError("https://www.dgi-pravo.ru/","www_request_failed",e);}
 const output={
-  version:2,checkedAt:startedAt,origin,mode:"published_public_html",
+  version:3,checkedAt:startedAt,origin,mode:"published_public_html",
   sourceSha,expectedPublishedFromCheckout:expected.size,
   sitemapUrlCount:sitemapUrls.filter(Boolean).length,auditedHtmlPages:pages.length,
   errors,warnings,checks,pages,
