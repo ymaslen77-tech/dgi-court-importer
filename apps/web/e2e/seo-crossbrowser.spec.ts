@@ -72,7 +72,7 @@ test("legal draft form remains interactive across browser engines", async ({ pag
 });
 
 test("published news and court index remain readable without client JavaScript", async ({ browser }) => {
-  const context = await browser.newContext({javaScriptEnabled:false});
+  const context = await browser.newContext({baseURL:"http://127.0.0.1:3000",javaScriptEnabled:false});
   try {
     const page = await context.newPage();
     for(const path of ["/novosti-zhilishchnogo-prava","/sudebnaya-praktika-dgi"]) {
