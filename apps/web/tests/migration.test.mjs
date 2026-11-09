@@ -126,7 +126,7 @@ test("shared legal pages use one light template without redundant editorial bann
 test("the exact public service title appears in the red site-wide header", () => {
   const shell = readFileSync(new URL("../src/components/PageShell.tsx", import.meta.url), "utf8");
   const css = readFileSync(new URL("../src/app/globals.css", import.meta.url), "utf8");
-  assert.ok(shell.includes("Единая справочная служба Москвы по жилищным вопросам"));
+  assert.ok(shell.includes("Жилищный справочник Москвы"));
   assert.ok(css.includes(".site--home .topbar"));
   assert.ok(shell.includes('href="/o-proekte"'));
   assert.ok(shell.includes("Не является официальным сайтом"));

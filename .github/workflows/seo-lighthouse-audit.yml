@@ -1,64 +1,100 @@
-name: DGI Lighthouse SEO and performance — live lab
+name: DGI Lighthouse — published mobile and desktop lab
+
 on:
   workflow_dispatch:
-  push:
-    branches: [seo/official-google-yandex-audit-20261018]
+  pull_request:
     paths:
       - ".github/workflows/seo-lighthouse-audit.yml"
+      - "apps/web/src/app/**"
+      - "apps/web/src/components/**"
+      - "apps/web/src/app/globals.css"
+  push:
+    branches: [infra/coolify-russian-vps]
+    paths:
+      - ".github/workflows/seo-lighthouse-audit.yml"
+  schedule:
+    - cron: "30 5 * * 2"
+
 permissions:
   contents: read
+
 jobs:
   lighthouse:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || 'infra/coolify-russian-vps' }}
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
       - name: Install Lighthouse
         run: npm install --no-save --no-package-lock --prefix /tmp/dgi-lighthouse lighthouse@12
-      - name: Measure desktop and mobile performance of four real sections
+      - name: Measure public home, services, forms, news and judicial HTML
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p test-results/lighthouse
-          for slug in home gosuslugi-dgi socialnyj-naem sudebnaya-praktika-dgi; do
+          news_slug="$(node -p 'require("./apps/web/src/data/housing-news.json")[0].slug')"
+          case_slug="$(node -p 'require("./apps/web/src/data/verified-court-static.json")[0].slug')"
+          slugs=(
+            home
+            gosuslugi-dgi
+            zayavlenie-v-dgi-moskvy
+            novosti-zhilishchnogo-prava
+            sudebnaya-praktika-dgi
+            "novosti-zhilishchnogo-prava/$news_slug"
+            "sudebnaya-praktika-dgi/$case_slug"
+          )
+          for slug in "${slugs[@]}"; do
             if [[ "$slug" == "home" ]]; then url="https://dgi-pravo.ru/"; else url="https://dgi-pravo.ru/$slug"; fi
+            safe_name="${slug//\//_}"
             for device in mobile desktop; do
-              echo "Auditing $url on $device"
+              echo "Auditing $url ($device)"
               extra=()
               if [[ "$device" == "desktop" ]]; then extra=(--preset=desktop); fi
               node /tmp/dgi-lighthouse/node_modules/lighthouse/cli/index.js "$url" \
                 --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" \
                 --only-categories=performance,accessibility,best-practices,seo \
-                --output=json --output-path="test-results/lighthouse/$slug-$device.json" \
+                --output=json --output-path="test-results/lighthouse/$safe_name-$device.json" \
                 --quiet "${extra[@]}"
             done
           done
-      - name: Report lab measurements and explicit index-block status
+      - name: Store transparent lab baseline (not field INP or ranking)
+        shell: bash
         run: |
           node --input-type=module <<'JS'
           import {readFileSync,readdirSync,writeFileSync} from "node:fs";
+          import {execFileSync} from "node:child_process";
           const rows=[];
           for(const file of readdirSync("test-results/lighthouse").filter(f=>f.endsWith(".json"))){
             const report=JSON.parse(readFileSync("test-results/lighthouse/"+file,"utf8"));
-            const categories=Object.fromEntries(Object.entries(report.categories).map(([k,v])=>[k,Math.round((v.score||0)*100)]));
-            const a=report.audits;
-            const row={file,url:report.finalDisplayedUrl,performance:categories.performance,accessibility:categories.accessibility,bestPractices:categories["best-practices"],seo:categories.seo,
-              lcpMs:Math.round(a["largest-contentful-paint"]?.numericValue||0),cls:a["cumulative-layout-shift"]?.numericValue||0,
-              indexingBlocked:(a["is-crawlable"]?.score===0)};
+            const categories=Object.fromEntries(Object.entries(report.categories||{}).map(([k,v])=>[k,Math.round((v.score||0)*100)]));
+            const a=report.audits||{};
+            const row={file,url:report.finalDisplayedUrl,performance:categories.performance,
+              accessibility:categories.accessibility,bestPractices:categories["best-practices"],seo:categories.seo,
+              lcpMs:Math.round(a["largest-contentful-paint"]?.numericValue||0),
+              cls:a["cumulative-layout-shift"]?.numericValue ?? null,
+              tbtMs:Math.round(a["total-blocking-time"]?.numericValue||0),
+              indexingBlocked:a["is-crawlable"]?.score===0};
             rows.push(row);console.log("LIGHTHOUSE",JSON.stringify(row));
           }
-          writeFileSync("test-results/lighthouse-summary.json",JSON.stringify(rows,null,2));
-          console.log("Lighthouse completed:",rows.length,"synthetic runs. SEO scores reflect intentional noindex; lab LCP/CLS are not field CWV.");
-          if(rows.length!==8)process.exitCode=1;
+          const sourceSha=execFileSync("git",["rev-parse","HEAD"],{encoding:"utf8"}).trim();
+          writeFileSync("test-results/lighthouse-summary.json",JSON.stringify({
+            checkedAt:new Date().toISOString(),sourceSha,mode:"laboratory",
+            note:"TBT is a lab proxy, NOT field INP. For p75 LCP/INP/CLS use Search Console and CrUX.",
+            rows,
+          },null,2)+"\n");
+          console.log("Lighthouse completed:",rows.length,"synthetic measurements");
+          if(rows.length!==14)process.exitCode=1;
           JS
-      - name: Preserve all reports
+      - name: Preserve measured reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: dgi-lighthouse-8-lab-reports
+          name: dgi-lighthouse-14-lab-reports
           path: |
             test-results/lighthouse/
             test-results/lighthouse-summary.json

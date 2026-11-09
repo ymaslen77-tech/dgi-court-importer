@@ -67,3 +67,27 @@ test("legal editorial policy is visible site-wide without made-up credentials",(
  assert.match(shell,/Независимый информационно-правовой справочник/);
  assert.match(policy,/robots: \{ index: siteIsLive, follow: siteIsLive \}/);
 });
+
+
+test("published homepage has one factual WebSite graph and an independent name",()=>{
+  const home=read("src/app/page.tsx");
+  const seo=read("src/components/SeoMarkup.tsx");
+  const layout=read("src/app/layout.tsx");
+  const shell=read("src/components/PageShell.tsx");
+  assert.ok(home.includes("<SeoMarkup page={page} />"));
+  assert.ok(seo.includes("if (!canIndexPage(page)) return null"));
+  assert.ok(seo.includes('"@type":"WebSite"'));
+  assert.ok(seo.includes('name:"Жилищный справочник Москвы"'));
+  assert.ok(layout.includes('const brand = "Жилищный справочник Москвы"'));
+  assert.ok(shell.includes("Независимый информационно-правовой справочник"));
+});
+
+test("published news has factual schema with source but no fabricated author",()=>{
+  const code=read("src/app/novosti-zhilishchnogo-prava/[slug]/page.tsx");
+  assert.ok(code.includes('"@type": "NewsArticle"'));
+  assert.ok(code.includes("datePublished: article.publishedAt"));
+  assert.ok(code.includes("isBasedOn: article.sourceUrl"));
+  assert.ok(code.includes("structuredData = siteIsLive ?"));
+  assert.ok(!code.includes("author: {"));
+  assert.ok(!code.includes("dateModified: new Date"));
+});

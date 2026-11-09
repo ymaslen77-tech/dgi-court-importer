@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 
 // Absolute production host for share previews. Does not enable indexing.
 const publicSiteOrigin = "https://dgi-pravo.ru";
-const brand = "Единая справочная служба Москвы — жилищные вопросы";
+const brand = "Жилищный справочник Москвы";
 const description = "Независимый справочник по жилищному праву Москвы: ДГИ, приватизация, реновация, судебные дела и проверка официальных источников.";
 
 export const metadata: Metadata = {

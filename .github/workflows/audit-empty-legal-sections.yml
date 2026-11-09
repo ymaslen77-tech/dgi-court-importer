@@ -34,7 +34,7 @@ jobs:
       - name: Install Chromium
         run: pnpm --filter @dgi/web exec playwright install --with-deps chromium
       - name: Check source pages and mobile styles
-        run: pnpm --filter @dgi/web exec playwright test e2e/empty-sections.spec.ts --workers=2
+        run: pnpm --filter @dgi/web exec playwright test e2e/empty-sections.spec.ts --workers=2 --project=desktop-chromium --project=mobile-chromium
       - name: Save failures
         if: failure()
         uses: actions/upload-artifact@v4

@@ -28,7 +28,7 @@ export function PageShell({ children, variant = "default" }: Readonly<{
     <div className={`site site--${variant}`}>
       <a href="#main-content" className="skip-link">К содержанию</a>
       <div className="topbar"><div className="container">
-        Единая справочная служба Москвы по жилищным вопросам
+        Жилищный справочник Москвы
       </div></div>
       <header className="site-header">
         <div className="container header-wrap">
@@ -45,7 +45,7 @@ export function PageShell({ children, variant = "default" }: Readonly<{
       <footer className="footer">
         <div className="container footer-grid">
           <div>
-            <strong>Единая справочная служба Москвы по жилищным вопросам</strong>
+            <strong>Жилищный справочник Москвы</strong>
             <p>Независимый информационно-правовой справочник. Не является официальным сайтом или подразделением ДГИ Москвы и не оказывает государственные услуги.</p>
             <p className="footer-disclaimer">Материалы носят справочный характер. Перед обращением проверяйте действующую редакцию нормативных актов, сроки и документы в официальных источниках.</p>
             <p><a href="https://www.mos.ru/dgi/" target="_blank" rel="noopener noreferrer">Официальный сайт ДГИ Москвы ↗</a></p>

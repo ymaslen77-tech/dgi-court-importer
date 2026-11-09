@@ -13,7 +13,7 @@ export function factualSocialMetadata(
     openGraph: {
       type,
       locale: "ru_RU",
-      siteName: "Единая справочная служба Москвы — жилищные вопросы",
+      siteName: "Жилищный справочник Москвы",
       url: new URL(path, "https://dgi-pravo.ru").toString(),
       title,
       description,

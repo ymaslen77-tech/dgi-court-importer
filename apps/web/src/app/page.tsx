@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PageShell } from "@/components/PageShell";
+import { SeoMarkup } from "@/components/SeoMarkup";
 import { canIndexPage, canonicalUrl, getMigratedPage, siteIsLive } from "@/data/pages";
 import { getPublishedEditorialPage } from "@/data/published";
 import { housingNewsBase, listHousingNews } from "@/data/housing-news";
@@ -33,7 +34,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       type: "website",
       locale: "ru_RU",
-      siteName: "Единая справочная служба Москвы — жилищные вопросы",
+      siteName: "Жилищный справочник Москвы",
       title: page.seoTitle,
       description: page.description,
       url: "https://dgi-pravo.ru/",
@@ -49,6 +50,7 @@ export default async function HomePage() {
   if (!page) notFound();
   const news = listHousingNews().slice(0, 3);
   return <PageShell variant="home">
+    <SeoMarkup page={page} />
     <section className="home-intro">
       <div className="container">
         <h1>Жилищные вопросы в Москве</h1>
@@ -57,6 +59,7 @@ export default async function HomePage() {
       </div>
     </section>
     <section className="topic-section" id="topics">
+      <span id="practical-housing-guides" aria-hidden="true" />
       <div className="container">
         <h2 className="section-title">Разделы справочника</h2>
         <div className="topic-grid">

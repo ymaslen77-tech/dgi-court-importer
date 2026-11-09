@@ -26,7 +26,26 @@ export default async function HousingNewsStory({ params }: Props) {
   const { slug } = await params;
   const article = getHousingNews(slug);
   if (!article) notFound();
+  const url = "https://dgi-pravo.ru" + housingNewsBase + "/" + article.slug;
+  // Factual fields only: never invent author, editorial update date or image.
+  const structuredData = siteIsLive ? JSON.stringify({
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "NewsArticle", "@id": url + "#article",
+        mainEntityOfPage: url, headline: article.title, description: article.summary,
+        datePublished: article.publishedAt, inLanguage: "ru", isBasedOn: article.sourceUrl },
+      { "@type": "BreadcrumbList", "@id": url + "#breadcrumb",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Главная", item: "https://dgi-pravo.ru/" },
+          { "@type": "ListItem", position: 2, name: "Новости", item: "https://dgi-pravo.ru" + housingNewsBase },
+          { "@type": "ListItem", position: 3, name: article.title, item: url },
+        ],
+      },
+    ],
+  }).replace(/</g,"\\u003c").replace(/\u2028/g,"\\u2028").replace(/\u2029/g,"\\u2029") : "";
   return <PageShell variant="thematic">
+    {structuredData && <script type="application/ld+json"
+      dangerouslySetInnerHTML={{__html:structuredData}} />}
     <section className="hero hero--thematic"><div className="container">
       <nav className="breadcrumb" aria-label="Навигационная цепочка">
         <Link href="/">Главная</Link><span>/</span><Link href={housingNewsBase}>Новости</Link>
