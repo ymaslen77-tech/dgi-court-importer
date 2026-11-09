@@ -43,11 +43,45 @@ jobs:
       - name: Install Chromium
         run: pnpm --filter @dgi/web exec playwright install --with-deps chromium
       - name: Test protected release, legal document builders, empty sections and mobile UX
-        run: pnpm --filter @dgi/web exec playwright test e2e/release-guard.spec.ts e2e/empty-sections.spec.ts e2e/reading-ux.spec.ts e2e/document-builders.spec.ts e2e/specialized-document-builders.spec.ts --workers=2
+        run: pnpm --filter @dgi/web exec playwright test e2e/release-guard.spec.ts e2e/empty-sections.spec.ts e2e/reading-ux.spec.ts e2e/document-builders.spec.ts e2e/specialized-document-builders.spec.ts --project=desktop-chromium --project=mobile-chromium --workers=2
       - name: Preserve failure screenshots and traces
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: browser-failure-traces
+          path: apps/web/test-results/
+          retention-days: 7
+
+  cross-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      CI: "true"
+      SITE_CUTOVER: "false"
+      SITE_RELEASE_APPROVED: "no"
+      CMS_PUBLIC_READS: "false"
+      COURT_DB_READS: "false"
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install workspace
+        run: pnpm install --frozen-lockfile
+      - name: Build staging preview without opening publication gates
+        run: pnpm --filter @dgi/web build
+      - name: Install Firefox and WebKit
+        run: pnpm --filter @dgi/web exec playwright install --with-deps firefox webkit
+      - name: Verify 320 to 1920px layouts, navigation, forms and SSR in Firefox/WebKit
+        run: pnpm --filter @dgi/web exec playwright test e2e/seo-crossbrowser.spec.ts --project=desktop-firefox --project=desktop-webkit --workers=2
+      - name: Preserve browser diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cross-browser-failure-traces
           path: apps/web/test-results/
           retention-days: 7
