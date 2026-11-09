@@ -493,6 +493,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", Ari
   gap: 9px;
 }
 .site .breadcrumb a { color: #ad2432; }
+.site .breadcrumb [aria-current="page"] { color: #555; }
 .site .article-section, .site--thematic .article-section {
   padding: 30px 0 76px;
 }
@@ -580,7 +581,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", Ari
 .verified-search label { display: block; font-size: 16px; font-weight: 750; margin-bottom: 11px; }
 .verified-search input { display: block; width: 100%; min-height: 52px; border: 1px solid #aaa;
   border-radius: 5px; padding: 13px 15px; font-size: 16px; background: #fff; color: #222; }
-.verified-search p { margin: 9px 0 0; color: #777; font-size: 13px; }
+.verified-search p { margin: 9px 0 0; color: #555; font-size: 13px; }
 .verified-empty { margin-top: 12px; padding: 20px 23px; border: 1px solid #e0e0e0;
   border-radius: 5px; background: #f8f8f8; line-height: 1.6; }
 .verified-empty p { margin: 0 0 10px; }
@@ -660,7 +661,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", Ari
 .housing-news-bar p {margin:0;color:#737373;font-size:13px;}
 .housing-news-grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;}
 .housing-news-card {padding:24px 24px 22px;border:1px solid #e0e0e0;border-top:3px solid var(--red);display:flex;flex-direction:column;gap:13px;}
-.housing-news-meta {display:flex;gap:12px;justify-content:space-between;flex-wrap:wrap;color:#777;font-size:12px;line-height:1.6;}
+.housing-news-meta {display:flex;gap:12px;justify-content:space-between;flex-wrap:wrap;color:#555;font-size:12px;line-height:1.6;}
 .housing-news-card h3 {font-size:19px;line-height:1.35;letter-spacing:-.01em;margin:0;}
 .housing-news-card h3 a {text-decoration:none;}
 .housing-news-card h3 a:hover {color:var(--red);}
