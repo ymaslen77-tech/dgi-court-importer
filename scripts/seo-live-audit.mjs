@@ -21,6 +21,10 @@ function meta(html, name) {
   return tags(html,"meta").filter(tag => attribute(tag,"name").toLowerCase()===name.toLowerCase())
     .map(tag => attribute(tag,"content")).join(",");
 }
+function openGraph(html, key) {
+  return tags(html,"meta").filter(tag => attribute(tag,"property").toLowerCase()===key.toLowerCase())
+    .map(tag => attribute(tag,"content")).join(",");
+}
 function canonical(html) {
   const candidates = tags(html,"link").filter(tag =>
     attribute(tag,"rel").toLowerCase().split(/\s+/).includes("canonical"));
@@ -127,7 +131,8 @@ async function worker() {
       failures.push("missing_ru_html_lang");
     const viewport=meta(body,"viewport");
     if(!viewport)failures.push("missing_viewport");
-    if(!meta(body,"og:title"))addWarning(path,"missing_og_title");
+    if(!openGraph(body,"og:title"))addWarning(path,"missing_og_title");
+    if(!meta(body,"twitter:card"))addWarning(path,"missing_twitter_card");
     const page={path,status:response.status,ms,title:title.slice(0,180),descriptionLength:desc.length,
       h1,canonicals,robots:robotRules.trim().slice(0,150),failures};
     pages.push(page);
@@ -190,7 +195,7 @@ const output={
   ],
 };
 mkdirSync("test-results",{recursive:true});
-writeFileSync("test-results/seo-live-audit.json",JSON.stringify(output,null,2)+"\\n");
+writeFileSync("test-results/seo-live-audit.json",JSON.stringify(output,null,2)+"\n");
 console.log("DGI LIVE SEO",JSON.stringify({mode:output.mode,sourceSha,
   sitemapUrlCount:output.sitemapUrlCount,audited:output.auditedHtmlPages,
   errors:errors.length,warnings:warnings.length}));
