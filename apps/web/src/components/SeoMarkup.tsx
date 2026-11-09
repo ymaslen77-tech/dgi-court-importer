@@ -20,7 +20,7 @@ export function SeoMarkup({page}: {page: MigratedPage}) {
   const webpage={
     "@type":"WebPage",
     "@id":`${url}#webpage`,
-    name:page.seoTitle,
+    name:page.slug ? page.seoTitle : "Жилищный справочник Москвы — жилищные вопросы",
     url,
     description:page.description,
     inLanguage:"ru",
