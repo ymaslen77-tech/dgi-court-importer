@@ -34,7 +34,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       type: "website",
       locale: "ru_RU",
-      siteName: "Единая справочная служба Москвы — жилищные вопросы",
+      siteName: "Жилищный справочник Москвы",
       title: page.seoTitle,
       description: page.description,
       url: "https://dgi-pravo.ru/",
