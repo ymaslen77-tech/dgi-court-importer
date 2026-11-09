@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PageShell } from "@/components/PageShell";
+import { SeoMarkup } from "@/components/SeoMarkup";
 import { canIndexPage, canonicalUrl, getMigratedPage, siteIsLive } from "@/data/pages";
 import { getPublishedEditorialPage } from "@/data/published";
 import { housingNewsBase, listHousingNews } from "@/data/housing-news";
@@ -49,6 +50,7 @@ export default async function HomePage() {
   if (!page) notFound();
   const news = listHousingNews().slice(0, 3);
   return <PageShell variant="home">
+    <SeoMarkup page={page} />
     <section className="home-intro">
       <div className="container">
         <h1>Жилищные вопросы в Москве</h1>
