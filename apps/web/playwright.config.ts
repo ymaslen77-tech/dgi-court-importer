@@ -20,6 +20,12 @@ export default defineConfig({
       browserName:"chromium",viewport:{width:390,height:844},
       isMobile:true,hasTouch:true,deviceScaleFactor:1,
     }},
+    {name:"desktop-firefox",use:{
+      browserName:"firefox",viewport:{width:1280,height:800},
+    }},
+    {name:"desktop-webkit",use:{
+      browserName:"webkit",viewport:{width:1280,height:800},
+    }},
   ],
   webServer:{
     command:"pnpm start --hostname 127.0.0.1 --port 3000",
