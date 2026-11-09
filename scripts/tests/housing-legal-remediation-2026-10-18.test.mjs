@@ -79,6 +79,8 @@ test("UI visibly separates verified change from pending consolidated regulation"
  const component=readFileSync(new URL("../../apps/web/src/components/DgiServiceRegistry.tsx",import.meta.url),"utf8");
  assert.match(component,/Что подтверждено официальной публикацией/);
  assert.match(component,/Действующая редакция и регламент не подтверждены/);
- assert.match(component,/verifiedAmendmentEvidence\.caveat/);
+ assert.doesNotMatch(component,/verifiedAmendmentEvidence\\.caveat/);
+ assert.ok(services.services.some(item => item.verifiedAmendmentEvidence?.caveat),
+   "Research caveats remain in source data, not displayed as internal worklist");
  assert.match(component,/Официальная публикация изменений/);
 });
