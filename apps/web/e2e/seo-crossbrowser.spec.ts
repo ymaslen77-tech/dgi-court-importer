@@ -84,3 +84,25 @@ test("published news and court index remain readable without client JavaScript",
     }
   } finally { await context.close(); }
 });
+
+
+test("small helper text meets WCAG AA contrast on white backgrounds", async ({ page }) => {
+  const targets = [
+    {path:"/gosuslugi-dgi",selector:".site .breadcrumb [aria-current='page']"},
+    {path:"/",selector:".housing-news-meta"},
+    {path:"/sudebnaya-praktika-dgi",selector:".verified-search p"},
+  ];
+  for(const target of targets){
+    await page.goto(target.path);
+    const color = await page.locator(target.selector).first().evaluate(el => getComputedStyle(el).color);
+    const channels = (color.match(/[0-9.]+/g)||[]).slice(0,3).map(Number);
+    expect(channels.length, "RGB color not found on " + target.selector).toBe(3);
+    const values = channels.map(value => {
+      const c = value/255;
+      return c <= 0.04045 ? c/12.92 : ((c+0.055)/1.055)**2.4;
+    });
+    const lum=0.2126*values[0]+0.7152*values[1]+0.0722*values[2];
+    const contrast=1.05/(lum+0.05);
+    expect(contrast, target.selector+" ("+color+") below WCAG AA").toBeGreaterThanOrEqual(4.5);
+  }
+});
