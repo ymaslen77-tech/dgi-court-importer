@@ -59,6 +59,7 @@ export default async function HomePage() {
       </div>
     </section>
     <section className="topic-section" id="topics">
+      <span id="practical-housing-guides" aria-hidden="true" />
       <div className="container">
         <h2 className="section-title">Разделы справочника</h2>
         <div className="topic-grid">
