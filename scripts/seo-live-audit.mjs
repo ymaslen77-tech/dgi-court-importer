@@ -23,7 +23,7 @@ function meta(html, name) {
 }
 function canonical(html) {
   const candidates = tags(html,"link").filter(tag =>
-    attribute(tag,"rel").toLowerCase().split(/\\s+/).includes("canonical"));
+    attribute(tag,"rel").toLowerCase().split(/\s+/).includes("canonical"));
   return candidates.map(tag => attribute(tag,"href"));
 }
 async function get(path, options={}) {
@@ -67,17 +67,17 @@ for(const act of cases)expected.add(normalized("/sudebnaya-praktika-dgi/"+act.sl
 const robots=await safeGet("/robots.txt");
 if(robots){
   if(robots.response.status!==200)addError("/robots.txt","http_status",robots.response.status);
-  if(/(^|\\n)\\s*Disallow:\\s*\\/\\s*($|\\n)/i.test(robots.body))
+  if(/^\s*Disallow:\s*\/\s*$/mi.test(robots.body))
     addError("/robots.txt","whole_site_disallow","Public website remains blocked by robots.txt");
-  if(!/Sitemap:\\s*https:\/\/dgi-pravo\\.ru\/sitemap\\.xml/i.test(robots.body))
+  if(!/Sitemap:\s*https:\/\/dgi-pravo\.ru\/sitemap\.xml/i.test(robots.body))
     addError("/robots.txt","missing_sitemap_declaration");
-  checks.push({path:"/robots.txt",status:robots.response.status,blocked:/(^|\\n)\\s*Disallow:\\s*\\/\\s*($|\\n)/i.test(robots.body)});
+  checks.push({path:"/robots.txt",status:robots.response.status,blocked:/^\s*Disallow:\s*\/\s*$/mi.test(robots.body)});
 }
 let sitemapUrls=[];
 const sitemap=await safeGet("/sitemap.xml");
 if(sitemap){
   if(sitemap.response.status!==200)addError("/sitemap.xml","http_status",sitemap.response.status);
-  const locs=[...sitemap.body.matchAll(/<loc>\\s*([^<]+)\\s*<\\/loc>/gi)]
+  const locs=[...sitemap.body.matchAll(/<loc>\s*([^<]+)\s*<\/loc>/gi)]
     .map(match=>match[1].trim().replaceAll("&amp;","&"));
   sitemapUrls=locs.map(normalized);
   if(!locs.length)addError("/sitemap.xml","empty_sitemap");
@@ -111,9 +111,9 @@ async function worker() {
     if(response.status!==200)failures.push("http_"+response.status);
     if(!response.headers.get("content-type")?.includes("text/html"))
       failures.push("not_html");
-    const title=(body.match(/<title[^>]*>([^<]*)<\\/title>/i)||[])[1]||"";
+    const title=(body.match(/<title[^>]*>([^<]*)<\/title>/i)||[])[1]||"";
     const desc=meta(body,"description");
-    const h1=(body.match(/<h1\\b/gi)||[]).length;
+    const h1=(body.match(/<h1\b/gi)||[]).length;
     const robotRules=(response.headers.get("x-robots-tag")||"")+" "+meta(body,"robots")+
       " "+meta(body,"googlebot")+" "+meta(body,"yandex");
     const canonicals=canonical(body);
@@ -123,7 +123,7 @@ async function worker() {
     if(h1!==1)failures.push("h1_count_"+h1);
     if(canonicals.length!==1 || normalized(canonicals[0])!==url)
       failures.push("missing_or_mismatched_canonical");
-    if(!/<html\\b[^>]*\\blang=["']ru["']/i.test(body))
+    if(!/<html\b[^>]*\blang=["']ru["']/i.test(body))
       failures.push("missing_ru_html_lang");
     const viewport=meta(body,"viewport");
     if(!viewport)failures.push("missing_viewport");
