@@ -25,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || 'infra/coolify-russian-vps' }}
+          ref: infra/coolify-russian-vps
           persist-credentials: false
       - uses: actions/setup-node@v4
         with:
