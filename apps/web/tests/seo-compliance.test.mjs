@@ -74,20 +74,20 @@ test("published homepage has one factual WebSite graph and an independent name",
   const seo=read("src/components/SeoMarkup.tsx");
   const layout=read("src/app/layout.tsx");
   const shell=read("src/components/PageShell.tsx");
-  assert.match(home,/<SeoMarkup page=\\{page\\} \\/>/);
-  assert.match(seo,/if \\(!canIndexPage\\(page\\)\\) return null/);
-  assert.match(seo,/"@type":"WebSite"/);
-  assert.match(seo,/name:"Жилищный справочник Москвы"/);
-  assert.match(layout,/const brand = "Жилищный справочник Москвы"/);
-  assert.match(shell,/Независимый информационно-правовой справочник/);
+  assert.ok(home.includes("<SeoMarkup page={page} />"));
+  assert.ok(seo.includes("if (!canIndexPage(page)) return null"));
+  assert.ok(seo.includes('"@type":"WebSite"'));
+  assert.ok(seo.includes('name:"Жилищный справочник Москвы"'));
+  assert.ok(layout.includes('const brand = "Жилищный справочник Москвы"'));
+  assert.ok(shell.includes("Независимый информационно-правовой справочник"));
 });
 
 test("published news has factual schema with source but no fabricated author",()=>{
   const code=read("src/app/novosti-zhilishchnogo-prava/[slug]/page.tsx");
-  assert.match(code,/"@type": "NewsArticle"/);
-  assert.match(code,/datePublished: article.publishedAt/);
-  assert.match(code,/isBasedOn: article.sourceUrl/);
-  assert.match(code,/structuredData = siteIsLive \\?/);
-  assert.doesNotMatch(code,/author:\\s*\\{/);
-  assert.doesNotMatch(code,/dateModified:\\s*new Date/);
+  assert.ok(code.includes('"@type": "NewsArticle"'));
+  assert.ok(code.includes("datePublished: article.publishedAt"));
+  assert.ok(code.includes("isBasedOn: article.sourceUrl"));
+  assert.ok(code.includes("structuredData = siteIsLive ?"));
+  assert.ok(!code.includes("author: {"));
+  assert.ok(!code.includes("dateModified: new Date"));
 });
