@@ -1,8 +1,9 @@
-name: DGI live SEO audit — Google and Yandex essentials
+name: DGI live SEO audit — published Google and Yandex URLs
+
 on:
   workflow_dispatch:
   push:
-    branches: [seo/official-google-yandex-audit-20261018]
+    branches: [infra/coolify-russian-vps]
     paths:
       - "scripts/seo-live-audit.mjs"
       - ".github/workflows/seo-live-audit.yml"
@@ -10,23 +11,34 @@ on:
     paths:
       - "scripts/seo-live-audit.mjs"
       - ".github/workflows/seo-live-audit.yml"
+  schedule:
+    - cron: "35 6 * * 1"
+
 permissions:
   contents: read
+
 jobs:
   audit:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - name: Check out the exact pull-request SHA or protected production source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || 'infra/coolify-russian-vps' }}
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Read-only audit across DGI public pages
+      - name: Record checked source SHA
+        shell: bash
+        run: echo "SEO_AUDITED_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+      - name: Audit production HTTP, published sitemap and protected previews (read-only)
         run: node scripts/seo-live-audit.mjs
-      - name: Save structured diagnostics
+      - name: Preserve diagnostics even on HTTP failure
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: dgi-live-seo-diagnostics
+          name: dgi-live-seo-published-diagnostics
           path: test-results/seo-live-audit.json
           retention-days: 30
