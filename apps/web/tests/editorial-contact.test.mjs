@@ -8,7 +8,7 @@ const styles = readFileSync(new URL("../src/app/globals.css", import.meta.url), 
 
 test("independent editorial email appears as an email link on every page", () => {
   assert.match(shell, /href="mailto:admin@dgi-pravo\.ru"/);
-  assert.match(shell, /не Департамента городского имущества Москвы/);
+  assert.match(shell, /Не является официальным сайтом или подразделением ДГИ Москвы/);
 });
 test("contact page identifies this email as site editorial rather than government mail", () => {
   assert.match(articleRoute, /slug === "kontakty-dgi"/);

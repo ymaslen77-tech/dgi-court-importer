@@ -7,6 +7,7 @@ export type HousingGuide = { slug: string; title: string; summary: string; legal
 type Supplement = {slug: string; intro: string; steps: string[]; sources: Source[]; related: string[]; authority: string; documents: string[]; decision: string; risks: string };
 export const housingGuides: HousingGuide[] = raw.guides;
 const supplements: Supplement[] = raw.supplements;
+export const hasHousingSupplement = (slug: string): boolean => supplements.some(item => item.slug === slug);
 
 export function findHousingGuide(slug: string): HousingGuide | undefined {
   return housingGuides.find(guide => guide.slug === slug);

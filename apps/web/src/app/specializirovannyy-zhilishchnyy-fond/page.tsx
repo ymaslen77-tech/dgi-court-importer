@@ -19,7 +19,6 @@ const steps=[
 export default function SpecializedHousingResearch() {
  if(siteIsLive) notFound();
  return <PageShell variant="thematic"><article className="container housing-guide housing-law-catalog">
-  <p className="housing-review-label">Исследовательская страница · текущие процедуры ещё не приняты</p>
   <h1>Специализированный жилищный фонд Москвы</h1>
   <p className="housing-guide-lead">Служебное жильё, общежития, маневренный фонд и помещения для детей-сирот регулируются разными положениями. Право на один вид жилья не даёт автоматического права на другой.</p>
   <section><h2>Правовые виды помещений</h2>
@@ -39,7 +38,7 @@ export default function SpecializedHousingResearch() {
    <li><a href="https://www.mos.ru/upload/documents/files/5977/PostanovleniePravitelstvaMoskviot20022013N99-PP%28re.pdf" target="_blank" rel="noopener noreferrer">Положение о ДГИ Москвы №99-ПП, размещённый документ — действующую редакцию необходимо сверить ↗</a></li>
    <li><a href="https://pravo.gov.ru/" target="_blank" rel="noopener noreferrer">Жилищный кодекс РФ, ст. 92 и 98.1; закон №159-ФЗ, ст. 8 — поиск действующих текстов ↗</a></li>
   </ul></section>
-  <p className="housing-editorial-foot">Материал не подтверждает право конкретного лица на жильё и не заменяет отдельный официальный регламент. До полной юридической приёмки закрыт от поисковой индексации; после включения утверждённого публичного режима скрывается.</p>
+  <p className="housing-editorial-foot">Материал не подтверждает право конкретного лица на жильё и не заменяет отдельный официальный регламент. Проверяйте действующий порядок по своей категории и официальные документы.</p>
   <nav className="housing-related"><Link href="/zhilishchnyj-uchet">Жилищный учёт →</Link><Link href="/socialnyj-naem">Социальный наём →</Link><Link href="/spory-s-dgi">Споры с ДГИ →</Link></nav>
  </article></PageShell>;
 }

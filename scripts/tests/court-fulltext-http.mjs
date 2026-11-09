@@ -35,10 +35,13 @@ try{
  INSERT INTO court_act_documents(slug,case_id,instance_id,case_number,court_name,
  instance_type,decision_date,act_type,topic,full_text,official_url,
  seo_title,seo_description,editor_note,status,
- source_checked_at,text_verified_at,privacy_checked_at,reviewed_by,published_at)
+ source_checked_at,text_verified_at,privacy_checked_at,reviewed_by,published_at,
+ claimant_outcome,outcome_checked_at,outcome_reviewed_by,outcome_evidence)
  VALUES ($1,$2,$3,$4,$5,'cassation','2026-01-01','ruling',
  'жилищный учет',$6,$7,$8,$9,$10,'published',
- now(),now(),now(),'ci-isolated-reviewer',now())`,
+ now(),now(),now(),'ci-isolated-reviewer',now(),
+ 'applicant_granted',now(),'ci-isolated-reviewer',
+ 'CI: Иск вымышленного заявителя удовлетворён исключительно внутри изолированной тестовой базы, никакого реального судебного акта не существует.')`,
  [slug,c.case_id,c.instance_id,c.case_number,c.court_name,text,url,seoTitle,seoDescription,comment]);
  inserted=true;
  const page=await get("/sudebnye-akty/"+slug);
