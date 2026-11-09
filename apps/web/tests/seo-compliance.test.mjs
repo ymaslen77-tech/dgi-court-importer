@@ -25,7 +25,7 @@ test("SEO social tags come from the actual page and never open legal drafts",()=
  assert.match(root,/publicSiteOrigin = "https:\/\/dgi-pravo.ru"/);
  assert.match(root,/openGraph:/);
  assert.match(root,/twitter:/);
- assert.match(page,/title: page.seoTitle/);
+ assert.match(page,/title: homepageTitle/);
  assert.match(routes,/factualSocialMetadata\(slug, page.seoTitle, page.description\)/);
  assert.match(routes,/factualSocialMetadata\(slug, guide.title, guide.summary\)/);
  assert.match(routes,/factualSocialMetadata\(slug, dgiServiceRegistryTitle/);
@@ -75,6 +75,8 @@ test("published homepage has one factual WebSite graph and an independent name",
   const layout=read("src/app/layout.tsx");
   const shell=read("src/components/PageShell.tsx");
   assert.ok(home.includes("<SeoMarkup page={page} />"));
+  assert.ok(home.includes('const homepageTitle = "Жилищный справочник Москвы — жилищные вопросы"'));
+  assert.ok(seo.includes('page.slug ? page.seoTitle : "Жилищный справочник Москвы — жилищные вопросы"'));
   assert.ok(seo.includes("if (!canIndexPage(page)) return null"));
   assert.ok(seo.includes('"@type":"WebSite"'));
   assert.ok(seo.includes('name:"Жилищный справочник Москвы"'));

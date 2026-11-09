@@ -24,22 +24,23 @@ const tasks = [
 ] as const;
 
 export const dynamic = "force-dynamic";
+const homepageTitle = "Жилищный справочник Москвы — жилищные вопросы";
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = (await getPublishedEditorialPage("")) ?? getMigratedPage("");
   if (!page) return {};
   return {
-    title: { absolute: page.seoTitle },
+    title: { absolute: homepageTitle },
     description: page.description,
     openGraph: {
       type: "website",
       locale: "ru_RU",
       siteName: "Жилищный справочник Москвы",
-      title: page.seoTitle,
+      title: homepageTitle,
       description: page.description,
       url: "https://dgi-pravo.ru/",
     },
-    twitter: { card: "summary", title: page.seoTitle, description: page.description },
+    twitter: { card: "summary", title: homepageTitle, description: page.description },
     alternates: canIndexPage(page) ? { canonical: canonicalUrl(page) } : undefined,
     robots: canIndexPage(page) ? { index: true, follow: true } : { index: false, follow: false },
   };
