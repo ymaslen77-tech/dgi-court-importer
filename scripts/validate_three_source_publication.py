@@ -14,6 +14,15 @@ from pathlib import Path
 from validate_official_legal_changes import inspect_three_sources
 
 MANIFEST = "legal-evidence/three-source-claims.json"
+LEGAL_TEMPLATE_FILES = frozenset((
+    "apps/web/src/components/LegalDocumentBuilder.tsx",
+    "apps/web/src/components/SpecializedDocumentBuilder.tsx",
+    "apps/web/src/components/HousingGuide.tsx",
+    "apps/web/src/components/HousingLawCatalog.tsx",
+    "apps/web/src/components/DgiServiceRegistry.tsx",
+))
+# These components blend code with legal copy. Until a typed per-sentence
+# verifier is implemented, block changes rather than silently accept text.
 CONTENT_PATHS = frozenset((
     "apps/web/src/data/housing-news.json",
     "apps/web/src/data/verified-court-static.json",
@@ -160,6 +169,10 @@ def main():
     changed=subprocess.check_output(["git","diff","--name-only",args.base+"..."+args.head],text=True).splitlines()
     check_new_public_routes(args.base,args.head,changed,lambda revision,path:
         subprocess.check_output(["git","show",f"{revision}:{path}"],text=True))
+    unverified_templates=sorted(set(changed)&LEGAL_TEMPLATE_FILES)
+    if unverified_templates:
+        raise ValueError("Legal template edits require a dedicated three-source claim audit; held unpublished: "+
+                         ", ".join(unverified_templates))
     changed_content=sorted(set(changed)&CONTENT_PATHS)
     manifest_path=Path(MANIFEST)
     if changed_content and MANIFEST not in changed:
