@@ -36,3 +36,55 @@ test("prototype never asserts a legal rule or changes publication policy",()=>{
   assert.ok(route.includes("Новые юридические рекомендации здесь не публикуются."));
   assert.ok(route.includes("не означает юридического подтверждения её текста"));
 });
+
+
+test("three private scenario bundles reuse only existing content, without legal approval",()=>{
+  const entries=[...groups.matchAll(/slugs:\[([^\]]+)\]/g)];
+  assert.equal(entries.length,10,"7 thematic groups + 3 research-only case bundles");
+  const scenarioSection=groups.split("const scenarioTopics =")[1];
+  assert.ok(scenarioSection);
+  const ids=[...scenarioSection.matchAll(/id:"([^"]+)"/g)].map(m=>m[1]);
+  assert.deepEqual(ids,["privatization-refusal","housing-registration-removal","citizen-correspondence"]);
+  for(const [,slug] of scenarioSection.matchAll(/"([a-z0-9-]+)"/g)){
+    if(slug==="research_only")continue;
+    // Only source article IDs in slugs: [...], not new legal route/claim text.
+    if(slugs.has(slug)) continue;
+    assert.ok(ids.includes(slug), "Unknown scenario title or route: "+slug);
+  }
+  assert.ok(groups.includes('evidenceStatus:"research_only"'));
+  assert.ok(route.includes("getNavigatorPreviewScenarios()"));
+  assert.ok(route.includes("Проверка источников не завершена"));
+  assert.ok(route.includes("Связи с конкретными решениями судов"));
+  assert.ok(route.includes("if (siteIsLive) notFound();"));
+  assert.ok(!sitemap.includes('add("/navigator-dgi"'));
+});
+
+test("all source candidates remain research-only, never passed into publication evidence",()=>{
+  const matrix=JSON.parse(read("../../research/dgi-sprint2-source-matrix.json"));
+  assert.equal(matrix.schema_version,1);
+  assert.equal(matrix.publication_status,"blocked");
+  assert.equal(matrix.visibility,"repository_research_only_not_website");
+  assert.equal(matrix.scenarios.length,3);
+  const statusFor=new Map(matrix.scenarios.map(s=>[s.id,s]));
+  for(const id of ["privatization-refusal","housing-registration-removal","citizen-correspondence"]){
+    assert.ok(statusFor.has(id),id+" missing");
+    const row=statusFor.get(id);
+    assert.ok(row.claim_candidates.length);
+    for(const claim of row.claim_candidates){
+      assert.equal(claim.publishable,false);
+      assert.notEqual(claim.verification_status,"approved");
+      assert.ok(claim.missing.length>=30);
+      const seen=new Set();
+      for(const source of claim.source_candidates){
+        assert.match(source.url,/^https:\/\//);
+        const host=new URL(source.url).hostname;
+        assert.ok(host===source.authority || host.endsWith("."+source.authority));
+        assert.ok(!seen.has(source.authority),"Repeated authority incorrectly counted");
+        seen.add(source.authority);
+      }
+      assert.ok(seen.size<=3);
+    }
+  }
+  const manifest=JSON.parse(read("../../legal-evidence/three-source-claims.json"));
+  assert.deepEqual(manifest.claims,[],"Candidate excerpts are not legal publication approvals");
+});
