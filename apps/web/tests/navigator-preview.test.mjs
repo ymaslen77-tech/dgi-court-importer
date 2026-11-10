@@ -83,19 +83,18 @@ test("all source candidates remain research-only, never passed into publication 
         assert.ok(!seen.has(source.authority),"Repeated authority incorrectly counted");
         seen.add(source.authority);
       }
-      assert.ok(seen.size<=3);
-      if(claim.id==="general-30-days" || claim.id==="removal-contest"){
-        assert.equal(seen.size,3,"Three authorities are research candidates, not legal approval");
-        assert.equal(claim.verification_status,"three_independent_official_candidates_not_automatically_verified");
+      assert.equal(seen.size,3,"Three source candidates required even during research");
+      assert.equal(claim.verification_status,"three_independent_official_candidates_not_automatically_verified");
+      if(claim.id==="general-30-days"){
         for(const source of claim.source_candidates){
-          if(claim.id==="general-30-days"){
-            assert.ok(source.candidate_excerpt?.length>=60,"Research excerpt missing");
-            assert.match(source.status,/not_live_source_gate_approved/);
-          }
+          assert.ok(source.candidate_excerpt?.length>=60,"Research excerpt missing");
+          assert.match(source.status,/not_live_source_gate_approved/);
         }
-      } else {
-        assert.ok(seen.size<3,"Privatization claim lacks the third independent source");
-        assert.equal(claim.verification_status,"insufficient_independent_confirmations");
+      }
+      if(claim.id==="court-dispute-exists"){
+        const prosecutor=claim.source_candidates.find(s=>s.authority==="genproc.gov.ru");
+        assert.match(prosecutor.status,/not_same_procedural_scope/);
+        assert.ok(claim.missing.includes("Нет трёх тождественных подтверждений"));
       }
     }
   }
