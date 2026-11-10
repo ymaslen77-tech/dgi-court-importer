@@ -13,7 +13,7 @@
         {
           "id": "court-dispute-exists",
           "draft_question": "Какая процессуальная форма применима к спору о праве после отказа в приватизации?",
-          "verification_status": "insufficient_independent_confirmations",
+          "verification_status": "three_independent_official_candidates_not_automatically_verified",
           "publishable": false,
           "source_candidates": [
             {
@@ -27,9 +27,16 @@
               "url": "https://www.mos.ru/upload/documents/files/3258/Instrykciya49%285%29.pdf",
               "document": "Памятка Правительства Москвы по приватизации (PDF)",
               "status": "pdf_candidate_current_revision_not_checked"
+            },
+            {
+              "authority": "genproc.gov.ru",
+              "url": "https://epp.genproc.gov.ru/ru/proc_59/activity/legal-education/explain/e8519517/",
+              "document": "Прокуратура Пермского края: материал от 18.06.2026 о правах при приватизации жилья",
+              "candidate_excerpt": "в случае нарушения прав гражданина при решении вопросов приватизации жилых помещений он вправе обратиться в суд",
+              "status": "official_html_observed_but_not_same_procedural_scope_or_live_gate_approved"
             }
           ],
-          "missing": "Третье независимое официальное подтверждение того же применимого процессуального тезиса; действующая редакция профильного закона, дата и характер конкретного отказа."
+          "missing": "Есть кандидаты трёх издателей, но московская памятка не удостоверяет именно процессуальную форму спора; прокурорское разъяснение касается права обратиться в суд, а не обязательной исковой формы. Действующая редакция закона и московский регламент не сверены. Нет трёх тождественных подтверждений одного процессуального вывода — запрет публикации."
         }
       ]
     },
