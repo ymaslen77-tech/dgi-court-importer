@@ -34,3 +34,32 @@ export function getNavigatorPreviewGroups() {
     }),
   }));
 }
+
+
+/**
+ * RESEARCH-ONLY routing index. These scenario labels organize EXISTING articles
+ * and make no claim that any linked article or procedure is legally endorsed.
+ * No automated decision, deadline, court outcome, eligibility or recommendation.
+ * The enclosing page returns 404 in production.
+ */
+const scenarioTopics = [
+  { id:"privatization-refusal", title:"Отказ в приватизации",
+    slugs:["otkaz-v-privatizacii-kvartiry","privatizaciya-zhilya","spory-s-dgi"] },
+  { id:"housing-registration-removal", title:"Снятие с жилищного учёта",
+    slugs:["snyatie-s-zhilishchnogo-ucheta-moskva","zhilishchnyj-uchet","zhilishchnaya-ochered"] },
+  { id:"citizen-correspondence", title:"Обращения в ДГИ",
+    slugs:["zayavlenie-v-dgi-moskvy","zhaloba-na-dgi-moskvy","spory-s-dgi"] },
+] as const;
+
+export function getNavigatorPreviewScenarios() {
+  return scenarioTopics.map(scenario=>({
+    id:scenario.id,
+    title:scenario.title,
+    evidenceStatus:"research_only" as const,
+    items:scenario.slugs.map(slug=>{
+      const page=getMigratedPage(slug);
+      if(!page) throw new Error("Private scenario points to unknown migrated page: "+slug);
+      return {href:"/"+slug,title:page.title};
+    }),
+  }));
+}
