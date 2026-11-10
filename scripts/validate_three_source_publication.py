@@ -34,7 +34,7 @@ CONTENT_PATHS = frozenset((
 # existing full-text/PDF SHA256 verification. We still require 3 publishers for
 # the editorially created metadata and summaries.
 SOURCE_ARTIFACT_KEYS = frozenset((
-    "slug","official_url","official_pdf_url","sourceUrl","sourceName",
+    "slug","official_url","official_pdf_url","sourceUrl",
     "pdf_origin","official_source_sha256","full_text_sha256","pdf_sha256",
     "source_checked","privacy_screen_passed","privacy_checked","sources",
     "related","kind","status","id","editoriallyApproved",
@@ -96,30 +96,39 @@ def expected_changes(base,head,changed_paths):
                 continue
             before=dict(text_leaves(old[record_id])) if record_id in old else {}
             after=dict(text_leaves(row))
+            if record_id in old and set(before)-set(after):
+                raise ValueError("Removing previously published factual fields needs separate review: "+
+                                 path+" "+record_id)
+            if path.endswith("verified-court-static.json") and record_id in old:
+                if old[record_id].get("full_text")!=row.get("full_text"):
+                    raise ValueError("Replacing an original court act requires fresh primary evidence: "+
+                                     path+" "+record_id)
             for field,statement in after.items():
                 if before.get(field)!=statement:
                     expected.append({"file":path,"record_id":record_id,
                         "field":field,"exact_text":statement})
     return expected
 
+# Hard quarantine for changes that could embed legal statements in app code.
+# No automatic publishing of a changed public React page, metadata/route
+# handler or component until a separate typed per-claim TS/TSX verifier exists.
+# This also blocks legal assertions hidden in an unrelated new UI component.
+PRIVATE_NAVIGATOR_PATH = "apps/web/src/app/navigator-dgi/page.tsx"
+PRIVATE_NAVIGATOR_DATA = "apps/web/src/data/navigator-preview.ts"
 def private_new_route_only(path,source):
-    return (path.endswith("/page.tsx") and
+    return (path==PRIVATE_NAVIGATOR_PATH and
             "if (siteIsLive) notFound();" in source and
             "index: false" in source and "follow: false" in source and
             "notFound" in source)
 
 def check_new_public_routes(base,head,changed_paths,reader):
+    del base  # Check both *new and existing* public TS/TSX routes.
     for path in changed_paths:
-        if not re.fullmatch(r"apps/web/src/app/(?:[^/]+/)+page\.tsx",path):
-            continue
-        try:
-            subprocess.check_output(["git","cat-file","-e",f"{base}:{path}"],stderr=subprocess.DEVNULL)
-            continue  # existing routes handled by normal PR review + content tests
-        except subprocess.CalledProcessError:
-            pass
-        content=reader(head,path)
-        if not private_new_route_only(path,content):
-            raise ValueError("New public route requires source-checked release plan: "+path)
+        if path.startswith("apps/web/src/app/") and path.endswith((".ts",".tsx")):
+            if path==PRIVATE_NAVIGATOR_PATH and private_new_route_only(path,reader(head,path)):
+                continue
+            raise ValueError("New public route or altered page/metadata requires source-checked release plan: "+path)
+
 
 def assess(changes,manifest,fetcher=None):
     if manifest.get("version")!=1 or not isinstance(manifest.get("claims"),list):
@@ -165,6 +174,16 @@ def block_unverified_template_edits(paths):
     if unverified:
         raise ValueError("Legal template edits require a dedicated three-source claim audit; held unpublished: "+
                          ", ".join(unverified))
+    # A new component or a helper can embed a legal instruction without
+    # changing a page. Quarantine all runtime TS(X) publication code for now;
+    # neutral content grouping from existing slugs is the only explicit safe
+    # exception in this first sprint.
+    other=sorted(p for p in set(paths)
+                 if (p.startswith("apps/web/src/components/") and p.endswith((".ts",".tsx")))
+                 or (p.startswith("apps/web/src/data/") and p.endswith((".ts",".tsx"))
+                     and p!=PRIVATE_NAVIGATOR_DATA))
+    if other:
+        raise ValueError("Runtime legal content/code needs dedicated claim review: "+", ".join(other))
 
 def main():
     parser=argparse.ArgumentParser()
