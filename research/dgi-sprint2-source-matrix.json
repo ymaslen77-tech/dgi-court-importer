@@ -40,7 +40,7 @@
         {
           "id": "removal-contest",
           "draft_question": "Какие основания снятия с учёта и порядок проверки решения применимы в Москве?",
-          "verification_status": "insufficient_independent_confirmations",
+          "verification_status": "three_independent_official_candidates_not_automatically_verified",
           "publishable": false,
           "source_candidates": [
             {
@@ -54,9 +54,16 @@
               "url": "https://www.mos.ru/upload/documents/oiv/zakon_goroda_moskvy_ot_14062006_29.pdf",
               "document": "Закон Москвы № 29 от 14.06.2006 (архивный PDF-файл)",
               "status": "pdf_candidate_current_revision_not_checked"
+            },
+            {
+              "authority": "genproc.gov.ru",
+              "url": "https://epp.genproc.gov.ru/ru/proc_50/activity/legal-education/explain/e5641068/",
+              "document": "Прокуратура Московской области, 06.02.2025, разъяснение статьи 56 ЖК РФ",
+              "candidate_excerpt": "и может быть обжаловано указанными гражданами в судебном порядке.",
+              "status": "observed_public_search_not_live_source_gate_approved"
             }
           ],
-          "missing": "Третье независимое официальное подтверждение точного утверждения; действующие редакции ЖК РФ и Закона Москвы № 29 и применимость к категории учёта."
+          "missing": "Три органа-издателя установлены, но цитаты/действующие редакции Москвы и ЖК РФ не прошли machine live gate, PDF не подтверждён как текущая редакция, смысл и юрисдикционный объём трёх документов ещё не сопоставлены. Публикация заблокирована."
         }
       ]
     },
