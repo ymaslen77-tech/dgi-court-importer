@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { PageShell } from "@/components/PageShell";
 import { siteIsLive } from "@/data/pages";
-import { getNavigatorPreviewGroups } from "@/data/navigator-preview";
+import { getNavigatorPreviewGroups, getNavigatorPreviewScenarios } from "@/data/navigator-preview";
 
 // Private prototype, never a newly indexable or published legal page.
 export const dynamic = "force-dynamic";
@@ -16,6 +16,7 @@ export const metadata: Metadata = {
 export default function NavigatorPreviewPage() {
   if (siteIsLive) notFound();
   const groups=getNavigatorPreviewGroups();
+  const scenarios=getNavigatorPreviewScenarios();
   return <PageShell variant="thematic">
     <section className="hero hero--thematic"><div className="container">
       <nav className="breadcrumb" aria-label="Навигационная цепочка">
@@ -33,6 +34,20 @@ export default function NavigatorPreviewPage() {
             <Link href={item.href}>{item.title}</Link>
           </li>)}</ul>
         </details>)}
+      </div>
+      <div className="navigator-preview-research">
+        <h2>Исследуемые ситуации</h2>
+        <p className="navigator-preview-note">Ни один сценарий не содержит юридической рекомендации: до проверки утверждений по трём независимым официальным источникам показываются только уже существующие тематические материалы.</p>
+        <div className="navigator-preview-grid">
+          {scenarios.map(scenario=><details key={scenario.id} className="navigator-preview-scenario" data-research-status={scenario.evidenceStatus}>
+            <summary>{scenario.title}</summary>
+            <p className="navigator-preview-status">Проверка источников не завершена</p>
+            <ul>{scenario.items.map(item=><li key={item.href}>
+              <Link href={item.href}>{item.title}</Link>
+            </li>)}</ul>
+          </details>)}
+        </div>
+        <p className="navigator-preview-note">Связи с конкретными решениями судов и выбор процессуального документа появятся только после проверки правовых утверждений. <Link href="/sudebnaya-praktika-dgi">Общий каталог уже опубликованных судебных актов</Link>.</p>
       </div>
       <p className="navigator-preview-note">Содержание существующих страниц требует самостоятельной проверки актуальности. Наличие ссылки не означает юридического подтверждения её текста.</p>
     </section>
