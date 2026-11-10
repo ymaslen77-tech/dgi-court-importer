@@ -19,7 +19,7 @@ def article(slug="moskva-imushchestvo-test-news-2026", url="https://tender.mos.r
 
 class ClassificationTests(unittest.TestCase):
     def test_new_verified_source_news_candidate(self):
-        self.assertEqual(assess_news([],[article()])[0],"auto_candidate")
+        self.assertEqual(assess_news([],[article()])[0],"evidence_required")
     def test_rewritten_article_needs_manual(self):
         old=article();new=copy.deepcopy(old);new["summary"]="Исправленный текст"
         self.assertEqual(assess_news([old],[new])[0],"manual")
@@ -38,6 +38,10 @@ class ClassificationTests(unittest.TestCase):
     def test_legal_route_changes_need_automated_evidence(self):
         self.assertEqual(classify(["apps/web/src/data/pages-0.json"],"fake","fake")[0],"evidence_required")
         self.assertEqual(classify(["apps/web/src/data/housing-guides.json"],"fake","fake")[0],"evidence_required")
+    def test_new_verified_court_requires_three_sources(self):
+        self.assertEqual(classify(["apps/web/src/data/verified-court-static.json"],"base","head")[0],"evidence_required")
+    def test_guide_changes_require_three_sources_even_if_draft(self):
+        self.assertEqual(classify(["apps/web/src/data/housing-guides.json"],"base","head")[0],"evidence_required")
     def test_court_metadata_cannot_autopublish(self):
         self.assertEqual(classify(["data/court-catalog.jsonl"],"fake","fake")[0],"research_only")
     def test_rewritten_news_never_becomes_auto_candidate(self):
