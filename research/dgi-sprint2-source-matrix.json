@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "project": "dgi-pravo.ru",
+  "research_date": "2026-11-10",
+  "visibility": "repository_research_only_not_website",
+  "publication_status": "blocked",
+  "notice": "These records are source candidates, NOT three-source legal approvals. All quoted passages require live official-source verification, current text/effective-date analysis and human-readable reconciliation of the SAME legal meaning before any public legal guidance.",
+  "scenarios": [
+    {
+      "id": "privatization-refusal",
+      "topic": "Отказ в приватизации жилья",
+      "claim_candidates": [
+        {
+          "id": "court-dispute-exists",
+          "draft_question": "Какая процессуальная форма применима к спору о праве после отказа в приватизации?",
+          "verification_status": "three_independent_official_candidates_not_automatically_verified",
+          "publishable": false,
+          "source_candidates": [
+            {
+              "authority": "vsrf.ru",
+              "url": "https://www.vsrf.ru/documents/all/7727",
+              "document": "Постановление Пленума Верховного Суда РФ от 24.08.1993 № 8, пункт 2",
+              "status": "official_html_candidate_not_claim_approved"
+            },
+            {
+              "authority": "mos.ru",
+              "url": "https://www.mos.ru/upload/documents/files/3258/Instrykciya49%285%29.pdf",
+              "document": "Памятка Правительства Москвы по приватизации (PDF)",
+              "status": "pdf_candidate_current_revision_not_checked"
+            },
+            {
+              "authority": "genproc.gov.ru",
+              "url": "https://epp.genproc.gov.ru/ru/proc_59/activity/legal-education/explain/e8519517/",
+              "document": "Прокуратура Пермского края: материал от 18.06.2026 о правах при приватизации жилья",
+              "candidate_excerpt": "в случае нарушения прав гражданина при решении вопросов приватизации жилых помещений он вправе обратиться в суд",
+              "status": "official_html_observed_but_not_same_procedural_scope_or_live_gate_approved"
+            }
+          ],
+          "missing": "Есть кандидаты трёх издателей, но московская памятка не удостоверяет именно процессуальную форму спора; прокурорское разъяснение касается права обратиться в суд, а не обязательной исковой формы. Действующая редакция закона и московский регламент не сверены. Нет трёх тождественных подтверждений одного процессуального вывода — запрет публикации."
+        }
+      ]
+    },
+    {
+      "id": "housing-registration-removal",
+      "topic": "Снятие с жилищного учёта",
+      "claim_candidates": [
+        {
+          "id": "removal-contest",
+          "draft_question": "Какие основания снятия с учёта и порядок проверки решения применимы в Москве?",
+          "verification_status": "three_independent_official_candidates_not_automatically_verified",
+          "publishable": false,
+          "source_candidates": [
+            {
+              "authority": "vsrf.ru",
+              "url": "https://www.vsrf.ru/documents/all/15162",
+              "document": "Обзор Верховного Суда РФ о спорах по учёту нуждающихся",
+              "status": "official_html_candidate_not_claim_approved"
+            },
+            {
+              "authority": "mos.ru",
+              "url": "https://www.mos.ru/upload/documents/oiv/zakon_goroda_moskvy_ot_14062006_29.pdf",
+              "document": "Закон Москвы № 29 от 14.06.2006 (архивный PDF-файл)",
+              "status": "pdf_candidate_current_revision_not_checked"
+            },
+            {
+              "authority": "genproc.gov.ru",
+              "url": "https://epp.genproc.gov.ru/ru/proc_50/activity/legal-education/explain/e5641068/",
+              "document": "Прокуратура Московской области, 06.02.2025, разъяснение статьи 56 ЖК РФ",
+              "candidate_excerpt": "и может быть обжаловано указанными гражданами в судебном порядке.",
+              "status": "observed_public_search_not_live_source_gate_approved"
+            }
+          ],
+          "missing": "Три органа-издателя установлены, но цитаты/действующие редакции Москвы и ЖК РФ не прошли machine live gate, PDF не подтверждён как текущая редакция, смысл и юрисдикционный объём трёх документов ещё не сопоставлены. Публикация заблокирована."
+        }
+      ]
+    },
+    {
+      "id": "citizen-correspondence",
+      "topic": "Обычные письменные обращения граждан",
+      "claim_candidates": [
+        {
+          "id": "general-30-days",
+          "draft_question": "В каких случаях действует общий срок рассмотрения письменного обращения по 59-ФЗ со дня регистрации?",
+          "verification_status": "three_independent_official_candidates_not_automatically_verified",
+          "publishable": false,
+          "source_candidates": [
+            {
+              "authority": "nalog.gov.ru",
+              "url": "https://www.nalog.gov.ru/rn77/apply_fts/obr/",
+              "document": "ФНС России: обращения граждан и организаций",
+              "candidate_excerpt": "Обращения регистрируются в течение 3 дней с момента поступления и рассматриваются в течение 30 дней со дня регистрации.",
+              "status": "observed_public_search_not_live_source_gate_approved"
+            },
+            {
+              "authority": "genproc.gov.ru",
+              "url": "https://epp.genproc.gov.ru/ru/proc_dvfo/activity/legal-education/explain/e2098116/",
+              "document": "Прокуратура: разъяснение общего порядка рассмотрения обращений",
+              "candidate_excerpt": "По общему правилу письменные обращения подлежат рассмотрению в соответствии с компетенцией в течение 30 дней со дня их регистрации.",
+              "status": "observed_public_search_not_live_source_gate_approved"
+            },
+            {
+              "authority": "mos.ru",
+              "url": "https://t.mos.ru/transport/faq",
+              "document": "Официальный транспортный портал Москвы: вопрос о сроке ответа",
+              "candidate_excerpt": "рассматривается в течение 30 дней со дня регистрации письменного обращения",
+              "status": "observed_public_search_not_live_source_gate_approved"
+            }
+          ],
+          "exclusions_to_verify": [
+            "Специальные сроки и порядок административного обжалования госуслуг по 210-ФЗ",
+            "Судебное производство и другие специальные федеральные процедуры",
+            "Различие запроса о госуслуге и обычного обращения граждан"
+          ],
+          "missing": "Запуск live quote validator, анализ действующей редакции 59-ФЗ, подтверждение одинакового объёма и смысла правила у трёх издателей; никакие даты или правовые рекомендации не переносятся на public site."
+        }
+      ]
+    }
+  ]
+}
