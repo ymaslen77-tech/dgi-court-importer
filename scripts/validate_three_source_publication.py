@@ -160,6 +160,12 @@ def assess(changes,manifest,fetcher=None):
     return {"status":"three_source_provenance_passed_not_semantic_legal_opinion",
             "claims_verified":len(verified),"details":verified}
 
+def block_unverified_template_edits(paths):
+    unverified=sorted(set(paths)&LEGAL_TEMPLATE_FILES)
+    if unverified:
+        raise ValueError("Legal template edits require a dedicated three-source claim audit; held unpublished: "+
+                         ", ".join(unverified))
+
 def main():
     parser=argparse.ArgumentParser()
     parser.add_argument("--base",required=True)
@@ -169,10 +175,7 @@ def main():
     changed=subprocess.check_output(["git","diff","--name-only",args.base+"..."+args.head],text=True).splitlines()
     check_new_public_routes(args.base,args.head,changed,lambda revision,path:
         subprocess.check_output(["git","show",f"{revision}:{path}"],text=True))
-    unverified_templates=sorted(set(changed)&LEGAL_TEMPLATE_FILES)
-    if unverified_templates:
-        raise ValueError("Legal template edits require a dedicated three-source claim audit; held unpublished: "+
-                         ", ".join(unverified_templates))
+    block_unverified_template_edits(changed)
     changed_content=sorted(set(changed)&CONTENT_PATHS)
     manifest_path=Path(MANIFEST)
     if changed_content and MANIFEST not in changed:
