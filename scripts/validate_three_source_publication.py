@@ -101,7 +101,7 @@ def private_new_route_only(path,source):
 
 def check_new_public_routes(base,head,changed_paths,reader):
     for path in changed_paths:
-        if not re.fullmatch(r"apps/web/src/app/(?:[^/]+/)+page\\.tsx",path):
+        if not re.fullmatch(r"apps/web/src/app/(?:[^/]+/)+page\.tsx",path):
             continue
         try:
             subprocess.check_output(["git","cat-file","-e",f"{base}:{path}"],stderr=subprocess.DEVNULL)
