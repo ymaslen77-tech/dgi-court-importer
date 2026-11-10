@@ -155,7 +155,7 @@ def main():
                         "--head",args.head],check=True)
         # Existing legacy paragraph gate also requires three independent
         # excerpts, current dates and exact original/replacement statements.
-        if any(re.fullmatch(r"apps/web/src/data/pages-[0-5]\\.json",p) for p in files):
+        if any(re.fullmatch(r"apps/web/src/data/pages-[0-5]\.json",p) for p in files):
             script=Path(__file__).with_name("validate_official_legal_changes.py")
             subprocess.run([sys.executable,str(script),"--base",args.base,
                             "--head",args.head],check=True)
