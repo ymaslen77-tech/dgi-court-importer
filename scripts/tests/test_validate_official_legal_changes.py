@@ -16,22 +16,36 @@ NEW={"slug":"privatizaciya-zhilya","title":"Юридическая информ�
     {"kind":"p","text":"Срок изменён на основании официально опубликованного действующего акта."}]}
 F="apps/web/src/data/pages-0.json"
 def record():
+    # Synthetic URLs/excerpts are unit-test fixtures, NEVER real legal evidence.
+    sources=[]
+    for host in ("publication.pravo.gov.ru","mos.ru","vsrf.ru"):
+        sources.append({
+            "official_source_url":f"https://{host}/document/placeholder-for-unit-test",
+            "official_source_excerpt":"Этот искусственный фрагмент проверяет только работу тестового механизма сверки источников без подтверждения реального закона.",
+            "source_checked_at":NOW.isoformat()
+        })
     return {"file":F,"slug":BASE["slug"],"block_index":1,
       "before":BASE["blocks"][1]["text"],"after":NEW["blocks"][1]["text"],
-      "official_source_url":"https://publication.pravo.gov.ru/document/official-example",
-      "official_source_excerpt":"Настоящий правовой акт содержит конкретные положения о действующих сроках и применяется к определённым отношениям.",
-      "act_number_and_date":"Федеральный закон № 1-ФЗ от 01.01.2026",
-      "effective_date":"2026-01-01","source_checked_at":NOW.isoformat(),
-      "legal_reason_and_scope":"Корректировка только конкретного срока, установленного нормативным актом.",
+      "sources":sources,
+      "source_agreement_checked":True,
+      "contradictions_checked":True,
+      "source_comparison_notes":"Test fixture: three independent publications must be compared for the same legal proposition, jurisdiction and time.",
+      "act_number_and_date":"TEST_FIXTURE_NO_REAL_LAW",
+      "effective_date":"2026-01-01",
+      "legal_reason_and_scope":"Test-only scope and source comparison; not a legal assertion.",
       "transitional_rules_checked":True,"amendment_history_checked":True}
+
+
 def source_ok(url,excerpt):return True,"verified"
 
 class VerificationTests(unittest.TestCase):
     def test_official_subdomains_allowed(self):
         self.assertTrue(allowed_source("https://publication.pravo.gov.ru/document/a"))
         self.assertTrue(allowed_source("https://zakon.mos.ru/legal/a"))
+        self.assertTrue(allowed_source("https://epp.genproc.gov.ru/ru/proc_59/activity/legal-education/explain/e8519517/"))
     def test_fake_mirror_not_allowed(self):
         self.assertFalse(allowed_source("https://pravo.gov.ru.attacker.com/a"))
+        self.assertFalse(allowed_source("https://epp.genproc.gov.ru.attacker.example/path"))
         self.assertFalse(allowed_source("http://pravo.gov.ru/a"))
         self.assertFalse(allowed_source("https://pravo.gov.ru/"))
     def test_change_cannot_modify_slug_or_metadata(self):
@@ -44,8 +58,8 @@ class VerificationTests(unittest.TestCase):
     def test_valid_evidence_is_only_candidate_not_semantic_approval(self,git):
         git.side_effect=lambda rev,path:[BASE] if rev=="base" else [NEW]
         result=assess("base","head",[F,"legal-evidence/changes.json"],{"version":1,"changes":[record()]},fetcher=source_ok)
-        self.assertEqual(result["status"],"official_quote_verified")
-        self.assertIn("not semantic legal approval",result["details"][0]["note"])
+        self.assertEqual(result["status"],"three_independent_official_excerpts_verified")
+        self.assertIn("separate expert judgement",result["details"][0]["note"])
     @patch("validate_official_legal_changes.git_json")
     def test_missing_evidence_refused(self,git):
         git.side_effect=lambda rev,path:[BASE] if rev=="base" else [NEW]
@@ -60,8 +74,26 @@ class VerificationTests(unittest.TestCase):
     @patch("validate_official_legal_changes.git_json")
     def test_source_checked_in_future_refused(self,git):
         git.side_effect=lambda rev,path:[BASE] if rev=="base" else [NEW]
-        rec=record();rec["source_checked_at"]=(NOW+dt.timedelta(days=2)).isoformat()
+        rec=record();rec["sources"][0]["source_checked_at"]=(NOW+dt.timedelta(days=2)).isoformat()
         with self.assertRaises(ValueError):
+            assess("base","head",[F,"legal-evidence/changes.json"],{"version":1,"changes":[rec]},fetcher=source_ok)
+    @patch("validate_official_legal_changes.git_json")
+    def test_two_sources_not_sufficient(self,git):
+        git.side_effect=lambda rev,path:[BASE] if rev=="base" else [NEW]
+        rec=record();rec["sources"]=rec["sources"][:2]
+        with self.assertRaisesRegex(ValueError,"three independent"):
+            assess("base","head",[F,"legal-evidence/changes.json"],{"version":1,"changes":[rec]},fetcher=source_ok)
+    @patch("validate_official_legal_changes.git_json")
+    def test_same_official_authority_mirrors_not_independent(self,git):
+        git.side_effect=lambda rev,path:[BASE] if rev=="base" else [NEW]
+        rec=record();rec["sources"][1]["official_source_url"]="https://pravo.gov.ru/another/test-document"
+        with self.assertRaisesRegex(ValueError,"independence"):
+            assess("base","head",[F,"legal-evidence/changes.json"],{"version":1,"changes":[rec]},fetcher=source_ok)
+    @patch("validate_official_legal_changes.git_json")
+    def test_disagreement_prevents_automatic_release(self,git):
+        git.side_effect=lambda rev,path:[BASE] if rev=="base" else [NEW]
+        rec=record();rec["source_agreement_checked"]=False
+        with self.assertRaisesRegex(ValueError,"disagreement"):
             assess("base","head",[F,"legal-evidence/changes.json"],{"version":1,"changes":[rec]},fetcher=source_ok)
     @patch("validate_official_legal_changes.git_json")
     def test_future_law_as_current_refused(self,git):

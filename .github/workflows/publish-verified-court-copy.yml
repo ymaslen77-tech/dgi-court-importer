@@ -5,12 +5,15 @@ on:
     branches: [infra/coolify-russian-vps]
     paths: [.github/workflows/publish-verified-court-copy.yml]
 permissions:
-  contents: write
+  contents: read
 concurrency:
   group: dgi-verified-court-copy-publish
   cancel-in-progress: false
 jobs:
   build:
+    # Quarantined: direct protected-branch writes bypass three-source PR review.
+    # Future verified material must enter through a protected, reviewed PR.
+    if: ${{ false }}
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:

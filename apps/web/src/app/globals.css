@@ -1032,3 +1032,19 @@ body {
   .site .article .article-h2 { font-size: 21px; font-weight: 610; }
   .site .article-topic .article-p { font-size: 15px; }
 }
+
+/* Private source-neutral navigator prototype: does not expose draft legal text. */
+.navigator-preview { padding-block: 32px 68px; }
+.navigator-preview-note { max-width: 900px; color: #555; font-size: 14px; line-height: 1.7; }
+.navigator-preview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 16px; margin-block: 24px; }
+.navigator-preview-group { min-width: 0; padding: 18px 22px; border: 1px solid #d8d8d8; border-top: 3px solid #c71927; border-radius: 5px; background: #fff; }
+.navigator-preview-group summary { cursor: pointer; font-weight: 700; line-height: 1.5; padding-block: 5px; }
+.navigator-preview-group summary:focus-visible { outline: 3px solid #c71927; outline-offset: 3px; }
+.navigator-preview-group ul { padding-left: 22px; margin-bottom: 0; }
+.navigator-preview-group li { margin-block: 12px; line-height: 1.55; overflow-wrap: anywhere; }
+.navigator-preview-group a { color: #a51b30; text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 380px) {
+  .navigator-preview { padding-block: 22px 48px; }
+  .navigator-preview-grid { grid-template-columns: minmax(0, 1fr); }
+  .navigator-preview-group { padding: 14px 16px; }
+}
