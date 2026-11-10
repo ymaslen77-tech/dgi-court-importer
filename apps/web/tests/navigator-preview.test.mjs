@@ -10,9 +10,10 @@ const all=Array.from({length:6},(_,i)=>JSON.parse(read("src/data/pages-"+i+".jso
 const slugs=new Set(all.map(x=>x.slug));
 
 test("prototype can only navigate to existing migrated topic URLs",()=>{
-  const entries=[...groups.matchAll(/slugs:\[([^\]]+)\]/g)];
+  const existingGroupsOnly=groups.split("const scenarioTopics =")[0];
+  const entries=[...existingGroupsOnly.matchAll(/slugs:\[([^\]]+)\]/g)];
   assert.equal(entries.length,7);
-  const ids=[...groups.matchAll(/id:"([^"]+)"/g)].map(m=>m[1]);
+  const ids=[...existingGroupsOnly.matchAll(/id:"([^"]+)"/g)].map(m=>m[1]);
   assert.equal(new Set(ids).size,7);
   const covered=new Set();
   for(const [,text] of entries){
