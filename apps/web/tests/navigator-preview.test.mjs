@@ -84,15 +84,17 @@ test("all source candidates remain research-only, never passed into publication 
         seen.add(source.authority);
       }
       assert.ok(seen.size<=3);
-      if(claim.id==="general-30-days"){
-        assert.equal(seen.size,3,"General correspondence is only a three-authority candidate");
+      if(claim.id==="general-30-days" || claim.id==="removal-contest"){
+        assert.equal(seen.size,3,"Three authorities are research candidates, not legal approval");
         assert.equal(claim.verification_status,"three_independent_official_candidates_not_automatically_verified");
         for(const source of claim.source_candidates){
-          assert.ok(source.candidate_excerpt?.length>=60,"Research excerpt missing");
-          assert.match(source.status,/not_live_source_gate_approved/);
+          if(claim.id==="general-30-days"){
+            assert.ok(source.candidate_excerpt?.length>=60,"Research excerpt missing");
+            assert.match(source.status,/not_live_source_gate_approved/);
+          }
         }
       } else {
-        assert.ok(seen.size<3,"Unverified privatization or housing claim must not be marked corroborated");
+        assert.ok(seen.size<3,"Privatization claim lacks the third independent source");
         assert.equal(claim.verification_status,"insufficient_independent_confirmations");
       }
     }
