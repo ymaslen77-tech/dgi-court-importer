@@ -71,6 +71,53 @@ def official_excerpt_visible(url, excerpt):
     except Exception as e:
         return False,"Official source unavailable: "+type(e).__name__
 
+def official_authority_group(address):
+    """Count independent publishing authorities, not URLs or subdomains."""
+    if not allowed_source(address):
+        return None
+    host=(urlsplit(address).hostname or "").lower()
+    for authority in ("pravo.gov.ru","mos.ru","mosreg.ru","vsrf.ru","ksrf.ru",
+                      "sudrf.ru","rosreestr.gov.ru","nalog.gov.ru","gosuslugi.ru"):
+        if host==authority or host.endswith("."+authority):
+            # Official national legal portal's published versions are one source.
+            return authority
+    return None
+
+def inspect_three_sources(row, fetcher=official_excerpt_visible, now=None):
+    """Strict provenance check. Semantic legal equivalence additionally needs review."""
+    now=now or dt.datetime.now(dt.timezone.utc)
+    sources=row.get("sources")
+    if not isinstance(sources,list) or len(sources)<3:
+        raise ValueError("At least three independent official source records are required")
+    if row.get("source_agreement_checked") is not True or row.get("contradictions_checked") is not True:
+        raise ValueError("Unresolved or unchecked source disagreement")
+    if len(str(row.get("source_comparison_notes","")).strip())<40:
+        raise ValueError("Cross-source legal comparison and scope are missing")
+    groups=set()
+    records=[]
+    for source in sources:
+        if not isinstance(source,dict):
+            raise ValueError("Malformed official source")
+        url=source.get("official_source_url")
+        excerpt=source.get("official_source_excerpt")
+        if not isinstance(url,str) or not isinstance(excerpt,str) or len(excerpt.strip())<60:
+            raise ValueError("Exact official document URL and 60-character quotation required")
+        group=official_authority_group(url)
+        if not group or group in groups:
+            raise ValueError("Source independence failure: same publisher or disallowed URL")
+        groups.add(group)
+        try:
+            checked=dt.datetime.fromisoformat(source["source_checked_at"].replace("Z","+00:00"))
+        except (KeyError,ValueError,AttributeError,TypeError):
+            raise ValueError("Missing official source verification time")
+        if checked.tzinfo is None or not (0 <= (now-checked).total_seconds() <= MAX_SOURCE_AGE_DAYS*86400):
+            raise ValueError("Official source verification missing, stale or future-dated")
+        ok,explanation=fetcher(url,excerpt)
+        if not ok:
+            raise ValueError("Source "+group+": "+explanation)
+        records.append({"publisher":group,"source_url":url,"verified_excerpt":True})
+    return records
+
 def git_json(rev,path):
     return json.loads(subprocess.check_output(["git","show",f"{rev}:{path}"],text=True))
 def legal_diffs(old,new,path):
@@ -119,32 +166,30 @@ def assess(base,head,changed_files,manifest,fetcher=official_excerpt_visible):
         seen.add(identity)
         if not isinstance(row.get("after"),str) or len(row["after"])<20:
             raise ValueError("Empty or unsupported legal replacement")
+        if not isinstance(row.get("after"),str) or len(row["after"].strip())<20:
+            raise ValueError("Unsupported replacement legal statement")
         if not all(isinstance(row.get(k),str) and len(row[k].strip())>=8 for k in
-                   ("official_source_url","act_number_and_date","legal_reason_and_scope",
-                    "official_source_excerpt")):
-            raise ValueError("Missing specific authoritative source or reasoning")
-        if len(row["official_source_excerpt"])<60:
-            raise ValueError("Official excerpt too short to support a legal assertion")
+                   ("act_number_and_date","legal_reason_and_scope")):
+            raise ValueError("Missing act identity or legal scope reasoning")
         if row.get("transitional_rules_checked") is not True or row.get("amendment_history_checked") is not True:
-            raise ValueError("Current amendments/transitional rules were not verified")
+            raise ValueError("Current amendments and transitional provisions not verified")
         try:
-            checked=dt.datetime.fromisoformat(row["source_checked_at"].replace("Z","+00:00"))
             effective=dt.date.fromisoformat(row["effective_date"])
         except (ValueError,TypeError,KeyError):
-            raise ValueError("Invalid checked/effective date")
-        if checked.tzinfo is None or not (0 <= (now-checked).total_seconds() <= MAX_SOURCE_AGE_DAYS*86400):
-            raise ValueError("Official source verification is missing/stale")
+            raise ValueError("Invalid effective date")
         if effective>now.date():
             raise ValueError("Future act cannot be described as currently effective")
-        ok,explanation=fetcher(row["official_source_url"],row["official_source_excerpt"])
-        if not ok:raise ValueError(explanation)
+        verified_sources=inspect_three_sources(row,fetcher=fetcher,now=now)
         details.append({"file":row["file"],"slug":row["slug"],
-            "source_url":row["official_source_url"],"effective_date":row["effective_date"],
-            "source_retrieved":True,"note":"Exact excerpt match is not semantic legal approval"})
+            "source_urls":[s["source_url"] for s in verified_sources],
+            "independent_publishers":[s["publisher"] for s in verified_sources],
+            "effective_date":row["effective_date"],
+            "source_retrieved":True,
+            "note":"Three official excerpts verified, but source-consistency semantics and applicability remain a separate expert judgement"})
     target={(v["file"],v["slug"],v["block_index"],v["before"],v["after"]) for v in expected}
     if target!=seen:raise ValueError("Some changed text lacks matching source evidence, or manifest has unrelated claims")
-    return {"status":"official_quote_verified","claims":len(expected),"details":details,
-            "caveat":"Official excerpt was fetched, but legal applicability and current amendment history also require independent cross-check before publishing"}
+    return {"status":"three_independent_official_excerpts_verified","claims":len(expected),"details":details,
+            "caveat":"Official excerpt was fetched, but legal applicability and current amendment history still require independent cross-check before publishing"}
 
 def main():
     p=argparse.ArgumentParser()
