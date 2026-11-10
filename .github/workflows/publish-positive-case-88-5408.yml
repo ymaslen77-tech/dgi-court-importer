@@ -5,12 +5,15 @@ on:
     branches: [infra/coolify-russian-vps]
     paths: [.github/workflows/publish-positive-case-88-5408.yml]
 permissions:
-  contents: write
+  contents: read
 concurrency:
   group: dgi-positive-case-88-5408
   cancel-in-progress: false
 jobs:
   publish:
+    # Quarantined: direct protected-branch writes bypass three-source PR review.
+    # Future verified material must enter through a protected, reviewed PR.
+    if: ${{ false }}
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
