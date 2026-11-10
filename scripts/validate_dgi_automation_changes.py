@@ -15,6 +15,13 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 NEWS = "apps/web/src/data/housing-news.json"
+THREE_SOURCE_TEMPLATES = {
+    "apps/web/src/components/LegalDocumentBuilder.tsx",
+    "apps/web/src/components/SpecializedDocumentBuilder.tsx",
+    "apps/web/src/components/HousingGuide.tsx",
+    "apps/web/src/components/HousingLawCatalog.tsx",
+    "apps/web/src/components/DgiServiceRegistry.tsx",
+}
 THREE_SOURCE_DATA_FILES = {
     NEWS,
     "apps/web/src/data/verified-court-static.json",
@@ -111,6 +118,8 @@ def classify(files,base,head):
             result,reason=assess_news(load_at(base,NEWS),load_at(head,NEWS))
         elif path in THREE_SOURCE_DATA_FILES:
             result,reason="evidence_required","New factual content needs three independent official source confirmations"
+        elif path in THREE_SOURCE_TEMPLATES:
+            result,reason="evidence_required","Legal document/guidance templates require a claim-level three-source audit"
         elif path=="data/court-catalog.jsonl":
             result,reason="research_only","Court metadata candidate index is NEVER a verified judicial act"
         elif LEGAL_FILES.fullmatch(path):
