@@ -8,6 +8,7 @@ on:
       - config/dgi-automation-approval-policy.json
       - scripts/validate_dgi_automation_changes.py
       - scripts/validate_official_legal_changes.py
+      - scripts/validate_three_source_publication.py
       - scripts/tests/test_validate_official_legal_changes.py
       - legal-evidence/**
       - scripts/tests/test_validate_dgi_automation_changes.py
@@ -35,8 +36,25 @@ jobs:
         run: |
           python3 -m json.tool policy/config/dgi-automation-approval-policy.json >/dev/null
           python3 -m py_compile policy/scripts/validate_dgi_automation_changes.py policy/scripts/validate_official_legal_changes.py
+          if test -f policy/scripts/validate_three_source_publication.py; then
+            python3 -m py_compile policy/scripts/validate_three_source_publication.py
+            python3 -m unittest discover -s policy/scripts/tests -p 'test_three_source_publication.py' -v
+          fi
           python3 -m unittest discover -s policy/scripts/tests -p 'test_validate_dgi_automation_changes.py' -v
           python3 -m unittest discover -s policy/scripts/tests -p 'test_validate_official_legal_changes.py' -v
+      - name: Verify new publication sources with protected-branch policy when installed
+        if: github.event_name == 'pull_request'
+        working-directory: site
+        env:
+          BASE_BRANCH: ${{ github.base_ref }}
+        run: |
+          set -euo pipefail
+          git fetch origin "$BASE_BRANCH"
+          if test -f ../policy/scripts/validate_three_source_publication.py; then
+            python3 ../policy/scripts/validate_three_source_publication.py --base "origin/$BASE_BRANCH" --head HEAD
+          else
+            echo "Initial three-source validator candidate is tested by three-source-content-gate; future PRs use immutable protected policy."
+          fi
       - name: Classify PR diff before any automated publishing
         if: github.event_name == 'pull_request'
         working-directory: site
