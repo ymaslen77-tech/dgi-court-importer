@@ -15,6 +15,14 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 NEWS = "apps/web/src/data/housing-news.json"
+THREE_SOURCE_DATA_FILES = {
+    NEWS,
+    "apps/web/src/data/verified-court-static.json",
+    "apps/web/src/data/housing-guides.json",
+    "apps/web/src/data/housing-law-catalog.json",
+    "apps/web/src/data/owner-released-legacy-pages.json",
+}
+
 LEGAL_SIGNAL = re.compile(
     r"вступ(?:ает|ил[аио]?) в силу|нов(?:ая|ые|ый) (?:редакци|закон|правил)|"
     r"измен(?:ил[аио]?сь|ён|ен|ения) (?:закон|порядок|срок|регламент|правил)|"
@@ -92,7 +100,7 @@ def assess_news(old,new):
             p for s in x["sections"] for p in s["paragraphs"]])
         if LEGAL_SIGNAL.search(prose):
             return "evidence_required","Potential legal change needs primary-source evidence"
-    return "auto_candidate","Fact-only official-source news, require independent source and CI checks"
+    return "evidence_required","Three independent official confirmations required for every new news claim"
 
 def classify(files,base,head):
     if not files:return "noop",[]
@@ -101,6 +109,8 @@ def classify(files,base,head):
     for path in files:
         if path==NEWS:
             result,reason=assess_news(load_at(base,NEWS),load_at(head,NEWS))
+        elif path in THREE_SOURCE_DATA_FILES:
+            result,reason="evidence_required","New factual content needs three independent official source confirmations"
         elif path=="data/court-catalog.jsonl":
             result,reason="research_only","Court metadata candidate index is NEVER a verified judicial act"
         elif LEGAL_FILES.fullmatch(path):
@@ -136,12 +146,18 @@ def main():
     print("DGI_CHANGE_CLASSIFICATION",result,json.dumps(notes,ensure_ascii=False))
     if result in ("invalid","research_only","blocked"):
         sys.exit(1)
-    if result=="evidence_required" and NEWS in files:
-        raise ValueError("Normative claims in news require a separately verified legal-content pipeline; do not publish uncertain claims")
     if result=="evidence_required":
-        # Requires exact per-claim official-source text before the PR can pass CI.
-        script=Path(__file__).with_name("validate_official_legal_changes.py")
-        subprocess.run([sys.executable,str(script),"--base",args.base,
+        # Evidence must cover each factual content field, not merely an article URL.
+        # The independent validator verifies live official excerpts; do not
+        # interpret this as a guarantee of legal semantic correctness.
+        three=Path(__file__).with_name("validate_three_source_publication.py")
+        subprocess.run([sys.executable,str(three),"--base",args.base,
                         "--head",args.head],check=True)
+        # Existing legacy paragraph gate also requires three independent
+        # excerpts, current dates and exact original/replacement statements.
+        if any(re.fullmatch(r"apps/web/src/data/pages-[0-5]\\.json",p) for p in files):
+            script=Path(__file__).with_name("validate_official_legal_changes.py")
+            subprocess.run([sys.executable,str(script),"--base",args.base,
+                            "--head",args.head],check=True)
 
 if __name__=="__main__":main()
