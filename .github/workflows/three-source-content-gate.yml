@@ -1,0 +1,64 @@
+name: DGI three independent official sources — fail closed
+on:
+  pull_request:
+    branches: [infra/coolify-russian-vps]
+    paths:
+      - "apps/web/src/app/**"
+      - "apps/web/src/data/**"
+      - "apps/web/src/components/**"
+      - "legal-evidence/**"
+      - "scripts/validate_official_legal_changes.py"
+      - "scripts/validate_three_source_publication.py"
+      - "scripts/validate_dgi_automation_changes.py"
+      - "scripts/tests/test_three_source_publication.py"
+      - "scripts/tests/test_validate_official_legal_changes.py"
+      - "scripts/tests/test_validate_dgi_automation_changes.py"
+      - "config/dgi-automation-approval-policy.json"
+      - ".github/workflows/three-source-content-gate.yml"
+  push:
+    branches: [infra/coolify-russian-vps]
+    paths:
+      - "scripts/validate_three_source_publication.py"
+      - "scripts/validate_official_legal_changes.py"
+      - "scripts/validate_dgi_automation_changes.py"
+      - "scripts/tests/test_three_source_publication.py"
+      - "scripts/tests/test_validate_official_legal_changes.py"
+      - "scripts/tests/test_validate_dgi_automation_changes.py"
+      - ".github/workflows/three-source-content-gate.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  evidence:
+    name: three-source-evidence
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Test the fail-closed validator (synthetic unit data only)
+        run: |
+          python3 -m py_compile scripts/validate_official_legal_changes.py scripts/validate_three_source_publication.py scripts/validate_dgi_automation_changes.py
+          python3 -m unittest discover -s scripts/tests -p 'test_validate_official_legal_changes.py' -v
+          python3 -m unittest discover -s scripts/tests -p 'test_validate_dgi_automation_changes.py' -v
+          python3 -m unittest discover -s scripts/tests -p 'test_three_source_publication.py' -v
+      - name: Check actual changed content against the exact source evidence manifest
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_BRANCH: ${{ github.base_ref }}
+        run: |
+          set -euo pipefail
+          git fetch origin "$BASE_BRANCH"
+          python3 scripts/validate_three_source_publication.py --base "origin/$BASE_BRANCH" --head HEAD
+      - name: Preserve claim-level audit results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: three-independent-source-gate
+          path: test-results/three-source-publication.json
+          if-no-files-found: warn
+          retention-days: 30
