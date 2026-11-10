@@ -8,7 +8,7 @@ from unittest.mock import patch
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from validate_three_source_publication import (
-    assess, expected_changes, check_new_public_routes, keyed_records, text_leaves
+    assess, expected_changes, check_new_public_routes, block_unverified_template_edits, keyed_records, text_leaves
 )
 
 NOW=dt.datetime.now(dt.timezone.utc)
@@ -86,6 +86,11 @@ class SourceGateTests(unittest.TestCase):
         with patch("validate_three_source_publication.subprocess.check_output",
                    side_effect=subprocess.CalledProcessError(1,["git"])):
             check_new_public_routes("base","head",[name],lambda rev,path:content)
+    def test_legal_generator_cannot_change_without_three_source_template_review(self):
+        with self.assertRaisesRegex(ValueError,"Legal template edits"):
+            block_unverified_template_edits(["apps/web/src/components/SpecializedDocumentBuilder.tsx"])
+    def test_nonlegal_css_change_is_not_blocked(self):
+        block_unverified_template_edits(["apps/web/src/app/globals.css"])
     def test_source_url_is_not_a_legal_claim_field(self):
         fields=dict(text_leaves({"slug":"slug","title":FACT,"sourceUrl":"https://mos.ru/path"}))
         self.assertEqual(fields,{"title":FACT})
