@@ -42,8 +42,10 @@ class VerificationTests(unittest.TestCase):
     def test_official_subdomains_allowed(self):
         self.assertTrue(allowed_source("https://publication.pravo.gov.ru/document/a"))
         self.assertTrue(allowed_source("https://zakon.mos.ru/legal/a"))
+        self.assertTrue(allowed_source("https://epp.genproc.gov.ru/ru/proc_59/activity/legal-education/explain/e8519517/"))
     def test_fake_mirror_not_allowed(self):
         self.assertFalse(allowed_source("https://pravo.gov.ru.attacker.com/a"))
+        self.assertFalse(allowed_source("https://epp.genproc.gov.ru.attacker.example/path"))
         self.assertFalse(allowed_source("http://pravo.gov.ru/a"))
         self.assertFalse(allowed_source("https://pravo.gov.ru/"))
     def test_change_cannot_modify_slug_or_metadata(self):
