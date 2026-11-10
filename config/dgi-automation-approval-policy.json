@@ -144,7 +144,8 @@
       "sudrf.ru",
       "rosreestr.gov.ru",
       "nalog.gov.ru",
-      "gosuslugi.ru"
+      "gosuslugi.ru",
+      "genproc.gov.ru"
     ],
     "secondary_sources_for_discovery_only": [
       "consultant.ru",
@@ -190,7 +191,8 @@
       "rosreestr.gov.ru",
       "nalog.gov.ru",
       "gosuslugi.ru",
-      "mosreg.ru"
+      "mosreg.ru",
+      "genproc.gov.ru"
     ],
     "no_equivalence_of_urls_and_sources": true,
     "exact_primary_source_required": true,
