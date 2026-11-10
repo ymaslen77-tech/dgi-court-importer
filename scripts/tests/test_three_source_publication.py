@@ -81,11 +81,39 @@ class SourceGateTests(unittest.TestCase):
                 check_new_public_routes("base","head",[name],lambda rev,path:
                     "export default function P(){return <p>Unverified public text</p>}")
     def test_new_preview_route_allowed_only_with_live_404_and_noindex(self):
-        name="apps/web/src/app/new-private-preview/page.tsx"
+        name="apps/web/src/app/navigator-dgi/page.tsx"
         content='if (siteIsLive) notFound(); robots: {index: false, follow: false};'
         with patch("validate_three_source_publication.subprocess.check_output",
                    side_effect=subprocess.CalledProcessError(1,["git"])):
             check_new_public_routes("base","head",[name],lambda rev,path:content)
+    def test_existing_public_route_edit_cannot_bypass_claim_verification(self):
+        name="apps/web/src/app/privatizaciya-zhilya/page.tsx"
+        with self.assertRaisesRegex(ValueError,"altered page"):
+            check_new_public_routes("base","head",[name],lambda rev,path:
+                "export default function P(){return <p>Unverified legal rule</p>}")
+    def test_arbitrary_new_private_route_not_allowlisted(self):
+        name="apps/web/src/app/unreviewed-private/page.tsx"
+        with self.assertRaisesRegex(ValueError,"New public route"):
+            check_new_public_routes("base","head",[name],lambda rev,path:
+                'if (siteIsLive) notFound(); robots: {index: false, follow: false};')
+    def test_injected_legal_copy_in_non_template_component_fails_closed(self):
+        with self.assertRaisesRegex(ValueError,"Runtime legal content"):
+            block_unverified_template_edits(["apps/web/src/components/UnexpectedLawAdvice.tsx"])
+    def test_removed_published_field_fails_closed(self):
+        old={"slug":"test-news","title":FACT,"summary":"Previously published fact to remove"}
+        new={"slug":"test-news","title":FACT}
+        with patch("validate_three_source_publication.git_json",
+                   side_effect=lambda rev,p,default: [old] if rev=="base" else [new]):
+            with self.assertRaisesRegex(ValueError,"Removing previously published"):
+                expected_changes("base","head",[FILE])
+    def test_existing_court_official_full_text_cannot_be_silently_rewritten(self):
+        path="apps/web/src/data/verified-court-static.json"
+        old={"slug":"test-case","full_text":"Original official court text", "topic":"Test case"}
+        new={"slug":"test-case","full_text":"Different court text", "topic":"Test case"}
+        with patch("validate_three_source_publication.git_json",
+                   side_effect=lambda rev,p,default: [old] if rev=="base" else [new]):
+            with self.assertRaisesRegex(ValueError,"Replacing an original court act"):
+                expected_changes("base","head",[path])
     def test_legal_generator_cannot_change_without_three_source_template_review(self):
         with self.assertRaisesRegex(ValueError,"Legal template edits"):
             block_unverified_template_edits(["apps/web/src/components/SpecializedDocumentBuilder.tsx"])
