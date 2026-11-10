@@ -5,12 +5,15 @@ on:
     paths: [.github/workflows/publish-positive-case-88-7554.yml]
   workflow_dispatch:
 permissions:
-  contents: write
+  contents: read
 concurrency:
   group: dgi-positive-case-88-7554
   cancel-in-progress: false
 jobs:
   publish:
+    # Quarantined: direct protected-branch writes bypass three-source PR review.
+    # Future verified material must enter through a protected, reviewed PR.
+    if: ${{ false }}
     runs-on: ubuntu-latest
     timeout-minutes: 9
     steps:
