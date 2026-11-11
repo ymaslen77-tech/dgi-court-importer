@@ -1,6 +1,6 @@
-// Public Vercel production smoke test. Read-only, no credentials or CMS writes.
+// Public Coolify production smoke test. Read-only, no credentials or CMS writes.
 import { writeFileSync, mkdirSync } from "node:fs";
-// Audit the user-facing custom domain, not the internal Vercel alias.
+// Audit the live public domain, not a retired Vercel preview alias.
 const base = (process.env.DGI_PUBLIC_ORIGIN || "https://dgi-pravo.ru").replace(/\/$/, "");
 const target = new URL(base);
 if (target.protocol !== "https:" || target.username || target.password || target.port ||
@@ -24,14 +24,16 @@ for(const path of routes){
    if(response.status!==200) issues.push("HTTP "+response.status);
    if(!["dgi-pravo.ru","www.dgi-pravo.ru"].includes(new URL(response.url).hostname)) issues.push("Unexpected redirect outside public DGI domain");
    if(path.endsWith(".txt")){
-     if(!html.toLowerCase().includes("disallow: /"))issues.push("robots must block indexing in unapproved release");
+     if(/^\s*disallow:\s*\/\s*$/im.test(html))issues.push("live production robots globally disallow indexing");
+     if(!/^\s*allow:\s*\/\s*$/im.test(html))issues.push("live production robots missing Allow: /");
    }else if(path.endsWith(".xml")){
-     if(html.includes("<loc>"))issues.push("unreviewed release must have empty sitemap");
+     if(!/<loc>\s*https:\/\//i.test(html))issues.push("live production sitemap is empty or invalid");
    }else{
      if(!/text\/html/.test(contentType))issues.push("not HTML");
      if(!html.includes("<h1"))issues.push("missing h1");
      if(!html.includes("mailto:admin@dgi-pravo.ru"))issues.push("editorial email missing");
-     if(!robots.toLowerCase().includes("noindex"))issues.push("missing X-Robots-Tag noindex");
+     if(robots.toLowerCase().includes("noindex"))issues.push("live page has blocking X-Robots-Tag noindex");
+     if(/<meta\b[^>]*name=["\x27]robots["\x27][^>]*content=["\x27][^"\x27]*noindex/i.test(html))issues.push("live page has blocking meta robots noindex");
      if(html.includes("This Deployment has been protected"))issues.push("production blocked by deployment auth");
    }
    last={path,url:response.url,status:response.status,ms:Date.now()-started,contentType,robots,issues};
