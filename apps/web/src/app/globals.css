@@ -1118,3 +1118,16 @@ body {
 .navigator-intake-summary dt { font-weight: 650; }
 .navigator-intake-summary dd { margin: 0; overflow-wrap: anywhere; }
 @media (max-width: 380px) { .navigator-intake { padding: 15px; } .navigator-intake-question { padding: 12px; } }
+
+/* Public topic directory: source-neutral existing-page links, no legal router. */
+.housing-public-directory h2 { font-size: clamp(21px, 2.4vw, 27px); margin: 0 0 16px; }
+.housing-public-directory-group { min-width: 0; padding: 18px 22px; border: 1px solid #d8d8d8; border-top: 3px solid #c71927; border-radius: 6px; background: #fff; }
+.housing-public-directory-group h3 { font-size: 18px; margin: 0 0 14px; line-height: 1.4; }
+.housing-public-directory-group ul { margin: 0; padding-left: 20px; }
+.housing-public-directory-group li { margin-bottom: 11px; overflow-wrap: anywhere; line-height: 1.55; }
+.housing-public-directory-group a { color: #a51b30; text-decoration: underline; text-underline-offset: 3px; }
+.housing-public-directory-group a:focus-visible { outline: 3px solid #c71927; outline-offset: 3px; }
+.housing-directory-home-link { margin: 22px 0 0; }
+.housing-directory-home-link a { color: #a51b30; text-decoration: underline; text-underline-offset: 3px; }
+.housing-directory-home-link a:focus-visible { outline: 3px solid #c71927; outline-offset: 3px; }
+@media(max-width: 380px) { .housing-public-directory-group { padding: 14px 16px; } }
