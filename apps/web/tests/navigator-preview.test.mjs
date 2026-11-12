@@ -42,7 +42,7 @@ test("prototype never asserts a legal rule or changes publication policy",()=>{
 test("three private scenario bundles reuse only existing content, without legal approval",()=>{
   const entries=[...groups.matchAll(/slugs:\[([^\]]+)\]/g)];
   assert.equal(entries.length,10,"7 thematic groups + 3 research-only case bundles");
-  const scenarioSection=groups.split("const scenarioTopics =")[1];
+  const scenarioSection=groups.split("const scenarioTopics =")[1]?.split("const crossTopicSlugs =")[0];
   assert.ok(scenarioSection);
   const ids=[...scenarioSection.matchAll(/id:"([^"]+)"/g)].map(m=>m[1]);
   assert.deepEqual(ids,["privatization-refusal","housing-registration-removal","citizen-correspondence"]);
