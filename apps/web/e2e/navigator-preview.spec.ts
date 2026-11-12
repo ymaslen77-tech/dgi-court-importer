@@ -94,3 +94,35 @@ test("complete directory remains keyboard navigable without horizontal overflow"
     expect(overflow,"Directory overflow at "+width+"px").toBeLessThanOrEqual(2);
   }
 });
+
+
+test("five native fact-only questionnaires stay private and keyboard accessible",async({page})=>{
+  const response=await page.goto("/navigator-dgi",{waitUntil:"domcontentloaded"});
+  expect(response?.status()).toBe(200);
+  const questionnaires=page.locator("details.navigator-preview-fact");
+  await expect(questionnaires).toHaveCount(5);
+  await expect(questionnaires.locator("fieldset")).toHaveCount(21);
+  await expect(questionnaires).toHaveAttribute("data-research-status","research_only");
+  const first=questionnaires.first();
+  await first.locator("summary").focus();
+  await page.keyboard.press("Enter");
+  await expect(first).toHaveAttribute("open","");
+  const selected=first.locator('input[type="radio"]').first();
+  await selected.focus();
+  await page.keyboard.press("Space");
+  await expect(selected).toBeChecked();
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content",/noindex/);
+  await expect(page.locator('link[rel="canonical"]')).toHaveCount(0);
+});
+
+test("private fact questions are responsive on narrow-to-wide viewports",async({page})=>{
+  for(const width of [320,390,768,1280,1920]){
+    await page.setViewportSize({width,height:900});
+    await page.goto("/navigator-dgi",{waitUntil:"domcontentloaded"});
+    const questionnaire=page.locator("details.navigator-preview-fact").nth(4);
+    await questionnaire.locator("summary").click();
+    await expect(questionnaire).toHaveAttribute("open","");
+    const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-window.innerWidth);
+    expect(overflow,"Questionnaire overflow at "+width).toBeLessThanOrEqual(2);
+  }
+});
