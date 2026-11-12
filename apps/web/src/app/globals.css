@@ -1093,3 +1093,28 @@ body {
   .navigator-preview-directory { grid-template-columns: minmax(0, 1fr); }
   .navigator-preview-directory li { padding: 12px 14px; }
 }
+
+
+/* Research-only fact intake inside the non-public navigator. */
+.navigator-intake { margin-top: 26px; padding: 24px; border: 1px solid #d9d9dd; border-radius: 8px; background: #fff; }
+.navigator-intake h3 { font-size: 20px; line-height: 1.4; margin: 0 0 12px; }
+.navigator-intake-progress { font-weight: 650; margin: 18px 0; }
+.navigator-intake-questions { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
+.navigator-intake-question { min-width: 0; border: 1px solid #dedee2; border-radius: 6px; padding: 14px 16px; }
+.navigator-intake-question legend { font-weight: 650; padding-inline: 6px; }
+.navigator-intake-question p { font-size: 14px; line-height: 1.5; margin: 4px 0 12px; }
+.navigator-intake-options { display: grid; gap: 9px; }
+.navigator-intake-options label { display: flex; align-items: flex-start; gap: 9px; cursor: pointer; line-height: 1.5; font-size: 14px; }
+.navigator-intake-options input { flex: none; margin-top: 4px; accent-color: #a51b30; }
+.navigator-intake-options input:focus-visible { outline: 3px solid #c71927; outline-offset: 3px; }
+.navigator-intake-actions { margin-block: 18px; }
+.navigator-intake-actions button { border: 1px solid #8d2535; border-radius: 5px; padding: 9px 16px; color: #8d2535; background: white; cursor: pointer; }
+.navigator-intake-actions button:disabled { opacity: .55; cursor: default; }
+.navigator-intake-actions button:focus-visible { outline: 3px solid #c71927; outline-offset: 3px; }
+.navigator-intake-summary { border-top: 1px solid #e2e2e2; padding-top: 16px; }
+.navigator-intake-summary h4 { font-size: 16px; margin: 0 0 12px; }
+.navigator-intake-summary dl { display: grid; gap: 10px; margin-bottom: 18px; }
+.navigator-intake-summary dl > div { display: grid; gap: 3px; }
+.navigator-intake-summary dt { font-weight: 650; }
+.navigator-intake-summary dd { margin: 0; overflow-wrap: anywhere; }
+@media (max-width: 380px) { .navigator-intake { padding: 15px; } .navigator-intake-question { padding: 12px; } }
