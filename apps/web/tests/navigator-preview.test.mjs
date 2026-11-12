@@ -22,7 +22,7 @@ test("prototype can only navigate to existing migrated topic URLs",()=>{
       covered.add(slug);
     }
   }
-  assert.equal(covered.size,19);
+  assert.equal(covered.size,23);
 });
 
 test("draft navigator is strictly inaccessible on approved public release",()=>{
@@ -100,4 +100,59 @@ test("all source candidates remain research-only, never passed into publication 
   }
   const manifest=JSON.parse(read("../../legal-evidence/three-source-claims.json"));
   assert.deepEqual(manifest.claims,[],"Candidate excerpts are not legal publication approvals");
+});
+
+test("every one of 33 owner-released legacy pages is inventoried exactly once, including home",()=>{
+  const approved=JSON.parse(read("src/data/owner-released-legacy-pages.json")).approved_existing_slugs;
+  assert.equal(approved.length,33);
+  const normalizedSlugs=new Set(approved);
+  assert.equal(normalizedSlugs.size,33);
+  const thematic=groups.split("const scenarioTopics =")[0];
+  const thematicSlugs=[...thematic.matchAll(/slugs:\[([^\]]+)\]/g)].flatMap(match=>
+    [...match[1].matchAll(/"([a-z0-9-]+)"/g)].map(x=>x[1]));
+  assert.equal(thematicSlugs.length,23);
+  const supplement=groups.split("const crossTopicSlugs =")[1]?.split("] as const")[0];
+  assert.ok(supplement,"Supplemental cross-topic directory missing");
+  const otherSlugs=[...supplement.matchAll(/"([a-z0-9-]+)"/g)].map(x=>x[1]);
+  assert.equal(otherSlugs.length,9);
+  const inventoried=[...thematicSlugs,...otherSlugs];
+  assert.equal(new Set(inventoried).size,32,"No duplicated legacy link across groups");
+  assert.deepEqual([...new Set(["",...inventoried])].sort(),[...normalizedSlugs].sort(),
+    "33 existing URLs, including home, must be represented without invented routes");
+});
+
+test("ten linked form destinations exist and match the already-rendered builder kinds",()=>{
+  const source=read("src/components/MigratedArticle.tsx");
+  const genericBuilder=read("src/components/LegalDocumentBuilder.tsx");
+  const specializedBuilder=read("src/components/SpecializedDocumentBuilder.tsx");
+  const formSection=groups.split("const existingFormEntrypoints =")[1]?.split("] as const")[0];
+  assert.ok(formSection,"Ten existing form entrypoints missing");
+  const forms=[...formSection.matchAll(/\{ id: "([^"]+)", title: "([^"]+)", slug: "([^"]+)", kind: "([^"]+)" \}/g)];
+  assert.equal(forms.length,10);
+  const ids=new Set(),slugsWithForms=new Set();
+  for(const match of forms) {
+    const [,id,title,slug,kind]=match;
+    assert.equal(id,kind);
+    assert.ok(!ids.has(id),"Form kind repeated: "+id);
+    ids.add(id);
+    assert.ok(slugs.has(slug),"Form points to unlisted page: "+slug);
+    slugsWithForms.add(slug);
+    const isGeneric=["request","service-complaint","civil-objection"].includes(kind);
+    const component=isGeneric?"LegalDocumentBuilder":"SpecializedDocumentBuilder";
+    assert.ok((isGeneric?genericBuilder:specializedBuilder).includes(title),"Form label differs from component: "+id);
+    const escapedSlug=slug.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+    const escapedKind=kind.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+    assert.match(source,new RegExp('page\\.slug === "'+escapedSlug+'"[^\\n]*<'+component+' kind="'+escapedKind+'"'),
+      "Linked article does not render the named form: "+id);
+  }
+  assert.equal(ids.size,10);
+  assert.equal(slugsWithForms.size,10);
+});
+
+test("directory and form catalog remain closed, nonindexable and not a legal decision engine",()=>{
+  assert.ok(route.includes("getNavigatorPreviewCrossTopicPages()"));
+  assert.ok(route.includes("getNavigatorPreviewForms()"));
+  assert.ok(route.includes("каталог функций, а не подбор правильного документа"));
+  assert.ok(route.includes("if (siteIsLive) notFound();"));
+  assert.ok(!sitemap.includes('add("/navigator-dgi"'));
 });
