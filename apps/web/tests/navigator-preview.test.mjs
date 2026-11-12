@@ -156,3 +156,20 @@ test("directory and form catalog remain closed, nonindexable and not a legal dec
   assert.ok(route.includes("if (siteIsLive) notFound();"));
   assert.ok(!sitemap.includes('add("/navigator-dgi"'));
 });
+
+
+test("five research-only questionnaires are static and cannot publish a legal recommendation",()=>{
+  const questionData=groups.split("const researchFactQuestionnaires =")[1]?.split("export function getNavigatorResearchFactQuestionnaires")[0];
+  assert.ok(questionData);
+  const ids=[...questionData.matchAll(/^    id: "([^"]+)",$/gm)].map(x=>x[1]);
+  assert.deepEqual(ids,["privatization-refusal","housing-registration-removal","dgi-no-response","social-tenancy-dispute","renovation-offer-disagreement"]);
+  const prompts=[...questionData.matchAll(/title: "/g)];
+  assert.ok(prompts.length>=26,"Expected five factual questionnaires and their items");
+  assert.ok(route.includes("getNavigatorResearchFactQuestionnaires()"));
+  assert.ok(route.includes('data-research-status="research_only"'));
+  assert.ok(route.includes('type="radio"'));
+  assert.ok(route.includes("if (siteIsLive) notFound();"));
+  assert.ok(!sitemap.includes('add("/navigator-dgi"'));
+  assert.ok(!route.includes("onSubmit="));
+  assert.ok(!route.includes('type="submit"'));
+});
