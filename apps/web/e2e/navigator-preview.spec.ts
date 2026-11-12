@@ -51,7 +51,9 @@ test("research-only scenarios expose neutral existing links, not a legal decisio
     await expect(item.getByText("Проверка источников не завершена")).toBeVisible();
     await expect(item.locator("li a")).toHaveCount(3);
   }
-  await expect(page.locator('a[href="/otkaz-v-privatizacii-kvartiry"]')).toHaveCount(2);
+  await expect(page.locator('details.navigator-preview-group a[href="/otkaz-v-privatizacii-kvartiry"]')).toHaveCount(1);
+  await expect(page.locator('details.navigator-preview-scenario a[href="/otkaz-v-privatizacii-kvartiry"]')).toHaveCount(1);
+  await expect(page.locator('.navigator-preview-directory a[href="/otkaz-v-privatizacii-kvartiry"]')).toHaveCount(1);
   await expect(page.locator('link[rel="canonical"]')).toHaveCount(0);
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content",/noindex/);
 });
