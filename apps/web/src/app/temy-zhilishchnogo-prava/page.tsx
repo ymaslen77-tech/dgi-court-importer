@@ -42,7 +42,7 @@ export default function PublicHousingTopicDirectory() {
         <p className="hero-lead">Каталог существующих страниц и форм документов.</p>
       </div></section>
 
-      <main className="container navigator-preview housing-public-directory" aria-label="Каталог существующих материалов">
+      <div className="container navigator-preview housing-public-directory" aria-label="Каталог существующих материалов">
         <p className="navigator-preview-note">
           Раздел группирует ранее опубликованные страницы. Наличие материала в каталоге
           не подтверждает актуальность изложенных на нём норм или применимость документа
@@ -78,7 +78,7 @@ export default function PublicHousingTopicDirectory() {
             <li key={form.id}><Link href={form.href}>{form.title}</Link></li>
           )}</ul>
         </section>
-      </main>
+      </div>
     </PageShell>
   );
 }
