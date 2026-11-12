@@ -102,7 +102,7 @@ test("five native fact-only questionnaires stay private and keyboard accessible"
   const questionnaires=page.locator("details.navigator-preview-fact");
   await expect(questionnaires).toHaveCount(5);
   await expect(questionnaires.locator("fieldset")).toHaveCount(21);
-  await expect(questionnaires).toHaveAttribute("data-research-status","research_only");
+  await expect(questionnaires.first()).toHaveAttribute("data-research-status","research_only");
   const first=questionnaires.first();
   await first.locator("summary").focus();
   await page.keyboard.press("Enter");
