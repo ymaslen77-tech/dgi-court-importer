@@ -1061,3 +1061,35 @@ body {
 .navigator-preview-scenario a, .navigator-preview-research .navigator-preview-note a { color: #a51b30; text-decoration: underline; text-underline-offset: 3px; }
 .navigator-preview-status { font-size: 13px; line-height: 1.55; color: #555; }
 @media (max-width: 380px) { .navigator-preview-scenario { padding: 14px 16px; } }
+
+/* Closed preview inventory: directory links reuse existing owner-released URLs. */
+.navigator-preview-directory {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 10px 18px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.navigator-preview-directory li {
+  min-width: 0;
+  padding: 14px 16px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fff;
+  overflow-wrap: anywhere;
+  line-height: 1.55;
+}
+.navigator-preview-directory a {
+  color: #a51b30;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.navigator-preview-directory a:focus-visible {
+  outline: 3px solid #c71927;
+  outline-offset: 3px;
+}
+@media (max-width: 380px) {
+  .navigator-preview-directory { grid-template-columns: minmax(0, 1fr); }
+  .navigator-preview-directory li { padding: 12px 14px; }
+}
