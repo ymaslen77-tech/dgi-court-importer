@@ -83,3 +83,39 @@ CI gate remain unchanged. A candidate source URL is not an approval.
 2. Verified court-case tagging before case-specific recommendations.
 3. Evidence-backed procedural decision steps for the five original scenarios.
 4. Legal tests and release approval for any new public interactive guidance.
+
+
+## Research intake extension (same closed route)
+
+The existing private route now contains five additional **native HTML radio**
+questionnaires without a new client-side runtime component:
+
+- Privatization refusal — 5 factual questions.
+- Removal from Moscow housing register — 4 factual questions.
+- DGI correspondence without a received answer — 4 factual questions.
+- Social tenancy disagreement — 4 factual questions.
+- Renovation offered flat disagreement — 4 factual questions.
+
+These controls do not accept personal details, do not submit a form,
+do not select legal processes and do not show a decision or prepared document.
+The first three research-only link bundles remain separately available.
+The private `siteIsLive` 404, `noindex,nofollow` and sitemap exclusion
+are unchanged. The three-source legal evidence approval manifest stays empty.
+
+The first public-directory proposal in draft PR #69 was blocked by the
+protected `validate_three_source_publication.py` policy, which quarantines
+*all* new public TSX routes and public metadata changes pending a separate
+typed, claim-level verification process. That rule has not been weakened,
+modified or bypassed. Public directory release is **not authorized** by
+this private extension.
+
+### Before any deploy request
+
+1. Achieve full exact-HEAD CI on PR #67.
+2. Separately design/review source-verified public content and typed TSX
+   publication verifier; do not interpret research source candidates as approval.
+3. Create a distinct public release PR once the legal gate is satisfied.
+4. Confirm protected-branch merge/deployment coordination with owner
+   because Coolify may auto-deploy from that branch.
+
+The current private-only PR is not itself a public-site feature launch.
