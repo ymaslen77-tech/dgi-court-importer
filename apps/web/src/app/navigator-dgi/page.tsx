@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { PageShell } from "@/components/PageShell";
 import { PrivatizationResearchIntake } from "@/components/PrivatizationResearchIntake";
+import { AdditionalResearchIntakes } from "@/components/AdditionalResearchIntakes";
 import { siteIsLive } from "@/data/pages";
 import { getNavigatorPreviewGroups, getNavigatorPreviewScenarios, getNavigatorPreviewCrossTopicPages, getNavigatorPreviewForms } from "@/data/navigator-preview";
 
@@ -50,7 +51,9 @@ export default function NavigatorPreviewPage() {
             </li>)}</ul>
           </details>)}
         </div>
+        <h2 className="navigator-intake-heading">Исследовательские анкеты ситуаций</h2>
         <PrivatizationResearchIntake />
+        <AdditionalResearchIntakes />
         <p className="navigator-preview-note">Связи с конкретными решениями судов и выбор процессуального документа появятся только после проверки правовых утверждений. <Link href="/sudebnaya-praktika-dgi">Общий каталог уже опубликованных судебных актов</Link>.</p>
       </div>
       <section className="navigator-preview-research" aria-labelledby="navigator-existing-directory">
