@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { PageShell } from "@/components/PageShell";
 import { siteIsLive } from "@/data/pages";
-import { getNavigatorPreviewGroups, getNavigatorPreviewScenarios } from "@/data/navigator-preview";
+import { getNavigatorPreviewGroups, getNavigatorPreviewScenarios, getNavigatorPreviewCrossTopicPages, getNavigatorPreviewForms, getNavigatorResearchFactQuestionnaires } from "@/data/navigator-preview";
 
 // Private prototype, never a newly indexable or published legal page.
 export const dynamic = "force-dynamic";
@@ -17,6 +17,9 @@ export default function NavigatorPreviewPage() {
   if (siteIsLive) notFound();
   const groups=getNavigatorPreviewGroups();
   const scenarios=getNavigatorPreviewScenarios();
+  const crossTopicPages=getNavigatorPreviewCrossTopicPages();
+  const forms=getNavigatorPreviewForms();
+  const factQuestionnaires=getNavigatorResearchFactQuestionnaires();
   return <PageShell variant="thematic">
     <section className="hero hero--thematic"><div className="container">
       <nav className="breadcrumb" aria-label="Навигационная цепочка">
@@ -49,6 +52,49 @@ export default function NavigatorPreviewPage() {
         </div>
         <p className="navigator-preview-note">Связи с конкретными решениями судов и выбор процессуального документа появятся только после проверки правовых утверждений. <Link href="/sudebnaya-praktika-dgi">Общий каталог уже опубликованных судебных актов</Link>.</p>
       </div>
+      <section className="navigator-preview-research" aria-labelledby="navigator-private-intake">
+        <h2 id="navigator-private-intake">Исследовательские анкеты: известные факты</h2>
+        <p className="navigator-preview-note">
+          Эти вопросы не определяют права, сроки, порядок обжалования или необходимый документ.
+          Они не требуют ФИО, адресов, дат и загрузки файлов. Ни одна анкета не отправляет ответы.
+          Это закрытый черновик без индивидуальной юридической рекомендации.
+        </p>
+        <div className="navigator-preview-facts">
+          {factQuestionnaires.map(scenario=><details key={scenario.id} className="navigator-preview-fact" data-research-status="research_only">
+            <summary>{scenario.title}</summary>
+            <div className="navigator-preview-fact-questions">
+              {scenario.questions.map(question=><fieldset key={question.id}>
+                <legend>{question.title}</legend>
+                <div className="navigator-preview-fact-options">
+                  {question.options.map((answer,index)=><label key={answer}>
+                    <input type="radio" name={scenario.id + "-" + question.id}
+                      value={String(index)} />
+                    <span>{answer}</span>
+                  </label>)}
+                </div>
+              </fieldset>)}
+            </div>
+          </details>)}
+        </div>
+        <p className="navigator-preview-note">
+          Выбор варианта здесь не приводит к правовому выводу. Конкретные процедуры
+          и судебные решения будут связаны с анкетами только после проверки источников.
+        </p>
+      </section>
+      <section className="navigator-preview-research" aria-labelledby="navigator-existing-directory">
+        <h2 id="navigator-existing-directory">Другие существующие справочные страницы</h2>
+        <p className="navigator-preview-note">Перечень дополняет семь тематических групп до полного каталога 32 внутренних адресов исходного сайта. Главная страница учитывается отдельно. Раздел не означает повторной юридической проверки материалов.</p>
+        <ul className="navigator-preview-directory">
+          {crossTopicPages.map(item=><li key={item.href}><Link href={item.href}>{item.title}</Link></li>)}
+        </ul>
+      </section>
+      <section className="navigator-preview-research" aria-labelledby="navigator-existing-forms">
+        <h2 id="navigator-existing-forms">Существующие формы документов</h2>
+        <p className="navigator-preview-note">Ниже указаны десять уже реализованных форм и страницы, на которых они размещены. Это каталог функций, а не подбор правильного документа для конкретной ситуации. Проверьте назначение и ограничения каждой формы до использования.</p>
+        <ul className="navigator-preview-directory">
+          {forms.map(item=><li key={item.id}><Link href={item.href}>{item.title}</Link></li>)}
+        </ul>
+      </section>
       <p className="navigator-preview-note">Содержание существующих страниц требует самостоятельной проверки актуальности. Наличие ссылки не означает юридического подтверждения её текста.</p>
     </section>
   </PageShell>;
