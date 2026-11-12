@@ -70,6 +70,7 @@ export default async function HomePage() {
             <span className="topic-more">Подробнее →</span>
           </Link>)}
         </div>
+        <p className="housing-directory-home-link"><Link href="/temy-zhilishchnogo-prava">Посмотреть все опубликованные темы и формы документов</Link></p>
       </div>
     </section>
     <section className="home-task-section">
