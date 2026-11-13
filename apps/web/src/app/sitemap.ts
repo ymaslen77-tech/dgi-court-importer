@@ -43,6 +43,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Independent public sections and source-checked new editorial articles.
   add("/o-proekte", {changeFrequency:"monthly",priority:0.4});
+  // Source-neutral index of already owner-released legacy materials only.
+  add("/temy-zhilishchnogo-prava", {changeFrequency:"monthly",priority:0.7});
   add(housingNewsBase, {changeFrequency:"daily",priority:0.8});
   const news = listHousingNews();
   for (const article of news) {
