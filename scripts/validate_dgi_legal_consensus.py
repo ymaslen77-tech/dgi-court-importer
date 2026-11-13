@@ -54,28 +54,47 @@ def verify(bundle,fetcher=official_excerpt_visible,now=None):
     publishers=set()
     confirmations=[]
     for source in sources:
-        if not isinstance(source,dict) or set(source)!={"official_source_url","official_source_excerpt"}:
+        if not isinstance(source,dict) or not (
+            {"official_source_url","official_source_excerpt"} <= set(source)
+            and set(source) <= {"official_source_url","official_source_excerpt","alternates"}
+        ):
             raise ValueError("Invalid source row")
-        url=source["official_source_url"];excerpt=source["official_source_excerpt"]
-        if not isinstance(url,str) or not allowed_source(url):
-            raise ValueError("Unapproved official source address")
-        group=official_authority_group(url)
-        if not group or group in publishers:
+        options=[{
+            "official_source_url":source["official_source_url"],
+            "official_source_excerpt":source["official_source_excerpt"],
+        }]+source.get("alternates",[])
+        if (not isinstance(options,list) or not 1<=len(options)<=3 or
+            any(not isinstance(o,dict) or
+                set(o)!={"official_source_url","official_source_excerpt"} for o in options)):
+            raise ValueError("Invalid alternate official source record")
+        primary=official_authority_group(source["official_source_url"])
+        if not primary or primary in publishers:
             raise ValueError("Source publisher duplicated or unverifiable")
-        publishers.add(group)
-        if not isinstance(excerpt,str) or len(excerpt.strip())<60:
-            raise ValueError("No long exact official excerpt")
-        if not (REGISTRATION_RE.search(excerpt) and DAYS_RE.search(excerpt)
-                and WRITTEN_RE.search(excerpt)):
-            raise ValueError("Source does not independently assert 30 days from registration")
-        ok,reason=fetcher(url,excerpt)
-        if not ok:
-            raise ValueError("Cannot observe official excerpt for "+group+": "+reason)
-        confirmations.append({
-            "publisher":group, "source_url":url,
-            "excerpt_sha256":hashlib.sha256(excerpt.encode("utf-8")).hexdigest(),
-            "retrieved_and_observed":True,
-        })
+        publishers.add(primary)
+        seen_urls=set();accepted=None
+        for option in options:
+            url=option["official_source_url"];excerpt=option["official_source_excerpt"]
+            if (not isinstance(url,str) or not allowed_source(url) or
+                official_authority_group(url)!=primary or url in seen_urls):
+                raise ValueError("Alternate source must be a unique page from same official publisher")
+            seen_urls.add(url)
+            if not isinstance(excerpt,str) or len(excerpt.strip())<60:
+                raise ValueError("No long exact official excerpt")
+            if not (REGISTRATION_RE.search(excerpt) and DAYS_RE.search(excerpt)
+                    and WRITTEN_RE.search(excerpt)):
+                raise ValueError("Source does not independently assert 30 days from registration")
+            ok,reason=fetcher(url,excerpt)
+            if ok:
+                accepted={
+                    "publisher":primary,"source_url":url,
+                    "excerpt_sha256":hashlib.sha256(excerpt.encode("utf-8")).hexdigest(),
+                    "retrieved_and_observed":True,
+                    "used_alternate":url!=source["official_source_url"],
+                }
+                break
+        if not accepted:
+            raise ValueError("Cannot observe official excerpt for "+primary)
+        confirmations.append(accepted)
     return {
         "status":"independent_official_sources_confirm_narrow_fact",
         "checked_at":now.isoformat(),
