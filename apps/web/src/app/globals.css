@@ -1061,3 +1061,49 @@ body {
 .navigator-preview-scenario a, .navigator-preview-research .navigator-preview-note a { color: #a51b30; text-decoration: underline; text-underline-offset: 3px; }
 .navigator-preview-status { font-size: 13px; line-height: 1.55; color: #555; }
 @media (max-width: 380px) { .navigator-preview-scenario { padding: 14px 16px; } }
+
+/* Closed preview inventory: directory links reuse existing owner-released URLs. */
+.navigator-preview-directory {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 10px 18px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.navigator-preview-directory li {
+  min-width: 0;
+  padding: 14px 16px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fff;
+  overflow-wrap: anywhere;
+  line-height: 1.55;
+}
+.navigator-preview-directory a {
+  color: #a51b30;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.navigator-preview-directory a:focus-visible {
+  outline: 3px solid #c71927;
+  outline-offset: 3px;
+}
+@media (max-width: 380px) {
+  .navigator-preview-directory { grid-template-columns: minmax(0, 1fr); }
+  .navigator-preview-directory li { padding: 12px 14px; }
+}
+
+/* Native, no-script fact questions inside the closed navigator only. */
+.navigator-preview-facts { display: grid; gap: 15px; margin-top: 18px; }
+.navigator-preview-fact { border: 1px solid #dedee1; border-radius: 6px; padding: 16px 20px; background: #fff; }
+.navigator-preview-fact summary { cursor: pointer; font-weight: 650; line-height: 1.5; }
+.navigator-preview-fact summary:focus-visible { outline: 3px solid #c71927; outline-offset: 3px; }
+.navigator-preview-fact-questions { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,290px),1fr)); gap: 14px; margin-top: 20px; }
+.navigator-preview-fact fieldset { border: 1px solid #dedee1; border-radius: 5px; min-width: 0; padding: 12px 14px; }
+.navigator-preview-fact legend { padding-inline: 5px; font-size: 14px; font-weight: 600; }
+.navigator-preview-fact-options { display: grid; gap: 8px; }
+.navigator-preview-fact-options label { display: flex; align-items: flex-start; gap: 8px; font-size: 14px; line-height: 1.5; cursor: pointer; }
+.navigator-preview-fact-options input { flex: none; margin-top: 4px; accent-color: #a51b30; }
+.navigator-preview-fact-options input:focus-visible { outline: 3px solid #c71927; outline-offset: 3px; }
+@media(max-width: 380px) { .navigator-preview-fact { padding: 14px; } .navigator-preview-fact fieldset { padding: 11px; } }
