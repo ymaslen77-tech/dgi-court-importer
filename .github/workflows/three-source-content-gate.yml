@@ -51,6 +51,7 @@ jobs:
           python3 -m unittest discover -s scripts/tests -p 'test_validate_official_legal_changes.py' -v
           python3 -m unittest discover -s scripts/tests -p 'test_validate_dgi_automation_changes.py' -v
           python3 -m unittest discover -s scripts/tests -p 'test_three_source_publication.py' -v
+          python3 -m unittest discover -s scripts/tests -p 'test_official_pdf_extraction.py' -v
           python3 -m unittest discover -s scripts/tests -p 'test_navigation_publication_contract.py' -v
       - name: Check actual changed content against the exact source evidence manifest
         if: github.event_name == 'pull_request'
