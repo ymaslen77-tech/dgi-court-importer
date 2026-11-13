@@ -34,6 +34,11 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
+      - name: Install trusted local PDF text extractor (Poppler)
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          pdftotext -v
       - name: Syntax check and adversarial fail-closed tests
         run: |
           python3 -m py_compile scripts/verify_dgi_scenario_evidence.py scripts/validate_three_source_publication.py scripts/validate_official_legal_changes.py
