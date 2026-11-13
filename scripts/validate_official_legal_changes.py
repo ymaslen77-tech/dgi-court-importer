@@ -50,8 +50,10 @@ class PublicText(HTMLParser):
     def handle_data(self, data):
         if not self.ignore:self.values.append(data)
 
-# Cache only identical URL+excerpt within one validation process; no network
-# bypass or persisted trusted result. Every run re-fetches official HTML.
+# Cache only identical URL+excerpt within one process. All pages/PDFs are
+# re-fetched on each CI run; source validity is never granted from a stored hash.
+# Extract only real text from official PDF files; image-only/scanned PDF fails.
+# The Poppler pdftotext CLI must be present in CI and cannot fetch remote links.
 @lru_cache(maxsize=128)
 def official_excerpt_visible(url, excerpt):
     if not allowed_source(url):
@@ -63,12 +65,27 @@ def official_excerpt_visible(url, excerpt):
             if response.status != 200 or not allowed_source(final):
                 return False,"Official source HTTP response/redirect is invalid"
             media=response.headers.get("Content-Type","").split(";")[0].strip().lower()
-            if media not in ("text/html", "application/xhtml+xml", "text/plain"):
-                return False,"Cannot independently verify official text in non-HTML source"
-            data=response.read(3000000).decode(response.headers.get_content_charset() or "utf-8","replace")
-        if "html" in media:
-            parser=PublicText();parser.feed(data);text=" ".join(parser.values)
-        else:text=data
+            if media not in ("text/html", "application/xhtml+xml", "text/plain", "application/pdf"):
+                return False,"Unsupported official source media type"
+            max_bytes = 18000000 if media == "application/pdf" else 3000000
+            data = response.read(max_bytes+1)
+            if len(data)>max_bytes:
+                return False,"Official source exceeds extraction size limit"
+        if media == "application/pdf":
+            if not data.startswith(b"%PDF-"):
+                return False,"Official PDF has invalid header"
+            process=subprocess.run(
+                ["pdftotext","-enc","UTF-8","-layout","-","-"],
+                input=data,capture_output=True,timeout=30,check=False,
+            )
+            if process.returncode or not process.stdout:
+                return False,"Official PDF text extraction failed (possibly scanned)"
+            text=process.stdout.decode("utf-8","replace")
+        else:
+            data=data.decode(response.headers.get_content_charset() or "utf-8","replace")
+            if "html" in media:
+                parser=PublicText();parser.feed(data);text=" ".join(parser.values)
+            else:text=data
         if norm(excerpt) not in norm(text):
             return False,"Exact quoted excerpt not visible in fetched official source"
         return True,"Official text excerpt observed on allowed host"
