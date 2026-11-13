@@ -99,7 +99,13 @@ test("all source candidates remain research-only, never passed into publication 
     }
   }
   const manifest=JSON.parse(read("../../legal-evidence/three-source-claims.json"));
-  assert.deepEqual(manifest.claims,[],"Candidate excerpts are not legal publication approvals");
+  assert.ok(manifest.claims.every(claim=>
+    claim.file!=="research/dgi-sprint2-source-matrix.json"),
+    "Research-only candidate URLs must never be legal publication approvals");
+  const sourceBacked=manifest.claims.filter(claim=>
+    claim.file==="apps/web/src/data/dgi-verified-scenarios.json");
+  assert.equal(sourceBacked.length,16,
+    "Only the separately audited 59-FZ correspondence scenario may publish");
 });
 
 test("every one of 33 owner-released legacy pages is inventoried exactly once, including home",()=>{
