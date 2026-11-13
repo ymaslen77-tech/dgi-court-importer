@@ -46,6 +46,7 @@ jobs:
           python3 -m unittest discover -s scripts/tests -p 'test_verified_scenario_publication_contract.py' -v
           python3 -m unittest discover -s scripts/tests -p 'test_navigation_publication_contract.py' -v
           python3 -m unittest discover -s scripts/tests -p 'test_three_source_publication.py' -v
+          python3 -m unittest discover -s scripts/tests -p 'test_official_pdf_extraction.py' -v
       - name: Validate five scenarios and every public textual field
         run: |
           python3 scripts/verify_dgi_scenario_evidence.py
