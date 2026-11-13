@@ -21,7 +21,7 @@ LEGAL_FILE = re.compile(r"apps/web/src/data/pages-[0-5]\.json")
 OFFICIAL = (
     "pravo.gov.ru", "publication.pravo.gov.ru", "mos.ru", "mosreg.ru",
     "vsrf.ru", "ksrf.ru", "sudrf.ru", "rosreestr.gov.ru",
-    "nalog.gov.ru", "gosuslugi.ru", "genproc.gov.ru"
+    "nalog.gov.ru", "gosuslugi.ru", "genproc.gov.ru", "mintrud.gov.ru"
 )
 MAX_SOURCE_AGE_DAYS = 7
 
@@ -77,7 +77,7 @@ def official_authority_group(address):
         return None
     host=(urlsplit(address).hostname or "").lower()
     for authority in ("pravo.gov.ru","mos.ru","mosreg.ru","vsrf.ru","ksrf.ru",
-                      "sudrf.ru","rosreestr.gov.ru","nalog.gov.ru","gosuslugi.ru",
+                      "sudrf.ru","rosreestr.gov.ru","nalog.gov.ru","gosuslugi.ru","mintrud.gov.ru",
                       "genproc.gov.ru"):
         if host==authority or host.endswith("."+authority):
             # Official national legal portal's published versions are one source.
