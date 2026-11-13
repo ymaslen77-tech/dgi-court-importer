@@ -39,6 +39,9 @@ jobs:
           if test -f policy/scripts/validate_three_source_publication.py; then
             python3 -m py_compile policy/scripts/validate_three_source_publication.py
             python3 -m unittest discover -s policy/scripts/tests -p 'test_three_source_publication.py' -v
+            if test -f policy/scripts/tests/test_navigation_publication_contract.py; then
+              python3 -m unittest discover -s policy/scripts/tests -p 'test_navigation_publication_contract.py' -v
+            fi
           fi
           python3 -m unittest discover -s policy/scripts/tests -p 'test_validate_dgi_automation_changes.py' -v
           python3 -m unittest discover -s policy/scripts/tests -p 'test_validate_official_legal_changes.py' -v
