@@ -1,0 +1,38 @@
+name: DGI three-source social-tenancy consensus (official PDF)
+on:
+  pull_request:
+    branches: [automation/dgi-public-catalog-on-issue70-policy-2026-11-13, infra/coolify-russian-vps]
+    paths:
+      - "research/dgi-social-tenancy-equality-consensus.json"
+      - "scripts/validate_dgi_social_consensus.py"
+      - "scripts/validate_official_legal_changes.py"
+      - "scripts/tests/test_validate_dgi_social_consensus.py"
+      - "scripts/tests/test_official_pdf_provenance.py"
+      - ".github/workflows/dgi-social-consensus.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  consensus:
+    name: Supreme Court + prosecution + Moscow PDF
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install verified official-PDF text parser
+        run: python3 -m pip install 'pypdf>=6,<8'
+      - name: Verify adversarial tests for official PDF and social-tenancy rights
+        run: |
+          python3 -m unittest discover -s scripts/tests -p 'test_official_pdf_provenance.py' -v
+          python3 -m unittest discover -s scripts/tests -p 'test_validate_dgi_social_consensus.py' -v
+      - name: Re-check all three independent official full texts live
+        run: python3 scripts/validate_dgi_social_consensus.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dgi-social-tenancy-three-source-audit
+          path: test-results/dgi-social-tenancy-consensus.json
+          if-no-files-found: warn
+          retention-days: 21
