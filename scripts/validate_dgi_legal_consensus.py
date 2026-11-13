@@ -17,7 +17,7 @@ from validate_official_legal_changes import (
 
 DEFAULT_INPUT="research/dgi-59fz-30day-consensus.json"
 DEFAULT_OUTPUT="test-results/dgi-59fz-source-consensus.json"
-REGISTRATION_RE=re.compile(r"со дня (?:его )?регистрации|со дня регистрации письменного обращения", re.I)
+REGISTRATION_RE=re.compile(r"со дня (?:его |их )?регистрации|со дня регистрации письменного обращения", re.I)
 DAYS_RE=re.compile(r"в течение 30 дней|составляет 30 дней", re.I)
 WRITTEN_RE=re.compile(r"обращени", re.I)
 
@@ -72,7 +72,9 @@ def verify(bundle,fetcher=official_excerpt_visible,now=None):
         if not primary or primary in publishers:
             raise ValueError("Source publisher duplicated or unverifiable")
         publishers.add(primary)
-        seen_urls=set();accepted=None
+        # FIRST validate EVERY alternate's URL, independence and atomic
+        # content, even if the primary happens to be reachable.
+        seen_urls=set()
         for option in options:
             url=option["official_source_url"];excerpt=option["official_source_excerpt"]
             if (not isinstance(url,str) or not allowed_source(url) or
@@ -84,6 +86,9 @@ def verify(bundle,fetcher=official_excerpt_visible,now=None):
             if not (REGISTRATION_RE.search(excerpt) and DAYS_RE.search(excerpt)
                     and WRITTEN_RE.search(excerpt)):
                 raise ValueError("Source does not independently assert 30 days from registration")
+        accepted=None
+        for option in options:
+            url=option["official_source_url"];excerpt=option["official_source_excerpt"]
             ok,reason=fetcher(url,excerpt)
             if ok:
                 accepted={
