@@ -62,6 +62,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: dgi-staged-complete-release-preflight
-          path: test-results/dgi-*-predeploy.json\ntest-results/dgi-complete-diff-*.json
+          path: |
+            test-results/dgi-*-predeploy.json
+            test-results/dgi-complete-diff-*.json
           if-no-files-found: warn
           retention-days: 30
