@@ -38,6 +38,9 @@ jobs:
         run: |
           python3 -m py_compile scripts/verify_dgi_scenario_evidence.py scripts/validate_three_source_publication.py scripts/validate_official_legal_changes.py
           python3 -m unittest discover -s scripts/tests -p 'test_verify_dgi_scenario_evidence.py' -v
+          python3 -m unittest discover -s scripts/tests -p 'test_verified_scenario_publication_contract.py' -v
+          python3 -m unittest discover -s scripts/tests -p 'test_navigation_publication_contract.py' -v
+          python3 -m unittest discover -s scripts/tests -p 'test_three_source_publication.py' -v
       - name: Validate five scenarios and every public textual field
         run: |
           python3 scripts/verify_dgi_scenario_evidence.py
