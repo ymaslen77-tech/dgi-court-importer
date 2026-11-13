@@ -286,6 +286,54 @@ def validate(public, research, manifest, fetcher=None, now=None):
     }
 
 
+
+def build_verified_document_plan(public, research, manifest, scenario_id, answers, fetcher=None):
+    """Return only verified matching clauses, never decide an unverified remedy.
+
+    The gate is repeated *before* building any payload; a caller may not pass a
+    cached 'verified' status or a bare claim ID as a substitute for current
+    official sources. No personal data, file output or network submission is
+    performed; the result is an in-memory structured plan.
+    """
+    checked=validate(public,research,manifest,fetcher=fetcher)
+    if checked["status"]!="publication_evidence_passed":
+        raise ValueError("No published source-verified legal scenarios")
+    if not isinstance(answers,dict):
+        raise ValueError("Answers must be a typed mapping")
+    scenario=next((s for s in public["scenarios"] if s["id"]==scenario_id),None)
+    if not scenario:
+        raise ValueError("Unknown or unverified scenario")
+    questions={q["id"]:q for q in scenario["questions"]}
+    if set(answers)-set(questions):
+        raise ValueError("An answer references an unknown question")
+    for qid,choice in answers.items():
+        if not isinstance(choice,str) or choice not in questions[qid]["options"]:
+            raise ValueError("Unexpected answer option")
+    matched=[
+        rule for rule in scenario["rules"]
+        if all(answers.get(qid)==choice for qid,choice in rule["requiredAnswers"].items())
+    ]
+    if not matched:
+        return {"scenario_id":scenario_id, "can_generate":False,
+                "matched_rule_ids":[], "clauses":[]}
+    matched_ids={rule["id"] for rule in matched}
+    clauses=[
+        {"rule_id":c["ruleId"],"text":c["text"]}
+        for c in scenario["generator"]["clauses"]
+        if c["ruleId"] in matched_ids
+    ]
+    # A generic header alone must not masquerade as a valid legal document.
+    if not clauses:
+        return {"scenario_id":scenario_id, "can_generate":False,
+                "matched_rule_ids":sorted(matched_ids), "clauses":[]}
+    return {
+        "scenario_id":scenario_id,"can_generate":True,
+        "generator_kind":scenario["generator"]["kind"],
+        "title":scenario["generator"]["title"],
+        "scope_note":scenario["generator"]["scopeNote"],
+        "matched_rule_ids":sorted(matched_ids),"clauses":clauses,
+    }
+
 def _load(path):
     return json.loads(Path(path).read_text(encoding="utf-8"))
 
