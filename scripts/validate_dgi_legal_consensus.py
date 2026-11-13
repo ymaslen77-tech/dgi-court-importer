@@ -53,6 +53,7 @@ def verify(bundle,fetcher=official_excerpt_visible,now=None):
         raise ValueError("Require exactly three independent official sources")
     publishers=set()
     confirmations=[]
+    outages=[]
     for source in sources:
         if not isinstance(source,dict) or not (
             {"official_source_url","official_source_excerpt"} <= set(source)
@@ -92,11 +93,23 @@ def verify(bundle,fetcher=official_excerpt_visible,now=None):
                     "used_alternate":url!=source["official_source_url"],
                 }
                 break
+            if not any(marker in reason for marker in (
+                "unavailable/unverifiable: URLError",
+                "unavailable/unverifiable: HTTPError",
+                "unavailable/unverifiable: TimeoutError",
+                "Official source unavailable: URLError",
+                "Official source unavailable: HTTPError",
+                "network temporarily unavailable",
+            )):
+                raise ValueError("Official excerpt mismatch: "+primary+": "+reason)
         if not accepted:
-            raise ValueError("Cannot observe official excerpt for "+primary)
+            outages.append({"publisher":primary,"status":"temporarily_inaccessible"})
+            continue
         confirmations.append(accepted)
+    complete=len(confirmations)==3
     return {
-        "status":"independent_official_sources_confirm_narrow_fact",
+        "status":("independent_official_sources_confirm_narrow_fact" if complete
+                  else "research_only_source_temporarily_unavailable"),
         "checked_at":now.isoformat(),
         "claim_id":row["id"],
         "procedure":row["procedure"],
@@ -104,10 +117,11 @@ def verify(bundle,fetcher=official_excerpt_visible,now=None):
         "starts_from":"registration",
         "scope":row["scope"],
         "exclusions":row["exclusions"],
-        "independent_publishers":len(publishers),
+        "independent_publishers":len(confirmations),
+        "source_outages":outages,
         "sources":confirmations,
         "publication_status":"research_only",
-        "caveat":"Atomic 30-day fact verified; not approval of other claims, procedural routes or user-specific deadlines.",
+        "caveat":"No legal publication unless all three independent official excerpts are currently observed; scope is only general 59-FZ correspondence.",
     }
 
 def main():
