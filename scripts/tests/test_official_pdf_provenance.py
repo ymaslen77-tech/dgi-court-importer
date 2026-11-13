@@ -65,7 +65,7 @@ class OfficialPdfTests(unittest.TestCase):
         self.assertFalse(ok)
     def test_pdf_with_no_text_is_rejected(self):
         with self.assertRaisesRegex(ValueError,"PDF"):
-            _extract_official_pdf_text(b"%PDF-1.4\n%%EOF")
+            _extract_official_pdf_text(make_pdf(""))
     def test_official_pdf_exceeding_size_limit_is_rejected(self):
         oversized=b"%PDF-1.4"+b"x"*(MAX_PDF_BYTES+1)
         with patch("validate_official_legal_changes.urlopen",
