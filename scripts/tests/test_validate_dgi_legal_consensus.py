@@ -42,7 +42,7 @@ class ConsensusTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"exclusions missing"):
             self.check()
     def test_actual_source_quote_must_be_live_retrievable(self):
-        with self.assertRaisesRegex(ValueError,"Cannot observe"):
+        with self.assertRaisesRegex(ValueError,"Official excerpt mismatch"):
             verify(self.data,fetcher=lambda url,excerpt:(False,"HTTP 503"))
     def test_cannot_forge_prior_approval_status(self):
         self.data["claims"][0]["publication_status"]="approved"
@@ -54,7 +54,7 @@ class ConsensusTests(unittest.TestCase):
             self.check()
     def test_non_official_domain_fails(self):
         self.data["claims"][0]["sources"][2]["official_source_url"]="https://example.com/fake"
-        with self.assertRaisesRegex(ValueError,"Unapproved"):
+        with self.assertRaisesRegex(ValueError,"publisher duplicated or unverifiable"):
             self.check()
     def test_unexpected_dynamic_field_fails(self):
         self.data["claims"][0]["sources"][0]["override"]="unverified"
