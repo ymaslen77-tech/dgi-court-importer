@@ -63,7 +63,7 @@ export default async function DgiVerifiedScenarioPage({params}:Props) {
       <p className="hero-lead">{scenario.summary}</p>
     </div></section>
 
-    <main className="container verified-scenario">
+    <div className="container verified-scenario">
       <section aria-labelledby="verified-scenario-about">
         <h2 id="verified-scenario-about">Что можно проверить</h2>
         <p>{scenario.summary}</p>
@@ -94,6 +94,6 @@ export default async function DgiVerifiedScenarioPage({params}:Props) {
           <li><Link href="/temy-zhilishchnogo-prava">Вернуться ко всем темам</Link></li>
         </ul>
       </nav>
-    </main>
+    </div>
   </PageShell>;
 }
