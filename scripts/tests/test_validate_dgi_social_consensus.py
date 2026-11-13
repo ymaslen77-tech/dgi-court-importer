@@ -31,8 +31,14 @@ class Tests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"Three official"):
             self.check()
     def test_unavailable_pdf_halts_only_this_claim(self):
+        result=verify(self.item,fetcher=lambda url,excerpt:
+            (False,"Official source unavailable/unverifiable: URLError"))
+        self.assertEqual(result["status"],"research_only_source_temporarily_unavailable")
+        self.assertEqual(result["independent_publishers_confirmed"],0)
+    def test_excerpt_mismatch_still_fails_explicitly(self):
         with self.assertRaisesRegex(ValueError,"not observed"):
-            verify(self.item,fetcher=lambda url,excerpt:(False,"source unavailable"))
+            verify(self.item,fetcher=lambda url,excerpt:
+                (False,"Exact quoted excerpt not visible in fetched official source"))
     def test_unknown_publication_status_not_auto_approved(self):
         self.item["publication_status"]="approved"
         with self.assertRaisesRegex(ValueError,"Unreviewed"):
