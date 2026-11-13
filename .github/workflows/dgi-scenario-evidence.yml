@@ -4,6 +4,7 @@ on:
     branches:
       - infra/coolify-russian-vps
       - automation/dgi-public-catalog-on-issue70-policy-2026-11-13
+      - automation/dgi-scenario-evidence-gates-2026-11-13
     paths:
       - "apps/web/src/data/dgi-verified-scenarios.json"
       - "research/dgi-scenario-evidence-v1.json"
