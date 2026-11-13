@@ -35,7 +35,7 @@ def verify(bundle,fetcher=official_excerpt_visible,now=None):
     sources=bundle["sources"]
     if not isinstance(sources,list) or len(sources)!=3:
         raise ValueError("Three official publishers required")
-    publishers=set();items=[]
+    publishers=set();items=[];offline=[]
     for row in sources:
         if not isinstance(row,dict) or set(row)!={"official_source_url","official_source_excerpt"}:
             raise ValueError("Unexpected source shape")
@@ -50,15 +50,29 @@ def verify(bundle,fetcher=official_excerpt_visible,now=None):
             raise ValueError("Official quote does not support the same atomic equality")
         valid,reason=fetcher(url,quote)
         if not valid:
+            if any(marker in reason for marker in (
+                "unavailable/unverifiable: URLError",
+                "unavailable/unverifiable: HTTPError",
+                "unavailable/unverifiable: TimeoutError",
+                "Official source unavailable: URLError",
+                "Official source unavailable: HTTPError",
+                "network temporarily unavailable"
+            )):
+                offline.append({"publisher":group,"status":"temporarily_inaccessible"})
+                continue
             raise ValueError("Official text not observed: "+group+": "+reason)
         items.append({"publisher":group,"url":url,
                       "excerpt_sha256":hashlib.sha256(quote.encode()).hexdigest(),
                       "observed":True})
-    return {"status":"official_three_source_equality_provenance_passed",
+    complete=len(items)==3
+    return {"status":("official_three_source_equality_provenance_passed" if complete
+                      else "research_only_source_temporarily_unavailable"),
             "claim_id":bundle["id"],"checked_at":now.isoformat(),
-            "sources":items,"publication_status":"research_only",
+            "sources":items,"source_outages":offline,
+            "independent_publishers_confirmed":len(items),
+            "publication_status":"research_only",
             "scope":bundle["scope"],"exclusions":bundle["exclusions"],
-            "caveat":"Equal rights attach to legally established family-member status; do not infer status, entitlement or outcome from registration."}
+            "caveat":"Do not publish without 3 currently accessible independently confirming sources; the outage affects only this claim."}
 
 if __name__=="__main__":
     parser=argparse.ArgumentParser()
