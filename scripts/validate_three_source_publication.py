@@ -187,9 +187,9 @@ def verify_public_navigation_contract(head, changed_paths, reader):
 # Replacing this TSX, including SSR branches/metadata/inputs, is NOT approved.
 VERIFIED_SCENARIO_CODE_BLOBS = {
     "apps/web/src/app/situatsii/[scenarioId]/page.tsx":
-        "28c89fd695d2a34a8997bf539f94a6128e2c6665",
+        "c7ed6efb222cd8c6317e24eb0fcf4e093ef06d46",
     "apps/web/src/components/VerifiedScenarioIntake.tsx":
-        "bca1e622dbfaa53f8b1c5adc9c42b405c63cb55c",
+        "7c5832dd553e57496bd7bdab8a0fe416b6a53b82",
 }
 VERIFIED_SCENARIO_RESEARCH = "research/dgi-scenario-evidence-v1.json"
 VERIFIED_SCENARIO_PUBLIC = "apps/web/src/data/dgi-verified-scenarios.json"
