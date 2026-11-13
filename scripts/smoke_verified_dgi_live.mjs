@@ -5,6 +5,7 @@ const liveOrigin="https://example.org";
 const cases=[
   {path:"/situatsii/dgi-no-response",title:"Ответ на обращение в ДГИ не получен"},
   {path:"/situatsii/social-tenancy-dispute",title:"Разногласия по социальному найму жилья"},
+  {path:"/situatsii/housing-registration-removal",title:"Снятие с жилищного учёта: проверка решения ДГИ"},
 ];
 
 async function request(path) {
