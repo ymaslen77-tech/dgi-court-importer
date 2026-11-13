@@ -1,0 +1,49 @@
+name: DGI scenario claims and document clauses — fail closed
+on:
+  pull_request:
+    branches:
+      - infra/coolify-russian-vps
+      - automation/dgi-public-catalog-on-issue70-policy-2026-11-13
+    paths:
+      - "apps/web/src/data/dgi-verified-scenarios.json"
+      - "research/dgi-scenario-evidence-v1.json"
+      - "legal-evidence/three-source-claims.json"
+      - "scripts/verify_dgi_scenario_evidence.py"
+      - "scripts/tests/test_verify_dgi_scenario_evidence.py"
+      - ".github/workflows/dgi-scenario-evidence.yml"
+  push:
+    branches: [infra/coolify-russian-vps]
+    paths:
+      - "apps/web/src/data/dgi-verified-scenarios.json"
+      - "research/dgi-scenario-evidence-v1.json"
+      - "scripts/verify_dgi_scenario_evidence.py"
+      - ".github/workflows/dgi-scenario-evidence.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scenario-evidence:
+    name: five-scenario-claim-and-generator-gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Syntax check and adversarial fail-closed tests
+        run: |
+          python3 -m py_compile scripts/verify_dgi_scenario_evidence.py scripts/validate_three_source_publication.py scripts/validate_official_legal_changes.py
+          python3 -m unittest discover -s scripts/tests -p 'test_verify_dgi_scenario_evidence.py' -v
+      - name: Validate five scenarios and every public textual field
+        run: |
+          python3 scripts/verify_dgi_scenario_evidence.py
+      - name: Preserve claim-evidence audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dgi-five-scenario-evidence
+          path: test-results/dgi-scenario-evidence.json
+          retention-days: 21
+          if-no-files-found: warn

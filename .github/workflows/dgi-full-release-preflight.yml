@@ -1,0 +1,72 @@
+name: DGI staged full release preflight — no deploy
+on:
+  pull_request:
+    branches:
+      - automation/dgi-public-catalog-on-issue70-policy-2026-11-13
+    paths:
+      - "apps/web/**"
+      - "scripts/**"
+      - "research/**"
+      - "legal-evidence/**"
+      - "config/**"
+      - ".github/workflows/**"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  protected-policy-simulation:
+    name: check complete staged diff against protected release
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Fetch unchanged Coolify production integration branch
+        run: git fetch origin infra/coolify-russian-vps
+      - name: Install bounded official-PDF text parser
+        run: python3 -m pip install 'pypdf>=6,<8'
+      - name: Run all legal and source-gate adversarial tests
+        run: |
+          set -euo pipefail
+          python3 -m unittest discover -s scripts/tests -p 'test_three_source_publication.py' -v
+          python3 -m unittest discover -s scripts/tests -p 'test_navigation_publication_contract.py' -v
+          python3 -m unittest discover -s scripts/tests -p 'test_verify_dgi_scenario_evidence.py' -v
+          python3 -m unittest discover -s scripts/tests -p 'test_validate_dgi_legal_consensus.py' -v
+          python3 -m unittest discover -s scripts/tests -p 'test_official_pdf_provenance.py' -v
+      - name: Evaluate staged public and private pages from real release diff
+        run: |
+          set -euo pipefail
+          python3 scripts/validate_three_source_publication.py \
+            --base origin/infra/coolify-russian-vps --head HEAD \
+            --output test-results/dgi-complete-diff-three-source.json
+          python3 scripts/validate_dgi_automation_changes.py \
+            --base origin/infra/coolify-russian-vps --head HEAD \
+            --report test-results/dgi-complete-diff-policy.json
+          python3 scripts/verify_dgi_scenario_evidence.py \
+            --output test-results/dgi-scenario-predeploy.json
+      - name: Confirm no public legal scenario leaked via source data
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          data=json.loads(Path('apps/web/src/data/dgi-verified-scenarios.json').read_text())
+          assert data=={'version':1,'scenarios':[]}, "Public legal scenarios need separate sourced release"
+          page=Path('apps/web/src/app/navigator-dgi/page.tsx').read_text()
+          assert 'if (siteIsLive) notFound();' in page, 'Live private route is open'
+          assert 'index: false' in page and 'follow: false' in page
+          sitemap=Path('apps/web/src/app/sitemap.ts').read_text()
+          assert 'add("/navigator-dgi"' not in sitemap
+          print("DGI_STAGED_RELEASE predeploy_only public_directory_protected private_research_closed")
+          PY
+      - name: Preserve full release preflight evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dgi-staged-complete-release-preflight
+          path: |
+            test-results/dgi-*-predeploy.json
+            test-results/dgi-complete-diff-*.json
+          if-no-files-found: warn
+          retention-days: 30

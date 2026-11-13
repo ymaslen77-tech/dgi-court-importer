@@ -1,0 +1,37 @@
+name: DGI official-source consensus — narrow 59-FZ claim
+on:
+  pull_request:
+    branches:
+      - infra/coolify-russian-vps
+      - automation/dgi-public-catalog-on-issue70-policy-2026-11-13
+    paths:
+      - "research/dgi-59fz-30day-consensus.json"
+      - "scripts/validate_dgi_legal_consensus.py"
+      - "scripts/tests/test_validate_dgi_legal_consensus.py"
+      - ".github/workflows/dgi-official-consensus.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  consensus:
+    name: independent-official-excerpt-consensus
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Test adversarial source checks
+        run: |
+          python3 -m py_compile scripts/validate_dgi_legal_consensus.py
+          python3 -m unittest discover -s scripts/tests -p 'test_validate_dgi_legal_consensus.py' -v
+      - name: Re-fetch and verify 3 government publications live
+        run: python3 scripts/validate_dgi_legal_consensus.py
+      - name: Preserve date-stamped and URL-bound audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dgi-59fz-source-consensus
+          path: test-results/dgi-59fz-source-consensus.json
+          if-no-files-found: warn
+          retention-days: 21
