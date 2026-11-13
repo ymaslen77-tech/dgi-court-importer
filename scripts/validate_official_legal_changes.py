@@ -14,9 +14,11 @@ from functools import lru_cache
 import json
 import re
 import subprocess
+import time
 from pathlib import Path
 from urllib.parse import urlsplit
 from urllib.request import Request, urlopen
+from urllib.error import URLError, HTTPError
 
 LEGAL_FILE = re.compile(r"apps/web/src/data/pages-[0-5]\.json")
 OFFICIAL = (
@@ -60,17 +62,30 @@ def official_excerpt_visible(url, excerpt):
         return False, "URL is not a specific official source"
     try:
         req=Request(url, headers={"User-Agent":"DGI-Official-Evidence-Reviewer/1.0"})
-        with urlopen(req, timeout=20) as response:
-            final=response.geturl()
-            if response.status != 200 or not allowed_source(final):
-                return False,"Official source HTTP response/redirect is invalid"
-            media=response.headers.get("Content-Type","").split(";")[0].strip().lower()
-            if media not in ("text/html", "application/xhtml+xml", "text/plain", "application/pdf"):
-                return False,"Unsupported official source media type"
-            max_bytes = 18000000 if media == "application/pdf" else 3000000
-            data = response.read(max_bytes+1)
-            if len(data)>max_bytes:
-                return False,"Official source exceeds extraction size limit"
+        # Government hosts sometimes terminate TLS connections transiently.
+        # Retry ONLY transport failures, not bad HTTP codes, wrong citations,
+        # unsupported media, invalid redirect hosts or missing PDF text.
+        for attempt in range(3):
+            try:
+                with urlopen(req, timeout=20) as response:
+                    final=response.geturl()
+                    if response.status != 200 or not allowed_source(final):
+                        return False,"Official source HTTP response/redirect is invalid"
+                    media=response.headers.get("Content-Type","").split(";")[0].strip().lower()
+                    if media not in ("text/html", "application/xhtml+xml", "text/plain", "application/pdf"):
+                        return False,"Unsupported official source media type"
+                    max_bytes = 18000000 if media == "application/pdf" else 3000000
+                    data = response.read(max_bytes+1)
+                    if len(data)>max_bytes:
+                        return False,"Official source exceeds extraction size limit"
+                    charset=response.headers.get_content_charset() or "utf-8"
+                break
+            except HTTPError:
+                raise
+            except (URLError,TimeoutError,ConnectionResetError):
+                if attempt==2:
+                    raise
+                time.sleep(attempt+1)
         if media == "application/pdf":
             if not data.startswith(b"%PDF-"):
                 return False,"Official PDF has invalid header"
@@ -82,7 +97,7 @@ def official_excerpt_visible(url, excerpt):
                 return False,"Official PDF text extraction failed (possibly scanned)"
             text=process.stdout.decode("utf-8","replace")
         else:
-            data=data.decode(response.headers.get_content_charset() or "utf-8","replace")
+            data=data.decode(charset,"replace")
             if "html" in media:
                 parser=PublicText();parser.feed(data);text=" ".join(parser.values)
             else:text=data
