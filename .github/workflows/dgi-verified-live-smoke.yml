@@ -1,0 +1,69 @@
+name: DGI verified scenarios — simulated live-release smoke
+on:
+  pull_request:
+    branches:
+      - infra/coolify-russian-vps
+      - automation/dgi-scenario-evidence-gates-2026-11-13
+    paths:
+      - "apps/web/**"
+      - "legal-evidence/three-source-claims.json"
+      - "scripts/smoke_verified_dgi_live.mjs"
+      - ".github/workflows/dgi-verified-live-smoke.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  live-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      CI: "true"
+      SITE_CUTOVER: "true"
+      SITE_RELEASE_APPROVED: "yes"
+      SITE_URL: "https://example.org"
+      DATABASE_URL: "postgresql://ci:ci@127.0.0.1:59999/housing_ci"
+      CMS_PUBLIC_READS: "false"
+      COURT_DB_READS: "false"
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install pinned workspace dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build site under simulated live-release environment
+        run: pnpm --filter @dgi/web build
+      - name: Start Next and verify live route, canonical, private 404
+        shell: bash
+        run: |
+          set -euo pipefail
+          pnpm --filter @dgi/web start --hostname 127.0.0.1 --port 3001 > /tmp/dgi-live-smoke.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          ready=0
+          for attempt in $(seq 1 60); do
+            if curl -fsS http://127.0.0.1:3001/api/health >/dev/null; then
+              ready=1
+              break
+            fi
+            sleep 1
+          done
+          if test "$ready" -ne 1; then
+            cat /tmp/dgi-live-smoke.log
+            exit 1
+          fi
+          node scripts/smoke_verified_dgi_live.mjs
+      - name: Preserve diagnostics on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dgi-live-release-smoke-log
+          path: /tmp/dgi-live-smoke.log
+          if-no-files-found: ignore
+          retention-days: 7
