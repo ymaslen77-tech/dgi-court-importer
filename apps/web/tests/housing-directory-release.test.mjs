@@ -5,7 +5,6 @@ import { readFileSync } from "node:fs";
 const read = (p) => readFileSync(new URL("../" + p, import.meta.url), "utf8");
 const directory = read("src/app/temy-zhilishchnogo-prava/page.tsx");
 const preview = read("src/app/navigator-dgi/page.tsx");
-const intake = read("src/components/AdditionalResearchIntakes.tsx");
 const homepage = read("src/app/page.tsx");
 const shell = read("src/components/PageShell.tsx");
 const sitemap = read("src/app/sitemap.ts");
