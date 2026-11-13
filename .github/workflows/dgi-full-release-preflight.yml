@@ -25,6 +25,8 @@ jobs:
           persist-credentials: false
       - name: Fetch unchanged Coolify production integration branch
         run: git fetch origin infra/coolify-russian-vps
+      - name: Install bounded official-PDF text parser
+        run: python3 -m pip install 'pypdf>=6,<8'
       - name: Run all legal and source-gate adversarial tests
         run: |
           set -euo pipefail
@@ -32,6 +34,7 @@ jobs:
           python3 -m unittest discover -s scripts/tests -p 'test_navigation_publication_contract.py' -v
           python3 -m unittest discover -s scripts/tests -p 'test_verify_dgi_scenario_evidence.py' -v
           python3 -m unittest discover -s scripts/tests -p 'test_validate_dgi_legal_consensus.py' -v
+          python3 -m unittest discover -s scripts/tests -p 'test_official_pdf_provenance.py' -v
       - name: Evaluate staged public and private pages from real release diff
         run: |
           set -euo pipefail
