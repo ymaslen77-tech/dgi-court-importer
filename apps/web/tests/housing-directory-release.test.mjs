@@ -65,7 +65,7 @@ test("exact source-addressed publication contract matches all public TSX, metada
   for(const [path,digest] of Object.entries(locked)){
     const data=rootFile(path);
     const gitBlob=createHash("sha1")
-      .update("blob "+data.length+"\\0","utf8").update(data).digest("hex");
+      .update("blob "+data.length+"\0","utf8").update(data).digest("hex");
     assert.equal(gitBlob,digest,"Unreviewed change in "+path);
     assert.ok(policy.includes('"'+digest+'"'),"Policy does not pin "+path);
   }
