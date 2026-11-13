@@ -63,18 +63,27 @@ class ConsensusTests(unittest.TestCase):
     def test_same_publisher_alternate_can_rescue_transient_http_error(self):
         primary=self.data["claims"][0]["sources"][2]["official_source_url"]
         result=verify(self.data,fetcher=lambda url,excerpt:
-            (False,"transient HTTP 503") if url==primary else (True,"synthetic"))
+            (False,"unavailable/unverifiable: HTTPError") if url==primary else (True,"synthetic"))
         self.assertEqual(result["independent_publishers"],3)
         self.assertEqual(result["sources"][2]["used_alternate"],True)
         self.assertEqual(result["sources"][2]["publisher"],"mos.ru")
     def test_alternate_from_fourth_authority_cannot_replace_moscow(self):
         self.data["claims"][0]["sources"][2]["alternates"][0]["official_source_url"] = "https://epp.genproc.gov.ru/ru/proc_63/activity/legal-education/explain/e8341917/"
         with self.assertRaisesRegex(ValueError,"same official publisher"):
-            verify(self.data,fetcher=lambda url,excerpt:(False,"no primary"))
+            verify(self.data,fetcher=lambda url,excerpt:(False,"unavailable/unverifiable: HTTPError"))
     def test_fallback_quote_cannot_change_deadline_to_sixty_days(self):
         alternate=self.data["claims"][0]["sources"][2]["alternates"][0]
         alternate["official_source_excerpt"]=alternate["official_source_excerpt"].replace("30 дней","60 дней")
         with self.assertRaisesRegex(ValueError,"does not independently"):
             self.check()
+    def test_temporary_official_outage_only_blocks_this_claim(self):
+        report=verify(self.data,fetcher=lambda url,excerpt:
+            (False,"Official source unavailable/unverifiable: URLError"))
+        self.assertEqual(report["status"],"research_only_source_temporarily_unavailable")
+        self.assertEqual(report["independent_publishers"],0)
+    def test_wrong_official_excerpt_still_fails_hard(self):
+        with self.assertRaisesRegex(ValueError,"Official excerpt mismatch"):
+            verify(self.data,fetcher=lambda url,excerpt:
+                (False,"Exact quoted excerpt not visible in fetched official source"))
 if __name__=="__main__":
     unittest.main()
