@@ -20,6 +20,14 @@ const sourcesByProcedure: Record<string, Array<{name:string;href:string}>> = {
     { name:"Генеральная прокуратура — разъяснение о сроках",
       href:"https://epp.genproc.gov.ru/ru/dvtp/activity/legal-education/explain/e75300/" },
   ],
+  "housing-registration": [
+    { name:"Верховный суд РФ — обзор практики по снятию с учёта (2015)",
+      href:"https://www.vsrf.ru/documents/all/15162" },
+    { name:"Прокуратура Московской области — разъяснение статьи 56 ЖК РФ",
+      href:"https://epp.genproc.gov.ru/ru/proc_50/activity/legal-education/explain/e5641068/" },
+    { name:"ДГИ Москвы — приказ № 286 о перерегистрации (PDF)",
+      href:"https://www.mos.ru/upload/content/files/2c7e35924e244c59dfe270088f191922/PRIKAH286ot21082024.pdf" },
+  ],
   "social-tenancy": [
     { name:"Верховный суд РФ — постановление Пленума от 02.07.2009 № 14",
       href:"https://www.vsrf.ru/documents/all/8112" },
