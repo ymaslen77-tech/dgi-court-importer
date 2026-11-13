@@ -72,3 +72,42 @@ test("nonverified route IDs are a strict 404 without indexed SEO",async({page})=
   expect(response?.status()).toBe(404);
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content",/noindex/);
 });
+
+test("social tenancy publishes Article 69 only for documented family-status question",async({page})=>{
+  const response=await page.goto("/situatsii/social-tenancy-dispute",{waitUntil:"domcontentloaded"});
+  expect(response?.status()).toBe(200);
+  await expect(page.locator("main h1")).toHaveText("Разногласия по социальному найму жилья");
+  await expect(page.locator(".verified-scenario-sources a")).toHaveCount(3);
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content",/noindex/);
+  const intake=page.locator(".verified-scenario-intake");
+  await intake.getByLabel("Статус члена семьи нанимателя").check();
+  await intake.getByLabel("Документы имеются").check();
+  await expect(intake.locator(".verified-scenario-rule")).toContainText("статьи 69 ЖК РФ");
+  await expect(intake.locator(".verified-scenario-rule")).toContainText("статьёй 70 ЖК РФ");
+  await intake.getByRole("button",{name:"Сформировать проект запроса"}).click();
+  const draft=intake.locator("textarea");
+  await expect(draft).toHaveValue(/порядке получения копии договора/);
+  await expect(draft).toHaveValue(/реквизиты договора социального найма/);
+  await expect(draft).not.toHaveValue(/исковое заявление|признать право/i);
+});
+
+test("family status without confirming documents produces no legal document or automatic rights",async({page})=>{
+  await page.goto("/situatsii/social-tenancy-dispute");
+  const intake=page.locator(".verified-scenario-intake");
+  await intake.getByLabel("Статус члена семьи нанимателя").check();
+  await intake.getByLabel("Документов нет или сведения неизвестны").check();
+  await expect(intake.locator(".verified-scenario-rule")).toHaveCount(0);
+  await expect(intake.getByRole("button",{name:"Сформировать проект запроса"})).toBeDisabled();
+  await expect(intake.locator("textarea")).toHaveCount(0);
+});
+
+test("all published scenario links stay in the catalog, and 320px layouts fit",async({page})=>{
+  await page.setViewportSize({width:320,height:760});
+  await page.goto("/temy-zhilishchnogo-prava");
+  const links=page.locator(".verified-public-scenarios a");
+  await expect(links).toHaveCount(2);
+  await expect(page.locator('a[href="/situatsii/social-tenancy-dispute"]')).toHaveCount(1);
+  await page.goto("/situatsii/social-tenancy-dispute");
+  const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-window.innerWidth);
+  expect(overflow).toBeLessThanOrEqual(2);
+});
