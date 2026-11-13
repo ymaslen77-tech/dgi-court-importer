@@ -53,8 +53,8 @@ test("exact source-addressed publication contract matches all public TSX, metada
     "apps/web/src/app/page.tsx":"1112dc00b788e30b3ba3ca7f0793519009c432f5",
     "apps/web/src/components/PageShell.tsx":"483a052e7e319b99fbb0a0fcefdb43031000887e",
     "apps/web/src/app/sitemap.ts":"a027e04e4787abc4de85b506c3d287dcbf90f4d4",
-    "apps/web/src/app/situatsii/[scenarioId]/page.tsx":"c7ed6efb222cd8c6317e24eb0fcf4e093ef06d46",
-    "apps/web/src/components/VerifiedScenarioIntake.tsx":"7c5832dd553e57496bd7bdab8a0fe416b6a53b82",
+    "apps/web/src/app/situatsii/[scenarioId]/page.tsx":"0b3272cd90f75487456ecf6e9c1beacb3ccdcabe",
+    "apps/web/src/components/VerifiedScenarioIntake.tsx":"6ea2fde2c8e97290c0ce4acffac5b85cba8ffd33",
     "apps/web/src/data/navigator-preview.ts":"56fc91849a136582a1b646adc63e9e96ef31cfe1",
     "apps/web/src/data/owner-released-legacy-pages.json":"d4e9d259a6904baf64ec9b72fd25693710edcd00",
     "apps/web/src/data/pages-0.json":"5e17431a8bf454d056aedb2ce10fd020966b9c97",
@@ -78,9 +78,9 @@ test("only individually verified scenarios reach the new dynamic route and sitem
   const page=read("src/app/situatsii/[scenarioId]/page.tsx");
   const generator=read("src/components/VerifiedScenarioIntake.tsx");
   const evidence=JSON.parse(readFileSync(new URL("../../../legal-evidence/three-source-claims.json",import.meta.url),"utf8"));
-  assert.equal(published.scenarios.length,2);
+  assert.equal(published.scenarios.length,3);
   assert.deepEqual(published.scenarios.map(s=>s.id).sort(),
-    ["dgi-no-response","social-tenancy-dispute"]);
+    ["dgi-no-response","housing-registration-removal","social-tenancy-dispute"]);
   assert.ok(directory.includes("verifiedScenarios.scenarios.map"));
   assert.ok(sitemap.includes("verifiedScenarios.scenarios"));
   assert.ok(page.includes("getScenario(scenarioId)"));
@@ -90,5 +90,5 @@ test("only individually verified scenarios reach the new dynamic route and sitem
   assert.ok(!generator.includes("sessionStorage"));
   assert.ok(!generator.includes("dangerouslySetInnerHTML"));
   assert.ok(!page.includes("dangerouslySetInnerHTML"));
-  assert.equal(evidence.claims.filter(c=>c.file==="apps/web/src/data/dgi-verified-scenarios.json").length,32);
+  assert.equal(evidence.claims.filter(c=>c.file==="apps/web/src/data/dgi-verified-scenarios.json").length,48);
 });
