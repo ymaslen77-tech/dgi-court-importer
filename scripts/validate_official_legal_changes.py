@@ -10,18 +10,21 @@ import argparse
 import datetime as dt
 import html
 from html.parser import HTMLParser
+from functools import lru_cache
 import json
 import re
 import subprocess
+import time
 from pathlib import Path
 from urllib.parse import urlsplit
 from urllib.request import Request, urlopen
+from urllib.error import URLError, HTTPError
 
 LEGAL_FILE = re.compile(r"apps/web/src/data/pages-[0-5]\.json")
 OFFICIAL = (
     "pravo.gov.ru", "publication.pravo.gov.ru", "mos.ru", "mosreg.ru",
     "vsrf.ru", "ksrf.ru", "sudrf.ru", "rosreestr.gov.ru",
-    "nalog.gov.ru", "gosuslugi.ru", "genproc.gov.ru"
+    "nalog.gov.ru", "gosuslugi.ru", "genproc.gov.ru", "mintrud.gov.ru"
 )
 MAX_SOURCE_AGE_DAYS = 7
 
@@ -49,22 +52,55 @@ class PublicText(HTMLParser):
     def handle_data(self, data):
         if not self.ignore:self.values.append(data)
 
+# Cache only identical URL+excerpt within one process. All pages/PDFs are
+# re-fetched on each CI run; source validity is never granted from a stored hash.
+# Extract only real text from official PDF files; image-only/scanned PDF fails.
+# The Poppler pdftotext CLI must be present in CI and cannot fetch remote links.
+@lru_cache(maxsize=128)
 def official_excerpt_visible(url, excerpt):
     if not allowed_source(url):
         return False, "URL is not a specific official source"
     try:
         req=Request(url, headers={"User-Agent":"DGI-Official-Evidence-Reviewer/1.0"})
-        with urlopen(req, timeout=20) as response:
-            final=response.geturl()
-            if response.status != 200 or not allowed_source(final):
-                return False,"Official source HTTP response/redirect is invalid"
-            media=response.headers.get("Content-Type","").split(";")[0].strip().lower()
-            if media not in ("text/html", "application/xhtml+xml", "text/plain"):
-                return False,"Cannot independently verify official text in non-HTML source"
-            data=response.read(3000000).decode(response.headers.get_content_charset() or "utf-8","replace")
-        if "html" in media:
-            parser=PublicText();parser.feed(data);text=" ".join(parser.values)
-        else:text=data
+        # Government hosts sometimes terminate TLS connections transiently.
+        # Retry ONLY transport failures, not bad HTTP codes, wrong citations,
+        # unsupported media, invalid redirect hosts or missing PDF text.
+        for attempt in range(3):
+            try:
+                with urlopen(req, timeout=20) as response:
+                    final=response.geturl()
+                    if response.status != 200 or not allowed_source(final):
+                        return False,"Official source HTTP response/redirect is invalid"
+                    media=response.headers.get("Content-Type","").split(";")[0].strip().lower()
+                    if media not in ("text/html", "application/xhtml+xml", "text/plain", "application/pdf"):
+                        return False,"Unsupported official source media type"
+                    max_bytes = 18000000 if media == "application/pdf" else 3000000
+                    data = response.read(max_bytes+1)
+                    if len(data)>max_bytes:
+                        return False,"Official source exceeds extraction size limit"
+                    charset=response.headers.get_content_charset() or "utf-8"
+                break
+            except HTTPError:
+                raise
+            except (URLError,TimeoutError,ConnectionResetError):
+                if attempt==2:
+                    raise
+                time.sleep(attempt+1)
+        if media == "application/pdf":
+            if not data.startswith(b"%PDF-"):
+                return False,"Official PDF has invalid header"
+            process=subprocess.run(
+                ["pdftotext","-enc","UTF-8","-layout","-","-"],
+                input=data,capture_output=True,timeout=30,check=False,
+            )
+            if process.returncode or not process.stdout:
+                return False,"Official PDF text extraction failed (possibly scanned)"
+            text=process.stdout.decode("utf-8","replace")
+        else:
+            data=data.decode(charset,"replace")
+            if "html" in media:
+                parser=PublicText();parser.feed(data);text=" ".join(parser.values)
+            else:text=data
         if norm(excerpt) not in norm(text):
             return False,"Exact quoted excerpt not visible in fetched official source"
         return True,"Official text excerpt observed on allowed host"
@@ -77,7 +113,7 @@ def official_authority_group(address):
         return None
     host=(urlsplit(address).hostname or "").lower()
     for authority in ("pravo.gov.ru","mos.ru","mosreg.ru","vsrf.ru","ksrf.ru",
-                      "sudrf.ru","rosreestr.gov.ru","nalog.gov.ru","gosuslugi.ru",
+                      "sudrf.ru","rosreestr.gov.ru","nalog.gov.ru","gosuslugi.ru","mintrud.gov.ru",
                       "genproc.gov.ru"):
         if host==authority or host.endswith("."+authority):
             # Official national legal portal's published versions are one source.

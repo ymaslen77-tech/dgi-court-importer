@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { PageShell } from "@/components/PageShell";
 import { siteIsLive, siteOrigin } from "@/data/pages";
 import { factualSocialMetadata } from "@/data/seo-social";
+import verifiedScenarios from "@/data/dgi-verified-scenarios.json";
 import {
   getNavigatorPreviewGroups,
   getNavigatorPreviewCrossTopicPages,
@@ -48,6 +49,24 @@ export default function PublicHousingTopicDirectory() {
           не подтверждает актуальность изложенных на нём норм или применимость документа
           к конкретной ситуации. Проверяйте сведения в официальных источниках.
         </p>
+
+        {verifiedScenarios.scenarios.length>0 && <section
+          className="navigator-preview-research verified-public-scenarios"
+          aria-labelledby="verified-public-scenarios-heading">
+          <h2 id="verified-public-scenarios-heading">Ситуации с подтверждёнными правовыми источниками</h2>
+          <p className="navigator-preview-note">
+            Ниже размещены ситуации, для которых проверены отдельные правовые
+            утверждения, исключения и шаблоны. Выбор документа зависит от
+            ответов на вопросы, а не от общего названия темы.
+          </p>
+          <ul className="navigator-preview-directory">
+            {verifiedScenarios.scenarios.map(scenario=>
+              <li key={scenario.id}><Link href={"/situatsii/"+scenario.id}>
+                {scenario.title}
+              </Link></li>
+            )}
+          </ul>
+        </section>}
 
         <h2>Тематические разделы</h2>
         <div className="navigator-preview-grid">

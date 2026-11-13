@@ -4,6 +4,7 @@ import { listPublishedEditorialSlugs } from "@/data/published";
 import { listPublishedCourtActSlugs, courtActBasePath } from "@/data/court-fulltext";
 import { listPublicCourtCaseSlugs } from "@/data/verified-courts";
 import { housingNewsBase, listHousingNews } from "@/data/housing-news";
+import verifiedScenarios from "@/data/dgi-verified-scenarios.json";
 
 export const dynamic = "force-dynamic";
 
@@ -45,6 +46,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   add("/o-proekte", {changeFrequency:"monthly",priority:0.4});
   // Source-neutral index of already owner-released legacy materials only.
   add("/temy-zhilishchnogo-prava", {changeFrequency:"monthly",priority:0.7});
+  // No research-only drafts: each scenario is present only after matching
+  // three-source evidence in the protected publication gate.
+  for (const scenario of verifiedScenarios.scenarios) {
+    add("/situatsii/"+scenario.id, {changeFrequency:"monthly",priority:0.7});
+  }
   add(housingNewsBase, {changeFrequency:"daily",priority:0.8});
   const news = listHousingNews();
   for (const article of news) {

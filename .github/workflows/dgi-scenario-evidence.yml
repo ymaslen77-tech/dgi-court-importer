@@ -4,6 +4,7 @@ on:
     branches:
       - infra/coolify-russian-vps
       - automation/dgi-public-catalog-on-issue70-policy-2026-11-13
+      - automation/dgi-scenario-evidence-gates-2026-11-13
     paths:
       - "apps/web/src/data/dgi-verified-scenarios.json"
       - "research/dgi-scenario-evidence-v1.json"
@@ -32,13 +33,31 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
+          fetch-depth: 0
+      - name: Install trusted local PDF text extractor (Poppler)
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils
+          pdftotext -v
       - name: Syntax check and adversarial fail-closed tests
         run: |
           python3 -m py_compile scripts/verify_dgi_scenario_evidence.py scripts/validate_three_source_publication.py scripts/validate_official_legal_changes.py
           python3 -m unittest discover -s scripts/tests -p 'test_verify_dgi_scenario_evidence.py' -v
+          python3 -m unittest discover -s scripts/tests -p 'test_verified_scenario_publication_contract.py' -v
+          python3 -m unittest discover -s scripts/tests -p 'test_navigation_publication_contract.py' -v
+          python3 -m unittest discover -s scripts/tests -p 'test_three_source_publication.py' -v
+          python3 -m unittest discover -s scripts/tests -p 'test_official_pdf_extraction.py' -v
       - name: Validate five scenarios and every public textual field
         run: |
           python3 scripts/verify_dgi_scenario_evidence.py
+      - name: Verify exact public TSX and React implementation against approved source contract
+        if: github.event_name == 'pull_request'
+        env:
+          BASE_BRANCH: ${{ github.base_ref }}
+        run: |
+          set -euo pipefail
+          git fetch origin "$BASE_BRANCH"
+          python3 scripts/validate_three_source_publication.py --base "origin/$BASE_BRANCH" --head HEAD
       - name: Preserve claim-evidence audit
         if: always()
         uses: actions/upload-artifact@v4
