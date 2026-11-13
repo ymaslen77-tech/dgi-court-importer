@@ -12,7 +12,7 @@ from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from verify_dgi_scenario_evidence import (
     PUBLIC, KNOWN_SCENARIOS, _validate_public_structure,
-    validate, validate_research_matrix
+    validate, validate_research_matrix, build_verified_document_plan
 )
 
 
@@ -200,6 +200,43 @@ class ScenarioEvidenceTests(unittest.TestCase):
         self.public["scenarios"][0]["generator"]["freeText"]="No evidence here"
         with self.assertRaisesRegex(ValueError,"Unknown generator structure"):
             self.run_check()
+
+
+    def test_verified_rule_selection_compiles_only_matching_existing_form(self):
+        plan=build_verified_document_plan(
+            self.public,self.research,self.manifest,"dgi-no-response",
+            {"request-type":"Обычное обращение"},fetcher=observed)
+        self.assertTrue(plan["can_generate"])
+        self.assertEqual(plan["generator_kind"],"request")
+        self.assertEqual(plan["matched_rule_ids"],["test-rule"])
+        self.assertEqual(len(plan["clauses"]),1)
+
+    def test_special_service_answer_does_not_inherit_general_59fz_clause(self):
+        plan=build_verified_document_plan(
+            self.public,self.research,self.manifest,"dgi-no-response",
+            {"request-type":"Заявление на госуслугу"},fetcher=observed)
+        self.assertFalse(plan["can_generate"])
+        self.assertEqual(plan["clauses"],[])
+
+    def test_unknown_answer_refused_before_document_compilation(self):
+        with self.assertRaisesRegex(ValueError,"Unexpected answer"):
+            build_verified_document_plan(
+                self.public,self.research,self.manifest,"dgi-no-response",
+                {"request-type":"Любой вид жалобы"},fetcher=observed)
+
+    def test_no_verified_content_never_generates_document(self):
+        with self.assertRaisesRegex(ValueError,"No published"):
+            build_verified_document_plan(
+                {"version":1,"scenarios":[]},self.research,
+                {"version":1,"claims":[]},"dgi-no-response",
+                {"request-type":"Обычное обращение"},fetcher=observed)
+
+    def test_removed_source_proof_blocks_existing_document_plan(self):
+        self.manifest["claims"].pop()
+        with self.assertRaisesRegex(ValueError,"exact and complete"):
+            build_verified_document_plan(
+                self.public,self.research,self.manifest,"dgi-no-response",
+                {"request-type":"Обычное обращение"},fetcher=observed)
 
 
 if __name__=="__main__":
