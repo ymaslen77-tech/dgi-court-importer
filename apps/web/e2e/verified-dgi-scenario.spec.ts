@@ -105,9 +105,36 @@ test("all published scenario links stay in the catalog, and 320px layouts fit",a
   await page.setViewportSize({width:320,height:760});
   await page.goto("/temy-zhilishchnogo-prava");
   const links=page.locator(".verified-public-scenarios a");
-  await expect(links).toHaveCount(2);
+  await expect(links).toHaveCount(3);
   await expect(page.locator('a[href="/situatsii/social-tenancy-dispute"]')).toHaveCount(1);
   await page.goto("/situatsii/social-tenancy-dispute");
   const overflow=await page.evaluate(()=>document.documentElement.scrollWidth-window.innerWidth);
   expect(overflow).toBeLessThanOrEqual(2);
+});
+
+test("housing-removal decision request checks category and does not promise reinstatement",async({page})=>{
+  const path="/situatsii/housing-registration-removal";
+  const response=await page.goto(path,{waitUntil:"domcontentloaded"});
+  expect(response?.status()).toBe(200);
+  await expect(page.locator("main h1")).toHaveText("Снятие с жилищного учёта: проверка решения ДГИ");
+  await expect(page.locator(".verified-scenario-sources a")).toHaveCount(3);
+  const intake=page.locator(".verified-scenario-intake");
+  await intake.getByLabel("Уведомление о снятии с жилищного учёта").check();
+  await intake.getByLabel("Копии решения нет").check();
+  await expect(intake.locator(".verified-scenario-rule")).toContainText("статьёй 56 ЖК РФ");
+  await intake.getByRole("button",{name:"Сформировать проект запроса"}).click();
+  const draft=intake.locator("textarea");
+  await expect(draft).toHaveValue(/Прошу сообщить реквизиты решения/);
+  await expect(draft).toHaveValue(/Реквизиты уведомления о снятии с жилищного учёта/);
+  await expect(draft).not.toHaveValue(/восстановить на учёте|незаконным|выиграть суд/i);
+});
+
+test("having the housing removal decision already does not suggest a redundant request",async({page})=>{
+  await page.goto("/situatsii/housing-registration-removal");
+  const intake=page.locator(".verified-scenario-intake");
+  await intake.getByLabel("Уведомление о снятии с жилищного учёта").check();
+  await intake.getByLabel("Копия решения получена").check();
+  await expect(intake.getByRole("button",{name:"Сформировать проект запроса"})).toBeDisabled();
+  await expect(intake.locator(".verified-scenario-rule")).toHaveCount(0);
+  await expect(intake.locator("textarea")).toHaveCount(0);
 });
