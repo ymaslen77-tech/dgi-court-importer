@@ -104,8 +104,10 @@ test("all source candidates remain research-only, never passed into publication 
     "Research-only candidate URLs must never be legal publication approvals");
   const sourceBacked=manifest.claims.filter(claim=>
     claim.file==="apps/web/src/data/dgi-verified-scenarios.json");
-  assert.equal(sourceBacked.length,16,
-    "Only the separately audited 59-FZ correspondence scenario may publish");
+  assert.equal(sourceBacked.length,32,
+    "Only the separately audited 59-FZ and Art 69 tenancy scenarios may publish");
+  assert.deepEqual([...new Set(sourceBacked.map(c=>c.record_id))].sort(),
+    ["dgi-no-response","social-tenancy-dispute"]);
 });
 
 test("every one of 33 owner-released legacy pages is inventoried exactly once, including home",()=>{
