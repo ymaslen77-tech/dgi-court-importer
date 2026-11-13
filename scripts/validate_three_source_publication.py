@@ -126,10 +126,10 @@ def expected_changes(base,head,changed_paths):
 # 10 already-rendered forms and explicitly neutral descriptive UI labels.
 PUBLIC_DIRECTORY_ROUTE = "apps/web/src/app/temy-zhilishchnogo-prava/page.tsx"
 PUBLIC_NAVIGATION_BLOBS = {
-    PUBLIC_DIRECTORY_ROUTE: "d6983675b056e4dea61b45d984df8563eaf7d5c7",
+    PUBLIC_DIRECTORY_ROUTE: "ce8d6061bf9e257248e535f04dc938f4c26373e6",
     "apps/web/src/app/page.tsx": "1112dc00b788e30b3ba3ca7f0793519009c432f5",
     "apps/web/src/components/PageShell.tsx": "483a052e7e319b99fbb0a0fcefdb43031000887e",
-    "apps/web/src/app/sitemap.ts": "988e8c307a0628bff7a3eb3f40150c0fc6e325c9",
+    "apps/web/src/app/sitemap.ts": "a027e04e4787abc4de85b506c3d287dcbf90f4d4",
 }
 PUBLIC_NAVIGATION_SOURCE_BLOBS = {
     "apps/web/src/data/navigator-preview.ts": "56fc91849a136582a1b646adc63e9e96ef31cfe1",
@@ -180,6 +180,55 @@ def verify_public_navigation_contract(head, changed_paths, reader):
             raise ValueError("Source-bound navigation artifact is unapproved: "+path)
     return relevant
 
+
+# Exact audited React shell for the data-driven and separately evidenced DGI
+# scenario engine. Its legal content is not sourced from code literals: all
+# changed JSON fields are covered by live three-authority claim proof below.
+# Replacing this TSX, including SSR branches/metadata/inputs, is NOT approved.
+VERIFIED_SCENARIO_CODE_BLOBS = {
+    "apps/web/src/app/situatsii/[scenarioId]/page.tsx":
+        "28c89fd695d2a34a8997bf539f94a6128e2c6665",
+    "apps/web/src/components/VerifiedScenarioIntake.tsx":
+        "bca1e622dbfaa53f8b1c5adc9c42b405c63cb55c",
+}
+VERIFIED_SCENARIO_RESEARCH = "research/dgi-scenario-evidence-v1.json"
+VERIFIED_SCENARIO_PUBLIC = "apps/web/src/data/dgi-verified-scenarios.json"
+
+def verify_source_evidenced_scenario_contract(head, changed_paths, reader):
+    changed=set(changed_paths)
+    code_changed=changed.intersection(VERIFIED_SCENARIO_CODE_BLOBS)
+    evidence_changed=changed.intersection((
+        VERIFIED_SCENARIO_PUBLIC,VERIFIED_SCENARIO_RESEARCH,MANIFEST,
+    ))
+    if not code_changed and not evidence_changed:
+        return set()
+    try:
+        public_route=reader(head,"apps/web/src/app/situatsii/[scenarioId]/page.tsx")
+    except (subprocess.CalledProcessError,FileNotFoundError,KeyError):
+        if code_changed:
+            raise ValueError("Missing expected source-verified scenario route")
+        # Underlying data might be staged before its public TSX route exists.
+        if VERIFIED_SCENARIO_PUBLIC not in changed and VERIFIED_SCENARIO_RESEARCH not in changed:
+            return set()
+        public_route=None
+    if public_route is not None:
+        for path,digest in VERIFIED_SCENARIO_CODE_BLOBS.items():
+            try:
+                source=reader(head,path)
+            except (subprocess.CalledProcessError,FileNotFoundError,KeyError):
+                raise ValueError("Missing pinned source-evidenced scenario renderer: "+path)
+            if content_blob_sha(source)!=digest:
+                raise ValueError("Unreviewed React scenario code or metadata: "+path)
+    try:
+        from verify_dgi_scenario_evidence import validate as validate_scenarios
+        public=json.loads(reader(head,VERIFIED_SCENARIO_PUBLIC))
+        research=json.loads(reader(head,VERIFIED_SCENARIO_RESEARCH))
+        manifest=json.loads(reader(head,MANIFEST))
+        result=validate_scenarios(public,research,manifest)
+    except (ValueError,KeyError,json.JSONDecodeError) as err:
+        raise ValueError("Source-verified scenario publication failed: "+str(err))
+    return code_changed
+
 # Hard quarantine for changes that could embed legal statements in app code.
 # No automatic publishing of a changed public React page, metadata/route
 # handler or component until a separate typed per-claim TS/TSX verifier exists.
@@ -195,14 +244,16 @@ def private_new_route_only(path,source):
 def check_new_public_routes(base,head,changed_paths,reader):
     del base  # Check both *new and existing* public TS/TSX routes.
     verified_neutral=verify_public_navigation_contract(head,changed_paths,reader)
+    verified_scenarios=verify_source_evidenced_scenario_contract(head,changed_paths,reader)
+    checked_code=verified_neutral | verified_scenarios
     for path in changed_paths:
         if path.startswith("apps/web/src/app/") and path.endswith((".ts",".tsx")):
             if path==PRIVATE_NAVIGATOR_PATH and private_new_route_only(path,reader(head,path)):
                 continue
-            if path in verified_neutral:
+            if path in checked_code:
                 continue
             raise ValueError("New public route or altered page/metadata requires source-checked release plan: "+path)
-    return verified_neutral
+    return checked_code
 
 
 def assess(changes,manifest,fetcher=None):
@@ -278,7 +329,12 @@ def main():
         raise ValueError("Modified publication data without a new three-source evidence manifest")
     manifest=json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.exists() else {"version":1,"claims":[]}
     expected=expected_changes(args.base,args.head,changed)
-    result=assess(expected,manifest)
+    # Scenario legal evidence is separately validated against every literal
+    # question/SEO/rule/document clause. Do not let its manifest records be
+    # incorrectly treated as evidence for existing owner-released JSON data.
+    regular_claims=[claim for claim in manifest.get("claims",[])
+                    if isinstance(claim,dict) and claim.get("file")!=VERIFIED_SCENARIO_PUBLIC]
+    result=assess(expected,{"version":manifest.get("version"),"claims":regular_claims})
     Path(args.output).parent.mkdir(parents=True,exist_ok=True)
     Path(args.output).write_text(json.dumps({
         **result,"changed_content_files":changed_content,
