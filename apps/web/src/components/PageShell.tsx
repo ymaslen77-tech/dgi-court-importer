@@ -56,6 +56,7 @@ export function PageShell({ children, variant = "default" }: Readonly<{
             <Link href="/zayavlenie-v-dgi-moskvy">Заявление в ДГИ</Link>
             <Link href="/zhaloba-na-dgi-moskvy">Обжалование</Link>
             <Link href="/o-proekte">О проекте и источниках</Link>
+            <Link href="/temy-zhilishchnogo-prava">Все темы справочника</Link>
             {previewOnlyLinks.map((item) => <Link href={item.href} key={item.href}>{item.label}</Link>)}
             <a href="mailto:admin@dgi-pravo.ru">Редакция: admin@dgi-pravo.ru</a>
           </nav>
