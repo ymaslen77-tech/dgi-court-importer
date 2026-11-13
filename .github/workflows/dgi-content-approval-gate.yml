@@ -32,6 +32,8 @@ jobs:
           ref: infra/coolify-russian-vps
           persist-credentials: false
           path: policy
+      - name: Install bounded official-PDF text parser
+        run: python3 -m pip install 'pypdf>=6,<8'
       - name: Validate current protected-branch policy, not PR-supplied scripts
         run: |
           python3 -m json.tool policy/config/dgi-automation-approval-policy.json >/dev/null
@@ -45,6 +47,9 @@ jobs:
           fi
           python3 -m unittest discover -s policy/scripts/tests -p 'test_validate_dgi_automation_changes.py' -v
           python3 -m unittest discover -s policy/scripts/tests -p 'test_validate_official_legal_changes.py' -v
+          if test -f policy/scripts/tests/test_official_pdf_provenance.py; then
+            python3 -m unittest discover -s policy/scripts/tests -p 'test_official_pdf_provenance.py' -v
+          fi
       - name: Verify new publication sources with protected-branch policy when installed
         if: github.event_name == 'pull_request'
         working-directory: site
