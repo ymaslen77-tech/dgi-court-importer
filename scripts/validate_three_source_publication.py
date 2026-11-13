@@ -146,7 +146,7 @@ def content_blob_sha(source):
     """Git-compatible content digest, covering all TSX and SEO text/branches."""
     if isinstance(source,str):
         source=source.encode("utf-8")
-    return hashlib.sha1(b"blob "+str(len(source)).encode("ascii")+b"\\0"+source).hexdigest()
+    return hashlib.sha1(b"blob "+str(len(source)).encode("ascii")+b"\0"+source).hexdigest()
 
 def verify_public_navigation_contract(head, changed_paths, reader):
     """Accept only exact reviewed byte snapshots with immutable title provenance.
