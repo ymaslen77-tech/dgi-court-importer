@@ -10,6 +10,7 @@ import argparse
 import datetime as dt
 import html
 from html.parser import HTMLParser
+from functools import lru_cache
 import json
 import re
 import subprocess
@@ -49,6 +50,9 @@ class PublicText(HTMLParser):
     def handle_data(self, data):
         if not self.ignore:self.values.append(data)
 
+# Cache only identical URL+excerpt within one validation process; no network
+# bypass or persisted trusted result. Every run re-fetches official HTML.
+@lru_cache(maxsize=128)
 def official_excerpt_visible(url, excerpt):
     if not allowed_source(url):
         return False, "URL is not a specific official source"
