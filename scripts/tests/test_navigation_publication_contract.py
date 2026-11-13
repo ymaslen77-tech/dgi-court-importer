@@ -105,7 +105,7 @@ class NavigationContractTests(unittest.TestCase):
         self.sources[p]='if (siteIsLive) notFound(); robots: {index: false, follow: false};'
         self.assertEqual(self.check([p]),set())
     def test_git_blob_digest_matches_git_object_format(self):
-        self.assertEqual(content_blob_sha("test content"),"f252d1e90c1ba51d8e1497c640d3822c3f5fa3cf")
+        self.assertEqual(content_blob_sha("test content"),"08cf6101416f0ce0dda3c80e627f333854c4085c")
 
 if __name__=="__main__":
     unittest.main()
