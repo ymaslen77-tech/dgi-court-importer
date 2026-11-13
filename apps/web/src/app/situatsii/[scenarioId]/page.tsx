@@ -11,14 +11,24 @@ export const dynamic = "force-dynamic";
 
 const base = "/situatsii";
 const scenarios = verified.scenarios as VerifiedScenario[];
-const sources = [
-  { name:"Минтруд России — действующая редакция Федерального закона № 59-ФЗ",
-    href:"https://mintrud.gov.ru/docs/laws/108" },
-  { name:"ФНС России — порядок рассмотрения обращений",
-    href:"https://www.nalog.gov.ru/rn77/apply_fts/obr/" },
-  { name:"Генеральная прокуратура — разъяснение о сроках рассмотрения",
-    href:"https://epp.genproc.gov.ru/ru/dvtp/activity/legal-education/explain/e75300/" },
-] as const;
+const sourcesByProcedure: Record<string, Array<{name:string;href:string}>> = {
+  "59-fz-general-correspondence": [
+    { name:"Минтруд России — Федеральный закон № 59-ФЗ",
+      href:"https://mintrud.gov.ru/docs/laws/108" },
+    { name:"ФНС России — порядок рассмотрения обращений",
+      href:"https://www.nalog.gov.ru/rn77/apply_fts/obr/" },
+    { name:"Генеральная прокуратура — разъяснение о сроках",
+      href:"https://epp.genproc.gov.ru/ru/dvtp/activity/legal-education/explain/e75300/" },
+  ],
+  "social-tenancy": [
+    { name:"Верховный суд РФ — постановление Пленума от 02.07.2009 № 14",
+      href:"https://www.vsrf.ru/documents/all/8112" },
+    { name:"Прокуратура Республики Марий Эл — разъяснение статьи 69 ЖК РФ",
+      href:"https://epp.genproc.gov.ru/ru/proc_12/activity/legal-education/explain/e151947/" },
+    { name:"Правительство Москвы — ЖК РФ, редакция от 02.05.2026 (PDF)",
+      href:"https://www.mos.ru/upload/documents/files/6377/Kodeksot29_12_2004N188-FZJilishniikodeksRossiiskoiFederacii%28sizmeneniyamina2maya2026_Tekst.pdf" },
+  ],
+};
 
 function getScenario(id:string) {
   return scenarios.find(entry=>entry.id===id);
@@ -51,6 +61,7 @@ export default async function DgiVerifiedScenarioPage({params}:Props) {
   const {scenarioId}=await params;
   const scenario=getScenario(scenarioId);
   if(!scenario) notFound();
+  const sources=sourcesByProcedure[scenario.procedure]||[];
 
   return <PageShell variant="thematic">
     <section className="hero hero--thematic"><div className="container">
@@ -76,9 +87,9 @@ export default async function DgiVerifiedScenarioPage({params}:Props) {
 
       <section className="verified-scenario-sources" aria-labelledby="verified-sources-heading">
         <h2 id="verified-sources-heading">Официальные источники</h2>
-        <p>Для общего порядка рассмотрения письменных обращений использованы
-          три независимых государственных источника. Перед применением сроков
-          необходимо установить вид обращения и проверить наличие исключений.</p>
+        <p>Представлены три независимых официальных источника по применимому
+          правовому вопросу. Сравнивайте их редакции, исключения и
+          условия применимости к обстоятельствам конкретного дела.</p>
         <ul>{sources.map(source=>
           <li key={source.href}><a href={source.href}
             target="_blank" rel="noopener noreferrer">{source.name}</a></li>
