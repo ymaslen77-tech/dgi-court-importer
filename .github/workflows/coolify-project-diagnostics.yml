@@ -1,0 +1,72 @@
+# No raw logs, environment values or arbitrary shell commands in repository Actions.
+# Private central controller is the route for inspecting sensitive raw log details.
+name: dgi Coolify and container diagnostics
+on:
+  push:
+    branches: [main]
+    paths: [.github/workflows/coolify-project-diagnostics.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: dgi-coolify-diagnostics
+  cancel-in-progress: false
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    environment: dgi-diagnostics
+    env:
+      TOKEN: ${{ secrets.COOLIFY_LOG_TOKEN }}
+      SSH_KEY: ${{ secrets.PROJECT_SSH_KEY_B64 }}
+      KNOWN_HOSTS: ${{ secrets.PROJECT_SSH_KNOWN_HOSTS }}
+    steps:
+      - name: Confirm scoped API log access and deployment history
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$GITHUB_REPOSITORY" == "ymaslen77-tech/dgi-court-importer" && "$GITHUB_REF" == "refs/heads/main" ]]
+          [[ -n "$TOKEN" ]] || { echo "::error::Missing dedicated scoped log token"; exit 1; }
+          tmp=$(mktemp)
+          trap 'rm -f "$tmp"' EXIT
+          base=https://coolify.dgi-pravo.ru/api/v1
+          failed=0
+          for uuid in tvm9n7usjzjwi8ceg5zfz06f; do
+            for endpoint in "applications/$uuid/logs?lines=25" "deployments/applications/$uuid?take=3"; do
+              code=$(curl -sS --connect-timeout 8 --max-time 30 -o "$tmp" -w '%{http_code}' -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' "$base/$endpoint")
+              echo "Resource=$uuid endpoint=${endpoint%%\?*} HTTP=$code"
+              if [[ "$code" == 200 ]]; then
+                jq -e 'type=="object" or type=="array"' "$tmp" >/dev/null
+                echo "Response received; raw payload intentionally not retained."
+              else failed=1; fi
+            done
+          done
+          [[ "$failed" == 0 ]]
+      - name: Execute only the server-enforced project diagnostics command
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$GITHUB_REPOSITORY" == "ymaslen77-tech/dgi-court-importer" && "$GITHUB_REF" == "refs/heads/main" ]]
+          [[ -n "$SSH_KEY" && -n "$KNOWN_HOSTS" ]] || { echo "::error::Install the dedicated forced-command SSH credentials"; exit 1; }
+          umask 077
+          d=$(mktemp -d)
+          trap 'rm -rf "$d"' EXIT
+          printf '%s' "$SSH_KEY" | base64 -d > "$d/key"
+          printf '%s\n' "$KNOWN_HOSTS" > "$d/known_hosts"
+          ssh -T -i "$d/key" -o BatchMode=yes -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o UserKnownHostsFile="$d/known_hosts" -o ConnectTimeout=12 gha-dgi@79.133.181.192 diagnostics > "$d/result"
+          # The VPS forced command must output fixed schema, never arbitrary application text.
+          python3 - "$d/result" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          assert p.get("project")=="dgi"
+          assert set(p)=={"project","containers"}
+          assert isinstance(p["containers"],list)
+          for c in p["containers"]:
+              assert set(c)=={"uuid","running","logs_ok","exec_ok"}
+              assert c["uuid"] in "tvm9n7usjzjwi8ceg5zfz06f".split()
+              assert all(type(c[k]) is bool for k in ("running","logs_ok","exec_ok"))
+          print(json.dumps(p))
+          assert p["containers"],"No scoped containers found"
+          assert any(c["running"] and c["exec_ok"] for c in p["containers"]),"No running container passed exec"
+          PY

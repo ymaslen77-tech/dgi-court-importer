@@ -1,0 +1,117 @@
+# Coolify project access v1. Only scoped tokens; never reuse infrastructure credentials.
+# Repository secret COOLIFY_READ_TOKEN: read, selected applications below only.
+# Environment coolify-production secret COOLIFY_WRITE_TOKEN: read + write, same scope.
+# Configure required reviewers and restrict deployment branches to main before adding WRITE.
+# No root, delete, read:sensitive, deploy, SSH or cross-project secrets.
+# Push of workflow runs read-only; approved configuration requests are separate, explicit.
+name: Coolify project access v1
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/coolify-project-access.yml
+      - ops/coolify/change-request.json
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: coolify-project-access-v1
+  cancel-in-progress: false
+env:
+  BASE: https://coolify.dgi-pravo.ru/api/v1
+  EXPECTED_REPO: ymaslen77-tech/dgi-court-importer
+  ALLOWED_IDS: 'tvm9n7usjzjwi8ceg5zfz06f'
+  EXPECTED_NAMES: '{"tvm9n7usjzjwi8ceg5zfz06f":"dgi-web"}'
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      apply: ${{ steps.request.outputs.apply }}
+    steps:
+      - name: Check identity and read permission for every assigned resource
+        env:
+          TOKEN: ${{ secrets.COOLIFY_READ_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$GITHUB_REPOSITORY" == "$EXPECTED_REPO" ]]
+          [[ -n "$TOKEN" ]] || { echo "::error::Set scoped COOLIFY_READ_TOKEN"; exit 1; }
+          tmp=$(mktemp)
+          trap 'rm -f "$tmp"' EXIT
+          for uuid in $ALLOWED_IDS; do
+            code=$(curl -sS --connect-timeout 10 --max-time 30 -o "$tmp" -w '%{http_code}' -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' "$BASE/applications/$uuid")
+            [[ "$code" == 200 ]] || { echo "::error::Read $uuid HTTP $code"; exit 1; }
+            jq -e --arg uuid "$uuid" --arg repo "$EXPECTED_REPO" --argjson names "$EXPECTED_NAMES" '
+              .uuid == $uuid and .name == $names[$uuid] and
+              ((.git_repository // "") | sub("^https://github.com/";"") | sub("^git@github.com:";"") | sub("\\.git$";"") | ascii_downcase) == ($repo | ascii_downcase)
+            ' "$tmp" >/dev/null || { echo "::error::Resource identity mismatch"; exit 1; }
+            jq -c '{uuid,name,git_branch,status}' "$tmp"
+          done
+          echo "COOLIFY_PROJECT_READ=PASS; no changes requested by this step."
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check for a newly committed, explicit configuration request
+        id: request
+        env:
+          BEFORE: ${{ github.event.before }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "apply=false" >> "$GITHUB_OUTPUT"
+          [[ "$GITHUB_EVENT_NAME" == push && "$GITHUB_REF" == refs/heads/main ]] || exit 0
+          [[ "$BEFORE" =~ ^[0-9a-f]{40}$ && "$BEFORE" != 0000000000000000000000000000000000000000 ]] || exit 0
+          file=ops/coolify/change-request.json
+          if git diff --quiet "$BEFORE" "$GITHUB_SHA" -- "$file"; then exit 0; fi
+          [[ -f "$file" ]] || exit 0
+          jq -e --arg repo "$EXPECTED_REPO" --arg ids "$ALLOWED_IDS" '
+            type=="object" and (keys|sort)==["approved","description","expected_description","operation","repository","uuid"] and
+            .approved==true and .operation=="update-description" and .repository==$repo and
+            (.uuid as $u | ($ids|split(" ")|index($u))!=null) and
+            (.description|type=="string" and length<=500) and (.expected_description|type=="string" and length<=500)
+          ' "$file" >/dev/null
+          echo "apply=true" >> "$GITHUB_OUTPUT"
+  apply:
+    needs: verify
+    if: needs.verify.outputs.apply == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment: coolify-production
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Apply approved metadata change and verify it (never deploy)
+        env:
+          TOKEN: ${{ secrets.COOLIFY_WRITE_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$GITHUB_REPOSITORY" == "$EXPECTED_REPO" && "$GITHUB_REF" == refs/heads/main ]]
+          [[ -n "$TOKEN" ]] || { echo "::error::Set scoped environment COOLIFY_WRITE_TOKEN"; exit 1; }
+          file=ops/coolify/change-request.json
+          uuid=$(jq -er '.uuid' "$file")
+          [[ " $ALLOWED_IDS " == *" $uuid "* ]]
+          tmp=$(mktemp)
+          trap 'rm -f "$tmp"' EXIT
+          get() {
+            code=$(curl -sS --connect-timeout 10 --max-time 30 -o "$tmp" -w '%{http_code}' -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' "$BASE/applications/$uuid")
+            [[ "$code" == 200 ]]
+            jq -e --arg uuid "$uuid" --arg repo "$EXPECTED_REPO" --argjson names "$EXPECTED_NAMES" '
+              .uuid==$uuid and .name==$names[$uuid] and
+              ((.git_repository // "") | sub("^https://github.com/";"") | sub("^git@github.com:";"") | sub("\\.git$";"") | ascii_downcase)==($repo|ascii_downcase)
+            ' "$tmp" >/dev/null
+          }
+          get
+          if jq -e --slurpfile request "$file" '(.description // "") == $request[0].description' "$tmp" >/dev/null; then
+            echo "Already applied; no mutation."
+            exit 0
+          fi
+          jq -e --slurpfile request "$file" '(.description // "") == $request[0].expected_description' "$tmp" >/dev/null || { echo "::error::Description changed since approval"; exit 1; }
+          code=$(curl -sS --connect-timeout 10 --max-time 30 -o "$tmp" -w '%{http_code}' -X PATCH -H "Authorization: Bearer $TOKEN" -H 'Content-Type: application/json' --data "$(jq -c '{description}' "$file")" "$BASE/applications/$uuid")
+          [[ "$code" == 200 || "$code" == 201 ]] || { echo "::error::PATCH HTTP $code"; exit 1; }
+          get
+          jq -e --slurpfile request "$file" '(.description // "") == $request[0].description' "$tmp" >/dev/null
+          echo "COOLIFY_PROJECT_WRITE=PASS; no deploy requested."
