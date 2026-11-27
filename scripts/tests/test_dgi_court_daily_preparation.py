@@ -2,9 +2,11 @@
 import datetime
 import json
 import sys
+import types
 import unittest
 from pathlib import Path
 from unittest.mock import patch
+from urllib.error import URLError
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 import prepare_dgi_all_outcome_courts as prep
 import validate_dgi_court_publication_queue as queue
@@ -77,6 +79,56 @@ class OfficialDocumentTests(unittest.TestCase):
         with patch.object(prep,"urlopen",return_value=Reply(raw)):
             with self.assertRaisesRegex(ValueError,"personal identifier"):
                 prep.full_official_court_act(URL_CASE,"88-1737/2026")
+    def test_browser_recovers_official_court_after_gateway_timeout(self):
+        html=court_page()
+        class FakePage:
+            url=URL_CASE
+            def goto(self,url,**kwargs):
+                assert url==URL_CASE
+                return types.SimpleNamespace(status=200)
+            def wait_for_timeout(self,ms): pass
+            def content(self): return html.decode("utf8")
+        class FakeBrowser:
+            def new_page(self,**kwargs): return FakePage()
+            def close(self): pass
+        class FakeManager:
+            chromium=types.SimpleNamespace(launch=lambda **kwargs:FakeBrowser())
+            def __enter__(self): return self
+            def __exit__(self,*args): return False
+        module=types.ModuleType("playwright.sync_api")
+        module.sync_playwright=lambda:FakeManager()
+        parent=types.ModuleType("playwright")
+        parent.__path__=[]
+        with patch.object(prep,"urlopen",side_effect=URLError("blocked")),patch.dict(sys.modules,{
+            "playwright":parent,"playwright.sync_api":module
+        }):
+            raw,body,date=prep.full_official_court_act(URL_CASE,"88-1737/2026")
+        self.assertIn(b"cont_doc1",raw)
+        self.assertEqual(date,"2026-01-15")
+        self.assertTrue(len(body)>4000)
+
+    def test_browser_rejects_redirect_outside_official_court(self):
+        class FakePage:
+            url="https://attacker.invalid/act"
+            def goto(self,url,**kwargs):return types.SimpleNamespace(status=200)
+            def wait_for_timeout(self,ms):pass
+            def content(self):return court_page().decode("utf8")
+        class FakeBrowser:
+            def new_page(self,**kwargs):return FakePage()
+            def close(self):pass
+        class FakeManager:
+            chromium=types.SimpleNamespace(launch=lambda **kwargs:FakeBrowser())
+            def __enter__(self):return self
+            def __exit__(self,*args):return False
+        module=types.ModuleType("playwright.sync_api")
+        module.sync_playwright=lambda:FakeManager()
+        parent=types.ModuleType("playwright");parent.__path__=[]
+        with patch.object(prep,"urlopen",side_effect=URLError("blocked")),patch.dict(sys.modules,{
+            "playwright":parent,"playwright.sync_api":module
+        }):
+            with self.assertRaisesRegex(ValueError,"wrong origin/status"):
+                prep.read_official_court_html(URL_CASE)
+
     def test_daily_quota_matches_both_config_and_queue(self):
         policy=json.loads((prep.ROOT/"config/dgi-daily-publication.json").read_text())
         q=json.loads(prep.QUEUE.read_text())
