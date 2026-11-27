@@ -55,6 +55,24 @@ class DiscoveryChecks(unittest.TestCase):
         )
         self.assertTrue(article and article.startswith("https://mgkh.mosreg.ru/"))
 
+    def test_official_mgkh_capital_repairs_and_water_mains_are_not_filtered(self):
+        page = BeautifulSoup("""
+          <main>
+          <a href="/sobytiya/novosti-ministerstva/v-pavlovskom-posade-zavershena-realizaciya-godovogo-plana-kapitalnogo-remonta">
+            В Павловском Посаде завершена реализация годового плана капитального ремонта
+          </a>
+          <a href="/sobytiya/novosti-ministerstva/gotovnost-novogo-uchastka-vodovoda-v-naro-fominske-dostigla">
+            Готовность нового участка водовода в Наро-Фоминске достигла 50%
+          </a>
+          <a href="/sobytiya/novosti-ministerstva/nesvyazannaya-tema">
+            Спортсмены региона выиграли ежегодный турнир по настольному теннису
+          </a>
+          </main>
+        """, "html.parser")
+        found = discover_listing(page, "https://mgkh.mosreg.ru/")
+        self.assertEqual(len(found), 2)
+        self.assertTrue(all(url.startswith("https://mgkh.mosreg.ru/") for url in found))
+
     def test_all_official_sources_unavailable_cannot_report_successful_zero(self):
         with tempfile.TemporaryDirectory() as temp:
             path = Path(temp) / "research.json"
