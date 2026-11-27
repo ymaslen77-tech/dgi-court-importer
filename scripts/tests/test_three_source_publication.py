@@ -131,10 +131,10 @@ class SourceGateTests(unittest.TestCase):
     def court_release_fixture(self):
         slug="2kas-88-3602-2026-2026-02-10"
         pin=dict(COURT_PRIMARY_RELEASE[slug])
-        text=("Дело № 88-3602/2026\\nОПРЕДЕЛЕНИЕ\\n10 февраля 2026 года г. Москва\\n"
-              "ФИО1 обратился в суд к Департаменту городского имущества Москвы.\\n"+
+        text=("Дело № 88-3602/2026\nОПРЕДЕЛЕНИЕ\n10 февраля 2026 года г. Москва\n"
+              "ФИО1 обратился в суд к Департаменту городского имущества Москвы.\n"+
               "Установлены обстоятельства, исследованы материалы, заслушаны объяснения сторон. "*70)
-        pdf=b"%PDF-1.4\\n/Type /Page\\n"+b"x"*13000+b"\\n%%EOF"
+        pdf=b"%PDF-1.4\n/Type /Page\n"+b"x"*13000+b"\n%%EOF"
         pin["full_text_sha256"]=hashlib.sha256(text.encode("utf-8")).hexdigest()
         pin["pdf_sha256"]=hashlib.sha256(pdf).hexdigest()
         row={
