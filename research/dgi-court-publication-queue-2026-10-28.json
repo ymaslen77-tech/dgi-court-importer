@@ -4,7 +4,7 @@
   "purpose": "Prepare all officially published court acts involving DGI, regardless of success, refusal, mixed result or remand",
   "source_policy": "config/dgi-automation-approval-policy.json",
   "publication_source": "apps/web/src/data/verified-court-static.json",
-  "current_curated_count": 46,
+  "current_curated_count": 45,
   "limit_per_daily_release": 10,
   "auto_publish_from_this_file": false,
   "source_recheck_required": true,
@@ -20,9 +20,9 @@
   ],
   "counts": {
     "total": 59,
-    "curated": 46,
+    "curated": 45,
     "out_of_scope": 7,
-    "ready_for_source_import": 6
+    "ready_for_source_import": 7
   },
   "items": [
     {
@@ -660,12 +660,12 @@
       "case_number": "88-24964/2025",
       "official_url": "https://2kas.sudrf.ru/modules.php?case_id=16051621&case_uid=e5389508-5e35-474a-8c60-b70f90658aae&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
       "origin": "independent_official_web_research_2026-11-27",
-      "status": "already_curated",
-      "reason": "Official full judicial act and PDF prepared; protected PR and owner deploy are still required",
+      "status": "ready_for_source_import",
+      "reason": "Official full text includes unmasked full names of private litigants. Additional privacy review/redaction required; not approved for website release.",
       "release_eligible": false,
-      "needs_full_act_and_history_review": false,
-      "already_curated": true,
-      "needs_official_source_and_privacy_screen": false
+      "needs_full_act_and_history_review": true,
+      "already_curated": false,
+      "needs_official_source_and_privacy_screen": true
     }
   ],
   "release_condition": "Official full text + case/court/date + DGI + automated sensitive-data screen + unique case and source + PDF SHA256 + protected CI",
