@@ -1,0 +1,31 @@
+name: DGI live publication inventory smoke — read only
+on:
+  pull_request:
+    branches: [infra/coolify-russian-vps]
+    paths:
+      - "scripts/check_dgi_live_publication.py"
+      - "scripts/tests/test_dgi_live_publication.py"
+      - ".github/workflows/dgi-live-publication-smoke.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  public-visibility:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Test live inventory mismatch and noindex safeguards
+        run: python3 -m unittest discover -s scripts/tests -p 'test_dgi_live_publication.py' -v
+      - name: Observe production news HTML and verified-courts API
+        run: python3 scripts/check_dgi_live_publication.py
+      - name: Preserve observed live status even when unavailable
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dgi-live-publication-inventory
+          path: test-results/dgi-live-publication-smoke.json
+          retention-days: 14
+          if-no-files-found: warn
