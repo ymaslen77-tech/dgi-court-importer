@@ -1,0 +1,44 @@
+name: DGI full public legal inventory — 28 November read-only
+on:
+  push:
+    branches: [audit/full-public-legal-2026-11-28]
+    paths: [.github/workflows/dgi-full-audit-20261128.yml]
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: d2340a8f59fcf21e7392c7aab115717387e9c61b
+          persist-credentials: false
+      - name: Inventory live URLs and referenced sources without modifying content
+        run: python3 scripts/weekly_legal_audit.py
+      - name: Check static court PDF fidelity and metadata
+        run: |
+          python3 - <<'PY'
+          import json,hashlib,pathlib,re
+          p=pathlib.Path('apps/web')
+          cases=json.loads((p/'src/data/verified-court-static.json').read_text())
+          news=json.loads((p/'src/data/housing-news.json').read_text())
+          pages=[x for f in (p/'src/data').glob('pages-*.json') for x in json.loads(f.read_text())]
+          errors=[]; counts={}
+          for c in cases:
+              for k in c:counts[k]=counts.get(k,0)+1
+              slug=c['slug'];pdf=p/'public/court-pdf-copies'/f'{slug}.pdf'
+              if not pdf.exists():errors.append([slug,'missing_pdf']);continue
+              data=pdf.read_bytes()
+              if not data.startswith(b'%PDF-') or hashlib.sha256(data).hexdigest()!=c.get('pdf_sha256'):errors.append([slug,'pdf_digest_mismatch'])
+              if c.get('source_checked') is not True or c.get('privacy_checked') is not True:errors.append([slug,'review_flag_missing'])
+              if not c.get('official_url','').startswith('https://'):errors.append([slug,'official_url_missing'])
+          print('STATIC_INVENTORY',json.dumps({'pages':len(pages),'news':len(news),'courts':len(cases),'court_fields':counts,'court_errors':errors},ensure_ascii=False))
+          for n in news: print('NEWS_SOURCE', n['slug'],n['sourceUrl'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: full-public-legal-inventory-20261128
+          path: weekly-legal-audit-report.json
+          retention-days: 30
