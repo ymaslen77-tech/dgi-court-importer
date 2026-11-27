@@ -30,6 +30,51 @@
       "scope": "Содержит юридические процедурные утверждения; не использовать без актуального нормативного акта и трех независимых подтверждений",
       "verification": "source_article_read; legal norm/effective version not verified",
       "publication_eligible": false
+    },
+    {
+      "title": "В Подмосковье началось строительство второй очереди миниполиса «Дивное»",
+      "source_url": "https://minzhil.mosreg.ru/sobytiya/novosti-ministerstva/v-podmoskove-pristupili-k-stroitelstvu-vtoroi-ocheredi-minipolisa-divnoe",
+      "official_source_date": "2026-11-27",
+      "type": "factual_official_announcement",
+      "scope": "По сообщению Минжилполитики МО, в Ленинском городском округе запланированы два корпуса высотой до восьми этажей по 116 квартир; не утверждать срок передачи квартир без документа",
+      "verification": "official_primary_page_read_and_date_checked; three-independent-authority publication manifest not assembled",
+      "publication_eligible": false
+    },
+    {
+      "title": "В ЖК «Легенда Коренёво» строится школа на 500 мест и детсад на 120 мест",
+      "source_url": "https://minzhil.mosreg.ru/sobytiya/novosti-ministerstva/na-territorii-zhilogo-kompleksa-legenda-korenyovo-stroyat-vospitatelno-obrazovatelnyi-kompleks-1",
+      "official_source_date": "2026-11-27",
+      "type": "factual_official_announcement",
+      "scope": "По сообщению министерства завершены отдельные строительные работы; школа и детсад не представлены как уже открытые",
+      "verification": "official_primary_page_read_and_date_checked; three-independent-authority publication manifest not assembled",
+      "publication_eligible": false
+    },
+    {
+      "title": "В Лосино-Петровском на кадастр поставлен дом для переселенцев",
+      "source_url": "https://minzhil.mosreg.ru/sobytiya/novosti-ministerstva/v-losino-petrovskom-gorodskom-okruge-novyi-dom-postavlen-na-kadastrovyi-uchet",
+      "official_source_date": "2026-11-26",
+      "type": "factual_official_announcement",
+      "scope": "Минжилполитики сообщает о кадастровом учёте дома на улице Гоголя, 15, кадастровый номер 50:14:0000000:163089, будущий переезд 353 жителей из 208 помещений; не считать переселение завершённым",
+      "verification": "official_primary_page_read_and_date_checked; three-independent-authority publication manifest not assembled",
+      "publication_eligible": false
+    },
+    {
+      "title": "В Орехово-Зуеве завершён капремонт канализационного коллектора на Бирюкова",
+      "source_url": "https://mgkh.mosreg.ru/sobytiya/novosti-ministerstva/v-orekhovo-zuevo-vveli-v-ekspluataciyu-samotechnyi-kanalizacionnyi-kollektor-po-ulice-biryukova",
+      "official_source_date": "2026-11-26",
+      "type": "factual_official_announcement",
+      "scope": "Министерство ЖКХ МО сообщает о замене 780 метров труб и обслуживании более 5,3 тыс. жителей и 20 МКД/социальных объектов; это заявленные параметры, а не независимый технический акт",
+      "verification": "official_primary_page_read_and_date_checked; three-independent-authority publication manifest not assembled",
+      "publication_eligible": false
+    },
+    {
+      "title": "В селе Новопетровское Истринского округа завершён капремонт кровли дома",
+      "source_url": "https://mgkh.mosreg.ru/sobytiya/novosti-ministerstva/v-sele-novopetrovskoe-istry-zavershili-kapremont-kryshi-doma",
+      "official_source_date": "2026-11-26",
+      "type": "factual_official_announcement",
+      "scope": "МинЖКХ сообщает о замене кровельного покрытия, стропил, утеплении чердака, ремонте вентиляции дома №5А на Полевой улице; результаты не удостоверены отдельной приёмочной документацией",
+      "verification": "official_primary_page_read_and_date_checked; three-independent-authority publication manifest not assembled",
+      "publication_eligible": false
     }
   ],
   "court_research": [
@@ -53,5 +98,5 @@
   "existing_published_news": 26,
   "existing_published_courts": 44,
   "existing_queue_ready_cases": 6,
-  "note": "Research entries are not new published articles or judicial decisions. Do not copy legal guidance or mark published. Import only with full official proof and protected CI."
+  "note": "Research list only. Five new exact ministerial sources were checked by public web reader on 2026-11-27; no new entry is deemed published or independently triple-sourced. Continue claim verification, never invent case outcomes."
 }
