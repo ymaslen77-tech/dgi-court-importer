@@ -80,6 +80,8 @@ def read_official_court_html(url):
         pass
     try:
         return browser_fallback()
+    except ValueError:
+        raise
     except Exception as error:
         # Preserve the report and queue even if Chromium itself fails. Never
         # elevate an inaccessible act to a verified judicial publication.
