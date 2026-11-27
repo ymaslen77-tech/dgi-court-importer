@@ -72,19 +72,64 @@ def normalized_article(url):
     return None
 
 
+
+def fetch_rendered_html(url):
+    """Render a trusted official page when its HTTP body is only a JS shell.
+
+    No legal/editorial approval is inferred: rendering is source discovery.
+    The browser may not replace an inaccessible official site with a cached,
+    proxied or cross-host document.
+    """
+    from playwright.sync_api import sync_playwright
+    parsed = urllib.parse.urlsplit(url)
+    if (parsed.scheme != "https" or not parsed.hostname or
+            not (url in LISTINGS or normalized_article(url)==url) or
+            parsed.username or parsed.password or parsed.port or parsed.fragment):
+        raise ValueError("Browser fetch may target only exact official source URL")
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(headless=True,args=["--no-sandbox"])
+        try:
+            page = browser.new_page(java_script_enabled=True,ignore_https_errors=False)
+            response = page.goto(url, wait_until="domcontentloaded", timeout=25000)
+            page.wait_for_timeout(1800)
+            last = urllib.parse.urlsplit(page.url)
+            if (response is None or response.status != 200 or
+                    last.scheme!="https" or last.hostname!=parsed.hostname or
+                    last.port or last.username or last.password):
+                raise ValueError("Rendered official source redirected or returned non-200")
+            html = page.content()
+            if len(html.encode("utf-8"))>MAX_BYTES:
+                raise ValueError("Rendered official document exceeds size cap")
+            soup = BeautifulSoup(html,"html.parser")
+            if not soup.find("a",href=True) and soup.find("h1") is None:
+                raise ValueError("Official browser document still unreadable")
+            return soup
+        finally:
+            browser.close()
+
+
 def fetch_html(url):
     request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
-    with urllib.request.urlopen(request, timeout=18) as response:
-        if response.status != 200 or response.headers.get_content_type() != "text/html":
-            raise ValueError("Not an official HTML 200 response")
-        target = urllib.parse.urlsplit(response.url)
-        src = urllib.parse.urlsplit(url)
-        if target.scheme != "https" or target.hostname != src.hostname:
-            raise ValueError("Cross-host or insecure redirect refused")
-        raw = response.read(MAX_BYTES + 1)
-    if len(raw) > MAX_BYTES:
-        raise ValueError("Official HTML too large")
-    return BeautifulSoup(raw, "html.parser")
+    try:
+        with urllib.request.urlopen(request, timeout=18) as response:
+            if response.status != 200 or response.headers.get_content_type() != "text/html":
+                raise ValueError("Not an official HTML 200 response")
+            target = urllib.parse.urlsplit(response.url)
+            src = urllib.parse.urlsplit(url)
+            if target.scheme != "https" or target.hostname != src.hostname:
+                raise ValueError("Cross-host or insecure redirect refused")
+            raw = response.read(MAX_BYTES + 1)
+        if len(raw) > MAX_BYTES:
+            raise ValueError("Official HTML too large")
+        soup = BeautifulSoup(raw, "html.parser")
+        if soup.find("a",href=True) or soup.find("h1") is not None:
+            return soup
+        # A non-empty HTTP 200 without readable DOM is not proof of no news.
+        return fetch_rendered_html(url)
+    except (OSError,TimeoutError):
+        # A government gateway may reject simple urllib while browser JS works.
+        # If browser fails too, let caller record this source as unavailable.
+        return fetch_rendered_html(url)
 
 
 def discover_listing(html, base):
