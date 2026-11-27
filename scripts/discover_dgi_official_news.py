@@ -80,12 +80,12 @@ def fetch_rendered_html(url):
     The browser may not replace an inaccessible official site with a cached,
     proxied or cross-host document.
     """
-    from playwright.sync_api import sync_playwright
     parsed = urllib.parse.urlsplit(url)
     if (parsed.scheme != "https" or not parsed.hostname or
             not (url in LISTINGS or normalized_article(url)==url) or
             parsed.username or parsed.password or parsed.port or parsed.fragment):
         raise ValueError("Browser fetch may target only exact official source URL")
+    from playwright.sync_api import sync_playwright
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch(headless=True,args=["--no-sandbox"])
         try:
