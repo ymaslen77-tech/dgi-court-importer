@@ -71,11 +71,18 @@ def read_official_court_html(url):
             if resp.status!=200 or urlsplit(resp.url).hostname!="2kas.sudrf.ru":
                 raise ValueError("Official court source did not return HTTP 200")
             raw=resp.read(1500001)
-        if not 12000<len(raw)<=1500000:
-            raise ValueError("Official court HTML unavailable, incomplete or oversized")
-        parsed=BeautifulSoup(UnicodeDammit(raw,is_html=True).unicode_markup or "","lxml")
-        if parsed.find(id="cont_doc1") is not None:
-            return raw
+        if len(raw)>1500000:
+            raise ValueError("Official court HTML too large")
+        if len(raw)<=12000:
+            # Browser hydration shell: the real original act may appear only
+            # after JS. A short response without JS is an incomplete document,
+            # not evidence and not a reason to run untrusted page code.
+            if b"<script" not in raw.lower():
+                raise ValueError("Official court HTML unavailable or incomplete")
+        else:
+            parsed=BeautifulSoup(UnicodeDammit(raw,is_html=True).unicode_markup or "","lxml")
+            if parsed.find(id="cont_doc1") is not None:
+                return raw
     except (HTTPError,URLError,TimeoutError,OSError):
         pass
     try:
