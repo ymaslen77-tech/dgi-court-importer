@@ -164,6 +164,11 @@ def run(limit=30, lookback=7, output=DEFAULT_OUTPUT):
     for listing in LISTINGS:
         try:
             page=fetch_html(listing)
+            # Some government gateways respond HTTP 200 with a JavaScript-only
+            # or bot-block shell (zero <a> elements). A 200 is not readable
+            # evidence; don't report this as a successful empty listing.
+            if not page.find("a",href=True):
+                raise ValueError("Official listing has no readable links")
             reachable_listings += 1
             found_in_listing=discover_listing(page,listing)
             # Diagnostic of public listing structure only; not publication.
