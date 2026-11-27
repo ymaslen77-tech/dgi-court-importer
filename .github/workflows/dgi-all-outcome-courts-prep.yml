@@ -43,8 +43,23 @@ jobs:
           sudo apt-get install -y -qq fonts-dejavu-core poppler-utils >/dev/null
       - name: Verify official court discovery parser
         run: python3 -m unittest discover -s scripts/tests -p 'test_dgi_official_court_discovery.py' -v
-      - name: Refresh candidate queue from bounded official 2kas case links
-        run: python3 scripts/discover_dgi_official_courts.py --limit 20 --apply
+      - name: Prefer exact queued official 2kas documents over slow general listing
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+          q=json.loads(Path("research/dgi-court-publication-queue-2026-10-28.json").read_text(encoding="utf-8"))
+          ready=sum(row["status"]=="ready_for_source_import" for row in q["items"])
+          if ready:
+              print("EXACT_OFFICIAL_CASES_READY",ready,
+                    "Use original case URLs and full-text/PDF gates; broad list lookup deferred")
+          else:
+              print("No prepared exact source URLs: run bounded official list discovery")
+              subprocess.run(["python3","scripts/discover_dgi_official_courts.py",
+                              "--limit","20","--apply"],check=True)
+          PY
       - name: Verify source queue and ten-act ceiling
         run: |
           python3 scripts/validate_dgi_court_publication_queue.py
