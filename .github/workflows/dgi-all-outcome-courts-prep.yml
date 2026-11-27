@@ -35,7 +35,8 @@ jobs:
           python-version: '3.12'
       - name: Install official-source parser and PDF-copy tooling
         run: |
-          python3 -m pip install --disable-pip-version-check -q beautifulsoup4 lxml reportlab
+          python3 -m pip install --disable-pip-version-check -q beautifulsoup4 lxml reportlab 'playwright>=1.55,<2'
+          python3 -m playwright install --with-deps chromium
           sudo apt-get update -qq
           sudo apt-get install -y -qq fonts-dejavu-core poppler-utils >/dev/null
       - name: Verify official court discovery parser
