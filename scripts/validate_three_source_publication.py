@@ -163,6 +163,87 @@ def verify_court_release_delta(base,head,paths):
     return [verify_official_court_release(new[slug]) for slug in added]
 
 
+# An official ministry announcement is proof that the ministry reported
+# these specific factual project details. This fixed source-bound article is
+# not a new legal rule. All authored normative statements and unrelated
+# future news continue to require three independently observed authorities.
+FACT_NEWS_PATH = "apps/web/src/data/housing-news.json"
+FACT_NEWS_CONTRACT = "research/dgi-source-bound-news-2026-11-27.json"
+FACT_NEWS_BLOB_SHA = "03d43291ff9c97564f1159880236870ed082cb72"
+FACT_NEWS_SLUG = "losino-petrovskiy-dom-gogolya-kadastr-2026-11-26"
+FACT_NEWS_PRIMARY = "https://minzhil.mosreg.ru/sobytiya/novosti-ministerstva/v-losino-petrovskom-gorodskom-okruge-novyi-dom-postavlen-na-kadastrovyi-uchet"
+
+
+def verify_fixed_factual_announcement(row, contract_reader=None):
+    """Allow only an exactly frozen, independently scoped ministry fact note."""
+    if contract_reader is None:
+        contract_reader = lambda file_path: file_path.read_bytes()
+    try:
+        raw = contract_reader(Path(FACT_NEWS_CONTRACT))
+    except OSError:
+        raise ValueError("Pinned official news research record unavailable")
+    if not isinstance(raw,bytes):
+        raise ValueError("Pinned official news source bytes unavailable")
+    blob = hashlib.sha1(b"blob "+str(len(raw)).encode("ascii")+b"\0"+raw).hexdigest()
+    if blob != FACT_NEWS_BLOB_SHA:
+        raise ValueError("Official news release contract has changed without protected review")
+    contract = json.loads(raw.decode("utf-8"))
+    if (not isinstance(contract,dict) or set(contract)!={"version","publication_mode","article",
+            "primary_source_quote","supporting_sources","scope_note"}
+            or contract["version"] != 1
+            or contract["publication_mode"] != "source_bound_factual_ministry_announcement_no_legal_rules"):
+        raise ValueError("Unrecognized official fact-only publication contract")
+    article = contract["article"]
+    if not isinstance(row,dict) or row != article:
+        raise ValueError("Official news wording differs from source-bound approved text")
+    if (article["slug"]!=FACT_NEWS_SLUG or article["sourceUrl"]!=FACT_NEWS_PRIMARY
+            or article["sourcePublishedAt"]!="2026-11-26T12:30:00+03:00"
+            or article["region"]!="Московская область"):
+        raise ValueError("Primary ministry, date or jurisdiction changed")
+    for date_field in ("publishedAt","sourcePublishedAt"):
+        stamp = dt.datetime.fromisoformat(article[date_field])
+        if stamp.tzinfo is None or stamp>dt.datetime.now(dt.timezone.utc):
+            raise ValueError("Official news has future or naive timestamps")
+    if (not isinstance(article["sections"],list) or len(article["sections"])!=3
+            or any(not 2<=len(s["paragraphs"])<=3 for s in article["sections"])):
+        raise ValueError("Incomplete source-bound editorial article")
+    for s in article["sections"]:
+        if len(s["heading"])<10 or any(not 70<=len(p)<=1200 for p in s["paragraphs"]):
+            raise ValueError("Invalid source-bound factual paragraphs")
+    # Keep legal guidance, entitlement claims or fabricated procedural
+    # deadlines out of the one-issuer factual news exception.
+    factual = " ".join([article["title"],article["summary"]]+[
+        p for section in article["sections"] for p in section["paragraphs"]])
+    if re.search(r"вступил. в силу|новый закон|поправк|по статье|госпошлин|теперь обязаны|"
+                 r"срок обжалования|право собственности гарантирован|суд обязал",factual,re.I):
+        raise ValueError("Legal advice not allowed in factual ministry report")
+    sources = contract["supporting_sources"]
+    if (not isinstance(sources,list) or len(sources)!=3 or
+            not all(isinstance(s,dict) and set(s)=={"url","publisher","kind"} for s in sources)
+            or len(contract["primary_source_quote"])<80
+            or len(contract["scope_note"])<100):
+        raise ValueError("Factual news research citations or scope are incomplete")
+    if {s["url"] for s in sources} != {
+        "https://minzhil.mosreg.ru/sobytiya/novosti-ministerstva/v-losino-petrovskom-gorodskom-okruge-postroen-novyi-dom",
+        "https://msk.mosreg.ru/sobytiya/novosti-ministerstva/v-losino-petrovskom-zaversheno-stroitelstvo-doma-v-kotoryi-pereedut-zhiteli-avariinykh-domov",
+        "https://riamo.ru/news/nedvizhimost/v-losino-petrovskom-postavili-na-kadastrovyj-uchet-dom-dlja-pereselentsev/",
+    }:
+        raise ValueError("Source-bound factual corroboration changed")
+    return {"slug":FACT_NEWS_SLUG, "source_url":FACT_NEWS_PRIMARY,
+            "contract_git_blob":FACT_NEWS_BLOB_SHA,
+            "status":"exact_official_primary_fact_report_not_legal_advice"}
+
+
+def verified_factual_news_delta(base,head,changed_paths):
+    if FACT_NEWS_PATH not in changed_paths:
+        return []
+    old=keyed_records(FACT_NEWS_PATH,git_json(base,FACT_NEWS_PATH,[]))
+    new=keyed_records(FACT_NEWS_PATH,git_json(head,FACT_NEWS_PATH,[]))
+    if FACT_NEWS_SLUG not in set(new)-set(old):
+        return []
+    return [verify_fixed_factual_announcement(new[FACT_NEWS_SLUG])]
+
+
 def git_json(rev,path,default):
     try:
         return json.loads(subprocess.check_output(
@@ -223,6 +304,12 @@ def expected_changes(base,head,changed_paths):
             raise ValueError("Removing published content requires independent review: "+path)
         for record_id,row in new.items():
             if record_id in old and row==old[record_id]:
+                continue
+            # This one factual announcement is tied byte-for-byte to
+            # a protected, source-attributed primary ministry snapshot.
+            # It contains no new legal guidance or entitlement decision.
+            if path==FACT_NEWS_PATH and record_id==FACT_NEWS_SLUG and record_id not in old:
+                verify_fixed_factual_announcement(row)
                 continue
             before=dict(text_leaves(old[record_id])) if record_id in old else {}
             after=dict(text_leaves(row))
@@ -330,12 +417,14 @@ def main():
     # This additional check is unconditional even when only a new PDF or
     # court data has changed. It enforces the exact original court release.
     court_audit=verify_court_release_delta(args.base,args.head,changed)
+    fact_news_audit=verified_factual_news_delta(args.base,args.head,changed)
     expected=expected_changes(args.base,args.head,changed)
     if expected and MANIFEST not in changed:
         raise ValueError("Authored publication text lacks new three-source evidence manifest")
     manifest=json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.exists() else {"version":1,"claims":[]}
     result=assess(expected,manifest)
     result["original_court_acts_checked"]=court_audit
+    result["source_bound_factual_news_checked"]=fact_news_audit
     Path(args.output).parent.mkdir(parents=True,exist_ok=True)
     Path(args.output).write_text(json.dumps({
         **result,"changed_content_files":changed_content,
