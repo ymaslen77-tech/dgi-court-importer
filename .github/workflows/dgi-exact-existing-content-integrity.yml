@@ -1,0 +1,29 @@
+name: DGI exact existing-content integrity (read-only)
+on:
+  pull_request:
+    branches: [infra/coolify-russian-vps]
+    paths:
+      - 'scripts/audit_dgi_existing_content.py'
+      - 'scripts/tests/test_audit_dgi_existing_content.py'
+      - '.github/workflows/dgi-exact-existing-content-integrity.yml'
+      - 'apps/web/src/data/verified-court-static.json'
+      - 'apps/web/public/court-pdf-copies/**'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - run: python3 -m unittest discover -s scripts/tests -p test_audit_dgi_existing_content.py -v
+      - run: python3 scripts/audit_dgi_existing_content.py --live
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dgi-existing-content-integrity
+          path: test-results/dgi-existing-content-integrity.json
+          retention-days: 30
