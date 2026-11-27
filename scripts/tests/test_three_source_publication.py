@@ -1,5 +1,6 @@
 """Fail-closed unit tests. Fake URLs are fixtures, not verified legal facts."""
 import datetime as dt
+import hashlib
 import subprocess
 import sys
 import unittest
@@ -8,7 +9,8 @@ from unittest.mock import patch
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from validate_three_source_publication import (
-    assess, expected_changes, check_new_public_routes, block_unverified_template_edits, keyed_records, text_leaves
+    assess, expected_changes, check_new_public_routes, block_unverified_template_edits, keyed_records, text_leaves,
+    COURT_PRIMARY_RELEASE, COURT_NEUTRAL_TEXT, verify_official_court_release, verify_court_release_delta
 )
 
 NOW=dt.datetime.now(dt.timezone.utc)
@@ -112,7 +114,7 @@ class SourceGateTests(unittest.TestCase):
         new={"slug":"test-case","full_text":"Different court text", "topic":"Test case"}
         with patch("validate_three_source_publication.git_json",
                    side_effect=lambda rev,p,default: [old] if rev=="base" else [new]):
-            with self.assertRaisesRegex(ValueError,"Replacing an original court act"):
+            with self.assertRaisesRegex(ValueError,"Existing official court act immutable"):
                 expected_changes("base","head",[path])
     def test_legal_generator_cannot_change_without_three_source_template_review(self):
         with self.assertRaisesRegex(ValueError,"Legal template edits"):
@@ -125,5 +127,97 @@ class SourceGateTests(unittest.TestCase):
     def test_empty_manifest_never_fake_claim_approval(self):
         result=assess([],{"version":1,"claims":[]},fetcher=source_fetch_ok)
         self.assertEqual(result["claims_verified"],0)
+
+    def court_release_fixture(self):
+        slug="2kas-88-3602-2026-2026-02-10"
+        pin=dict(COURT_PRIMARY_RELEASE[slug])
+        text=("Дело № 88-3602/2026\nОПРЕДЕЛЕНИЕ\n10 февраля 2026 года г. Москва\n"
+              "ФИО1 обратился в суд к Департаменту городского имущества Москвы.\n"+
+              "Установлены обстоятельства, исследованы материалы, заслушаны объяснения сторон. "*70)
+        pdf=b"%PDF-1.4\n/Type /Page\n"+b"x"*13000+b"\n%%EOF"
+        pin["full_text_sha256"]=hashlib.sha256(text.encode("utf-8")).hexdigest()
+        pin["pdf_sha256"]=hashlib.sha256(pdf).hexdigest()
+        row={
+            "slug":slug, **pin, **COURT_NEUTRAL_TEXT,
+            "official_pdf_url":pin["official_url"],
+            "full_text":text, "pdf_origin":"site_rendered_copy",
+            "source_checked":True, "privacy_screen_passed":True,
+        }
+        return row,{slug:pin},pdf
+
+    def test_exact_pinned_original_is_source_checked_not_a_new_legal_rule(self):
+        row,pins,pdf=self.court_release_fixture()
+        proof=verify_official_court_release(row,approvals=pins,pdf_reader=lambda path:pdf)
+        self.assertEqual(proof["case_number"],"88-3602/2026")
+        self.assertEqual(proof["pdf_sha256"],pins[row["slug"]]["pdf_sha256"])
+
+    def test_unreviewed_original_cannot_publish(self):
+        row,pins,pdf=self.court_release_fixture()
+        row["slug"]="2kas-88-24964-2025-2025-11-06"
+        with self.assertRaisesRegex(ValueError,"no individually reviewed"):
+            verify_official_court_release(row,approvals=pins,pdf_reader=lambda path:pdf)
+
+    def test_editorial_claim_cannot_be_added_to_court_record(self):
+        row,pins,pdf=self.court_release_fixture()
+        row["legal_conclusion"]="Право собственности гарантировано."
+        with self.assertRaisesRegex(ValueError,"exact source-only record schema"):
+            verify_official_court_release(row,approvals=pins,pdf_reader=lambda path:pdf)
+
+    def test_court_outcome_cannot_be_invented(self):
+        row,pins,pdf=self.court_release_fixture()
+        row["outcome_verified"]="applicant_granted"
+        with self.assertRaisesRegex(ValueError,"neutral metadata"):
+            verify_official_court_release(row,approvals=pins,pdf_reader=lambda path:pdf)
+
+    def test_full_judgment_source_sha_is_immutable(self):
+        row,pins,pdf=self.court_release_fixture()
+        row["full_text"]+="\\nНе подтвержденное утверждение."
+        with self.assertRaisesRegex(ValueError,"SHA256"):
+            verify_official_court_release(row,approvals=pins,pdf_reader=lambda path:pdf)
+
+    def test_pdf_copy_cannot_change_independently_of_manifest(self):
+        row,pins,pdf=self.court_release_fixture()
+        corrupted=pdf[:-10]+b"tamper"+pdf[-10:]
+        with self.assertRaisesRegex(ValueError,"SHA256"):
+            verify_official_court_release(row,approvals=pins,pdf_reader=lambda path:corrupted)
+
+    def test_pdf_copy_cannot_be_missing_or_incomplete(self):
+        row,pins,pdf=self.court_release_fixture()
+        with self.assertRaisesRegex(ValueError,"PDF"):
+            verify_official_court_release(row,approvals=pins,pdf_reader=lambda path:b"%PDF-1.4\\n%%EOF")
+
+    def test_sensitive_data_flags_cannot_be_forged_or_dropped(self):
+        row,pins,pdf=self.court_release_fixture()
+        row["privacy_screen_passed"]=False
+        with self.assertRaisesRegex(ValueError,"privacy provenance"):
+            verify_official_court_release(row,approvals=pins,pdf_reader=lambda path:pdf)
+
+    def test_unverified_original_url_change_is_rejected(self):
+        row,pins,pdf=self.court_release_fixture()
+        row["official_url"]="https://fakesud.invalid/act"
+        with self.assertRaisesRegex(ValueError,"source identity"):
+            verify_official_court_release(row,approvals=pins,pdf_reader=lambda path:pdf)
+
+    def test_court_original_metadata_date_cannot_change(self):
+        row,pins,pdf=self.court_release_fixture()
+        row["decision_date"]="2026-02-11"
+        with self.assertRaisesRegex(ValueError,"source identity"):
+            verify_official_court_release(row,approvals=pins,pdf_reader=lambda path:pdf)
+
+    def test_existing_judgment_cannot_be_modified_in_place(self):
+        row,pins,pdf=self.court_release_fixture()
+        edited=dict(row);edited["pdf_sha256"]="0"*64
+        path="apps/web/src/data/verified-court-static.json"
+        with patch("validate_three_source_publication.git_json",
+                   side_effect=lambda rev,p,default: [row] if rev=="base" else [edited]):
+            with self.assertRaisesRegex(ValueError,"Existing official court act immutable"):
+                verify_court_release_delta("base","head",[path])
+
+    def test_pin_must_still_require_the_actual_pdf(self):
+        row,pins,pdf=self.court_release_fixture()
+        with self.assertRaisesRegex(ValueError,"PDF copy missing"):
+            verify_official_court_release(row,approvals=pins,
+                                          pdf_reader=lambda path: (_ for _ in ()).throw(FileNotFoundError("missing")))
+
 if __name__=="__main__":
     unittest.main()
