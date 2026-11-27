@@ -165,7 +165,22 @@ def run(limit=30, lookback=7, output=DEFAULT_OUTPUT):
         try:
             page=fetch_html(listing)
             reachable_listings += 1
-            sources.update(discover_listing(page, listing))
+            found_in_listing=discover_listing(page,listing)
+            # Diagnostic of public listing structure only; not publication.
+            links=page.find_all("a",href=True)
+            official_paths=[
+                urllib.parse.urljoin(listing,link["href"])
+                for link in links
+                if "/novosti-ministerstva/" in link["href"] or
+                    "/sobytiya/novosti/" in link["href"]
+            ]
+            print("DGI_OFFICIAL_LISTING",
+                  json.dumps({"url":listing,"all_links":len(links),
+                              "official_looking_links":len(official_paths),
+                              "candidate_title_links":len(found_in_listing),
+                              "sample_official_links":official_paths[:2]},
+                              ensure_ascii=False))
+            sources.update(found_in_listing)
         except (OSError, ValueError, TimeoutError) as error:
             errors.append({"source": listing, "reason": type(error).__name__})
     candidates = []
