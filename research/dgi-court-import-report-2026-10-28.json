@@ -1,15 +1,15 @@
 {
   "as_of": "2026-11-27T18:18:09.903207+00:00",
   "source_queue": "research/dgi-court-publication-queue-2026-10-28.json",
-  "publication_stage": "prepared_automation_branch_not_merged_or_deployed",
+  "publication_stage": "prepared_release_candidate_one_court_privacy_hold_second",
   "source_checks": "official HTML full-text, case, date, DGI, basic privacy identifiers, duplicate, PDF hash",
   "outcome_policy": "ALL court outcomes allowed; undisclosed result honestly labeled not_classified",
   "daily_verified_target": 10,
-  "daily_target_shortfall": 8,
+  "daily_target_shortfall": 9,
   "pending_candidates_checked": 8,
-  "remaining_curated_goal": 54,
-  "new_prepared_count": 2,
-  "skipped_count": 6,
+  "remaining_curated_goal": 55,
+  "new_prepared_count": 1,
+  "skipped_count": 7,
   "prepared": [
     {
       "case_number": "88-3602/2026",
@@ -18,14 +18,6 @@
       "date": "2026-02-10",
       "pdf_sha256": "328fcc26dd4035737942d7971c57ca17417eb2f9dffd306578f53e86d86cd607",
       "text_sha256": "bdcd6437370138d5616c65ebc9acab56dc0b487a1133333e7443e28821457d2d"
-    },
-    {
-      "case_number": "88-24964/2025",
-      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=16051621&case_uid=e5389508-5e35-474a-8c60-b70f90658aae&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
-      "slug": "2kas-88-24964-2025-2025-11-06",
-      "date": "2025-11-06",
-      "pdf_sha256": "0e8bc8fb60a4400f945193204a84bc976e5161f5c6fa85ff5fac591e7b3e6630",
-      "text_sha256": "a5e3fb3c818454068bed07558a2f9be25f2a3e890a413a8e578c7037a7f66450"
     }
   ],
   "skipped": [
@@ -58,7 +50,15 @@
       "case_number": "88-8211/2026",
       "official_url": "https://2kas.sudrf.ru/modules.php?case_id=17421032&case_uid=7d72bea3-c35c-4900-8c1b-8067c2e5e732&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
       "reason": "ValueError: DGI not named in the published act"
+    },
+    {
+      "case_number": "88-24964/2025",
+      "official_url": "https://2kas.sudrf.ru/modules.php?case_id=16051621&case_uid=e5389508-5e35-474a-8c60-b70f90658aae&delo_id=2800001&name=sud_delo&name_op=case&new=2800001&srv_num=1",
+      "reason": "Privacy hold: original court text exposes names of private litigants; website PDF/metadata withdrawn pending redaction or review."
     }
   ],
-  "owner_must_deploy_after_protected_PR_CI": true
+  "owner_must_deploy_after_protected_PR_CI": true,
+  "privacy_hold": [
+    "88-24964/2025"
+  ]
 }
