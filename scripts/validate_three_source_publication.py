@@ -239,8 +239,9 @@ def verified_factual_news_delta(base,head,changed_paths):
         return []
     old=keyed_records(FACT_NEWS_PATH,git_json(base,FACT_NEWS_PATH,[]))
     new=keyed_records(FACT_NEWS_PATH,git_json(head,FACT_NEWS_PATH,[]))
+    if FACT_NEWS_SLUG not in set(new)-set(old):
+        return []
     return [verify_fixed_factual_announcement(new[FACT_NEWS_SLUG])]
-        if FACT_NEWS_SLUG in set(new)-set(old) else []
 
 
 def git_json(rev,path,default):
