@@ -223,7 +223,7 @@ class SourceGateTests(unittest.TestCase):
 
 
     def factual_news_fixture(self):
-        return json.loads(Path("research/dgi-source-bound-news-2026-11-27.json").read_text(
+        return json.loads((Path(__file__).resolve().parents[2] / "research/dgi-source-bound-news-2026-11-27.json").read_text(
             encoding="utf-8"))["article"]
 
     def test_exact_fact_only_ministry_report_can_pass_source_bound_contract(self):
