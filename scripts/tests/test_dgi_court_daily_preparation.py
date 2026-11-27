@@ -129,6 +129,20 @@ class OfficialDocumentTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,"wrong origin/status"):
                 prep.read_official_court_html(URL_CASE)
 
+    def test_unmasked_private_litigant_full_name_is_quarantined(self):
+        official=court_page()
+        self.assertRegex("по иску ДГИ к Репиной Светлане Алексеевне",
+                         prep.PRIVATE_PARTY_NAME)
+        named=official.replace(
+            b"\\n",b"\\n",1
+        ).decode("utf8").replace(
+            "По иску ФИО1 к Департаменту городского имущества г. Москвы,",
+            "По иску Департамента городского имущества г. Москвы к Репиной Светлане Алексеевне,"
+        ).encode("utf8")
+        with patch.object(prep,"urlopen",return_value=Reply(named)):
+            with self.assertRaisesRegex(ValueError,"private litigant name"):
+                prep.full_official_court_act(URL_CASE,"88-1737/2026")
+
     def test_daily_quota_matches_both_config_and_queue(self):
         policy=json.loads((prep.ROOT/"config/dgi-daily-publication.json").read_text())
         q=json.loads(prep.QUEUE.read_text())
