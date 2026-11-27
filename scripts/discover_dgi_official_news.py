@@ -97,7 +97,19 @@ def fetch_rendered_html(url):
                     last.scheme!="https" or last.hostname!=parsed.hostname or
                     last.port or last.username or last.password):
                 raise ValueError("Rendered official source redirected or returned non-200")
-            html = page.content()
+            # Government websites may auto-navigate between redirects and
+            # application shells immediately after DOMContentLoaded.
+            html=None
+            for attempt in range(4):
+                try:
+                    html=page.content()
+                    break
+                except Exception as error:
+                    if "navigating" not in str(error).lower() or attempt==3:
+                        raise ValueError("Official browser HTML unavailable") from error
+                    page.wait_for_timeout(900)
+            if html is None:
+                raise ValueError("Official browser DOM not available")
             if len(html.encode("utf-8"))>MAX_BYTES:
                 raise ValueError("Rendered official document exceeds size cap")
             soup = BeautifulSoup(html,"html.parser")
@@ -231,7 +243,7 @@ def run(limit=30, lookback=7, output=DEFAULT_OUTPUT):
                               "sample_official_links":official_paths[:2]},
                               ensure_ascii=False))
             sources.update(found_in_listing)
-        except (OSError, ValueError, TimeoutError) as error:
+        except Exception as error:
             errors.append({"source": listing, "reason": type(error).__name__})
     candidates = []
     for url, title in sources.items():
@@ -241,7 +253,7 @@ def run(limit=30, lookback=7, output=DEFAULT_OUTPUT):
             news = summarize_candidate(fetch_html(url), url, title, today, lookback)
             if news:
                 candidates.append(news)
-        except (OSError, ValueError, TimeoutError) as error:
+        except Exception as error:
             errors.append({"source": url, "reason": type(error).__name__})
         if len(candidates) >= limit:
             break
