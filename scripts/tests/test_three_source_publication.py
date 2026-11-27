@@ -1,6 +1,7 @@
 """Fail-closed unit tests. Fake URLs are fixtures, not verified legal facts."""
 import datetime as dt
 import hashlib
+import json
 import subprocess
 import sys
 import unittest
@@ -10,7 +11,8 @@ from unittest.mock import patch
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from validate_three_source_publication import (
     assess, expected_changes, check_new_public_routes, block_unverified_template_edits, keyed_records, text_leaves,
-    COURT_PRIMARY_RELEASE, COURT_NEUTRAL_TEXT, verify_official_court_release, verify_court_release_delta
+    COURT_PRIMARY_RELEASE, COURT_NEUTRAL_TEXT, verify_official_court_release, verify_court_release_delta,
+    FACT_NEWS_SLUG, FACT_NEWS_PATH, verify_fixed_factual_announcement, verified_factual_news_delta
 )
 
 NOW=dt.datetime.now(dt.timezone.utc)
@@ -218,6 +220,57 @@ class SourceGateTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"PDF copy missing"):
             verify_official_court_release(row,approvals=pins,
                                           pdf_reader=lambda path: (_ for _ in ()).throw(FileNotFoundError("missing")))
+
+
+    def factual_news_fixture(self):
+        return json.loads(Path("research/dgi-source-bound-news-2026-11-27.json").read_text(
+            encoding="utf-8"))["article"]
+
+    def test_exact_fact_only_ministry_report_can_pass_source_bound_contract(self):
+        news=self.factual_news_fixture()
+        proof=verify_fixed_factual_announcement(news)
+        self.assertEqual(proof["slug"],FACT_NEWS_SLUG)
+        self.assertIn("not_legal_advice",proof["status"])
+
+    def test_changed_factual_article_is_not_individually_approved(self):
+        news=self.factual_news_fixture()
+        news["summary"]="Подмененный текст о якобы предоставленном жилье всем гражданам."
+        with self.assertRaisesRegex(ValueError,"differs from source-bound"):
+            verify_fixed_factual_announcement(news)
+
+    def test_an_extra_new_legal_rule_cannot_hide_inside_article(self):
+        news=self.factual_news_fixture()
+        news["sections"][0]["paragraphs"][0]+=" Теперь обязаны оплатить специальную госпошлину."
+        with self.assertRaisesRegex(ValueError,"differs from source-bound"):
+            verify_fixed_factual_announcement(news)
+
+    def test_invalid_factual_ministry_contract_blob_is_rejected(self):
+        news=self.factual_news_fixture()
+        with self.assertRaisesRegex(ValueError,"contract has changed"):
+            verify_fixed_factual_announcement(news,contract_reader=lambda path:b'{"version":1}')
+
+    def test_change_in_factual_source_url_cannot_pass(self):
+        news=self.factual_news_fixture()
+        news["sourceUrl"]="https://example.com/fabricated"
+        with self.assertRaisesRegex(ValueError,"differs from source-bound"):
+            verify_fixed_factual_announcement(news)
+
+    def test_one_new_original_fact_only_report_is_exempt_from_legal_claims(self):
+        row=self.factual_news_fixture()
+        with patch("validate_three_source_publication.git_json",
+                   side_effect=lambda rev,path,default:[] if rev=="base" else [row]):
+            changes=expected_changes("base","head",[FACT_NEWS_PATH])
+        self.assertEqual(changes,[])
+
+    def test_an_unreviewed_news_slug_still_requires_three_source_coverage(self):
+        row=self.factual_news_fixture()
+        row["slug"]="unverified-news-different-article"
+        with patch("validate_three_source_publication.git_json",
+                   side_effect=lambda rev,path,default:[] if rev=="base" else [row]):
+            changes=expected_changes("base","head",[FACT_NEWS_PATH])
+        self.assertIn("title",[x["field"] for x in changes])
+        with self.assertRaisesRegex(ValueError,"matching three-source proof"):
+            assess(changes,{"version":1,"claims":[]},fetcher=source_fetch_ok)
 
 if __name__=="__main__":
     unittest.main()
