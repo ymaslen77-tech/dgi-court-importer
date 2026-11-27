@@ -7,7 +7,7 @@ from pathlib import Path
 from unittest.mock import patch
 from bs4 import BeautifulSoup
 from scripts.discover_dgi_official_news import (
-    LISTINGS, discover_listing, normalized_article, published_date, summarize_candidate, run,
+    LISTINGS, discover_listing, normalized_article, published_date, summarize_candidate, run, fetch_html, fetch_rendered_html,
 )
 
 class DiscoveryChecks(unittest.TestCase):
@@ -109,6 +109,44 @@ class DiscoveryChecks(unittest.TestCase):
             self.assertFalse(report["all_listings_unavailable"])
             self.assertEqual(report["reachable_official_listings"],1)
             self.assertEqual(report["candidate_count"],0)
+
+    def test_browser_fallback_recovers_official_javascript_shell(self):
+        class FakeHttp:
+            status=200
+            url="https://mgkh.mosreg.ru/"
+            class headers:
+                @staticmethod
+                def get_content_type(): return "text/html"
+            def __enter__(self): return self
+            def __exit__(self,*args): return False
+            def read(self,n): return b"<html><script>window.__APP__={}</script></html>"
+        sample=BeautifulSoup("<a href='/sobytiya/novosti-ministerstva/repair'>Капремонт жилых домов завершен</a>","html.parser")
+        with patch("scripts.discover_dgi_official_news.urllib.request.urlopen",return_value=FakeHttp()), patch(
+            "scripts.discover_dgi_official_news.fetch_rendered_html",return_value=sample
+        ) as fallback:
+            out=fetch_html("https://mgkh.mosreg.ru/")
+        self.assertEqual(len(out.select("a[href]")),1)
+        fallback.assert_called_once_with("https://mgkh.mosreg.ru/")
+
+    def test_browser_fallback_rejects_non_official_untrusted_url_before_browser_start(self):
+        for url in ("https://evil.example/","http://mgkh.mosreg.ru/","https://mgkh.mosreg.ru.evil.example/"):
+            with self.assertRaisesRegex(ValueError,"exact official source URL"):
+                fetch_rendered_html(url)
+
+    def test_browser_fallback_does_not_replace_officially_readable_html(self):
+        class FakeHttp:
+            status=200
+            url="https://mgkh.mosreg.ru/"
+            class headers:
+                @staticmethod
+                def get_content_type(): return "text/html"
+            def __enter__(self): return self
+            def __exit__(self,*args): return False
+            def read(self,n): return b"<html><a href='/sobytiya/novosti/valid'>Official</a></html>"
+        with patch("scripts.discover_dgi_official_news.urllib.request.urlopen",return_value=FakeHttp()),patch(
+            "scripts.discover_dgi_official_news.fetch_rendered_html",side_effect=AssertionError("unexpected browser")
+        ):
+            self.assertEqual(len(fetch_html("https://mgkh.mosreg.ru/").select("a[href]")),1)
 
     def test_no_date_never_eligible(self):
         page = BeautifulSoup("<h1>В Подмосковье строят жилые дома</h1>" +
