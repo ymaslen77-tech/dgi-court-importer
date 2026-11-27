@@ -1,0 +1,11 @@
+{
+  "date": "2026-11-27",
+  "source_branch": "infra/coolify-russian-vps",
+  "purpose": "daily official court discovery and full-text preparation; restore stopped unified publication cycle",
+  "queue": "research/dgi-court-publication-queue-2026-10-28.json",
+  "max_new_courts": 10,
+  "source_leads_added": 0,
+  "pending_source_import_at_start": 6,
+  "news_research": "research/dgi-daily-source-leads-2026-11-27.json",
+  "notes": "Existing six source candidates need full official document + DGI participation + privacy screening + signed PDF-copy hashes. New article leads are not published. No invented outcomes or automatic Coolify deployment."
+}
