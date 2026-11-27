@@ -32,6 +32,13 @@ jobs:
           ref: infra/coolify-russian-vps
           persist-credentials: false
           path: policy
+      - name: Bind protected source-provenance fixture for existing policy tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f policy/research/dgi-source-bound-news-2026-11-27.json
+          test ! -e research
+          ln -s policy/research research
       - name: Validate current protected-branch policy, not PR-supplied scripts
         run: |
           python3 -m json.tool policy/config/dgi-automation-approval-policy.json >/dev/null
