@@ -26,6 +26,14 @@ PHONE=re.compile(r"(?:\+7|8)[\s(.-]*\d{3}[\s).\-]*\d{3}[\s.\-]*\d{2}[\s.\-]*\d{2
 EMAIL=re.compile(r"[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}")
 SNILS=re.compile(r"\b\d{3}[-\s]\d{3}[-\s]\d{3}\s?\d{2}\b")
 PASSPORT=re.compile(r"(?i)паспорт(?:\s+\w+){0,3}\s+\d{4}\s?\d{6}")
+# A masked passport does not establish that private litigants' names are safe.
+# Distinguish public court officials from a three-part personal name after
+# common party-role prepositions; flag for further privacy review.
+PRIVATE_PARTY_NAME=re.compile(
+    r"(?i)(?:\bк|\bистц[уом]|\bответчик[уом]?|\bгражданин[уом]?)"
+    r"\s+(?!ФИО\d+\b)[А-ЯЁ][а-яё]{2,}\s+[А-ЯЁ][а-яё]{2,}\s+[А-ЯЁ][а-яё]{2,}\b"
+)
+
 def module(path):
     spec=importlib.util.spec_from_file_location("court_pdf_builder",str(path))
     m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
@@ -147,6 +155,8 @@ def full_official_court_act(url,case_number):
         raise ValueError("No court anonymization markers: requires separate privacy clearance")
     if PHONE.search(body) or EMAIL.search(body) or SNILS.search(body) or PASSPORT.search(body):
         raise ValueError("Potential unredacted personal identifier in official act")
+    if PRIVATE_PARTY_NAME.search(body):
+        raise ValueError("Potential unredacted private litigant name in official act")
     return raw,body,date.isoformat()
 
 def source_date_warnings(body, decision_date):
