@@ -169,6 +169,7 @@ def verify_court_release_delta(base,head,paths):
 # future news continue to require three independently observed authorities.
 FACT_NEWS_PATH = "apps/web/src/data/housing-news.json"
 FACT_NEWS_CONTRACT = "research/dgi-source-bound-news-2026-11-27.json"
+FACT_NEWS_REPO_ROOT = Path(__file__).resolve().parent.parent
 FACT_NEWS_BLOB_SHA = "03d43291ff9c97564f1159880236870ed082cb72"
 FACT_NEWS_SLUG = "losino-petrovskiy-dom-gogolya-kadastr-2026-11-26"
 FACT_NEWS_PRIMARY = "https://minzhil.mosreg.ru/sobytiya/novosti-ministerstva/v-losino-petrovskom-gorodskom-okruge-novyi-dom-postavlen-na-kadastrovyi-uchet"
@@ -179,7 +180,7 @@ def verify_fixed_factual_announcement(row, contract_reader=None):
     if contract_reader is None:
         contract_reader = lambda file_path: file_path.read_bytes()
     try:
-        raw = contract_reader(Path(FACT_NEWS_CONTRACT))
+        raw = contract_reader(FACT_NEWS_REPO_ROOT / FACT_NEWS_CONTRACT)
     except OSError:
         raise ValueError("Pinned official news research record unavailable")
     if not isinstance(raw,bytes):
