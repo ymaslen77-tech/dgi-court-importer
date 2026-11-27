@@ -26,10 +26,82 @@ PHONE=re.compile(r"(?:\+7|8)[\s(.-]*\d{3}[\s).\-]*\d{3}[\s.\-]*\d{2}[\s.\-]*\d{2
 EMAIL=re.compile(r"[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}")
 SNILS=re.compile(r"\b\d{3}[-\s]\d{3}[-\s]\d{3}\s?\d{2}\b")
 PASSPORT=re.compile(r"(?i)паспорт(?:\s+\w+){0,3}\s+\d{4}\s?\d{6}")
+# A masked passport does not establish that private litigants' names are safe.
+# Distinguish public court officials from a three-part personal name after
+# common party-role prepositions; flag for further privacy review.
+PRIVATE_PARTY_NAME=re.compile(
+    r"(?i)(?:\bк|\bистц[уом]|\bответчик[уом]?|\bгражданин[уом]?)"
+    r"\s+(?!ФИО\d+\b)[А-ЯЁ][а-яё]{2,}\s+[А-ЯЁ][а-яё]{2,}\s+[А-ЯЁ][а-яё]{2,}\b"
+)
+
 def module(path):
     spec=importlib.util.spec_from_file_location("court_pdf_builder",str(path))
     m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
     return m
+
+def read_official_court_html(url):
+    """Read the exact official 2kas page, with bounded browser fallback.
+
+    Rendering is not approval; full judicial text, party, date, personal-data
+    screen and PDF hashes are all validated separately after retrieval.
+    """
+    def browser_fallback():
+        from playwright.sync_api import sync_playwright
+        with sync_playwright() as p:
+            browser=p.chromium.launch(headless=True,args=["--no-sandbox"])
+            try:
+                page=browser.new_page(java_script_enabled=True,ignore_https_errors=False)
+                response=page.goto(url,wait_until="domcontentloaded",timeout=30000)
+                page.wait_for_timeout(1400)
+                final=urlsplit(page.url)
+                if (response is None or response.status!=200 or
+                        final.scheme!="https" or final.hostname!="2kas.sudrf.ru" or
+                        final.username or final.password or final.port):
+                    raise ValueError("Court browser page has wrong origin/status")
+                raw=None
+                for attempt in range(4):
+                    try:
+                        raw=page.content().encode("utf-8")
+                        break
+                    except Exception as error:
+                        if "navigating" not in str(error).lower() or attempt==3:
+                            raise ValueError("Official court DOM unavailable") from error
+                        page.wait_for_timeout(900)
+                if raw is None:
+                    raise ValueError("Official court DOM absent")
+                if not 12000<len(raw)<=1500000:
+                    raise ValueError("Official rendered court HTML incomplete/oversized")
+                return raw
+            finally:
+                browser.close()
+    try:
+        with urlopen(Request(url,headers={"User-Agent":"Mozilla/5.0 (DGI public court act index)"}),timeout=30) as resp:
+            if resp.status!=200 or urlsplit(resp.url).hostname!="2kas.sudrf.ru":
+                raise ValueError("Official court source did not return HTTP 200")
+            raw=resp.read(1500001)
+        if len(raw)>1500000:
+            raise ValueError("Official court HTML too large")
+        if len(raw)<=12000:
+            # Browser hydration shell: the real original act may appear only
+            # after JS. A short response without JS is an incomplete document,
+            # not evidence and not a reason to run untrusted page code.
+            if b"<script" not in raw.lower():
+                raise ValueError("Official court HTML unavailable or incomplete")
+        else:
+            parsed=BeautifulSoup(UnicodeDammit(raw,is_html=True).unicode_markup or "","lxml")
+            if parsed.find(id="cont_doc1") is not None:
+                return raw
+    except (HTTPError,URLError,TimeoutError,OSError):
+        pass
+    try:
+        return browser_fallback()
+    except ValueError:
+        raise
+    except Exception as error:
+        # Preserve the report and queue even if Chromium itself fails. Never
+        # elevate an inaccessible act to a verified judicial publication.
+        raise ValueError("Official browser court source unavailable: "+type(error).__name__) from error
+
 
 def full_official_court_act(url,case_number):
     p=urlsplit(url)
@@ -44,12 +116,7 @@ def full_official_court_act(url,case_number):
         not (params.get("case_id",[""])[0].isdigit() if params["name_op"]==["case"]
              else params.get("number",[""])[0].isdigit())):
         raise ValueError("Unexpected official court document parameters")
-    with urlopen(Request(url,headers={"User-Agent":"Mozilla/5.0 (DGI public court act index)"}),timeout=40) as r:
-        if r.status!=200 or urlsplit(r.url).hostname!="2kas.sudrf.ru":
-            raise ValueError("Official court source did not return HTTP 200")
-        raw=r.read(1_500_001)
-    if not 12_000<len(raw)<=1_500_000:
-        raise ValueError("Official HTML unavailable, incomplete or oversized")
+    raw=read_official_court_html(url)
     decoded=UnicodeDammit(raw,is_html=True).unicode_markup
     node=BeautifulSoup(decoded or "","lxml").find(id="cont_doc1")
     if node is None:raise ValueError("Official full judgment section missing")
@@ -88,6 +155,8 @@ def full_official_court_act(url,case_number):
         raise ValueError("No court anonymization markers: requires separate privacy clearance")
     if PHONE.search(body) or EMAIL.search(body) or SNILS.search(body) or PASSPORT.search(body):
         raise ValueError("Potential unredacted personal identifier in official act")
+    if PRIVATE_PARTY_NAME.search(body):
+        raise ValueError("Potential unredacted private litigant name in official act")
     return raw,body,date.isoformat()
 
 def source_date_warnings(body, decision_date):
