@@ -31,6 +31,46 @@ def module(path):
     m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
     return m
 
+def read_official_court_html(url):
+    """Read the exact official 2kas page, with bounded browser fallback.
+
+    Rendering is not approval; full judicial text, party, date, personal-data
+    screen and PDF hashes are all validated separately after retrieval.
+    """
+    def browser_fallback():
+        from playwright.sync_api import sync_playwright
+        with sync_playwright() as p:
+            browser=p.chromium.launch(headless=True,args=["--no-sandbox"])
+            try:
+                page=browser.new_page(java_script_enabled=True,ignore_https_errors=False)
+                response=page.goto(url,wait_until="domcontentloaded",timeout=30000)
+                page.wait_for_timeout(1400)
+                final=urlsplit(page.url)
+                if (response is None or response.status!=200 or
+                        final.scheme!="https" or final.hostname!="2kas.sudrf.ru" or
+                        final.username or final.password or final.port):
+                    raise ValueError("Court browser page has wrong origin/status")
+                raw=page.content().encode("utf-8")
+                if not 12000<len(raw)<=1500000:
+                    raise ValueError("Official rendered court HTML incomplete/oversized")
+                return raw
+            finally:
+                browser.close()
+    try:
+        with urlopen(Request(url,headers={"User-Agent":"Mozilla/5.0 (DGI public court act index)"}),timeout=30) as resp:
+            if resp.status!=200 or urlsplit(resp.url).hostname!="2kas.sudrf.ru":
+                raise ValueError("Official court source did not return HTTP 200")
+            raw=resp.read(1500001)
+        if not 12000<len(raw)<=1500000:
+            raise ValueError("Official court HTML unavailable, incomplete or oversized")
+        parsed=BeautifulSoup(UnicodeDammit(raw,is_html=True).unicode_markup or "","lxml")
+        if parsed.find(id="cont_doc1") is not None:
+            return raw
+    except (HTTPError,URLError,TimeoutError,OSError):
+        pass
+    return browser_fallback()
+
+
 def full_official_court_act(url,case_number):
     p=urlsplit(url)
     if (p.scheme!="https" or p.hostname!="2kas.sudrf.ru" or p.path!="/modules.php" or
@@ -44,12 +84,7 @@ def full_official_court_act(url,case_number):
         not (params.get("case_id",[""])[0].isdigit() if params["name_op"]==["case"]
              else params.get("number",[""])[0].isdigit())):
         raise ValueError("Unexpected official court document parameters")
-    with urlopen(Request(url,headers={"User-Agent":"Mozilla/5.0 (DGI public court act index)"}),timeout=40) as r:
-        if r.status!=200 or urlsplit(r.url).hostname!="2kas.sudrf.ru":
-            raise ValueError("Official court source did not return HTTP 200")
-        raw=r.read(1_500_001)
-    if not 12_000<len(raw)<=1_500_000:
-        raise ValueError("Official HTML unavailable, incomplete or oversized")
+    raw=read_official_court_html(url)
     decoded=UnicodeDammit(raw,is_html=True).unicode_markup
     node=BeautifulSoup(decoded or "","lxml").find(id="cont_doc1")
     if node is None:raise ValueError("Official full judgment section missing")
