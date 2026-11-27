@@ -19,6 +19,9 @@ ROOT = Path(__file__).resolve().parents[1]
 PUBLISHED = ROOT / "apps/web/src/data/housing-news.json"
 DEFAULT_OUTPUT = ROOT / "test-results/dgi-official-news-discovery.json"
 LISTINGS = (
+    # Official regional Ministry for Housing and Communal Services publishes
+    # individual notices including dates and source text on this home page.
+    "https://mgkh.mosreg.ru/",
     "https://tender.mos.ru/news/",
     "https://mosreg.ru/sobytiya/novosti?tags_ids=15114",
     "https://mosreg.ru/sobytiya/novosti/organy/ministerstvo-zhilischno-kommunalnogo-hozyayst",
@@ -29,7 +32,9 @@ TOPIC = re.compile(
     r"жиль|жилищ|квартир|недвижим|реновац|земел|земл|кадастр|"
     r"собственност|квартал|новостро|дольщик|застро|многодет|"
     r"водоснабжен|водоотведен|канализац|жкх|коммунал|очистн|"
-    r"подключени|субсиди|торг|помещени|домов|дома|строительств",
+    r"подключени|субсиди|торг|помещени|домов|дома|строительств|"
+    r"капремонт|капитальн.{0,20}ремонт|ремонт.{0,20}крыш|водовод|теплосет|трубопровод|"
+    r"канализационн|инженерн.{0,18}сет",
     re.I,
 )
 MONTHS = dict(zip(
@@ -67,19 +72,76 @@ def normalized_article(url):
     return None
 
 
+
+def fetch_rendered_html(url):
+    """Render a trusted official page when its HTTP body is only a JS shell.
+
+    No legal/editorial approval is inferred: rendering is source discovery.
+    The browser may not replace an inaccessible official site with a cached,
+    proxied or cross-host document.
+    """
+    parsed = urllib.parse.urlsplit(url)
+    if (parsed.scheme != "https" or not parsed.hostname or
+            not (url in LISTINGS or normalized_article(url)==url) or
+            parsed.username or parsed.password or parsed.port or parsed.fragment):
+        raise ValueError("Browser fetch may target only exact official source URL")
+    from playwright.sync_api import sync_playwright
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch(headless=True,args=["--no-sandbox"])
+        try:
+            page = browser.new_page(java_script_enabled=True,ignore_https_errors=False)
+            response = page.goto(url, wait_until="domcontentloaded", timeout=25000)
+            page.wait_for_timeout(1800)
+            last = urllib.parse.urlsplit(page.url)
+            if (response is None or response.status != 200 or
+                    last.scheme!="https" or last.hostname!=parsed.hostname or
+                    last.port or last.username or last.password):
+                raise ValueError("Rendered official source redirected or returned non-200")
+            # Government websites may auto-navigate between redirects and
+            # application shells immediately after DOMContentLoaded.
+            html=None
+            for attempt in range(4):
+                try:
+                    html=page.content()
+                    break
+                except Exception as error:
+                    if "navigating" not in str(error).lower() or attempt==3:
+                        raise ValueError("Official browser HTML unavailable") from error
+                    page.wait_for_timeout(900)
+            if html is None:
+                raise ValueError("Official browser DOM not available")
+            if len(html.encode("utf-8"))>MAX_BYTES:
+                raise ValueError("Rendered official document exceeds size cap")
+            soup = BeautifulSoup(html,"html.parser")
+            if not soup.find("a",href=True) and soup.find("h1") is None:
+                raise ValueError("Official browser document still unreadable")
+            return soup
+        finally:
+            browser.close()
+
+
 def fetch_html(url):
     request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
-    with urllib.request.urlopen(request, timeout=18) as response:
-        if response.status != 200 or response.headers.get_content_type() != "text/html":
-            raise ValueError("Not an official HTML 200 response")
-        target = urllib.parse.urlsplit(response.url)
-        src = urllib.parse.urlsplit(url)
-        if target.scheme != "https" or target.hostname != src.hostname:
-            raise ValueError("Cross-host or insecure redirect refused")
-        raw = response.read(MAX_BYTES + 1)
-    if len(raw) > MAX_BYTES:
-        raise ValueError("Official HTML too large")
-    return BeautifulSoup(raw, "html.parser")
+    try:
+        with urllib.request.urlopen(request, timeout=18) as response:
+            if response.status != 200 or response.headers.get_content_type() != "text/html":
+                raise ValueError("Not an official HTML 200 response")
+            target = urllib.parse.urlsplit(response.url)
+            src = urllib.parse.urlsplit(url)
+            if target.scheme != "https" or target.hostname != src.hostname:
+                raise ValueError("Cross-host or insecure redirect refused")
+            raw = response.read(MAX_BYTES + 1)
+        if len(raw) > MAX_BYTES:
+            raise ValueError("Official HTML too large")
+        soup = BeautifulSoup(raw, "html.parser")
+        if soup.find("a",href=True) or soup.find("h1") is not None:
+            return soup
+        # A non-empty HTTP 200 without readable DOM is not proof of no news.
+        return fetch_rendered_html(url)
+    except (OSError,TimeoutError):
+        # A government gateway may reject simple urllib while browser JS works.
+        # If browser fails too, let caller record this source as unavailable.
+        return fetch_rendered_html(url)
 
 
 def discover_listing(html, base):
@@ -155,10 +217,33 @@ def run(limit=30, lookback=7, output=DEFAULT_OUTPUT):
     seen = {normalized_article(x.get("sourceUrl", "")) for x in old}
     sources = {}
     errors = []
+    reachable_listings = 0
     for listing in LISTINGS:
         try:
-            sources.update(discover_listing(fetch_html(listing), listing))
-        except (OSError, ValueError, TimeoutError) as error:
+            page=fetch_html(listing)
+            # Some government gateways respond HTTP 200 with a JavaScript-only
+            # or bot-block shell (zero <a> elements). A 200 is not readable
+            # evidence; don't report this as a successful empty listing.
+            if not page.find("a",href=True):
+                raise ValueError("Official listing has no readable links")
+            reachable_listings += 1
+            found_in_listing=discover_listing(page,listing)
+            # Diagnostic of public listing structure only; not publication.
+            links=page.find_all("a",href=True)
+            official_paths=[
+                urllib.parse.urljoin(listing,link["href"])
+                for link in links
+                if "/novosti-ministerstva/" in link["href"] or
+                    "/sobytiya/novosti/" in link["href"]
+            ]
+            print("DGI_OFFICIAL_LISTING",
+                  json.dumps({"url":listing,"all_links":len(links),
+                              "official_looking_links":len(official_paths),
+                              "candidate_title_links":len(found_in_listing),
+                              "sample_official_links":official_paths[:2]},
+                              ensure_ascii=False))
+            sources.update(found_in_listing)
+        except Exception as error:
             errors.append({"source": listing, "reason": type(error).__name__})
     candidates = []
     for url, title in sources.items():
@@ -168,7 +253,7 @@ def run(limit=30, lookback=7, output=DEFAULT_OUTPUT):
             news = summarize_candidate(fetch_html(url), url, title, today, lookback)
             if news:
                 candidates.append(news)
-        except (OSError, ValueError, TimeoutError) as error:
+        except Exception as error:
             errors.append({"source": url, "reason": type(error).__name__})
         if len(candidates) >= limit:
             break
@@ -178,6 +263,8 @@ def run(limit=30, lookback=7, output=DEFAULT_OUTPUT):
         "discovered_official_links": len(sources),
         "existing_news_preserved": len(old),
         "candidate_count": len(candidates),
+        "reachable_official_listings": reachable_listings,
+        "all_listings_unavailable": reachable_listings == 0,
         "candidates": candidates, "unavailable_sources": errors,
         "note": "Official lead discovery only. No source-based editorial article or court act is auto-approved.",
     }
@@ -186,8 +273,14 @@ def run(limit=30, lookback=7, output=DEFAULT_OUTPUT):
     output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print("DGI_OFFICIAL_NEWS_DISCOVERY", json.dumps({
         "sources": len(sources), "candidates": len(candidates), "errors": len(errors),
+        "reachable_listings": reachable_listings,
         "new_publications": 0,
     }))
+    # An empty successful report was previously interpreted as fresh news being
+    # absent even when *every* official source timed out. Fail only discovery,
+    # never affect already-published articles or the separate court workflow.
+    if reachable_listings == 0:
+        raise RuntimeError("All official news listings unavailable: source research incomplete")
     return report
 
 

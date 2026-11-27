@@ -1,9 +1,13 @@
 """Offline regression checks for official-source discovery: fail closed."""
 import datetime as dt
 import unittest
+import json
+import tempfile
+from pathlib import Path
+from unittest.mock import patch
 from bs4 import BeautifulSoup
 from scripts.discover_dgi_official_news import (
-    discover_listing, normalized_article, published_date, summarize_candidate,
+    LISTINGS, discover_listing, normalized_article, published_date, summarize_candidate, run, fetch_html, fetch_rendered_html,
 )
 
 class DiscoveryChecks(unittest.TestCase):
@@ -43,6 +47,106 @@ class DiscoveryChecks(unittest.TestCase):
         self.assertIsNotNone(item)
         self.assertFalse(item["eligible_for_publication"])
         self.assertIsNone(summarize_candidate(page, url, "", dt.date(2026, 11, 20), 7))
+
+    def test_mgkh_mosreg_official_home_in_discovery(self):
+        self.assertIn("https://mgkh.mosreg.ru/", LISTINGS)
+        article = normalized_article(
+            "https://mgkh.mosreg.ru/sobytiya/novosti-ministerstva/v-pavlovskom-posade-zavershena-realizaciya-godovogo-plana-kapitalnogo-remonta"
+        )
+        self.assertTrue(article and article.startswith("https://mgkh.mosreg.ru/"))
+
+    def test_official_mgkh_capital_repairs_and_water_mains_are_not_filtered(self):
+        page = BeautifulSoup("""
+          <main>
+          <a href="/sobytiya/novosti-ministerstva/v-pavlovskom-posade-zavershena-realizaciya-godovogo-plana-kapitalnogo-remonta">
+            В Павловском Посаде завершена реализация годового плана капитального ремонта
+          </a>
+          <a href="/sobytiya/novosti-ministerstva/gotovnost-novogo-uchastka-vodovoda-v-naro-fominske-dostigla">
+            Готовность нового участка водовода в Наро-Фоминске достигла 50%
+          </a>
+          <a href="/sobytiya/novosti-ministerstva/nesvyazannaya-tema">
+            Спортсмены региона выиграли ежегодный турнир по настольному теннису
+          </a>
+          </main>
+        """, "html.parser")
+        found = discover_listing(page, "https://mgkh.mosreg.ru/")
+        self.assertEqual(len(found), 2)
+        self.assertTrue(all(url.startswith("https://mgkh.mosreg.ru/") for url in found))
+
+    def test_all_official_sources_unavailable_cannot_report_successful_zero(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "research.json"
+            with patch("scripts.discover_dgi_official_news.fetch_html", side_effect=OSError("network")):
+                with self.assertRaisesRegex(RuntimeError, "All official news listings unavailable"):
+                    run(limit=2, lookback=7, output=path)
+            report=json.loads(path.read_text(encoding="utf-8"))
+            self.assertTrue(report["all_listings_unavailable"])
+            self.assertEqual(report["reachable_official_listings"], 0)
+            self.assertEqual(report["new_publications"], 0)
+            self.assertFalse(report["publication_allowed"])
+            self.assertEqual(len(report["unavailable_sources"]),len(LISTINGS))
+
+    def test_http_200_javascript_shell_is_not_valid_empty_news_feed(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path=Path(temp) / "research.json"
+            with patch("scripts.discover_dgi_official_news.fetch_html",
+                       return_value=BeautifulSoup("<html><script>window.__APP__={}</script></html>", "html.parser")):
+                with self.assertRaisesRegex(RuntimeError,"All official news listings unavailable"):
+                    run(limit=2,lookback=7,output=path)
+            result=json.loads(path.read_text(encoding="utf-8"))
+            self.assertTrue(result["all_listings_unavailable"])
+            self.assertEqual(len(result["unavailable_sources"]),len(LISTINGS))
+
+    def test_one_reachable_but_empty_official_feed_is_not_an_outage(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path=Path(temp) / "research.json"
+            def source(url):
+                if url == LISTINGS[0]:
+                    return BeautifulSoup("<a href='/about'>Контакты министерства</a>", "html.parser")
+                raise OSError("network")
+            with patch("scripts.discover_dgi_official_news.fetch_html", side_effect=source):
+                report=run(limit=2, lookback=7, output=path)
+            self.assertFalse(report["all_listings_unavailable"])
+            self.assertEqual(report["reachable_official_listings"],1)
+            self.assertEqual(report["candidate_count"],0)
+
+    def test_browser_fallback_recovers_official_javascript_shell(self):
+        class FakeHttp:
+            status=200
+            url="https://mgkh.mosreg.ru/"
+            class headers:
+                @staticmethod
+                def get_content_type(): return "text/html"
+            def __enter__(self): return self
+            def __exit__(self,*args): return False
+            def read(self,n): return b"<html><script>window.__APP__={}</script></html>"
+        sample=BeautifulSoup("<a href='/sobytiya/novosti-ministerstva/repair'>Капремонт жилых домов завершен</a>","html.parser")
+        with patch("scripts.discover_dgi_official_news.urllib.request.urlopen",return_value=FakeHttp()), patch(
+            "scripts.discover_dgi_official_news.fetch_rendered_html",return_value=sample
+        ) as fallback:
+            out=fetch_html("https://mgkh.mosreg.ru/")
+        self.assertEqual(len(out.select("a[href]")),1)
+        fallback.assert_called_once_with("https://mgkh.mosreg.ru/")
+
+    def test_browser_fallback_rejects_non_official_untrusted_url_before_browser_start(self):
+        for url in ("https://evil.example/","http://mgkh.mosreg.ru/","https://mgkh.mosreg.ru.evil.example/"):
+            with self.assertRaisesRegex(ValueError,"exact official source URL"):
+                fetch_rendered_html(url)
+
+    def test_browser_fallback_does_not_replace_officially_readable_html(self):
+        class FakeHttp:
+            status=200
+            url="https://mgkh.mosreg.ru/"
+            class headers:
+                @staticmethod
+                def get_content_type(): return "text/html"
+            def __enter__(self): return self
+            def __exit__(self,*args): return False
+            def read(self,n): return b"<html><a href='/sobytiya/novosti/valid'>Official</a></html>"
+        with patch("scripts.discover_dgi_official_news.urllib.request.urlopen",return_value=FakeHttp()),patch(
+            "scripts.discover_dgi_official_news.fetch_rendered_html",side_effect=AssertionError("unexpected browser")
+        ):
+            self.assertEqual(len(fetch_html("https://mgkh.mosreg.ru/").select("a[href]")),1)
 
     def test_no_date_never_eligible(self):
         page = BeautifulSoup("<h1>В Подмосковье строят жилые дома</h1>" +
