@@ -73,7 +73,7 @@ COURT_REQUIRED_KEYS = frozenset({
     "excerpt", "pdf_sha256", "source_checked", "privacy_screen_passed",
     "outcome_verified", "outcome_evidence"
 })
-COURT_REDACTION = re.compile(r"(?:\\bФИО\\d+\\b|<адрес>|<данные изъяты>)", re.I)
+COURT_REDACTION = re.compile(r"(?:\bФИО\d+\b|<адрес>|<данные изъяты>)", re.I)
 
 
 def verify_official_court_release(row, approvals=None, pdf_reader=None):
@@ -103,7 +103,7 @@ def verify_official_court_release(row, approvals=None, pdf_reader=None):
         raise ValueError("Court source or privacy provenance missing")
     number = row["case_number"]
     date = row["decision_date"]
-    match = re.fullmatch(r"88-(\\d{1,6})/(20\\d{2})", number)
+    match = re.fullmatch(r"88-(\d{1,6})/(20\d{2})", number)
     if not match:
         raise ValueError("Unrecognized court case identifier")
     try:
@@ -122,13 +122,13 @@ def verify_official_court_release(row, approvals=None, pdf_reader=None):
     if hashlib.sha256(text.encode("utf-8")).hexdigest() != pin["full_text_sha256"]:
         raise ValueError("Full official judicial text does not match reviewed SHA256")
     if number not in text[:2200] or not re.search(
-            r"департамент[а-я]*\\s+городского\\s+имущества", text, re.I):
+            r"департамент[а-я]*\s+городского\s+имущества", text, re.I):
         raise ValueError("Court text does not establish exact case and DGI participation")
     if not COURT_REDACTION.search(text):
         raise ValueError("Unmasked court act needs independent privacy review")
-    if not re.search(r"ОПРЕДЕЛЕНИЕ\\s*0?10\\s+февраля\\s+2026",text[:1100],re.I):
+    if not re.search(r"ОПРЕДЕЛЕНИЕ\s*0?10\s+февраля\s+2026",text[:1100],re.I):
         raise ValueError("Court heading and date not confirmed from full text")
-    if re.search(r"[\\w.+-]+@[\\w.-]+\\.[A-Za-z]{2,}|(?:\\+7|8)[\\s(.-]*\\d{3}[\\s).\\-]*\\d{3}[\\s.\\-]*\\d{2}[\\s.\\-]*\\d{2}|\\b\\d{3}[-\\s]\\d{3}[-\\s]\\d{3}\\s?\\d{2}\\b",text):
+    if re.search(r"[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}|(?:\+7|8)[\s(.-]*\d{3}[\s).\-]*\d{3}[\s.\-]*\d{2}[\s.\-]*\d{2}|\b\d{3}[-\s]\d{3}[-\s]\d{3}\s?\d{2}\b",text):
         raise ValueError("Court original has a potentially exposed personal identifier")
     if pdf_reader is None:
         pdf_reader = lambda file_path: file_path.read_bytes()
