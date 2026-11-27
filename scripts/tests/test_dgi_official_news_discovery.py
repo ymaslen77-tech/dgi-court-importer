@@ -86,12 +86,23 @@ class DiscoveryChecks(unittest.TestCase):
             self.assertFalse(report["publication_allowed"])
             self.assertEqual(len(report["unavailable_sources"]),len(LISTINGS))
 
+    def test_http_200_javascript_shell_is_not_valid_empty_news_feed(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path=Path(temp) / "research.json"
+            with patch("scripts.discover_dgi_official_news.fetch_html",
+                       return_value=BeautifulSoup("<html><script>window.__APP__={}</script></html>", "html.parser")):
+                with self.assertRaisesRegex(RuntimeError,"All official news listings unavailable"):
+                    run(limit=2,lookback=7,output=path)
+            result=json.loads(path.read_text(encoding="utf-8"))
+            self.assertTrue(result["all_listings_unavailable"])
+            self.assertEqual(len(result["unavailable_sources"]),len(LISTINGS))
+
     def test_one_reachable_but_empty_official_feed_is_not_an_outage(self):
         with tempfile.TemporaryDirectory() as temp:
             path=Path(temp) / "research.json"
             def source(url):
                 if url == LISTINGS[0]:
-                    return BeautifulSoup("<h1>Пустые новости</h1>", "html.parser")
+                    return BeautifulSoup("<a href='/about'>Контакты министерства</a>", "html.parser")
                 raise OSError("network")
             with patch("scripts.discover_dgi_official_news.fetch_html", side_effect=source):
                 report=run(limit=2, lookback=7, output=path)
