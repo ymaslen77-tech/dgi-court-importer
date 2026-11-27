@@ -1,9 +1,13 @@
 """Offline regression checks for official-source discovery: fail closed."""
 import datetime as dt
 import unittest
+import json
+import tempfile
+from pathlib import Path
+from unittest.mock import patch
 from bs4 import BeautifulSoup
 from scripts.discover_dgi_official_news import (
-    discover_listing, normalized_article, published_date, summarize_candidate,
+    LISTINGS, discover_listing, normalized_article, published_date, summarize_candidate, run,
 )
 
 class DiscoveryChecks(unittest.TestCase):
@@ -43,6 +47,39 @@ class DiscoveryChecks(unittest.TestCase):
         self.assertIsNotNone(item)
         self.assertFalse(item["eligible_for_publication"])
         self.assertIsNone(summarize_candidate(page, url, "", dt.date(2026, 11, 20), 7))
+
+    def test_mgkh_mosreg_official_home_in_discovery(self):
+        self.assertIn("https://mgkh.mosreg.ru/", LISTINGS)
+        article = normalized_article(
+            "https://mgkh.mosreg.ru/sobytiya/novosti-ministerstva/v-pavlovskom-posade-zavershena-realizaciya-godovogo-plana-kapitalnogo-remonta"
+        )
+        self.assertTrue(article and article.startswith("https://mgkh.mosreg.ru/"))
+
+    def test_all_official_sources_unavailable_cannot_report_successful_zero(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "research.json"
+            with patch("scripts.discover_dgi_official_news.fetch_html", side_effect=OSError("network")):
+                with self.assertRaisesRegex(RuntimeError, "All official news listings unavailable"):
+                    run(limit=2, lookback=7, output=path)
+            report=json.loads(path.read_text(encoding="utf-8"))
+            self.assertTrue(report["all_listings_unavailable"])
+            self.assertEqual(report["reachable_official_listings"], 0)
+            self.assertEqual(report["new_publications"], 0)
+            self.assertFalse(report["publication_allowed"])
+            self.assertEqual(len(report["unavailable_sources"]),len(LISTINGS))
+
+    def test_one_reachable_but_empty_official_feed_is_not_an_outage(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path=Path(temp) / "research.json"
+            def source(url):
+                if url == LISTINGS[0]:
+                    return BeautifulSoup("<h1>Пустые новости</h1>", "html.parser")
+                raise OSError("network")
+            with patch("scripts.discover_dgi_official_news.fetch_html", side_effect=source):
+                report=run(limit=2, lookback=7, output=path)
+            self.assertFalse(report["all_listings_unavailable"])
+            self.assertEqual(report["reachable_official_listings"],1)
+            self.assertEqual(report["candidate_count"],0)
 
     def test_no_date_never_eligible(self):
         page = BeautifulSoup("<h1>В Подмосковье строят жилые дома</h1>" +
