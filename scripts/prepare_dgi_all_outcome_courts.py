@@ -50,7 +50,17 @@ def read_official_court_html(url):
                         final.scheme!="https" or final.hostname!="2kas.sudrf.ru" or
                         final.username or final.password or final.port):
                     raise ValueError("Court browser page has wrong origin/status")
-                raw=page.content().encode("utf-8")
+                raw=None
+                for attempt in range(4):
+                    try:
+                        raw=page.content().encode("utf-8")
+                        break
+                    except Exception as error:
+                        if "navigating" not in str(error).lower() or attempt==3:
+                            raise ValueError("Official court DOM unavailable") from error
+                        page.wait_for_timeout(900)
+                if raw is None:
+                    raise ValueError("Official court DOM absent")
                 if not 12000<len(raw)<=1500000:
                     raise ValueError("Official rendered court HTML incomplete/oversized")
                 return raw
@@ -68,7 +78,12 @@ def read_official_court_html(url):
             return raw
     except (HTTPError,URLError,TimeoutError,OSError):
         pass
-    return browser_fallback()
+    try:
+        return browser_fallback()
+    except Exception as error:
+        # Preserve the report and queue even if Chromium itself fails. Never
+        # elevate an inaccessible act to a verified judicial publication.
+        raise ValueError("Official browser court source unavailable: "+type(error).__name__) from error
 
 
 def full_official_court_act(url,case_number):
