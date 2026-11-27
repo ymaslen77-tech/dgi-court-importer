@@ -19,6 +19,9 @@ ROOT = Path(__file__).resolve().parents[1]
 PUBLISHED = ROOT / "apps/web/src/data/housing-news.json"
 DEFAULT_OUTPUT = ROOT / "test-results/dgi-official-news-discovery.json"
 LISTINGS = (
+    # Official regional Ministry for Housing and Communal Services publishes
+    # individual notices including dates and source text on this home page.
+    "https://mgkh.mosreg.ru/",
     "https://tender.mos.ru/news/",
     "https://mosreg.ru/sobytiya/novosti?tags_ids=15114",
     "https://mosreg.ru/sobytiya/novosti/organy/ministerstvo-zhilischno-kommunalnogo-hozyayst",
@@ -155,9 +158,12 @@ def run(limit=30, lookback=7, output=DEFAULT_OUTPUT):
     seen = {normalized_article(x.get("sourceUrl", "")) for x in old}
     sources = {}
     errors = []
+    reachable_listings = 0
     for listing in LISTINGS:
         try:
-            sources.update(discover_listing(fetch_html(listing), listing))
+            page=fetch_html(listing)
+            reachable_listings += 1
+            sources.update(discover_listing(page, listing))
         except (OSError, ValueError, TimeoutError) as error:
             errors.append({"source": listing, "reason": type(error).__name__})
     candidates = []
@@ -178,6 +184,8 @@ def run(limit=30, lookback=7, output=DEFAULT_OUTPUT):
         "discovered_official_links": len(sources),
         "existing_news_preserved": len(old),
         "candidate_count": len(candidates),
+        "reachable_official_listings": reachable_listings,
+        "all_listings_unavailable": reachable_listings == 0,
         "candidates": candidates, "unavailable_sources": errors,
         "note": "Official lead discovery only. No source-based editorial article or court act is auto-approved.",
     }
@@ -186,8 +194,14 @@ def run(limit=30, lookback=7, output=DEFAULT_OUTPUT):
     output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print("DGI_OFFICIAL_NEWS_DISCOVERY", json.dumps({
         "sources": len(sources), "candidates": len(candidates), "errors": len(errors),
+        "reachable_listings": reachable_listings,
         "new_publications": 0,
     }))
+    # An empty successful report was previously interpreted as fresh news being
+    # absent even when *every* official source timed out. Fail only discovery,
+    # never affect already-published articles or the separate court workflow.
+    if reachable_listings == 0:
+        raise RuntimeError("All official news listings unavailable: source research incomplete")
     return report
 
 
