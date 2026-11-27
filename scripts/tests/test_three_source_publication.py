@@ -114,7 +114,7 @@ class SourceGateTests(unittest.TestCase):
         new={"slug":"test-case","full_text":"Different court text", "topic":"Test case"}
         with patch("validate_three_source_publication.git_json",
                    side_effect=lambda rev,p,default: [old] if rev=="base" else [new]):
-            with self.assertRaisesRegex(ValueError,"Replacing an original court act"):
+            with self.assertRaisesRegex(ValueError,"Existing official court act immutable"):
                 expected_changes("base","head",[path])
     def test_legal_generator_cannot_change_without_three_source_template_review(self):
         with self.assertRaisesRegex(ValueError,"Legal template edits"):
