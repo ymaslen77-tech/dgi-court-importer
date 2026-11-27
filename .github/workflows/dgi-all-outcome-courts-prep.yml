@@ -19,7 +19,9 @@ permissions:
   contents: write
 concurrency:
   group: dgi-court-prep-${{ github.ref }}
-  cancel-in-progress: false
+  # Source validation is reproducible and writes only after the full run;
+  # do not let an older queued SHA overwrite a newer daily research branch.
+  cancel-in-progress: true
 jobs:
   prepare:
     name: research-and-prepare-dgi-court-acts
