@@ -4,8 +4,8 @@
   "purpose": "daily official court discovery and full-text preparation; restore stopped unified publication cycle",
   "queue": "research/dgi-court-publication-queue-2026-10-28.json",
   "max_new_courts": 10,
-  "source_leads_added": 0,
-  "pending_source_import_at_start": 6,
+  "source_leads_added": 2,
+  "pending_source_import_at_start": 8,
   "news_research": "research/dgi-daily-source-leads-2026-11-27.json",
-  "notes": "Existing six source candidates need full official document + DGI participation + privacy screening + signed PDF-copy hashes. New article leads are not published. No invented outcomes or automatic Coolify deployment."
+  "notes": "Two exact, distinct court case URLs found through official indexed 2kas pages were queued; eight candidate acts need runner full-text, DGI participation, privacy and PDF SHA256 verification. Eight news-source leads are research only and will not be published without independent source validation."
 }
